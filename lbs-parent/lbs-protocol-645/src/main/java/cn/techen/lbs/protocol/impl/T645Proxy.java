@@ -1,0 +1,116 @@
+package cn.techen.lbs.protocol.impl;
+
+import cn.techen.lbs.protocol.DefaultProtocolConfig;
+import cn.techen.lbs.protocol.ProtocolConfig;
+import cn.techen.lbs.protocol.t645.T645Config;
+import cn.techen.lbs.protocol.t645.T645Frame;
+import cn.techen.lbs.protocol.t645.T645Config.DIR;
+import cn.techen.lbs.protocol.t645.T645Config.Control;
+import cn.techen.lbs.protocol.t645.T645Config.Answer;
+import cn.techen.lbs.protocol.t645.T645Config.FollowUp;
+
+public class T645Proxy {
+	
+	public ProtocolConfig decode(byte[] data) throws Exception {
+		T645Frame frame = new T645Frame();
+		frame.setBytes(data);
+		frame.decode();
+		
+		T645Config t645Config = (T645Config) frame.config();		
+		ProtocolConfig protocolConfig = new DefaultProtocolConfig();
+		protocolConfig.setDir(dir2dir(t645Config, protocolConfig))
+			.setOperation(op2control(t645Config, protocolConfig)).setCommAddr(t645Config.getCommAddr());
+		protocolConfig.userData().putAll(t645Config.data());
+		protocolConfig.dataId().addAll(t645Config.func());
+		protocolConfig.dataUnit().addAll(t645Config.unit());
+		return protocolConfig;
+	}
+	
+	public byte[] encode(ProtocolConfig config) throws Exception {
+		T645Frame frame = new T645Frame();	
+		T645Config t645Config = (T645Config) frame.config();		
+		t645Config.setDir(dir2dir(config)).setControl(op2control(config)).setCommAddr(config.getCommAddr());
+		t645Config.data().putAll(config.userData());		
+		data2data(config, t645Config);
+		t645Config.func().addAll(config.dataId());
+		t645Config.unit().addAll(config.dataUnit());
+		frame.encode();
+		
+		return frame.getBytes();
+	}
+
+	private ProtocolConfig.DIR dir2dir(T645Config t645Config, ProtocolConfig config) {
+		ProtocolConfig.DIR dir = null;
+		switch (t645Config.getDir()) {
+		case CLIENT:
+			dir = ProtocolConfig.DIR.CLIENT;
+			break;
+		case SERVER:
+			dir = ProtocolConfig.DIR.SERVER;
+			break;
+		}
+		return dir;
+	}
+	
+	private ProtocolConfig.OPERATION op2control(T645Config t645Config, ProtocolConfig config) {
+		ProtocolConfig.OPERATION op = null;
+		switch (t645Config.getControl()) {
+		case READ:
+			op = ProtocolConfig.OPERATION.GET;
+			break;
+		case WRITE:
+			op = ProtocolConfig.OPERATION.SET;
+			break;
+		case ACTION:
+			op = ProtocolConfig.OPERATION.ACTION;
+			break;
+		default:
+			break;
+		}
+		return op;
+	}
+
+	private DIR dir2dir(ProtocolConfig config) {
+		DIR dir = null;
+		switch (config.getDir()) {
+		case CLIENT:
+			dir = DIR.CLIENT;
+			break;
+		case SERVER:
+			dir = DIR.SERVER;
+			break;
+		}
+		return dir;
+	}
+
+	private Control op2control(ProtocolConfig config) {
+		Control control = null;
+		switch (config.getOperation()) {
+		case GET:
+			control = Control.READ;
+			break;
+		case SET:
+			control = Control.WRITE;
+			break;
+		case ACTION:
+			control = Control.ACTION;
+			break;
+		default:
+			break;
+		}
+		return control;
+	}
+
+	private void data2data(ProtocolConfig config, T645Config t645Config) {
+		FollowUp follow = FollowUp.NONE;
+		Answer answer = Answer.SUCCESS;
+		Object obj = config.userData().get("Answer");
+		
+		if (obj != null && !obj.toString().trim().equals("")) {
+			answer = Answer.valueOf(Integer.parseInt(obj.toString()));
+		}
+		
+		t645Config.setAnswer(answer);
+		t645Config.setFollowUp(follow);
+	}
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.2.0"
+           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+	
+	<bean id="mBaseBean" class="cn.techen.lbs.mm.redis.impl.MBaseServiceImpl" />
+	
+	<bean id="mLbsBean" class="cn.techen.lbs.mm.redis.impl.MLbsServiceImpl" />
+
+	<bean id="mMeterBean" class="cn.techen.lbs.mm.redis.impl.MMeterServiceImpl" />
+	
+	<bean id="mRegisterBean" class="cn.techen.lbs.mm.redis.impl.MRegisterServiceImpl" />
+	
+	<bean id="mSectorBean" class="cn.techen.lbs.mm.redis.impl.MSectorServiceImpl" />
+	
+	<bean id="mRelayBean" class="cn.techen.lbs.mm.redis.impl.MRelayServiceImpl" />
+	
+	<bean id="mTaskBean" class="cn.techen.lbs.mm.redis.impl.MTaskServiceImpl" />
+	
+	<service id="mBaseService" ref="mBaseBean" interface="cn.techen.lbs.mm.api.MBaseService"/>	
+	
+	<service id="mLbsService" ref="mLbsBean" interface="cn.techen.lbs.mm.api.MLbsService"/>
+	
+	<service id="mMeterService" ref="mMeterBean" interface="cn.techen.lbs.mm.api.MMeterService"/>
+	
+	<service id="mRegisterService" ref="mRegisterBean" interface="cn.techen.lbs.mm.api.MRegisterService"/>
+	
+	<service id="mSectorService" ref="mSectorBean" interface="cn.techen.lbs.mm.api.MSectorService"/>
+	
+	<service id="mRelayService" ref="mRelayBean" interface="cn.techen.lbs.mm.api.MRelayService"/>
+	
+	<service id="mTaskService" ref="mTaskBean" interface="cn.techen.lbs.mm.api.MTaskService"/>
+	
+</blueprint>

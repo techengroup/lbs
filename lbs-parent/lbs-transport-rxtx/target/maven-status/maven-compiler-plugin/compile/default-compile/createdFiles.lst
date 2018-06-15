@@ -1,0 +1,10 @@
+cn\techen\lbs\channel\rxtx\DefaultRxtxChannelConfig.class
+cn\techen\lbs\channel\rxtx\RxtxChannelHandler.class
+cn\techen\lbs\channel\rxtx\RxtxChannelConfig$Paritybit.class
+cn\techen\lbs\channel\rxtx\RxtxChannelConfig$Stopbits.class
+cn\techen\lbs\channel\rxtx\RxtxChannelConfig.class
+cn\techen\lbs\channel\rxtx\RxtxDeviceAddress.class
+cn\techen\lbs\channel\rxtx\RxtxChannelOption.class
+cn\techen\lbs\channel\rxtx\RxtxChannelConfig$Databits.class
+cn\techen\lbs\channel\rxtx\RxtxChannel.class
+cn\techen\lbs\channel\rxtx\RxtxChannel$1.class

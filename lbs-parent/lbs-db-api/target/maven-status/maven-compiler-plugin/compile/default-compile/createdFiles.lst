@@ -1,0 +1,16 @@
+cn\techen\lbs\db\model\Sector.class
+cn\techen\lbs\db\model\Meter$Running.class
+cn\techen\lbs\db\model\MyModel.class
+cn\techen\lbs\mm\api\MTaskService.class
+cn\techen\lbs\mm\api\MyService.class
+cn\techen\lbs\mm\api\MLbsService.class
+cn\techen\lbs\db\model\LBS.class
+cn\techen\lbs\mm\api\MRelayService.class
+cn\techen\lbs\mm\api\MBaseService.class
+cn\techen\lbs\db\api\LbsService.class
+cn\techen\lbs\mm\api\MRegisterService.class
+cn\techen\lbs\db\api\IService.class
+cn\techen\lbs\db\api\MeterService.class
+cn\techen\lbs\mm\api\MMeterService.class
+cn\techen\lbs\db\model\Meter.class
+cn\techen\lbs\mm\api\MSectorService.class

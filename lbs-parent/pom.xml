@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cn.techen.lbs</groupId>
+	<artifactId>lbs-parent</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	
+	<properties>  
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
+    </properties>
+    
+    <dependencyManagement>  
+        <dependencies>   
+            <dependency>  
+                <groupId>org.eclipse</groupId>  
+                <artifactId>osgi</artifactId>  
+                <version>3.10.0-v20140606-1445</version>  
+                <scope>provided</scope>  
+            </dependency>  
+            <dependency>  
+                <groupId>junit</groupId>  
+                <artifactId>junit</artifactId>  
+                <version>4.11</version>  
+                <scope>test</scope>  
+            </dependency>  
+        </dependencies>  
+    </dependencyManagement> 
+
+	<dependencies>
+		<!-- junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.eclipse/osgi -->
+		<!-- <dependency>
+		    <groupId>org.eclipse</groupId>
+		    <artifactId>osgi</artifactId>
+		    <version>3.10.0-v20140606-1445</version>
+		    <scope>provided</scope>
+		</dependency> -->
+		
+		<dependency>
+		    <groupId>org.apache.felix</groupId>
+		    <artifactId>org.apache.felix.framework</artifactId>
+		    <version>5.6.10</version>
+		    <scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.7</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.7</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<modules>
+		<module>lbs-transport-rxtx</module>
+		<module>lbs-protocol-api</module>
+		<module>lbs-protocol-lora</module>
+		<module>lbs-protocol-645</module>
+		<module>lbs-module-lora</module>
+		<module>lbs-task-networking</module>
+		<module>lbs-module-4g</module>
+		<module>lbs-db-api</module>
+		<module>lbs-db-mysql</module>
+		<module>lbs-db-redis</module>
+		<module>lbs-data-load</module>
+		<module>lbs-data-store</module>
+		<module>lbs-protocol-376</module>
+		<module>lbs-task-schedule</module>
+		<module>lbs-business-4g</module>
+		<module>lbs-task-report</module>
+	</modules>	
+</project>
