@@ -4,7 +4,7 @@ import java.util.Date;
 
 public final class Local {
 	
-	public final static String PROJECT = "LBS-DATA-LOAD";
+	public final static String PROJECT = "LBS-DATA-STORE";
 	
 	public final static int INTERVALMILLIS = 60000;
 	

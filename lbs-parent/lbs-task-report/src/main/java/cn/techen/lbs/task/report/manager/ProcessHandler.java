@@ -2,9 +2,7 @@ package cn.techen.lbs.task.report.manager;
 
 import java.util.Date;
 
-import cn.techen.lbs.db.model.Event;
 import cn.techen.lbs.db.model.Meter;
-import cn.techen.lbs.db.model.Report;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig;
@@ -20,18 +18,16 @@ public class ProcessHandler {
 	
 	public void report(ReportContext context, ProtocolFrame reportFrame)  throws Exception {
 		String commAddr = getRealAddr(reportFrame.getCommAddr());
+		storeReport(context, reportFrame);
+		
 		ProtocolFrame eventFrame = encode0(context, commAddr);
 		context.eventQueue().add(eventFrame);
-		
-		Report report = new Report();
-		store(context, report);	
 	}
 	
 	public void decode(ReportContext context, ProtocolFrame frame)  throws Exception {
 		ProtocolConfig protocolConfig = decode0(context, frame);
 		if (protocolConfig != null) {					
-			Event event = new Event();
-			store(context, event);
+			storeEvent(context, protocolConfig);
 		} else {
 			frame.increaseRetryTimes();
 			int mod = frame.getRetryTimes() % 3;
@@ -89,10 +85,7 @@ public class ProcessHandler {
 			
 			protocolService = context.getProtocolManagerService()
 					.getProtocol(meter.getProtocol());
-			protocolConfig = protocolService.decode(transBytes);
-			
-			Event event = new Event();
-			store(context, event);
+			protocolConfig = protocolService.decode(transBytes);		
 		}
 		
 		return protocolConfig;	
@@ -103,12 +96,12 @@ public class ProcessHandler {
 		return addrs[addrs.length-1];
 	}
 	
-	private void store(ReportContext context, Object entity)  throws Exception {
-		if (entity instanceof Report) {
-			
-		} else if (entity instanceof Event) {
-			
-		}
+	private void storeReport(ReportContext context, ProtocolFrame reportFrame)  throws Exception {
+		
+	}
+	
+	private void storeEvent(ReportContext context, ProtocolConfig protocolConfig)  throws Exception {
+		
 		context.setState(State.FINISHED);
 	}
 

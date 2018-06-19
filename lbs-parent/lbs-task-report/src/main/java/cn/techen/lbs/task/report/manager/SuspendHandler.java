@@ -14,9 +14,9 @@ public class SuspendHandler extends AbstractHandler {
 			Date newTime = frame.getrOutTime();
 			long diff = new Date().getTime() - newTime.getTime();
 			
-			if (diff < (24 * 3600 * 1000)) {//one day
+			if (diff < (12 * 3600 * 1000)) {//one day
 				frame.reset();
-				context.fireWrite(frame);
+				context.eventQueue().add(frame);
 			}
 		}
 	}

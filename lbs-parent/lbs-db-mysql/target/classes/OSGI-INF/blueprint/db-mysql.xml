@@ -8,8 +8,16 @@
 	
 	<bean id="meterBean" class="cn.techen.lbs.db.mysql.impl.MeterServiceImpl" />
 	
+	<bean id="reportBean" class="cn.techen.lbs.db.mysql.impl.ReportServiceImpl" />
+	
+	<bean id="storeBean" class="cn.techen.lbs.db.mysql.impl.StoreServiceImpl" />
+	
 	<service id="lbsService" ref="lbsBean" interface="cn.techen.lbs.db.api.LbsService"/>
 	
 	<service id="meterService" ref="meterBean" interface="cn.techen.lbs.db.api.MeterService"/>
+	
+	<service id="reportService" ref="meterBean" interface="cn.techen.lbs.db.api.ReportService"/>
+	
+	<service id="storeService" ref="meterBean" interface="cn.techen.lbs.db.api.StoreService"/>
 	
 </blueprint>

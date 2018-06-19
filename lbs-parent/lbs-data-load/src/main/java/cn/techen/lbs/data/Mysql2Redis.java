@@ -1,4 +1,4 @@
-package cn.techen.lbs.data.load;
+package cn.techen.lbs.data;
 
 import java.util.Date;
 import java.util.List;

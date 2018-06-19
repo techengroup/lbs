@@ -1,5 +1,6 @@
 package cn.techen.lbs.db.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * @author ZY
  * @since 2018-03-14 16:55
  */
-public class Report extends MyModel {
+public class Report implements Serializable {
 
 	private static final long serialVersionUID = 2223443567719545055L;
 	
@@ -17,6 +18,7 @@ public class Report extends MyModel {
 	private String commaddr;
 	private String route;
 	private Integer result;
+	private Integer signal;
 	
 	public Integer getMeterid() {
 		return meterid;
@@ -56,6 +58,14 @@ public class Report extends MyModel {
 	
 	public void setResult(Integer result) {
 		this.result = result;
+	}
+
+	public Integer getSignal() {
+		return signal;
+	}
+
+	public void setSignal(Integer signal) {
+		this.signal = signal;
 	}
 
 }
