@@ -3,6 +3,7 @@ package cn.techen.lbs.task.report.common;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import cn.techen.lbs.db.api.ReportService;
 import cn.techen.lbs.mm.api.MMeterService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
@@ -16,6 +17,8 @@ public class ReportContext {
 	public final Priority PRIORITY = Priority.EVENT;
 	
 	private State state = State.FINISHED;
+	
+	private ReportService reportService;
 	
 	private MMeterService mMeterService;
 	
@@ -67,6 +70,14 @@ public class ReportContext {
 		} catch (Exception e) {
 			processHandler.exceptionCaught(this, e.getCause());
 		}
+	}
+
+	public ReportService getReportService() {
+		return reportService;
+	}
+
+	public void setReportService(ReportService reportService) {
+		this.reportService = reportService;
 	}
 
 	public MMeterService getmMeterService() {

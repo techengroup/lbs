@@ -3,6 +3,7 @@ package cn.techen.lbs.task.report.manager;
 import java.util.Date;
 
 import cn.techen.lbs.db.model.Meter;
+import cn.techen.lbs.db.model.Report;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig;
@@ -17,11 +18,15 @@ import cn.techen.lbs.task.report.common.ReportContext;
 public class ProcessHandler {
 	
 	public void report(ReportContext context, ProtocolFrame reportFrame)  throws Exception {
-		String commAddr = getRealAddr(reportFrame.getCommAddr());
-		storeReport(context, reportFrame);
-		
-		ProtocolFrame eventFrame = encode0(context, commAddr);
-		context.eventQueue().add(eventFrame);
+		String commAddr = getRealAddr(reportFrame.getCommAddr());	
+		if (commAddr != null && !commAddr.equals("")) {
+			Meter meter = context.getmMeterService().get(commAddr);
+			
+			ProtocolFrame eventFrame = encode0(context, reportFrame, meter);
+			context.eventQueue().add(eventFrame);
+			
+			storeReport(context, reportFrame, meter);
+		}		
 	}
 	
 	public void decode(ReportContext context, ProtocolFrame frame)  throws Exception {
@@ -50,17 +55,15 @@ public class ProcessHandler {
     	context.setState(State.FINISHED);
     }
 
-	private ProtocolFrame encode0(ReportContext context, String commAddr)  throws Exception {	
-		Meter meter = context.getmMeterService().get(commAddr);
-		
+	private ProtocolFrame encode0(ReportContext context, ProtocolFrame reportFrame, Meter meter)  throws Exception {		
 		ProtocolService protocolService = context.getProtocolManagerService().getProtocol(meter.getProtocol());
 		ProtocolConfig config = new DefaultProtocolConfig();
-		config.setCommAddr(commAddr).setDir(DIR.CLIENT).setOperation(OPERATION.GET);
+		config.setCommAddr(reportFrame.getCommAddr()).setDir(DIR.CLIENT).setOperation(OPERATION.GET);
 		byte[] frame = protocolService.encode(config);
 		
 		protocolService = context.getProtocolManagerService().getProtocol(meter.getModuleprotocol());
 		config = new DefaultProtocolConfig();
-		config.setCommAddr(commAddr).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
+		config.setCommAddr(meter.getCommaddr()).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
 		config.dataUnit().add(frame);		
 		frame = protocolService.encode(config);
 		
@@ -96,8 +99,14 @@ public class ProcessHandler {
 		return addrs[addrs.length-1];
 	}
 	
-	private void storeReport(ReportContext context, ProtocolFrame reportFrame)  throws Exception {
+	private void storeReport(ReportContext context, ProtocolFrame reportFrame, Meter meter)  throws Exception {
+		Report report = new Report();
+		report.setMeterid(meter.getId());
+		report.setCommaddr(meter.getCommaddr());
+		report.setRoute(reportFrame.getCommAddr());
+		report.setReporttime(reportFrame.getNewTime());
 		
+		context.getReportService().save(report);
 	}
 	
 	private void storeEvent(ReportContext context, ProtocolConfig protocolConfig)  throws Exception {
