@@ -9,11 +9,23 @@ public class LoraFN {
 	private static Map<String, String> fnExMap = new HashMap<String, String>();
 	
 	static {
-		fnMap.put("1:0", "BCD_STRING,6,XXXXXXXXXXXX,1,ModuleAddr");
-		fnMap.put("2:0", "BCD_STRING,2,XXXX,1,LogicAddr");
-		fnMap.put("3:0", "OCT_STRING,1,XX,1,Channel");
-		fnMap.put("4:0", "BCD_STRING,9,XXXXXXXXXXXX,1,ModuleAddr:BCD_STRING,2,XXXX,1,LogicAddr:OCT_STRING,1,XX,1,Channel");
-		fnMap.put("5:0", "BIT_STRING,4,XXXXXXXX,1,EventCode");
+		fnMap.put("1:2:0", "BCD_STRING,2,XXXXXXXXXXXX,1,LogicAddr");
+
+		fnMap.put("2:5:1", "BIT_STRING,4,XXXXXXXX,1,EventCode");
+		
+		fnMap.put("3:1:1", "BCD_STRING,6,XXXXXXXXXXXX,1,ModuleAddr");
+		fnMap.put("3:2:1", "BCD_STRING,2,XXXX,1,LogicAddr");
+		fnMap.put("3:3:1", "OCT_STRING,1,XX,1,Channel");
+		fnMap.put("3:4:1", "BCD_STRING,9,XXXXXXXXXXXX,1,ModuleAddr:BCD_STRING,2,XXXX,1,LogicAddr:OCT_STRING,1,XX,1,Channel");
+		
+		fnMap.put("4:1:0", "BCD_STRING,6,XXXXXXXXXXXX,1,ModuleAddr");
+		fnMap.put("4:2:0", "BCD_STRING,2,XXXX,1,LogicAddr");
+		fnMap.put("4:3:0", "OCT_STRING,1,XX,1,Channel");
+		fnMap.put("4:4:0", "BCD_STRING,9,XXXXXXXXXXXX,1,ModuleAddr:BCD_STRING,2,XXXX,1,LogicAddr:OCT_STRING,1,XX,1,Channel");
+		fnMap.put("4:1:1", "OCT_STRING,1,XX,1,Result");
+		fnMap.put("4:2:1", "OCT_STRING,1,XX,1,Result");
+		fnMap.put("4:3:1", "OCT_STRING,1,XX,1,Result");
+		fnMap.put("4:4:1", "OCT_STRING,1,XX,1,Result");
 		
 		fnExMap.put("1", "| Long address  |");
 		fnExMap.put("2", "| Short address |");

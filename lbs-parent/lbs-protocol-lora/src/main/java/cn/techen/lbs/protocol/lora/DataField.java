@@ -52,7 +52,7 @@ public class DataField extends AbstractElement {
 			len++;
 
 			LoraConfig loraConfig = ((LoraConfig) frame.config());
-			String key = func  + ":" + loraConfig.getDir().value();
+			String key = loraConfig.getControl().value() + ":" + func  + ":" + loraConfig.getDir().value();
 			String format = LoraFN.get(key);
 			
 			List<AbstractData> objList = new ArrayList<AbstractData>();
@@ -80,7 +80,7 @@ public class DataField extends AbstractElement {
 		for (String func : fList) {
 			frame.process().vector.add(0, (byte)Integer.parseInt(func));
 			
-			String key = func  + ":" + loraConfig.getDir().value();
+			String key = loraConfig.getControl().value() + ":" + func  + ":" + loraConfig.getDir().value();
 			String format = LoraFN.get(key);
 			len++;
 			
@@ -98,7 +98,7 @@ public class DataField extends AbstractElement {
 			}
 			
 			data.put(Integer.parseInt(func), objList);
-		}	
+		}
 	}
 
 

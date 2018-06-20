@@ -7,7 +7,6 @@ import cn.techen.lbs.task.report.manager.AbstractHandler;
 import cn.techen.lbs.task.report.manager.ObtainHandler;
 import cn.techen.lbs.task.report.manager.ReadHandler;
 import cn.techen.lbs.task.report.manager.ReportHandler;
-import cn.techen.lbs.task.report.manager.SuspendHandler;
 
 public class Bootstrap {
 	
@@ -20,8 +19,6 @@ public class Bootstrap {
 	private AbstractHandler obtain;
 	
 	private AbstractHandler read;
-	
-	private AbstractHandler suspend;
 
 	public void start() {
 		initHandler();
@@ -31,16 +28,12 @@ public class Bootstrap {
 		
 		Thread event = new Thread(new EventThread());
 		event.start();
-		
-		Thread suspendT = new Thread(new SuspendThread());
-		suspendT.start();
 	}
 	
 	private void initHandler() {
 		report = new ReportHandler();
 		obtain = new ObtainHandler();
 		read = new ReadHandler();
-		suspend = new SuspendHandler();
 	}
 
 	public void setmBaseService(MBaseService mBaseService) {
@@ -81,22 +74,6 @@ public class Bootstrap {
 					
 					obtain.operate(context);
 					read.operate(context);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}				
-			}
-		}		
-	}
-	
-	protected class SuspendThread implements Runnable {
-
-		@Override
-		public void run() {
-			while (true) {
-				try {
-					Thread.sleep(Local.SUSPENDMILLIS);
-					
-					suspend.operate(context);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}				

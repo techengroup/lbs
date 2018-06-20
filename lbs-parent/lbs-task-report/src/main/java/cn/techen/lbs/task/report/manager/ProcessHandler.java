@@ -33,13 +33,15 @@ public class ProcessHandler {
 		ProtocolConfig protocolConfig = decode0(context, frame);
 		if (protocolConfig != null) {					
 			storeEvent(context, protocolConfig);
+			context.setState(State.FINISHED);
 		} else {
 			frame.increaseRetryTimes();
 			int mod = frame.getRetryTimes() % 3;
 			if (mod != 0) {
-				context.eventQueue().add(frame);
+				write(context, frame);
 			} else {
-				context.suspendQueue().add(frame);
+				context.eventQueue().add(frame);
+				context.setState(State.FINISHED);
 			}
 		}
 	}
@@ -52,18 +54,19 @@ public class ProcessHandler {
 	}
 	
 	public void exceptionCaught(ReportContext context, Throwable cause) {
+		cause.printStackTrace();
     	context.setState(State.FINISHED);
     }
 
 	private ProtocolFrame encode0(ReportContext context, ProtocolFrame reportFrame, Meter meter)  throws Exception {		
 		ProtocolService protocolService = context.getProtocolManagerService().getProtocol(meter.getProtocol());
 		ProtocolConfig config = new DefaultProtocolConfig();
-		config.setCommAddr(reportFrame.getCommAddr()).setDir(DIR.CLIENT).setOperation(OPERATION.GET);
+		config.setCommAddr(meter.getCommaddr()).setDir(DIR.CLIENT).setOperation(OPERATION.GET);
 		byte[] frame = protocolService.encode(config);
 		
 		protocolService = context.getProtocolManagerService().getProtocol(meter.getModuleprotocol());
 		config = new DefaultProtocolConfig();
-		config.setCommAddr(meter.getCommaddr()).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
+		config.setCommAddr(reportFrame.getCommAddr()).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
 		config.dataUnit().add(frame);		
 		frame = protocolService.encode(config);
 		
@@ -111,7 +114,7 @@ public class ProcessHandler {
 	
 	private void storeEvent(ReportContext context, ProtocolConfig protocolConfig)  throws Exception {
 		
-		context.setState(State.FINISHED);
+		
 	}
 
 }

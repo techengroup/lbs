@@ -193,7 +193,8 @@ public interface LoraConfig extends FrameConfig {
         REPORT(0x02),
         READ(0x03),
         WRITE(0x04),
-        TRANSPORT(0x05);
+        TRANSPORT(0x05),
+        EXIT(0x06);
 
         private final int value;
 
@@ -209,7 +210,7 @@ public interface LoraConfig extends FrameConfig {
         	String str = "";
         	switch (value) {
 			case 0x01:
-				str="Networking";
+				str="Access Network";
 				break;
 			case 0x02:
 				str="Report";
@@ -220,8 +221,11 @@ public interface LoraConfig extends FrameConfig {
 			case 0x04:
 				str="Write";
 				break;
-			case 0x09:
+			case 0x05:
 				str="Transfer";
+				break;
+			case 0x06:
+				str="Exit Network";
 				break;
 			default:
 				throw new IllegalArgumentException("unknown " + Control.class.getSimpleName() + " value: " + value);

@@ -28,8 +28,6 @@ public class ReportContext {
 	
 	private Queue<ProtocolFrame> eventQueue = new LinkedList<ProtocolFrame>();
 	
-	private Queue<ProtocolFrame> suspendQueue = new LinkedList<ProtocolFrame>();
-	
 	private ProcessHandler processHandler = new ProcessHandler();
 
 	public State getState() {
@@ -42,10 +40,6 @@ public class ReportContext {
 
 	public Queue<ProtocolFrame> eventQueue() {
 		return eventQueue;
-	}
-	
-	public Queue<ProtocolFrame> suspendQueue() {
-		return suspendQueue;
 	}
 	
 	public void fireReport(ProtocolFrame reportFrame) {
