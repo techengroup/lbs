@@ -14,6 +14,7 @@ public class LBS extends MyModel {
 	private String moduleaddr;
 	private String logicaddr;
 	private Integer protocol;
+	private Integer loraprotocol;
 	private Double longitude;
 	private Double latitude;
 	private Integer channel;
@@ -52,6 +53,14 @@ public class LBS extends MyModel {
 	
 	public void setProtocol(Integer protocol) {
 		this.protocol = protocol;
+	}
+
+	public Integer getLoraprotocol() {
+		return loraprotocol;
+	}
+
+	public void setLoraprotocol(Integer loraprotocol) {
+		this.loraprotocol = loraprotocol;
 	}
 	
 	public Double getLongitude() {

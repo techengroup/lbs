@@ -26,11 +26,12 @@ public interface FrameConfig {
 	    }
     }
 	
-	enum Priority {
+	enum Priority {		
 		NETWORKING(0),
 	    HISTDATA(1),
 	    EVENT(2),
 	    REALTIME(3),
+	    DETECT(9),
 	    REPORT(99);
 
 	    private final int value;
