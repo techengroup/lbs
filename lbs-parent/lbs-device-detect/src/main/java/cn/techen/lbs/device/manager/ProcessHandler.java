@@ -5,6 +5,7 @@ import java.util.Date;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.device.common.DeviceContext;
 import cn.techen.lbs.device.common.Local;
+import cn.techen.lbs.global.Global;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig;
@@ -16,30 +17,36 @@ import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
 public class ProcessHandler {
 	
 	public void decode(DeviceContext context, ProtocolFrame frame)  throws Exception {
-		ProtocolConfig config = context.getProtocolManagerService()
-				.getProtocol(context.getLbs().getLoraprotocol()).decode(frame.getReadBytes());
-		if (config != null) {					
-//			Object obj = config.dataUnit().get(0);
-			
-			context.setState(State.FINISHED);
-		} else {
-			frame.increaseRetryTimes();
-			int mod = frame.getRetryTimes() % 3;
-			if (mod != 0) {
-				write(context, frame);
+		byte[] rBytes = frame.getReadBytes();
+		if (rBytes != null) {
+			ProtocolConfig config = context.getProtocolManagerService()
+					.getProtocol(context.getLbs().getLoraprotocol()).decode(frame.getReadBytes());
+			if (config != null) {					
+				Object obj = config.dataUnit().get(0);
+				if (obj != null) {
+					int result  = Integer.parseInt(obj.toString());
+					if (result == 1) {
+						Global.LoraReady = true;
+						context.setState(State.FINISHED);
+					} else {
+						rewrite(context, frame);
+					}
+				}				
 			} else {
-				context.setState(State.FINISHED);
+				rewrite(context, frame);
 			}
+		} else {
+			rewrite(context, frame);
 		}
 	}
 
-	public void encode(DeviceContext context, LBS lbs)  throws Exception {		
+	public void encode(DeviceContext context, Integer fn, LBS lbs)  throws Exception {		
 		ProtocolConfig config = new DefaultProtocolConfig();
 		config.setDir(DIR.CLIENT).setOperation(OPERATION.SET);
-		config.dataId().add("4");
-		config.dataUnit().add(lbs.getModuleaddr());
-		config.dataUnit().add(lbs.getLogicaddr());
-		config.dataUnit().add(lbs.getChannel());		
+		config.dataId().add(String.valueOf(fn));
+		if (fn >= 1) config.dataUnit().add(lbs.getModuleaddr());
+		if (fn >= 2) config.dataUnit().add(lbs.getLogicaddr());
+		if (fn >= 3) config.dataUnit().add(lbs.getChannel());		
 		
 		byte[] frame = context.getProtocolManagerService().getProtocol(lbs.getLoraprotocol()).encode(config);
 		ProtocolFrame pFrame = new ProtocolFrame();
@@ -61,5 +68,14 @@ public class ProcessHandler {
 		cause.printStackTrace();
     	context.setState(State.FINISHED);
     }
+	
+	private void rewrite(DeviceContext context, ProtocolFrame frame) throws Exception {
+		frame.increaseRetryTimes();
+		if (frame.getRetryTimes() < 10) {
+			write(context, frame);
+		} else {
+			context.setState(State.FINISHED);
+		}
+	}
 
 }

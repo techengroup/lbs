@@ -1,6 +1,6 @@
 package cn.techen.lbs.task.networking;
 
-import cn.techen.lbs.mm.api.MBaseService;
+import cn.techen.lbs.global.Global;
 import cn.techen.lbs.task.networking.common.Local;
 import cn.techen.lbs.task.networking.common.NetContext;
 import cn.techen.lbs.task.networking.manager.AbstractHandler;
@@ -12,9 +12,7 @@ import cn.techen.lbs.task.networking.manager.WriteHandler;
 import cn.techen.lbs.task.networking.manager.StoreHandler;
 
 public class Bootstrap {
-	
-	private MBaseService mBaseService;
-	
+		
 	private NetContext context;
 
 	private AbstractHandler obtain;
@@ -41,16 +39,8 @@ public class Bootstrap {
 		decode.setHandler(store);
 	}
 
-	public void setmBaseService(MBaseService mBaseService) {
-		this.mBaseService = mBaseService;
-	}
-
 	public void setContext(NetContext context) {
 		this.context = context;
-	}
-
-	public MBaseService getmBaseService() {
-		return mBaseService;
 	}
 
 	protected class NetThread implements Runnable {
@@ -61,7 +51,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					if (mBaseService.loaded()) {
+					if (Global.DBReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}

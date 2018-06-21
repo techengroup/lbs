@@ -30,4 +30,20 @@ public class LoraProtocolTest extends TestCase {
 		}
 	}
 
+	public void testA() {
+		Integer a = 1;
+		Integer b = 1;
+		
+		if (a == b) {
+			log.info("equal");
+		} else {
+			log.info("not equal");
+		}
+		
+		if (a.equals(b)) {
+			log.info("equal 1");
+		} else {
+			log.info("not equal 1");
+		}
+	}
 }

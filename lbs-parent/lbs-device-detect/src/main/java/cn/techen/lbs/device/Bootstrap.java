@@ -6,6 +6,7 @@ import cn.techen.lbs.device.common.Local;
 import cn.techen.lbs.device.manager.AbstractHandler;
 import cn.techen.lbs.device.manager.ObtainHandler;
 import cn.techen.lbs.device.manager.ReadHandler;
+import cn.techen.lbs.global.Global;
 
 public class Bootstrap {
 	private DeviceContext context;
@@ -15,11 +16,11 @@ public class Bootstrap {
 	public void start() {
 		initHandler();
 		
-		Thread init = new Thread(new InitThread());
-		init.start();
+		Thread detect = new Thread(new DetectThread());
+		detect.start();
 		
-		Thread event = new Thread(new EventThread());
-		event.start();
+		Thread device = new Thread(new DeviceThread());
+		device.start();
 	}
 	
 	private void initHandler() {
@@ -31,24 +32,39 @@ public class Bootstrap {
 		this.context = context;
 	}
 
-	protected class InitThread implements Runnable {
+	protected class DetectThread implements Runnable {
 
 		@Override
 		public void run() {
 			while (true) {
 				try {
 					Thread.sleep(Local.DETECTMILLIS);
-					
-					if (context.isLoad()) {
+										
+					if (Global.DBReady) {
+						int fn = 0;
 						LBS oLbs = context.getLbs();
 						LBS lbs = context.getmLbsService().get();
-						if (oLbs == null || !lbs.getModuleaddr().equals(oLbs.getModuleaddr()) ||
-								!lbs.getLogicaddr().equals(oLbs.getLogicaddr()) || 
-								lbs.getChannel() != oLbs.getChannel()) {
-							context.setLbs(lbs);
-							context.fireEncode();
+						if (oLbs == null) {
+							fn = 4;
+						} else {
+							if (!lbs.getModuleaddr().equals(oLbs.getModuleaddr()) && 
+									lbs.getLogicaddr().equals(oLbs.getLogicaddr()) && lbs.getChannel().equals(oLbs.getChannel())) {
+								fn = 1;
+							} else if (!lbs.getLogicaddr().equals(oLbs.getLogicaddr()) && 
+									lbs.getModuleaddr().equals(oLbs.getModuleaddr()) && lbs.getChannel().equals(oLbs.getChannel())) {
+								fn = 2;
+							} else if (!lbs.getChannel().equals(oLbs.getChannel()) && 
+									lbs.getModuleaddr().equals(oLbs.getModuleaddr()) && lbs.getLogicaddr().equals(oLbs.getLogicaddr())) {
+								fn = 3;
+							} else {
+								fn = 4;
+							}								
 						}
-						break;
+						if (fn > 0) {
+							Global.LoraReady = false;
+							context.setLbs(lbs);
+							context.fireEncode(fn);
+						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +73,7 @@ public class Bootstrap {
 		}		
 	}
 	
-	protected class EventThread implements Runnable {
+	protected class DeviceThread implements Runnable {
 
 		@Override
 		public void run() {

@@ -23,7 +23,7 @@
                 <artifactId>junit</artifactId>  
                 <version>4.11</version>  
                 <scope>test</scope>  
-            </dependency>  
+            </dependency>
         </dependencies>  
     </dependencyManagement> 
 
@@ -90,5 +90,6 @@
 		<module>lbs-business-4g</module>
 		<module>lbs-task-report</module>
 		<module>lbs-device-detect</module>
+		<module>lbs-global</module>
 	</modules>	
 </project>

@@ -6,18 +6,6 @@ import redis.clients.jedis.Jedis;
 
 public class MBaseServiceImpl implements MBaseService {
 
-	private boolean isLoad = false;
-
-	@Override
-	public boolean loaded() {
-		return isLoad;
-	}
-
-	@Override
-	public void setLoaded(boolean result) {
-		this.isLoad = result;
-	}
-
 	@Override
 	public String flushdb() {
 		Jedis jedis = null;

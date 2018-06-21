@@ -1,37 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>cn.techen.lbs</groupId>
-		<artifactId>lbs-parent</artifactId>
-		<version>1.0</version>
-	</parent>
-	<artifactId>lbs-task-networking</artifactId>
-	<packaging>bundle</packaging>
-	
-	<dependencies>
-		<dependency>
-			<groupId>cn.techen.lbs</groupId>
-			<artifactId>lbs-global</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>cn.techen.lbs</groupId>
-			<artifactId>lbs-db-api</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>cn.techen.lbs</groupId>
-			<artifactId>lbs-protocol-api</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
-	
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>cn.techen.lbs</groupId>
+    <artifactId>lbs-parent</artifactId>
+    <version>1.0</version>
+  </parent>
+  <artifactId>lbs-global</artifactId>
+  <packaging>bundle</packaging>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -43,13 +19,11 @@
 					<instructions>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-SymbolicName>$(replace;${project.artifactId};-;_)</Bundle-SymbolicName>
-						<Bundle-Name>${project.artifactId}</Bundle-Name>
-						<Bundle-Vendor>techen.cn</Bundle-Vendor>
 						<Export-Package>
-							${project.artifactId}.*;version=${project.version}
+							cn.techen.lbs.global
 						</Export-Package>
 						<Import-Package>
-							*;resolution:=optional
+							org.osgi.framework
 						</Import-Package>
 					</instructions>
 				</configuration>

@@ -11,6 +11,7 @@ import cn.techen.lbs.db.api.LbsService;
 import cn.techen.lbs.db.api.MeterService;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.db.model.Meter;
+import cn.techen.lbs.global.Global;
 import cn.techen.lbs.mm.api.MBaseService;
 import cn.techen.lbs.mm.api.MLbsService;
 import cn.techen.lbs.mm.api.MMeterService;
@@ -103,7 +104,7 @@ public class Mysql2Redis implements Runnable {
 			log.info("Load relay amount is {} from database.", relays.size());
 		}	
 		
-		mBaseService.setLoaded(true);
+		Global.DBReady = true;
 	}
 	
 	public void setLbsService(LbsService lbsService) {

@@ -6,8 +6,6 @@
 	
 	<reference id="meterService" interface="cn.techen.lbs.db.api.MeterService" />
 	
-	<reference id="mBaseService" interface="cn.techen.lbs.mm.api.MBaseService" />
-	
 	<reference id="mLbsService" interface="cn.techen.lbs.mm.api.MLbsService" />
 	
 	<reference id="mMeterService" interface="cn.techen.lbs.mm.api.MMeterService" />
@@ -32,7 +30,6 @@
 	
 	<bean id="bootstrapBean" class="cn.techen.lbs.task.networking.Bootstrap" init-method="start">		
 		<property name="context" ref="netContextBean"/>		
-		<property name="mBaseService" ref="mBaseService"/>	
 	</bean>
 	
 </blueprint>
