@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface IService<T> {
 	T selectByKey(Object key);
-	
+		
 	List<T> selectAll();
 
     int save(T entity);

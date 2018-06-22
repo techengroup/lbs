@@ -2,10 +2,10 @@ package cn.techen.lbs.device.manager;
 
 import java.util.Date;
 
+import cn.techen.lbs.db.model.Global;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.device.common.DeviceContext;
 import cn.techen.lbs.device.common.Local;
-import cn.techen.lbs.global.Global;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig;

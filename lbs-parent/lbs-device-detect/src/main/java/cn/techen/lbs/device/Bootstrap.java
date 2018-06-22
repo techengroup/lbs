@@ -1,12 +1,12 @@
 package cn.techen.lbs.device;
 
+import cn.techen.lbs.db.model.Global;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.device.common.DeviceContext;
 import cn.techen.lbs.device.common.Local;
 import cn.techen.lbs.device.manager.AbstractHandler;
 import cn.techen.lbs.device.manager.ObtainHandler;
 import cn.techen.lbs.device.manager.ReadHandler;
-import cn.techen.lbs.global.Global;
 
 public class Bootstrap {
 	private DeviceContext context;

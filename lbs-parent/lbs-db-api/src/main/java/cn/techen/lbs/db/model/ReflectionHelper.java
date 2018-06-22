@@ -1,4 +1,4 @@
-package cn.techen.lbs.business.reflect;
+package cn.techen.lbs.db.model;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

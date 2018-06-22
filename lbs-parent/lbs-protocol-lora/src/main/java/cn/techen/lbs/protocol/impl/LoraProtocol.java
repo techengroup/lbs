@@ -2,6 +2,7 @@ package cn.techen.lbs.protocol.impl;
 
 import cn.techen.lbs.protocol.ProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolService;
+import cn.techen.lbs.protocol.lora.common.Local;
 
 public class LoraProtocol implements ProtocolService {
 	
@@ -9,17 +10,17 @@ public class LoraProtocol implements ProtocolService {
 
 	@Override
 	public Integer getCode() {
-		return 0;
+		return Local.CODE;
 	}
 
 	@Override
 	public String getName() {
-		return "Techen-lora";
+		return Local.NAME;
 	}
 
 	@Override
 	public String getVersion() {		
-		return "1.0";
+		return Local.VERSION;
 	}
 
 	@Override

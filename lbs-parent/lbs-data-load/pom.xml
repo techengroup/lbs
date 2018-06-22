@@ -12,13 +12,14 @@
 	<dependencies>
 		<dependency>
 			<groupId>cn.techen.lbs</groupId>
-			<artifactId>lbs-global</artifactId>
+			<artifactId>lbs-db-api</artifactId>
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>cn.techen.lbs</groupId>
-			<artifactId>lbs-db-api</artifactId>
+			<artifactId>lbs-protocol-api</artifactId>
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>

@@ -2,27 +2,34 @@ package cn.techen.lbs.data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.data.common.Local;
+import cn.techen.lbs.db.api.FuncElementService;
+import cn.techen.lbs.db.api.FuncService;
 import cn.techen.lbs.db.api.LbsService;
 import cn.techen.lbs.db.api.MeterService;
+import cn.techen.lbs.db.model.Global;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.db.model.Meter;
-import cn.techen.lbs.global.Global;
 import cn.techen.lbs.mm.api.MBaseService;
 import cn.techen.lbs.mm.api.MLbsService;
 import cn.techen.lbs.mm.api.MMeterService;
 import cn.techen.lbs.mm.api.MRegisterService;
 import cn.techen.lbs.mm.api.MRelayService;
+import cn.techen.lbs.protocol.common.Func;
+import cn.techen.lbs.protocol.common.FuncElement;
 
 public class Mysql2Redis implements Runnable {
 	private static final Logger log = (Logger) LoggerFactory  
             .getLogger(Local.PROJECT);
 	private LbsService lbsService;
 	private MeterService meterService;	
+	private FuncService funcService;
+	private FuncElementService funcElementService;
 	private MBaseService mBaseService;
 	private MLbsService mLbsService;
 	private MMeterService mMeterService;
@@ -55,9 +62,11 @@ public class Mysql2Redis implements Runnable {
 		List<Meter> meters = null;
 		List<Meter> unregisterMeters = null;
 		List<Meter> relays = null;
+		Map<String, String> funcs = null;
+		Map<String, String> funcElements = null;
 		
 		if (count == 0) {
-			mBaseService.flushdb();
+			mBaseService.flushDB();
 			
 			Local.LASTTIME = new Date();
 			
@@ -65,13 +74,16 @@ public class Mysql2Redis implements Runnable {
 			meters = meterService.selectAll();
 			unregisterMeters = meterService.selectUnregister();
 			relays = meterService.selectRelay();
-			
+			funcs = funcService.selectAll();
+			funcElements = funcElementService.selectAll();
 		} else {
 			Date nowTime = new Date();
 			
 			lbs = lbsService.selectByTime(Local.LASTTIME);
 			meters = meterService.selectByTime(Local.LASTTIME);
 			unregisterMeters = meterService.selectUnregisterByTime(Local.LASTTIME);
+			funcs = funcService.selectByTime(Local.LASTTIME);
+			funcElements = funcElementService.selectByTime(Local.LASTTIME);
 			
 			Local.LASTTIME = nowTime;
 		}
@@ -104,6 +116,18 @@ public class Mysql2Redis implements Runnable {
 			log.info("Load relay amount is {} from database.", relays.size());
 		}	
 		
+		if (funcs == null || funcs.size() <= 0) {
+			log.warn("There is no any protocol function in the database...");
+		} else {
+			Func.getInstance().putAll(funcs);
+		}
+		
+		if (funcElements == null || funcElements.size() <= 0) {
+			log.warn("There is no any protocol function element in the database...");
+		} else {
+			FuncElement.getInstace().putAll(funcElements);
+		}
+		
 		Global.DBReady = true;
 	}
 	
@@ -113,6 +137,14 @@ public class Mysql2Redis implements Runnable {
 	
 	public void setMeterService(MeterService meterService) {
 		this.meterService = meterService;
+	}
+
+	public void setFuncService(FuncService funcService) {
+		this.funcService = funcService;
+	}
+
+	public void setFuncElementService(FuncElementService funcElementService) {
+		this.funcElementService = funcElementService;
 	}
 
 	public void setmBaseService(MBaseService mBaseService) {

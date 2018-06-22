@@ -6,7 +6,7 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.techen.lbs.db.api.StoreService;
+import cn.techen.lbs.db.api.BaseService;
 import cn.techen.lbs.db.model.Column;
 import cn.techen.lbs.db.model.Row;
 import cn.techen.lbs.db.model.Table;
@@ -17,7 +17,7 @@ public class Redis2Mysql implements Runnable {
 	private static final Logger log = (Logger) LoggerFactory  
             .getLogger(Local.PROJECT);
 	
-	private StoreService StoreService;
+	private BaseService StoreService;
 	private MTableService mTableService;
 
 	@Override
@@ -38,9 +38,9 @@ public class Redis2Mysql implements Runnable {
 	public void start() throws Exception {
 		Table table = mTableService.rpop();
 		if (table != null) {
-			if (StoreService.save(insert(table)) <= 0) {
-				StoreService.save(update(table));
-			}
+//			if (StoreService.save(insert(table)) <= 0) {
+//				StoreService.save(update(table));
+//			}
 		}
 	}
 	
@@ -105,7 +105,7 @@ public class Redis2Mysql implements Runnable {
 		return value;
 	}
 
-	public void setStoreService(StoreService storeService) {
+	public void setStoreService(BaseService storeService) {
 		StoreService = storeService;
 	}
 

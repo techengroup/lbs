@@ -1,4 +1,4 @@
-package cn.techen.lbs.global;
+package cn.techen.lbs.db.model;
 
 public class Global {
 	

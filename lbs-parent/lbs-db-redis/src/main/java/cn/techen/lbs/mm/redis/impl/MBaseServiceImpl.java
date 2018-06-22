@@ -7,11 +7,39 @@ import redis.clients.jedis.Jedis;
 public class MBaseServiceImpl implements MBaseService {
 
 	@Override
-	public String flushdb() {
+	public Long del(String key) {
+		Jedis jedis = null;
+		try {
+			jedis = RedisPool.getInstance().getResource();
+			return jedis.del(key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			RedisPool.getInstance().returnResource(jedis);
+		}
+		return null;
+	}
+	
+	@Override
+	public String flushDB() {
 		Jedis jedis = null;
 		try {
 			jedis = RedisPool.getInstance().getResource();
 			return jedis.flushDB();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			RedisPool.getInstance().returnResource(jedis);
+		}
+		return null;
+	}
+
+	@Override
+	public String flushAll() {
+		Jedis jedis = null;
+		try {
+			jedis = RedisPool.getInstance().getResource();
+			return jedis.flushAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

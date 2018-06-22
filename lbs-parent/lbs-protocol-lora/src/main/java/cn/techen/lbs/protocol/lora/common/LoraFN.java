@@ -22,6 +22,7 @@ public class LoraFN {
 		fnMap.put("4:2:0", "BCD_STRING,2,XXXX,1,LogicAddr");
 		fnMap.put("4:3:0", "OCT_STRING,1,XX,1,Channel");
 		fnMap.put("4:4:0", "BCD_STRING,9,XXXXXXXXXXXX,1,ModuleAddr:BCD_STRING,2,XXXX,1,LogicAddr:OCT_STRING,1,XX,1,Channel");
+		
 		fnMap.put("4:1:1", "OCT_STRING,1,XX,1,Result");
 		fnMap.put("4:2:1", "OCT_STRING,1,XX,1,Result");
 		fnMap.put("4:3:1", "OCT_STRING,1,XX,1,Result");

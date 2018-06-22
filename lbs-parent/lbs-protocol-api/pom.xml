@@ -23,8 +23,7 @@
 						<Bundle-Name>${project.artifactId}</Bundle-Name>
 						<Bundle-Vendor>techen.cn</Bundle-Vendor>
 						<Export-Package>
-							${project.artifactId}.*;version=${project.version},
-							cn.techen.lbs.protocol
+							${project.artifactId}.*;version=${project.version}
 						</Export-Package>
 						<Import-Package>
 							*;resolution:=optional
