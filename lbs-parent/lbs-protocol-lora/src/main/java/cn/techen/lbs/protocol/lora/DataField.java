@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import cn.techen.lbs.protocol.AbstractData;
 import cn.techen.lbs.protocol.AbstractElement;
 import cn.techen.lbs.protocol.AbstractFrame;
+import cn.techen.lbs.protocol.common.FuncElement;
 import cn.techen.lbs.protocol.lora.common.Local;
 import cn.techen.lbs.protocol.lora.common.LoraFN;
 import cn.techen.lbs.protocol.lora.common.LoraHelper;
@@ -54,7 +55,7 @@ public class DataField extends AbstractElement {
 
 			LoraConfig loraConfig = ((LoraConfig) frame.config());
 			String key = Local.CODE + ":" +loraConfig.getControl().value() + ":" + func  + ":" + loraConfig.getDir().value();
-			String format = LoraFN.get(key);
+			String format = FuncElement.getInstace().get(key);
 			
 			List<AbstractData> objList = new ArrayList<AbstractData>();
 			if (format != null && !format.equals("")) {
@@ -82,7 +83,7 @@ public class DataField extends AbstractElement {
 			frame.process().vector.add(0, (byte)Integer.parseInt(func));
 			
 			String key = Local.CODE + ":" + loraConfig.getControl().value() + ":" + func  + ":" + loraConfig.getDir().value();
-			String format = LoraFN.get(key);
+			String format = FuncElement.getInstace().get(key);
 			len++;
 			
 			List<AbstractData> objList = new ArrayList<AbstractData>();

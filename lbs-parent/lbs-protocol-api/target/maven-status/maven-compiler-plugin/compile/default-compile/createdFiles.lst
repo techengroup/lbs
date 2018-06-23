@@ -1,5 +1,6 @@
 cn\techen\lbs\protocol\AbstractElement.class
 cn\techen\lbs\protocol\AbstractFrame$FrameProcess.class
+cn\techen\lbs\protocol\common\Func.class
 cn\techen\lbs\protocol\FrameConfig$Priority.class
 cn\techen\lbs\protocol\ProtocolConfig$OPERATION.class
 cn\techen\lbs\protocol\ProtocolConfig.class
@@ -14,6 +15,7 @@ cn\techen\lbs\protocol\AbstractFrame.class
 cn\techen\lbs\protocol\ProtocolUtil.class
 cn\techen\lbs\protocol\ProtocolFrame.class
 cn\techen\lbs\protocol\ProtocolManagerService.class
+cn\techen\lbs\protocol\common\FuncElement.class
 cn\techen\lbs\protocol\ProtocolData.class
 cn\techen\lbs\protocol\ProtocolManager.class
 cn\techen\lbs\protocol\FrameConfig.class

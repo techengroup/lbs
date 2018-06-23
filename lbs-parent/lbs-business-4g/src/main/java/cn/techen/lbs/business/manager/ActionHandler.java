@@ -1,12 +1,13 @@
 package cn.techen.lbs.business.manager;
 
 import cn.techen.lbs.business.common.BusinessContext;
+import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.protocol.ProtocolConfig;
 
 public class ActionHandler extends AbstractHandler {
 
 	@Override
-	public void operate(BusinessContext context, ProtocolConfig config) throws Exception {
+	public void operate(BusinessContext context, LBS lbs, ProtocolConfig config) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}	

@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1529038289949
+Bnd-LastModified: 1529657526116
 Build-Jdk: 1.8.0_152
 Built-By: ZY
 Bundle-Blueprint: OSGI-INF/blueprint/lbs-protocol.xml
@@ -9,12 +9,13 @@ Bundle-SymbolicName: lbs_protocol_api
 Bundle-Vendor: techen.cn
 Bundle-Version: 1.0
 Created-By: Apache Maven Bundle Plugin
-Export-Package: cn.techen.lbs.protocol;version="1.0.0"
+Export-Package: cn.techen.lbs.protocol;version="1.0.0",cn.techen.lbs.pro
+ tocol.common;version="1.0.0"
 Export-Service: cn.techen.lbs.protocol.ProtocolManagerService;osgi.servi
  ce.blueprint.compname=protocolManagerBean
 Import-Package: org.osgi.service.blueprint;version="[1.0.0,2.0.0)";resol
  ution:=optional,org.slf4j;resolution:=optional;version="[1.7,2)"
 Import-Service: cn.techen.lbs.protocol.ProtocolService;multiple:=true;av
  ailability:=optional
-Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.5))"
 Tool: Bnd-3.5.0.201709291849
