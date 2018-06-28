@@ -84,7 +84,7 @@
 		<module>lbs-db-mysql</module>
 		<module>lbs-db-redis</module>
 		<module>lbs-data-load</module>
-		<module>lbs-data-store</module>
+		<module>lbs-data-protocol</module>
 		<module>lbs-protocol-376</module>
 		<module>lbs-task-schedule</module>
 		<module>lbs-business-4g</module>

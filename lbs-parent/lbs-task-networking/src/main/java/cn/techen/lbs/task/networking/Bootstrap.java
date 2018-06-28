@@ -1,6 +1,6 @@
 package cn.techen.lbs.task.networking;
 
-import cn.techen.lbs.db.model.Global;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.task.networking.common.Local;
 import cn.techen.lbs.task.networking.common.NetContext;
 import cn.techen.lbs.task.networking.manager.AbstractHandler;

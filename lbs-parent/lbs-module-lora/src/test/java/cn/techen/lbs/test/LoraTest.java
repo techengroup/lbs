@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.lora.mananger.LoraChannel;
-import cn.techen.lbs.protocol.ProtocolUtil;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import junit.framework.TestCase;
 
 public class LoraTest extends TestCase {

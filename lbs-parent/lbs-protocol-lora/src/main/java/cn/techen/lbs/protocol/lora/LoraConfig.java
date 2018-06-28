@@ -1,8 +1,6 @@
 package cn.techen.lbs.protocol.lora;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 
 import cn.techen.lbs.protocol.FrameConfig;
 
@@ -267,9 +265,9 @@ public interface LoraConfig extends FrameConfig {
 	
 	LoraConfig setControl(Control control);
 	
-	int getRSSI();
+	Integer getRSSI();
 	
-	LoraConfig setRSSI(int rssi);
+	LoraConfig setRSSI(Integer rssi);
 	
 	String getSourceAddr();
 
@@ -282,11 +280,5 @@ public interface LoraConfig extends FrameConfig {
 	String getTargetAddr();
 
 	LoraConfig setTargetAddr(String targetAddr);
-	
-	List<String> func();
-	
-	Queue<Object> unit();
-
-	Map<String, Object> data();
 	
 }

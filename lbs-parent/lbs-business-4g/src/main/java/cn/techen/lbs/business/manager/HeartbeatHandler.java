@@ -18,7 +18,7 @@ public class HeartbeatHandler extends AbstractHandler {
 		}
 		config = new DefaultProtocolConfig();
 		config.setCommAddr(lbs.getCommaddr()).setDir(DIR.SERVER)
-			.setOperation(op).userData().put("PRM", 1);
+			.setOperation(op).runs().put("PRM", 1);
 		byte[] frame = context.getProtocolManagerService().getProtocol(lbs.getProtocol()).encode(config);
 		
 		if (frame != null && frame.length > 0) {

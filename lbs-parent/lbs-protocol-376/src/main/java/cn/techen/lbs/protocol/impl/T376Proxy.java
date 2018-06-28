@@ -11,7 +11,7 @@ import cn.techen.lbs.protocol.t376.T376Config.DIR;
 import cn.techen.lbs.protocol.t376.T376Config.FUNC0;
 import cn.techen.lbs.protocol.t376.T376Config.FUNC1;
 import cn.techen.lbs.protocol.t376.T376Config.TPV;
-import cn.techen.lbs.protocol.t376.common.T376Helper;
+import cn.techen.lbs.protocol.t376.common.Local;
 import cn.techen.lbs.protocol.t376.T376Config.ACD;
 import cn.techen.lbs.protocol.t376.T376Config.AFN;
 import cn.techen.lbs.protocol.t376.T376Config.CON;
@@ -29,7 +29,10 @@ public class T376Proxy {
 		protocolConfig.setCommAddr(config.getCommAddr());
 		dir2dir(config, protocolConfig);
 		op2control(config, protocolConfig);
-		protocolConfig.userData().putAll(config.data());
+		protocolConfig.runs().putAll(config.runs());
+		protocolConfig.funcs().addAll(config.funcs());
+		protocolConfig.units().addAll(config.units());
+		protocolConfig.funcKeys().putAll(config.funcKeys());
 		return protocolConfig;
 	}
 
@@ -37,10 +40,13 @@ public class T376Proxy {
 		T376Frame t376Frame = new T376Frame();
 
 		T376Config t376Config = (T376Config) t376Frame.config();
-		t376Config.setCommAddr(config.getCommAddr()).setSeq(T376Helper.sequence());
+		t376Config.setCommAddr(config.getCommAddr()).setSeq(Local.sequence());
 		dir2dir(config, t376Config);
 		data2data(config, t376Config);
-		op2control(config, t376Config);		
+		op2control(config, t376Config);	
+		t376Config.runs().putAll(config.runs());
+		t376Config.funcs().addAll(config.funcs());
+		t376Config.units().addAll(config.units());
 		t376Frame.encode();
 
 		return t376Frame.getBytes();
@@ -63,7 +69,7 @@ public class T376Proxy {
 			config.setOperation(ProtocolConfig.OPERATION.CONFIRM);
 			break;
 		case LINK:
-			List<String> dadt = t376Config.dadt();
+			List<String> dadt = t376Config.funcs();
 			String[] array = dadt.get(0).split(":");			
 			int fn = Integer.parseInt(array[1]);
 			if (fn == 1) {
@@ -91,23 +97,13 @@ public class T376Proxy {
 	}
 	
 	private void data2data(ProtocolConfig config, T376Config t376Config) {
-		Map<String, Object> datas = config.userData();
+		Map<String, Object> datas = config.runs();
 		int prm = (datas.get("PRM") == null) ? 0 : Integer.parseInt(datas.get("PRM").toString());
 		int acd = (datas.get("ACD") == null) ? 0 : Integer.parseInt(datas.get("ACD").toString());
 		int tpv = (datas.get("TPV") == null) ? 0 : Integer.parseInt(datas.get("TPV").toString());
 		t376Config.setPrm(prm);
 		t376Config.setAcd(ACD.valueOf(acd));
 		t376Config.setTpv(TPV.valueOf(tpv));
-		
-		List<String> dataId = config.dataId();
-		for (String id : dataId) {
-			t376Config.dadt().add(id);
-		}
-		
-		List<Object> dataUnit = config.dataUnit();
-		for (Object unit : dataUnit) {
-			t376Config.unit().add(unit);
-		}
 	}
 
 	private void op2control(ProtocolConfig config, T376Config t376Config) {
@@ -126,12 +122,12 @@ public class T376Proxy {
 			break;
 		case HEARTBEAT:
 			t376Config.setFunc(FUNC1.LINK.value()).setAfn(AFN.LINK).setFir(1).setFin(1).setCon(CON.YES);
-			t376Config.dadt().add("0:3");
-			t376Config.unit().add(new Date());
+			t376Config.funcs().add("0:3");
+			t376Config.units().add(new Date());
 			break;
 		case LOGIN:
 			t376Config.setFunc(FUNC1.LINK.value()).setAfn(AFN.LINK).setFir(1).setFin(1).setCon(CON.YES);
-			t376Config.dadt().add("0:1");
+			t376Config.funcs().add("0:1");
 //			t376Config.unit().add(new Date());
 			break;
 		case CONFIRM:

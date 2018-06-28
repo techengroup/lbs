@@ -1,9 +1,6 @@
 package cn.techen.lbs.protocol;
 
-import java.util.List;
-import java.util.Map;
-
-public interface ProtocolConfig {
+public interface ProtocolConfig extends IConfig {
 	enum DIR {
         /**
          * Client -- for meter is LBS, for LBS is MS
@@ -78,11 +75,5 @@ public interface ProtocolConfig {
 	OPERATION getOperation();
 
 	ProtocolConfig setOperation(OPERATION operation);
-
-	Map<String, Object> userData();
-	
-	List<String> dataId();
-	
-	List<Object> dataUnit();
 	
 }

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.lora.common.Local;
 import cn.techen.lbs.lora.common.LoraContext;
-import cn.techen.lbs.protocol.ProtocolUtil;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 
 public class ReadHandler extends AbstractHandler {
 	private static final Logger logger = (Logger) LoggerFactory  

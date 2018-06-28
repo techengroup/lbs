@@ -1,6 +1,6 @@
 package cn.techen.lbs.device;
 
-import cn.techen.lbs.db.model.Global;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.device.common.DeviceContext;
 import cn.techen.lbs.device.common.Local;

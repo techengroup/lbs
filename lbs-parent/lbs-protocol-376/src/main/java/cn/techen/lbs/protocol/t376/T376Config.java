@@ -1,9 +1,5 @@
 package cn.techen.lbs.protocol.t376;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-
 import cn.techen.lbs.protocol.FrameConfig;
 
 public interface T376Config extends FrameConfig {			
@@ -371,10 +367,4 @@ public interface T376Config extends FrameConfig {
 	String getCommAddr();
 
 	T376Config setCommAddr(String commAddr);
-	
-	List<String> dadt();
-
-	Queue<Object> unit();
-
-	Map<String, Object> data();
 }

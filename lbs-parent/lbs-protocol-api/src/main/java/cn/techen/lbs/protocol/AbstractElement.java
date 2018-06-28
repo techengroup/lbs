@@ -1,6 +1,8 @@
 package cn.techen.lbs.protocol;
 
-public abstract class AbstractElement implements Framing, IExplain {
+import cn.techen.lbs.protocol.common.ProtocolUtil;
+
+public abstract class AbstractElement extends AbstractType implements Framing, IExplain {
 
 	/**
 	 * Value

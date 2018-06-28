@@ -9,7 +9,7 @@ public class ConfirmHandler extends AbstractHandler {
 	@Override
 	public void operate(BusinessContext context, LBS lbs, ProtocolConfig config) throws Exception {
 		if (!context.isLogined()) {
-			int flag = Integer.parseInt(config.userData().get("LoginCon").toString());
+			int flag = Integer.parseInt(config.runs().get("LoginCon").toString());
 			if (flag == 1) {
 				context.setLogined(true);
 			}

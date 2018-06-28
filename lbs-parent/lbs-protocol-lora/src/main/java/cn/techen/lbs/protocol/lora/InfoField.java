@@ -2,7 +2,7 @@ package cn.techen.lbs.protocol.lora;
 
 import cn.techen.lbs.protocol.AbstractElement;
 import cn.techen.lbs.protocol.AbstractFrame;
-import cn.techen.lbs.protocol.ProtocolUtil;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.lora.LoraConfig.Addr;
 import cn.techen.lbs.protocol.lora.LoraConfig.Channel;
 import cn.techen.lbs.protocol.lora.LoraConfig.DIR;

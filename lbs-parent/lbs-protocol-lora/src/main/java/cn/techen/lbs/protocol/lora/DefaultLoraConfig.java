@@ -2,13 +2,11 @@ package cn.techen.lbs.protocol.lora;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 
-public class DefaultLoraConfig implements LoraConfig {
+import cn.techen.lbs.protocol.AbstractConfig;
+
+public class DefaultLoraConfig extends AbstractConfig  implements LoraConfig {
 	
 	private Control control;
 	private DIR dir;
@@ -16,13 +14,10 @@ public class DefaultLoraConfig implements LoraConfig {
 	private Relay relay;
 	private Addr addr;
 	private Module module;
-	private int rssi;
+	private Integer rssi;
 	private String sourceAddr;
 	private List<String> relayAddrs = new ArrayList<String>();
 	private String targetAddr;
-	private List<String> func  = new ArrayList<String>();
-	private Queue<Object> unit = new LinkedList<Object>();
-	private Map<String, Object> data = new HashMap<String, Object>();
 	
 	@Override
 	public Control getControl() {
@@ -91,12 +86,12 @@ public class DefaultLoraConfig implements LoraConfig {
 	}
 
 	@Override
-	public int getRSSI() {
+	public Integer getRSSI() {
 		return rssi;
 	}
 
 	@Override
-	public LoraConfig setRSSI(int rssi) {
+	public LoraConfig setRSSI(Integer rssi) {
 		this.rssi = rssi;
 		return this;
 	}
@@ -132,21 +127,6 @@ public class DefaultLoraConfig implements LoraConfig {
 	public DefaultLoraConfig setTargetAddr(String targetAddr) {
 		this.targetAddr = targetAddr;
 		return this;
-	}
-	
-	@Override
-	public List<String> func() {
-		return func;
-	}
-	
-	@Override
-	public Queue<Object> unit() {
-		return unit;
-	}
-
-	@Override
-	public Map<String, Object> data() {
-		return data;
 	}
 	
 }

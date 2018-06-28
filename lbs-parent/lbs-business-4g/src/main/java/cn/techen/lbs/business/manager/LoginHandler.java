@@ -14,7 +14,7 @@ public class LoginHandler extends AbstractHandler {
 	public void operate(BusinessContext context, LBS lbs, ProtocolConfig config) throws Exception {
 		config = new DefaultProtocolConfig();
 		config.setCommAddr(lbs.getCommaddr()).setDir(DIR.SERVER)
-			.setOperation(OPERATION.LOGIN).userData().put("PRM", 1);
+			.setOperation(OPERATION.LOGIN).runs().put("PRM", 1);
 		byte[] frame = context.getProtocolManagerService().getProtocol(lbs.getProtocol()).encode(config);
 		
 		if (frame != null && frame.length > 0) {

@@ -1,13 +1,8 @@
 package cn.techen.lbs.protocol.t376;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
+import cn.techen.lbs.protocol.AbstractConfig;
 
-public class DefaultT376Config implements T376Config {
+public class DefaultT376Config extends AbstractConfig implements T376Config {
 
 	private String commAddr;
 	private DIR dir;
@@ -22,10 +17,6 @@ public class DefaultT376Config implements T376Config {
 	private int fin;
 	private CON con;
 	private int seq;
-	private List<String> dadt  = new ArrayList<String>();
-	private Queue<Object> unit = new LinkedList<Object>();
-	private Map<String, Object> data = new HashMap<String, Object>();
-	private int ec;
 
 	@Override
 	public String getCommAddr() {
@@ -167,30 +158,6 @@ public class DefaultT376Config implements T376Config {
 	@Override
 	public T376Config setSeq(int seq) {
 		this.seq = seq;
-		return this;
-	}
-
-	@Override
-	public List<String> dadt() {
-		return dadt;
-	}
-
-	@Override
-	public Queue<Object> unit() {
-		return unit;
-	}
-
-	@Override
-	public Map<String, Object> data() {
-		return data;
-	}
-
-	public int getEc() {
-		return ec;
-	}
-
-	public DefaultT376Config setEc(int ec) {
-		this.ec = ec;
 		return this;
 	}
 	

@@ -2,7 +2,7 @@ package cn.techen.lbs.protocol.t376;
 
 import cn.techen.lbs.protocol.AbstractElement;
 import cn.techen.lbs.protocol.AbstractFrame;
-import cn.techen.lbs.protocol.ProtocolUtil;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.t376.T376Config.AFN;
 
 public class DataField extends AbstractElement {
@@ -26,7 +26,7 @@ public class DataField extends AbstractElement {
 		afn = ProtocolUtil.byte2Int(frame.process().queue.poll());
 		config.setAfn(AFN.valueOf(afn));
 		seq.decode(frame);
-		data.decode(frame);
+		data.decode(frame);		
 		aux.decode(frame);
 	}
 	
@@ -45,11 +45,13 @@ public class DataField extends AbstractElement {
 		StringBuffer sb = new StringBuffer();
 		sb.append("[%s]H\r\n");
 		sb.append("%-24s%-5s: [%s]H: %s\r\n");
+		sb.append("%-24s%-5s: %s\r\n");
 		sb.append("%-24s%-5s: %s");
 		return String.format(sb.toString()
 				, ProtocolUtil.int2HexString(value)		
 				, "", "AFN", ProtocolUtil.int2HexString(afn), AFN.valueOf(afn).descOf()
-				, "", "SEQ", seq.toExplain());
+				, "", "SEQ", seq.toExplain()
+				, "", "Units", data.toExplain());
 	}
 
 }

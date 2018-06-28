@@ -10,8 +10,8 @@ import cn.techen.lbs.lora.common.Local;
 import cn.techen.lbs.lora.common.LoraContext;
 import cn.techen.lbs.protocol.ProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.ProtocolFrame;
-import cn.techen.lbs.protocol.ProtocolUtil;
 import cn.techen.lbs.protocol.FrameConfig.Priority;
 
 public class LoraChannelHandler implements RxtxChannelHandler {

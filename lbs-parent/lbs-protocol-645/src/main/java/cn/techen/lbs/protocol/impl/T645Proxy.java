@@ -20,9 +20,9 @@ public class T645Proxy {
 		ProtocolConfig protocolConfig = new DefaultProtocolConfig();
 		protocolConfig.setDir(dir2dir(t645Config, protocolConfig))
 			.setOperation(op2control(t645Config, protocolConfig)).setCommAddr(t645Config.getCommAddr());
-		protocolConfig.userData().putAll(t645Config.data());
-		protocolConfig.dataId().addAll(t645Config.func());
-		protocolConfig.dataUnit().addAll(t645Config.unit());
+		protocolConfig.runs().putAll(t645Config.runs());
+		protocolConfig.funcs().addAll(t645Config.funcs());
+		protocolConfig.units().addAll(t645Config.units());
 		return protocolConfig;
 	}
 	
@@ -30,10 +30,10 @@ public class T645Proxy {
 		T645Frame frame = new T645Frame();	
 		T645Config t645Config = (T645Config) frame.config();		
 		t645Config.setDir(dir2dir(config)).setControl(op2control(config)).setCommAddr(config.getCommAddr());
-		t645Config.data().putAll(config.userData());		
+		t645Config.runs().putAll(config.runs());		
 		data2data(config, t645Config);
-		t645Config.func().addAll(config.dataId());
-		t645Config.unit().addAll(config.dataUnit());
+		t645Config.funcs().addAll(config.funcs());
+		t645Config.units().addAll(config.units());
 		frame.encode();
 		
 		return frame.getBytes();
@@ -104,7 +104,7 @@ public class T645Proxy {
 	private void data2data(ProtocolConfig config, T645Config t645Config) {
 		FollowUp follow = FollowUp.NONE;
 		Answer answer = Answer.SUCCESS;
-		Object obj = config.userData().get("Answer");
+		Object obj = config.runs().get("Answer");
 		
 		if (obj != null && !obj.toString().trim().equals("")) {
 			answer = Answer.valueOf(Integer.parseInt(obj.toString()));

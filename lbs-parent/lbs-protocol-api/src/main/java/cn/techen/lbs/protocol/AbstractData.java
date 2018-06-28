@@ -1,6 +1,6 @@
 package cn.techen.lbs.protocol;
 
-public abstract class AbstractData implements Framing {
+public abstract class AbstractData extends AbstractType implements Framing, IExplain {
 	
 	/**
 	 * Bytes
@@ -18,14 +18,14 @@ public abstract class AbstractData implements Framing {
 	protected String format;
 	
 	/*
-	 * ASC -- 0:DESC, 1:ASC
+	 * Sort -- 0:DESC, 1:ASC
 	 */
-	protected int asc;
+	protected int sort;
 	
 	/**
-	 * Table and column -- Table name-Column name
+	 * Name
 	 */
-	protected String tableColumn;
+	protected String name;
 
 	/**
 	 * Content
@@ -36,7 +36,7 @@ public abstract class AbstractData implements Framing {
 	 * Desc
 	 */
 	protected String desc;
-		
+
 	public byte[] getByte() {
 		return bytes;
 	}
@@ -53,12 +53,12 @@ public abstract class AbstractData implements Framing {
 		return format;
 	}
 
-	public int getAsc() {
-		return asc;
+	public int getSort() {
+		return sort;
 	}
 
-	public String getTableColumn() {
-		return tableColumn;
+	public String getName() {
+		return name;
 	}
 
 	public Object getContent() {
@@ -67,5 +67,10 @@ public abstract class AbstractData implements Framing {
 	
 	public String getDesc() {
 		return desc;
+	}
+	
+	@Override
+	public String toExplain() {
+		return String.format("| %s |", desc);
 	}
 }

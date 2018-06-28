@@ -8,9 +8,7 @@
 
 	<reference id="meterService" interface="cn.techen.lbs.db.api.MeterService" />
 	
-	<reference id="funcService" interface="cn.techen.lbs.db.api.FuncService" />
-	
-	<reference id="funcElementService" interface="cn.techen.lbs.db.api.FuncElementService" />
+	<reference id="fnService" interface="cn.techen.lbs.db.api.FnService" />
 	
 	<reference id="mBaseService" interface="cn.techen.lbs.mm.api.MBaseService" />
 	
@@ -25,8 +23,7 @@
 	<bean id="mysql2RedisBean" class="cn.techen.lbs.data.Mysql2Redis">
 		<property name="lbsService" ref="lbsService"/>
 		<property name="meterService" ref="meterService"/>
-		<property name="funcService" ref="funcService"/>
-		<property name="funcElementService" ref="funcElementService"/>
+		<property name="fnService" ref="fnService"/>
 		<property name="mBaseService" ref="mBaseService"/>
 		<property name="mLbsService" ref="mLbsService"/>
 		<property name="mMeterService" ref="mMeterService"/>

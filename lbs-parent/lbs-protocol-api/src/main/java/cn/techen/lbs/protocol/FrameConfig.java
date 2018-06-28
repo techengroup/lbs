@@ -1,6 +1,6 @@
 package cn.techen.lbs.protocol;
 
-public interface FrameConfig {
+public interface FrameConfig extends IConfig {
 	enum State {
 		FINISHED(0),
 	    SENDING(1),
@@ -52,5 +52,7 @@ public interface FrameConfig {
 	        }
 	        throw new IllegalArgumentException("unknown " + Priority.class.getSimpleName() + " value: " + value);
 	    }
-    }	
+    }
+	
+	
 }

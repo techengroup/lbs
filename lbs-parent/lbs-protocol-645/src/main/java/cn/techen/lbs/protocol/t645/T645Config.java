@@ -1,9 +1,5 @@
 package cn.techen.lbs.protocol.t645;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-
 import cn.techen.lbs.protocol.FrameConfig;
 
 public interface T645Config extends FrameConfig {
@@ -193,11 +189,5 @@ public interface T645Config extends FrameConfig {
 	String getCommAddr();
 
 	T645Config setCommAddr(String commAddr);
-
-	List<String> func();
-	
-	Queue<Object> unit();
-
-	Map<String, Object> data();
 	
 }

@@ -24,8 +24,8 @@ public class EncodeHandler extends AbstractHandler {
 			ProtocolService protocolService = context.getProtocolManagerService().getProtocol(meter.getModuleprotocol());
 			ProtocolConfig config = new DefaultProtocolConfig();
 			config.setCommAddr(meter.running().getRoute()).setDir(DIR.CLIENT).setOperation(OPERATION.NET);
-			config.dataId().add("2");
-			config.dataUnit().add(meter.getLogicaddr());
+			config.funcs().add("2");
+			config.units().add(meter.getLogicaddr());
 			
 			byte[] frame = protocolService.encode(config);
 			ProtocolFrame pFrame = new ProtocolFrame();

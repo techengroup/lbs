@@ -9,10 +9,10 @@ import java.util.Map.Entry;
 import cn.techen.lbs.protocol.AbstractData;
 import cn.techen.lbs.protocol.AbstractElement;
 import cn.techen.lbs.protocol.AbstractFrame;
-import cn.techen.lbs.protocol.common.FuncElement;
+import cn.techen.lbs.protocol.common.Elements;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
+import cn.techen.lbs.protocol.common.Titles;
 import cn.techen.lbs.protocol.lora.common.Local;
-import cn.techen.lbs.protocol.lora.common.LoraFN;
-import cn.techen.lbs.protocol.lora.common.LoraHelper;
 
 public class DataField extends AbstractElement {
 	
@@ -36,13 +36,16 @@ public class DataField extends AbstractElement {
 	@Override
 	public String toExplain() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("[%s]H\r\n");
+		sb.append(String.format("[%s]H\r\n", ProtocolUtil.byte2HexString(ProtocolUtil.list2byte(byteList), true)));
 		for (Entry<Integer, List<AbstractData>> entry : data.entrySet()) {
 			Integer key = entry.getKey();	
 			List<AbstractData> aList = entry.getValue();
-			sb.append(String.format("%24s%4s : [%02d]H : %s", "", "Func", key, LoraFN.getEx(key.toString())));
-			for (AbstractData ad : aList) {
-				sb.append(String.format("\r\n%38s | %13s |", "", ad.getContent().toString()));
+			sb.append(String.format("%24s%s : [%02d]H : %s", "",  "Func", key, Titles.getInstace().get(key.toString())));
+			for (int i = 0; i < aList.size(); i++) {
+				if (i == 0) {
+					sb.append(String.format("\r\n%24s| %13s |", "", aList.get(i).getName()));
+				}
+				sb.append(String.format("\r\n%24s| %13s |", "", aList.get(i).getContent().toString()));
 			}
 		}
 		return sb.toString();
@@ -51,56 +54,52 @@ public class DataField extends AbstractElement {
 	public void decodeN(AbstractFrame frame) throws Exception {
 		if (frame.process().queue.size() > 2) {
 			int func = frame.process().queue.poll();
-			len++;
+			byteList.add((byte)func);
 
 			LoraConfig loraConfig = ((LoraConfig) frame.config());
-			String key = Local.CODE + ":" +loraConfig.getControl().value() + ":" + func  + ":" + loraConfig.getDir().value();
-			String format = FuncElement.getInstace().get(key);
+			String key = Local.CODE  + ":" + loraConfig.getDir().value() + ":" +loraConfig.getControl().value() + ":" + func;
+			dataTypes = Elements.getInstace().get(key);
 			
 			List<AbstractData> objList = new ArrayList<AbstractData>();
-			if (format != null && !format.equals("")) {
-				String[] units = format.split(":");
+			if (dataTypes != null && !dataTypes.equals("")) {
+				String dataClass = extract(dataTypes);
 				
-				for (String unit : units) {
-					String[] elements = unit.split(",");
-					AbstractData ad = LoraHelper.newData(elements[0], Integer.parseInt(elements[1]), elements[2], Integer.parseInt(elements[3]), elements[4]);
-					ad.decode(frame);
-					objList.add(ad);
-					len = len + ad.getLen();
-				}
+				AbstractData ad = ProtocolUtil.newData(dataClass, dataTypes);
+				ad.decode(frame);
+				byteList.addAll(ad.getByteList());
 			}
 			
 			data.put(func, objList);
-			
 			decodeN(frame);
-		}		
+		}
+		
+		len = byteList.size();
 	}
 	
 	public void encodeN(AbstractFrame frame) throws Exception {
 		LoraConfig loraConfig = ((LoraConfig) frame.config());
-		List<String> fList = loraConfig.func();
+		List<String> fList = loraConfig.funcs();
 		for (String func : fList) {
-			frame.process().vector.add(0, (byte)Integer.parseInt(func));
+			byte f = (byte)Integer.parseInt(func);
+			frame.process().vector.add(0, f);
+			byteList.add(f);
 			
-			String key = Local.CODE + ":" + loraConfig.getControl().value() + ":" + func  + ":" + loraConfig.getDir().value();
-			String format = FuncElement.getInstace().get(key);
-			len++;
+			String key = Local.CODE + ":" + loraConfig.getDir().value() + ":" + loraConfig.getControl().value() + ":" + func ;
+			dataTypes = Elements.getInstace().get(key);
 			
 			List<AbstractData> objList = new ArrayList<AbstractData>();
-			if (format != null && !format.equals("")) {
-				String[] units = format.split(":");
+			if (dataTypes != null && !dataTypes.equals("")) {
+				String dataClass = extract(dataTypes);
 				
-				for (String unit : units) {
-					String[] elements = unit.split(",");
-					AbstractData ad = LoraHelper.newData(elements[0], Integer.parseInt(elements[1]), elements[2], Integer.parseInt(elements[3]), elements[4]);
-					ad.encode(frame);
-					objList.add(ad);
-					len = len + ad.getLen();
-				}
+				AbstractData ad = ProtocolUtil.newData(dataClass, dataTypes);
+				ad.encode(frame);
+				byteList.addAll(ad.getByteList());
 			}
 			
 			data.put(Integer.parseInt(func), objList);
 		}
+		
+		len = byteList.size();
 	}
 
 

@@ -2,7 +2,7 @@ package cn.techen.lbs.device.manager;
 
 import java.util.Date;
 
-import cn.techen.lbs.db.model.Global;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.device.common.DeviceContext;
 import cn.techen.lbs.device.common.Local;
@@ -22,7 +22,7 @@ public class ProcessHandler {
 			ProtocolConfig config = context.getProtocolManagerService()
 					.getProtocol(context.getLbs().getLoraprotocol()).decode(frame.getReadBytes());
 			if (config != null) {					
-				Object obj = config.dataUnit().get(0);
+				Object obj = config.units().poll();
 				if (obj != null) {
 					int result  = Integer.parseInt(obj.toString());
 					if (result == 1) {
@@ -43,10 +43,10 @@ public class ProcessHandler {
 	public void encode(DeviceContext context, Integer fn, LBS lbs)  throws Exception {		
 		ProtocolConfig config = new DefaultProtocolConfig();
 		config.setDir(DIR.CLIENT).setOperation(OPERATION.SET);
-		config.dataId().add(String.valueOf(fn));
-		if (fn >= 1) config.dataUnit().add(lbs.getModuleaddr());
-		if (fn >= 2) config.dataUnit().add(lbs.getLogicaddr());
-		if (fn >= 3) config.dataUnit().add(lbs.getChannel());		
+		config.funcs().add(String.valueOf(fn));
+		if (fn >= 1) config.units().add(lbs.getModuleaddr());
+		if (fn >= 2) config.units().add(lbs.getLogicaddr());
+		if (fn >= 3) config.units().add(lbs.getChannel());		
 		
 		byte[] frame = context.getProtocolManagerService().getProtocol(lbs.getLoraprotocol()).encode(config);
 		ProtocolFrame pFrame = new ProtocolFrame();

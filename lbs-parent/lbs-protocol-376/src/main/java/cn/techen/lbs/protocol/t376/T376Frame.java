@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.protocol.AbstractFrame;
-import cn.techen.lbs.protocol.ProtocolUtil;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 
 public class T376Frame extends AbstractFrame {
 	private static final Logger log = (Logger) LoggerFactory  

@@ -67,7 +67,7 @@ public class ProcessHandler {
 		protocolService = context.getProtocolManagerService().getProtocol(meter.getModuleprotocol());
 		config = new DefaultProtocolConfig();
 		config.setCommAddr(reportFrame.getCommAddr()).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
-		config.dataUnit().add(frame);		
+		config.units().add(frame);		
 		frame = protocolService.encode(config);
 		
 		ProtocolFrame eventFrame = new ProtocolFrame();
@@ -87,7 +87,7 @@ public class ProcessHandler {
 			ProtocolService protocolService = context.getProtocolManagerService()
 					.getProtocol(meter.getModuleprotocol());
 			protocolConfig = protocolService.decode(readBytes);			
-			byte[] transBytes = (byte[]) protocolConfig.dataUnit().get(0);
+			byte[] transBytes = (byte[]) protocolConfig.units().poll();
 			
 			protocolService = context.getProtocolManagerService()
 					.getProtocol(meter.getProtocol());

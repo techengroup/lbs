@@ -2,7 +2,7 @@ package cn.techen.lbs.protocol.t645;
 
 import cn.techen.lbs.protocol.AbstractElement;
 import cn.techen.lbs.protocol.AbstractFrame;
-import cn.techen.lbs.protocol.ProtocolUtil;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.t645.T645Config.Answer;
 import cn.techen.lbs.protocol.t645.T645Config.Control;
 import cn.techen.lbs.protocol.t645.T645Config.DIR;

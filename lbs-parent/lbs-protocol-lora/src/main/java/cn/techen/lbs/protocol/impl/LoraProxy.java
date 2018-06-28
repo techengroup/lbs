@@ -49,9 +49,9 @@ public class LoraProxy {
 		ProtocolConfig protocolConfig = new DefaultProtocolConfig();
 		protocolConfig.setDir(dir2dir(loraConfig, protocolConfig))
 			.setOperation(op2control(loraConfig, protocolConfig)).setCommAddr(addr2addr(loraConfig));
-		protocolConfig.userData().putAll(loraConfig.data());
-		protocolConfig.dataId().addAll(loraConfig.func());
-		protocolConfig.dataUnit().addAll(loraConfig.unit());
+		protocolConfig.runs().putAll(loraConfig.runs());
+		protocolConfig.funcs().addAll(loraConfig.funcs());
+		protocolConfig.units().addAll(loraConfig.units());
 		return protocolConfig;
 	}
 	
@@ -59,11 +59,11 @@ public class LoraProxy {
 		LoraFrame loraFrame = new LoraFrame();		
 		LoraConfig loraConfig = (LoraConfig) loraFrame.config();		
 		loraConfig.setDir(dir2dir(config)).setControl(op2control(config));
-		loraConfig.data().putAll(config.userData());
+		loraConfig.runs().putAll(config.runs());
 		addr2addr(config, loraConfig);
 		data2data(config, loraConfig);
-		loraConfig.func().addAll(config.dataId());
-		loraConfig.unit().addAll(config.dataUnit());
+		loraConfig.funcs().addAll(config.funcs());
+		loraConfig.units().addAll(config.units());
 		loraFrame.encode();
 		
 		return loraFrame.getBytes();
@@ -163,7 +163,7 @@ public class LoraProxy {
 
 	private void data2data(ProtocolConfig config, LoraConfig loraConfig) {
 		Channel channel = Channel.CHANNEL_0;
-		Object obj = config.userData().get("Channel");
+		Object obj = config.runs().get("Channel");
 		if (obj != null && !obj.toString().trim().equals("")) {
 			channel = Channel.valueOf(Integer.parseInt(obj.toString()));
 		}

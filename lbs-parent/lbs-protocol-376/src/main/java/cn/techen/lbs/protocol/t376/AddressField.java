@@ -2,7 +2,7 @@ package cn.techen.lbs.protocol.t376;
 
 import cn.techen.lbs.protocol.AbstractElement;
 import cn.techen.lbs.protocol.AbstractFrame;
-import cn.techen.lbs.protocol.ProtocolUtil;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 
 public class AddressField extends AbstractElement {
 	
@@ -19,10 +19,10 @@ public class AddressField extends AbstractElement {
 	public void decode(AbstractFrame frame) throws Exception {
 		int value = 0x00;
 		
-		bytes[0] = frame.process().queue.poll();
 		bytes[1] = frame.process().queue.poll();
-		bytes[2] = frame.process().queue.poll();
+		bytes[0] = frame.process().queue.poll();
 		bytes[3] = frame.process().queue.poll();
+		bytes[2] = frame.process().queue.poll();
 		bytes[4] = frame.process().queue.poll();
 		
 		addr = ProtocolUtil.bcd2Str(bytes[0]);
@@ -31,6 +31,9 @@ public class AddressField extends AbstractElement {
 		value = (value << 8) + bytes[3];
 		addr += ProtocolUtil.zeroFill(5, value);
 		flag = bytes[4];
+		
+		T376Config t376Config = ((T376Config) frame.config());
+		t376Config.setCommAddr(addr);
 	}
 
 	@Override
@@ -50,10 +53,10 @@ public class AddressField extends AbstractElement {
 		bytes[4] = flag;
 		
 		frame.process().vector.add(0, bytes[4]);
-		frame.process().vector.add(0, bytes[3]);
-		frame.process().vector.add(0, bytes[2]);		
-		frame.process().vector.add(0, bytes[1]);
+		frame.process().vector.add(0, bytes[2]);
+		frame.process().vector.add(0, bytes[3]);		
 		frame.process().vector.add(0, bytes[0]);
+		frame.process().vector.add(0, bytes[1]);
 	}
 
 	@Override

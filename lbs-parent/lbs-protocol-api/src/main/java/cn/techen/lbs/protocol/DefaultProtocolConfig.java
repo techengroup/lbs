@@ -1,23 +1,12 @@
 package cn.techen.lbs.protocol;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class DefaultProtocolConfig implements ProtocolConfig {
+public class DefaultProtocolConfig extends AbstractConfig implements ProtocolConfig {
 	
 	private String commAddr;
 	
 	private DIR dir;
 	
 	private OPERATION operation;
-	
-	private Map<String, Object> userData = new HashMap<String, Object>();//key-value
-	
-	private List<String> dataId = new ArrayList<String>();//X:X
-	
-	private List<Object> dataUnit = new ArrayList<Object>();//X:X
 
 	@Override
 	public String getCommAddr() {
@@ -50,21 +39,6 @@ public class DefaultProtocolConfig implements ProtocolConfig {
 	public DefaultProtocolConfig setOperation(OPERATION operation) {
 		this.operation = operation;
 		return this;
-	}
-
-	@Override
-	public Map<String, Object> userData() {
-		return userData;
-	}
-
-	@Override
-	public List<String> dataId() {
-		return dataId;
-	}
-
-	@Override
-	public List<Object> dataUnit() {
-		return dataUnit;
 	}
 	
 }

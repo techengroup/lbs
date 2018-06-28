@@ -20,7 +20,7 @@ public class DecodeHandler extends AbstractHandler {
 			ProtocolService protocolService = context.getProtocolManagerService()
 					.getProtocol(context.getMeter().getModuleprotocol());
 			ProtocolConfig protocolConfig = protocolService.decode(readBytes);
-			int rssi = Integer.parseInt(protocolConfig.userData().get("RSSI").toString());	
+			int rssi = Integer.parseInt(protocolConfig.runs().get("RSSI").toString());	
 			meter.setSignal(rssi);
 			
 			if (Local.SFACTOR <= rssi) {				
