@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-06-22 17:04:11
+Date: 2018-06-28 17:21:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -179,7 +179,7 @@ CREATE TABLE `prm_meter` (
   `REGOn` datetime DEFAULT NULL,
   `UNREGOn` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of prm_meter
@@ -187,7 +187,32 @@ CREATE TABLE `prm_meter` (
 INSERT INTO `prm_meter` VALUES ('63', '1', '1', '180503200079', '-1', '0007', '0', '0', null, null, null, null, '120.0274500000', '30.3132270000', '4397.00', '187.870', '13', '87', '1', '0', '0', '0', '0', '0/', '0', '0', '2018-05-31 13:36:58', null, null, null);
 INSERT INTO `prm_meter` VALUES ('67', '1', '1', '00000002', '-1', '0002', '0', '0', '1', '2', null, '3', '119.4670000000', '30.3130000000', '58175.00', '180.802', '13', '1163', '0', '0', '0', '0', '0', '0/', '0', '0', '2018-06-12 17:59:56', null, null, null);
 INSERT INTO `prm_meter` VALUES ('68', '1', '1', '00000003', '-1', '0003', '0', '0', '1', null, null, null, '120.0270000000', '29.6250000000', '77600.00', '278.132', '19', '1552', '1', '0', '0', '0', '0', '0/', '0', '0', '2018-06-12 18:01:20', null, null, null);
-INSERT INTO `prm_meter` VALUES ('69', '1', '1', '00000005', '-1', '0004', '1', '0', null, null, null, null, '120.1240000000', '29.6250000000', '77637.00', '288.823', '20', '1552', '0', '0', '0', '0', '0', '0/', '0', '0', '2018-06-12 18:12:27', null, null, null);
+INSERT INTO `prm_meter` VALUES ('69', '1', '1', '00000015', '-1', '0004', '1', '0', null, null, null, null, '120.1240000000', '29.6250000000', '77637.00', '288.823', '20', '1552', '0', '0', '0', '0', '0', '0/', '0', '0', '2018-06-12 18:12:27', null, null, null);
+INSERT INTO `prm_meter` VALUES ('70', '1', '1', '00000018', '-1', '', '0', '0', '1', '2', null, '3', '119.0000000000', '30.1200000000', '105544.00', '192.076', '13', '2110', '2', '0', '0', '0', '0', '0/', '0', '0', '2018-06-27 12:02:41', null, null, null);
+
+-- ----------------------------
+-- Table structure for ptl_element
+-- ----------------------------
+DROP TABLE IF EXISTS `ptl_element`;
+CREATE TABLE `ptl_element` (
+  `ID` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `Name` varchar(60) NOT NULL,
+  `ClassName` varchar(60) NOT NULL,
+  `Length` int(3) NOT NULL DEFAULT '0',
+  `Format` varchar(200) NOT NULL,
+  `Rank` int(1) NOT NULL DEFAULT '1',
+  `Remark` varchar(200) DEFAULT NULL,
+  `SaveTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ptl_element
+-- ----------------------------
+INSERT INTO `ptl_element` VALUES ('1', 'Long address', 'BCD_STRING', '4', 'xxxxxxxx', '1', null, '2018-06-22 16:01:26');
+INSERT INTO `ptl_element` VALUES ('2', 'Short address', 'BCD_STRING', '2', 'xxxx', '1', null, '2018-06-22 16:02:19');
+INSERT INTO `ptl_element` VALUES ('3', 'Channel', 'OCT_STRING', '1', 'xx', '1', null, '2018-06-22 16:03:12');
+INSERT INTO `ptl_element` VALUES ('4', 'Envent Code', 'BIT_STRING', '4', 'xxxx', '1', null, '2018-06-22 16:05:50');
 
 -- ----------------------------
 -- Table structure for ptl_fn
@@ -195,51 +220,35 @@ INSERT INTO `prm_meter` VALUES ('69', '1', '1', '00000005', '-1', '0004', '1', '
 DROP TABLE IF EXISTS `ptl_fn`;
 CREATE TABLE `ptl_fn` (
   `Protocol` int(3) NOT NULL,
-  `Code` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `SqlTemplate` varchar(200) DEFAULT NULL,
-  `Elements` varchar(200) NOT NULL,
-  `SaveTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`Protocol`,`Code`)
+  `Direction` int(1) NOT NULL,
+  `Operation` varchar(2) NOT NULL,
+  `Fn` varchar(8) NOT NULL,
+  `Name` varchar(40) DEFAULT NULL,
+  `Elements` varchar(2000) DEFAULT NULL,
+  `Titles` varchar(200) DEFAULT NULL,
+  `Remark` varchar(200) DEFAULT NULL,
+  `SaveTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Protocol`,`Direction`,`Operation`,`Fn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ptl_fn
 -- ----------------------------
-INSERT INTO `ptl_fn` VALUES ('0', '1:2:0', null, '2/', '2018-06-22 15:39:57');
-INSERT INTO `ptl_fn` VALUES ('0', '2:5:1', null, '4/', '2018-06-22 16:06:06');
-INSERT INTO `ptl_fn` VALUES ('0', '3:1:1', null, '1/', '2018-06-22 16:07:40');
-INSERT INTO `ptl_fn` VALUES ('0', '3:2:1', null, '2/', '2018-06-22 16:08:13');
-INSERT INTO `ptl_fn` VALUES ('0', '3:3:1', null, '3/', '2018-06-22 16:08:44');
-INSERT INTO `ptl_fn` VALUES ('0', '3:4:1', null, '1/2/3/', '2018-06-22 16:13:20');
-INSERT INTO `ptl_fn` VALUES ('0', '4:1:0', null, '1/', '2018-06-22 16:13:15');
-INSERT INTO `ptl_fn` VALUES ('0', '4:2:0', null, '2/', '2018-06-22 16:13:49');
-INSERT INTO `ptl_fn` VALUES ('0', '4:3:0', null, '3/', '2018-06-22 16:14:20');
-INSERT INTO `ptl_fn` VALUES ('0', '4:4:0', null, '1/2/3/', '2018-06-22 16:14:49');
-INSERT INTO `ptl_fn` VALUES ('100', '0A:3:0', 'select ip, port, ip1, port1, apn from prm_lbs where id=%s', '1/', '2018-06-22 15:33:46');
-INSERT INTO `ptl_fn` VALUES ('100', '0A:3:1', 'select ip, port, ip1, port1, apn from prm_lbs', '2/', '2018-06-22 15:33:49');
-
--- ----------------------------
--- Table structure for ptl_fn_element
--- ----------------------------
-DROP TABLE IF EXISTS `ptl_fn_element`;
-CREATE TABLE `ptl_fn_element` (
-  `ID` int(2) unsigned NOT NULL AUTO_INCREMENT,
-  `ClassName` varchar(60) NOT NULL,
-  `Length` int(3) NOT NULL DEFAULT '0',
-  `Format` varchar(200) NOT NULL,
-  `Rank` int(1) NOT NULL DEFAULT '1',
-  `Display` varchar(60) NOT NULL,
-  `SaveTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ptl_fn_element
--- ----------------------------
-INSERT INTO `ptl_fn_element` VALUES ('1', 'BCD_STRING', '4', 'xxxxxxxx', '1', 'Long address', '2018-06-22 16:01:26');
-INSERT INTO `ptl_fn_element` VALUES ('2', 'BCD_STRING', '2', 'xxxx', '1', 'Short address', '2018-06-22 16:02:19');
-INSERT INTO `ptl_fn_element` VALUES ('3', 'OCT_STRING', '1', 'xx', '1', 'Channel', '2018-06-22 16:03:12');
-INSERT INTO `ptl_fn_element` VALUES ('4', 'BIT_STRING', '4', 'xxxx', '1', 'Envent Code', '2018-06-22 16:05:50');
+INSERT INTO `ptl_fn` VALUES ('0', '0', '1', '2', 'Short Address', 'BCD_STRING,2,xxxx,1', 'Short address', null, '2018-06-26 16:41:56');
+INSERT INTO `ptl_fn` VALUES ('0', '0', '4', '1', '/', '1/', null, null, '2018-06-25 15:57:20');
+INSERT INTO `ptl_fn` VALUES ('0', '0', '4', '2', '/', '2/', null, null, '2018-06-25 15:57:20');
+INSERT INTO `ptl_fn` VALUES ('0', '0', '4', '3', '/', '3/', null, null, '2018-06-25 15:57:23');
+INSERT INTO `ptl_fn` VALUES ('0', '0', '4', '4', '/', '1/2/3/', null, null, '2018-06-25 15:57:16');
+INSERT INTO `ptl_fn` VALUES ('0', '1', '2', '5', '/', '4/', null, null, '2018-06-25 15:56:20');
+INSERT INTO `ptl_fn` VALUES ('0', '1', '3', '1', '/', '1/', null, null, '2018-06-25 15:56:37');
+INSERT INTO `ptl_fn` VALUES ('0', '1', '3', '2', '/', '2/', null, null, '2018-06-25 15:56:43');
+INSERT INTO `ptl_fn` VALUES ('0', '1', '6', '1', null, '3/', null, '0', '2018-06-27 11:49:59');
+INSERT INTO `ptl_fn` VALUES ('0', '1', '6', '2', null, '3/', null, '0', '2018-06-27 11:50:27');
+INSERT INTO `ptl_fn` VALUES ('0', '1', '6', '3', null, '3/', null, '0', '2018-06-27 11:52:43');
+INSERT INTO `ptl_fn` VALUES ('0', '1', '6', '4', null, '3/', null, '0', '2018-06-27 11:53:49');
+INSERT INTO `ptl_fn` VALUES ('1', '1', '6', '6', 'Test', '3/', null, '0', '2018-06-27 13:34:13');
+INSERT INTO `ptl_fn` VALUES ('100', '0', '0A', '3', '/', '1/', null, null, '2018-06-28 10:40:50');
+INSERT INTO `ptl_fn` VALUES ('100', '1', '0A', '3', '/', '2/', null, null, '2018-06-28 10:40:55');
 
 -- ----------------------------
 -- Table structure for run_param
