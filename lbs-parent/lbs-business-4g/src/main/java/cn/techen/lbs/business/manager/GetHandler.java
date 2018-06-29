@@ -2,7 +2,7 @@ package cn.techen.lbs.business.manager;
 
 import cn.techen.lbs.business.common.BusinessContext;
 import cn.techen.lbs.business.common.BusinessUtil;
-import cn.techen.lbs.data.protocol.AbstractSQL;
+import cn.techen.lbs.db.common.AbstractSQL;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;

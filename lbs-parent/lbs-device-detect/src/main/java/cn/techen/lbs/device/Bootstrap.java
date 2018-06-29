@@ -41,29 +41,12 @@ public class Bootstrap {
 					Thread.sleep(Local.DETECTMILLIS);
 										
 					if (Global.DBReady) {
-						int fn = 0;
 						LBS oLbs = context.getLbs();
 						LBS lbs = context.getmLbsService().get();
-						if (oLbs == null) {
-							fn = 4;
-						} else {
-							if (!lbs.getModuleaddr().equals(oLbs.getModuleaddr()) && 
-									lbs.getLogicaddr().equals(oLbs.getLogicaddr()) && lbs.getChannel().equals(oLbs.getChannel())) {
-								fn = 1;
-							} else if (!lbs.getLogicaddr().equals(oLbs.getLogicaddr()) && 
-									lbs.getModuleaddr().equals(oLbs.getModuleaddr()) && lbs.getChannel().equals(oLbs.getChannel())) {
-								fn = 2;
-							} else if (!lbs.getChannel().equals(oLbs.getChannel()) && 
-									lbs.getModuleaddr().equals(oLbs.getModuleaddr()) && lbs.getLogicaddr().equals(oLbs.getLogicaddr())) {
-								fn = 3;
-							} else {
-								fn = 4;
-							}								
-						}
-						if (fn > 0) {
+						if (oLbs == null || !lbs.getChannel().equals(oLbs.getChannel())) {
 							Global.LoraReady = false;
 							context.setLbs(lbs);
-							context.fireEncode(fn);
+							context.fireEncode();
 						}
 					}
 				} catch (Exception e) {

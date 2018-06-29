@@ -11,7 +11,6 @@ import cn.techen.lbs.db.api.FnService;
 import cn.techen.lbs.db.api.LbsService;
 import cn.techen.lbs.db.api.MeterService;
 import cn.techen.lbs.db.common.Global;
-import cn.techen.lbs.db.common.Sqls;
 import cn.techen.lbs.db.model.Fn;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.db.model.Meter;
@@ -121,7 +120,6 @@ public class Mysql2Redis implements Runnable {
 				FnNames.getInstace().put(key, fn.getName());				
 				Elements.getInstace().put(key, fn.getElements());
 				Titles.getInstace().put(key, fn.getTitles());
-				Sqls.getInstance().put(key, fn.getSqls());
 			}
 		}		
 		

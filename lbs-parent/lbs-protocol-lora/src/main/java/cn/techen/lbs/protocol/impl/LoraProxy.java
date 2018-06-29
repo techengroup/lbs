@@ -84,9 +84,9 @@ public class LoraProxy {
 	
 	private ProtocolConfig.OPERATION op2control(LoraConfig loraConfig, ProtocolConfig config) {
 		ProtocolConfig.OPERATION op = null;
-		switch (loraConfig.getControl()) {
+		switch (loraConfig.getControl()) {		
 		case NET:
-			op = ProtocolConfig.OPERATION.NET;
+			op = ProtocolConfig.OPERATION.LOGIN;
 			break;
 		case READ:
 			op = ProtocolConfig.OPERATION.GET;
@@ -99,6 +99,9 @@ public class LoraProxy {
 			break;
 		case REPORT:
 			op = ProtocolConfig.OPERATION.REPORT;
+			break;
+		case EXIT:
+			op = ProtocolConfig.OPERATION.LOGOUT;
 			break;
 		default:
 			break;
@@ -140,7 +143,7 @@ public class LoraProxy {
 	private Control op2control(ProtocolConfig config) {
 		Control control = null;
 		switch (config.getOperation()) {
-		case NET:
+		case LOGIN:
 			control = Control.NET;
 			break;
 		case GET:
@@ -154,6 +157,9 @@ public class LoraProxy {
 			break;
 		case REPORT:
 			control = Control.REPORT;
+			break;
+		case LOGOUT:
+			control = Control.EXIT;
 			break;
 		default:
 			break;

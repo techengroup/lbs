@@ -50,9 +50,9 @@ public class DeviceContext {
 		}
 	}
 	
-	public void fireEncode(Integer fn) {
+	public void fireEncode() {
 		try {
-			processHandler.encode(this, fn, lbs);
+			processHandler.encode(this, lbs);
 		} catch (Exception e) {
 			processHandler.exceptionCaught(this, e.getCause());
 		}

@@ -1,8 +1,6 @@
 package cn.techen.lbs.protocol.lora;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -16,7 +14,7 @@ import cn.techen.lbs.protocol.lora.common.Local;
 
 public class DataField extends AbstractElement {
 	
-	private Map<Integer, List<AbstractData>> data = new HashMap<Integer, List<AbstractData>>();
+	private Map<String, AbstractData> adMap = new HashMap<String, AbstractData>();
 
 	public DataField() {
 		title="Datas";
@@ -37,15 +35,13 @@ public class DataField extends AbstractElement {
 	public String toExplain() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(String.format("[%s]H\r\n", ProtocolUtil.byte2HexString(ProtocolUtil.list2byte(byteList), true)));
-		for (Entry<Integer, List<AbstractData>> entry : data.entrySet()) {
-			Integer key = entry.getKey();	
-			List<AbstractData> aList = entry.getValue();
-			sb.append(String.format("%24s%s : [%02d]H : %s", "",  "Func", key, Titles.getInstace().get(key.toString())));
-			for (int i = 0; i < aList.size(); i++) {
-				if (i == 0) {
-					sb.append(String.format("\r\n%24s| %13s |", "", aList.get(i).getName()));
-				}
-				sb.append(String.format("\r\n%24s| %13s |", "", aList.get(i).getContent().toString()));
+		
+		for (Entry<String, AbstractData> entry : adMap.entrySet()) {
+			String func = entry.getKey();	
+			AbstractData ad = entry.getValue();
+			sb.append(String.format("%24s%s : [%s] [%s]", "",  "Func", func, Titles.getInstace().get(func)));
+			if (ad != null) {
+				sb.append(String.format("\r\n%24s| %13s |", "", ad.toExplain()));
 			}
 		}
 		return sb.toString();
@@ -60,16 +56,16 @@ public class DataField extends AbstractElement {
 			String key = Local.CODE  + ":" + loraConfig.getDir().value() + ":" +loraConfig.getControl().value() + ":" + func;
 			dataTypes = Elements.getInstace().get(key);
 			
-			List<AbstractData> objList = new ArrayList<AbstractData>();
+			AbstractData ad = null;
 			if (dataTypes != null && !dataTypes.equals("")) {
 				String dataClass = extract(dataTypes);
 				
-				AbstractData ad = ProtocolUtil.newData(dataClass, dataTypes);
+				ad = ProtocolUtil.newData(dataClass, dataTypes);
 				ad.decode(frame);
 				byteList.addAll(ad.getByteList());
 			}
 			
-			data.put(func, objList);
+			adMap.put(String.valueOf(func), ad);
 			decodeN(frame);
 		}
 		
@@ -78,8 +74,7 @@ public class DataField extends AbstractElement {
 	
 	public void encodeN(AbstractFrame frame) throws Exception {
 		LoraConfig loraConfig = ((LoraConfig) frame.config());
-		List<String> fList = loraConfig.funcs();
-		for (String func : fList) {
+		for (String func : loraConfig.funcs()) {
 			byte f = (byte)Integer.parseInt(func);
 			frame.process().vector.add(0, f);
 			byteList.add(f);
@@ -87,16 +82,16 @@ public class DataField extends AbstractElement {
 			String key = Local.CODE + ":" + loraConfig.getDir().value() + ":" + loraConfig.getControl().value() + ":" + func ;
 			dataTypes = Elements.getInstace().get(key);
 			
-			List<AbstractData> objList = new ArrayList<AbstractData>();
+			AbstractData ad = null;
 			if (dataTypes != null && !dataTypes.equals("")) {
 				String dataClass = extract(dataTypes);
 				
-				AbstractData ad = ProtocolUtil.newData(dataClass, dataTypes);
+				ad = ProtocolUtil.newData(dataClass, dataTypes);
 				ad.encode(frame);
 				byteList.addAll(ad.getByteList());
 			}
 			
-			data.put(Integer.parseInt(func), objList);
+			adMap.put(func, ad);
 		}
 		
 		len = byteList.size();

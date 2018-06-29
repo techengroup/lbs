@@ -16,7 +16,6 @@ public class Fn extends MyModel {
 	private String function;
 	private String name;
 	private String titles;
-	private String sqls;
 	private String elements;
 	
 	public Integer getProtocol() {
@@ -55,12 +54,6 @@ public class Fn extends MyModel {
 	public void setTitles(String titles) {
 		this.titles = titles;
 	}	
-	public String getSqls() {
-		return sqls;
-	}
-	public void setSqls(String sqls) {
-		this.sqls = sqls;
-	}
 	public String getElements() {
 		return elements;
 	}

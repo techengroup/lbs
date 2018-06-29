@@ -11,7 +11,6 @@ public class ASCII extends AbstractData{
 		bytes = new byte[len];
 		format = extract(dataTypes);
 		sort = Integer.parseInt(extract(dataTypes));
-		name = extract(dataTypes);
 	}
 
 	@Override

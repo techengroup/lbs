@@ -32,7 +32,6 @@ public interface ProtocolConfig extends IConfig {
     }
 	
 	enum OPERATION {
-		NET(0),
         GET(1),
         SET(2),
         ACTION(3),

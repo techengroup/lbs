@@ -5,7 +5,7 @@
     <artifactId>lbs-parent</artifactId>
     <version>1.0</version>
   </parent>
-  <artifactId>lbs-data-protocol</artifactId>
+  <artifactId>lbs-data-sql</artifactId>
   <packaging>bundle</packaging>
 
 	<dependencies>

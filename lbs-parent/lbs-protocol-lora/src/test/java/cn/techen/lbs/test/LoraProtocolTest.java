@@ -43,7 +43,7 @@ public class LoraProtocolTest extends TestCase {
 	
 	public void test() {
 		ProtocolConfig config = new DefaultProtocolConfig();
-		config.setCommAddr("00000003,170903400023").setDir(DIR.CLIENT).setOperation(OPERATION.NET);
+		config.setCommAddr("00000003,170903400023").setDir(DIR.CLIENT).setOperation(OPERATION.LOGIN);
 		config.funcs().add("2");
 		config.units().add("0003");
 		

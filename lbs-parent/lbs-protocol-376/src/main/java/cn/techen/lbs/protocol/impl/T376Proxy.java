@@ -108,8 +108,6 @@ public class T376Proxy {
 
 	private void op2control(ProtocolConfig config, T376Config t376Config) {
 		switch (config.getOperation()) {
-		case NET:
-			break;
 		case GET:
 			break;
 		case SET:

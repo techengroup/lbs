@@ -8,19 +8,20 @@ import cn.techen.lbs.protocol.AbstractData;
 import cn.techen.lbs.protocol.AbstractFrame;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
 
-public class ARRAY2 extends AbstractData {	
-	private int lenByte = 2;
+public class ARRAY extends AbstractData {	
+	private int byteLen = 2;
 	private List<String> typeArray;
 	private List<AbstractData> adList = new ArrayList<>();
 
-	public ARRAY2(String types) {
+	public ARRAY(String types) {
 		dataTypes = types;
-		typeArray = Arrays.asList(types.split(","));
+		byteLen = Integer.parseInt(extract(dataTypes));
+		typeArray = Arrays.asList(dataTypes.split(","));
 	}
 
 	@Override
 	public void decode(AbstractFrame frame) throws Exception {
-		for (int i = 0; i < lenByte; i++) {
+		for (int i = 0; i < byteLen; i++) {
 			byte b = frame.process().queue.poll();
 			len = (b & 0xff) << (8 * i);
 			byteList.add(b);
@@ -45,7 +46,7 @@ public class ARRAY2 extends AbstractData {
 	public void encode(AbstractFrame frame) throws Exception {
 		len = Integer.parseInt(frame.config().units().poll().toString());
 		
-		for (int i = 0; i < lenByte; i++) {
+		for (int i = 0; i < byteLen; i++) {
 			byte b = (byte) ((len << (8 * i)) & 0xff);
 			frame.process().vector.add(b);
 			byteList.add(b);

@@ -29,7 +29,7 @@ public class FnServiceImpl implements FnService {
 		try {
 			List<Fn> list = new ArrayList<Fn>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select protocol, direction, operation, function, name, elements, titles, sqls from PTL_FN");
+			ddl.append("select protocol, direction, operation, function, name, elements, titles from PTL_FN");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			ResultSet rs = stmt.executeQuery();
@@ -40,7 +40,6 @@ public class FnServiceImpl implements FnService {
 				fn.setOperation(rs.getString("operation"));
 				fn.setFunction(rs.getString("function"));
 				fn.setName(rs.getString("name"));
-				fn.setSqls(rs.getString("sqls"));
 				fn.setElements(rs.getString("elements"));
 				list.add(fn);
 			}
@@ -98,7 +97,7 @@ public class FnServiceImpl implements FnService {
 		try {
 			List<Fn> list = new ArrayList<Fn>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select protocol, direction, operation, function, name, elements, sqls from PTL_FN");
+			ddl.append("select protocol, direction, operation, function, name, elements from PTL_FN");
 			ddl.append("where savetime>?");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
@@ -111,7 +110,6 @@ public class FnServiceImpl implements FnService {
 				fn.setOperation(rs.getString("operation"));
 				fn.setFunction(rs.getString("function"));
 				fn.setName(rs.getString("name"));
-				fn.setSqls(rs.getString("sqls"));
 				fn.setElements(rs.getString("elements"));
 				list.add(fn);
 			}

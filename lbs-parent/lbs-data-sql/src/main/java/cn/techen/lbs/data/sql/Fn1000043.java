@@ -1,6 +1,8 @@
-package cn.techen.lbs.data.protocol;
+package cn.techen.lbs.data.sql;
 
 import java.util.Queue;
+
+import cn.techen.lbs.db.common.AbstractSQL;
 
 public class Fn1000043 extends AbstractSQL {
 

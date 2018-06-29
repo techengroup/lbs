@@ -23,7 +23,7 @@ public class EncodeHandler extends AbstractHandler {
 			
 			ProtocolService protocolService = context.getProtocolManagerService().getProtocol(meter.getModuleprotocol());
 			ProtocolConfig config = new DefaultProtocolConfig();
-			config.setCommAddr(meter.running().getRoute()).setDir(DIR.CLIENT).setOperation(OPERATION.NET);
+			config.setCommAddr(meter.running().getRoute()).setDir(DIR.CLIENT).setOperation(OPERATION.LOGIN);
 			config.funcs().add("2");
 			config.units().add(meter.getLogicaddr());
 			

@@ -40,13 +40,11 @@ public class ProcessHandler {
 		}
 	}
 
-	public void encode(DeviceContext context, Integer fn, LBS lbs)  throws Exception {		
+	public void encode(DeviceContext context, LBS lbs)  throws Exception {		
 		ProtocolConfig config = new DefaultProtocolConfig();
 		config.setDir(DIR.CLIENT).setOperation(OPERATION.SET);
-		config.funcs().add(String.valueOf(fn));
-		if (fn >= 1) config.units().add(lbs.getModuleaddr());
-		if (fn >= 2) config.units().add(lbs.getLogicaddr());
-		if (fn >= 3) config.units().add(lbs.getChannel());		
+		config.funcs().add(String.valueOf(3));
+		config.units().add(lbs.getChannel());	
 		
 		byte[] frame = context.getProtocolManagerService().getProtocol(lbs.getLoraprotocol()).encode(config);
 		ProtocolFrame pFrame = new ProtocolFrame();
