@@ -3,7 +3,6 @@ package cn.techen.lbs.device.manager;
 import java.util.Date;
 
 import cn.techen.lbs.db.common.Global;
-import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.device.common.DeviceContext;
 import cn.techen.lbs.device.common.Local;
 import cn.techen.lbs.mm.api.MTaskService;
@@ -27,6 +26,7 @@ public class ProcessHandler {
 					int result  = Integer.parseInt(obj.toString());
 					if (result == 1) {
 						Global.LoraReady = true;
+						context.setLbs(context.getnLbs());
 						context.setState(State.FINISHED);
 					} else {
 						rewrite(context, frame);
@@ -40,13 +40,13 @@ public class ProcessHandler {
 		}
 	}
 
-	public void encode(DeviceContext context, LBS lbs)  throws Exception {		
+	public void encode(DeviceContext context)  throws Exception {		
 		ProtocolConfig config = new DefaultProtocolConfig();
 		config.setDir(DIR.CLIENT).setOperation(OPERATION.SET);
 		config.funcs().add(String.valueOf(3));
-		config.units().add(lbs.getChannel());	
+		config.units().add(context.getnLbs().getChannel());	
 		
-		byte[] frame = context.getProtocolManagerService().getProtocol(lbs.getLoraprotocol()).encode(config);
+		byte[] frame = context.getProtocolManagerService().getProtocol(context.getnLbs().getLoraprotocol()).encode(config);
 		ProtocolFrame pFrame = new ProtocolFrame();
 		pFrame.setPriority(context.PRIORITY);
 		pFrame.setWriteBytes(frame);

@@ -8,4 +8,5 @@ cn\techen\lbs\lora\common\Local.class
 cn\techen\lbs\lora\mananger\ReadHandler.class
 cn\techen\lbs\lora\mananger\LoraChannel.class
 cn\techen\lbs\lora\mananger\StoreHandler.class
+cn\techen\lbs\lora\mananger\WriteHandler.class
 cn\techen\lbs\lora\Bootstrap.class

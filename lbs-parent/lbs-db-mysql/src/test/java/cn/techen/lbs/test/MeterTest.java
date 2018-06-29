@@ -27,7 +27,7 @@ public class MeterTest extends TestCase {
 			log.info("Size: {} ", meters.size() );
 		}
 						
-		log.info("There is no any sector{}.", "");
+		log.info("There is no any sector{}.", "");		
 	}
 
 }

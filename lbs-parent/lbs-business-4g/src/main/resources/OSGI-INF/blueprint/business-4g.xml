@@ -4,7 +4,7 @@
            xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.2.0"
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
-	<reference id="sqlService" interface="cn.techen.lbs.db.api.SqlService" />
+	<reference id="generalService" interface="cn.techen.lbs.db.api.GeneralService" />
 	
 	<reference id="mLbsService" interface="cn.techen.lbs.mm.api.MLbsService" />
 
@@ -23,7 +23,7 @@
 	</bean> -->
 	
 	<bean id="businessContextBean" class="cn.techen.lbs.business.common.BusinessContext">
-		<property name="sqlService" ref="sqlService"/>
+		<property name="generalService" ref="generalService"/>
 		<property name="mLbsService" ref="mLbsService"/>
 		<property name="mTaskService" ref="mTaskService"/>
 		<property name="protocolManagerService" ref="protocolManagerService"/>

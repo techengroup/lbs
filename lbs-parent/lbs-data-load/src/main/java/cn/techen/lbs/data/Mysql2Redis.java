@@ -117,9 +117,9 @@ public class Mysql2Redis implements Runnable {
 		} else {
 			for (Fn fn : fns) {
 				String key = fn.getProtocol() + ":" + fn.getDirection() + ":" + fn.getOperation() + ":" + fn.getFunction();
-				FnNames.getInstace().put(key, fn.getName());				
-				Elements.getInstace().put(key, fn.getElements());
-				Titles.getInstace().put(key, fn.getTitles());
+				FnNames.getInstace().put(key, (fn.getName() == null) ? "" : fn.getName());				
+				Elements.getInstace().put(key, (fn.getElements() == null) ? "" : fn.getElements());
+				Titles.getInstace().put(key, (fn.getTitles() == null) ? "" : fn.getTitles());
 			}
 		}		
 		

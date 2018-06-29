@@ -16,7 +16,7 @@ public class BusinessUtil {
 	 * @throws Exception
 	 */
 	public static AbstractSQL newSql(String dataClass) throws Exception {				
-		Class<?> c = Class.forName(String.format("cn.techen.lbs.data.sql.%s", dataClass));
+		Class<?> c = Class.forName(String.format("cn.techen.lbs.business.sql.%s", dataClass));
 		return (AbstractSQL) c.newInstance();
 	}
 

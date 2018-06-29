@@ -1,7 +1,6 @@
 package cn.techen.lbs.device;
 
 import cn.techen.lbs.db.common.Global;
-import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.device.common.DeviceContext;
 import cn.techen.lbs.device.common.Local;
 import cn.techen.lbs.device.manager.AbstractHandler;
@@ -41,11 +40,9 @@ public class Bootstrap {
 					Thread.sleep(Local.DETECTMILLIS);
 										
 					if (Global.DBReady) {
-						LBS oLbs = context.getLbs();
-						LBS lbs = context.getmLbsService().get();
-						if (oLbs == null || !lbs.getChannel().equals(oLbs.getChannel())) {
+						context.setnLbs(context.getmLbsService().get());
+						if (context.getLbs() == null || !context.getLbs().getChannel().equals(context.getnLbs().getChannel())) {
 							Global.LoraReady = false;
-							context.setLbs(lbs);
 							context.fireEncode();
 						}
 					}

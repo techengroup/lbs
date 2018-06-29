@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Titles extends ConcurrentHashMap<String, String> {
 	
-	private static final long serialVersionUID = -5673784942367330581L;
+	private static final long serialVersionUID = 5536396383097503302L;
 	
 	private static Titles titles = null;
 	

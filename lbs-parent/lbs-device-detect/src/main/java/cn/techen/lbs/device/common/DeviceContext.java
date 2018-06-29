@@ -16,6 +16,7 @@ public class DeviceContext {
 	public final Priority PRIORITY = Priority.DETECT;	
 	private State state = State.FINISHED;
 	private LBS lbs;
+	private LBS nLbs;
 	private MLbsService mLbsService;
 	private MTaskService<ProtocolFrame> mTaskService;
 	private ProtocolManagerService protocolManagerService;	
@@ -28,6 +29,14 @@ public class DeviceContext {
 
 	public void setLbs(LBS lbs) {
 		this.lbs = lbs;
+	}
+
+	public LBS getnLbs() {
+		return nLbs;
+	}
+
+	public void setnLbs(LBS nLbs) {
+		this.nLbs = nLbs;
 	}
 
 	public State getState() {
@@ -52,7 +61,7 @@ public class DeviceContext {
 	
 	public void fireEncode() {
 		try {
-			processHandler.encode(this, lbs);
+			processHandler.encode(this);
 		} catch (Exception e) {
 			processHandler.exceptionCaught(this, e.getCause());
 		}

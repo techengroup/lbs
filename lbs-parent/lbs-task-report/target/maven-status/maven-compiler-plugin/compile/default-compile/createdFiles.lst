@@ -1,0 +1,10 @@
+cn\techen\lbs\task\report\manager\AbstractHandler.class
+cn\techen\lbs\task\report\manager\ReadHandler.class
+cn\techen\lbs\task\report\common\Local.class
+cn\techen\lbs\task\report\manager\ProcessHandler.class
+cn\techen\lbs\task\report\common\ReportContext.class
+cn\techen\lbs\task\report\Bootstrap$EventThread.class
+cn\techen\lbs\task\report\Bootstrap.class
+cn\techen\lbs\task\report\manager\ObtainHandler.class
+cn\techen\lbs\task\report\Bootstrap$ReportThread.class
+cn\techen\lbs\task\report\manager\ReportHandler.class

@@ -29,7 +29,7 @@ public class FnServiceImpl implements FnService {
 		try {
 			List<Fn> list = new ArrayList<Fn>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select protocol, direction, operation, function, name, elements, titles from PTL_FN");
+			ddl.append("select protocol, direction, operation, fn, name, elements, titles from PTL_FN");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			ResultSet rs = stmt.executeQuery();
@@ -38,9 +38,10 @@ public class FnServiceImpl implements FnService {
 				fn.setProtocol(rs.getInt("protocol"));
 				fn.setDirection(rs.getInt("direction"));
 				fn.setOperation(rs.getString("operation"));
-				fn.setFunction(rs.getString("function"));
+				fn.setFunction(rs.getString("fn"));
 				fn.setName(rs.getString("name"));
 				fn.setElements(rs.getString("elements"));
+				fn.setTitles(rs.getString("titles"));
 				list.add(fn);
 			}
 			return list;
@@ -97,7 +98,7 @@ public class FnServiceImpl implements FnService {
 		try {
 			List<Fn> list = new ArrayList<Fn>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select protocol, direction, operation, function, name, elements from PTL_FN");
+			ddl.append("select protocol, direction, operation, fn, name, elements, titles from PTL_FN ");
 			ddl.append("where savetime>?");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
@@ -108,9 +109,10 @@ public class FnServiceImpl implements FnService {
 				fn.setProtocol(rs.getInt("protocol"));
 				fn.setDirection(rs.getInt("direction"));
 				fn.setOperation(rs.getString("operation"));
-				fn.setFunction(rs.getString("function"));
+				fn.setFunction(rs.getString("fn"));
 				fn.setName(rs.getString("name"));
 				fn.setElements(rs.getString("elements"));
+				fn.setTitles(rs.getString("titles"));
 				list.add(fn);
 			}
 			return list;

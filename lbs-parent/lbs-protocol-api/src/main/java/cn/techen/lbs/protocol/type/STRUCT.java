@@ -9,7 +9,7 @@ import cn.techen.lbs.protocol.common.ProtocolUtil;
 
 public class STRUCT extends AbstractData {
 	
-	private List<AbstractData> adList = new ArrayList<>();
+	private List<AbstractData> adList = new ArrayList<AbstractData>();
 	
 	public STRUCT(String types) {
 		dataTypes = types;

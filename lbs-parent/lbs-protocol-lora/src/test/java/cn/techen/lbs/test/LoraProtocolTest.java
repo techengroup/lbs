@@ -1,8 +1,5 @@
 package cn.techen.lbs.test;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,39 +54,9 @@ public class LoraProtocolTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void testA() {
-		 String format = "ARRAY,STRUCT,4,OCT_STRING,2,XXX,0,AA";
-		 
-		 List<String> fStrings = Arrays.asList(format.split(","));
-		 
-		 List<String> fList = fStrings.subList(0, 4);
-		 
-		 log.info("format：{}", fList.size());
-		 
-		 log.info("format：{}", format.substring(0, 5));
-		 
-		 String[] dts = format.split(",");		
-			
-		 format = Arrays.copyOfRange(dts, 4, dts.length).toString();
-		 
-		 extract(format);
-		 
-		 log.info("format：{}", format);
-		 
-		 int pos = format.indexOf(",");
-		 
-		 String format0 = format.substring(0, pos);
-		 
-		 log.info("format:{}", format0);
-		 
-		 format = format.substring(pos+1);
-		 
-		 log.info("format:{}", format);
+		Titles.getInstace().put("1", "");
 	}
 	
-	private void extract(String format) {
-		format = format.substring(6);
-		
-	}
 }

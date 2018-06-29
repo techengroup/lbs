@@ -38,8 +38,8 @@ public class T645Protocol implements ProtocolService {
 		return t645Proxy.encode(config);
 	}
 
-	public void setLoraProxy(T645Proxy loraProxy) {
-		this.t645Proxy = loraProxy;
+	public void setT645Proxy(T645Proxy t645Proxy) {
+		this.t645Proxy = t645Proxy;
 	}
 
 }

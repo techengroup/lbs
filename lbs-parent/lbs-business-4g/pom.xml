@@ -22,13 +22,6 @@
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>cn.techen.lbs</groupId>
-			<artifactId>lbs-data-sql</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
 	</dependencies>
 	
 	<build>

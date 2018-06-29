@@ -21,10 +21,11 @@
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-SymbolicName>$(replace;${project.artifactId};-;_)</Bundle-SymbolicName>
 						<Export-Package>
-							cn.techen.lbs.db.api,cn.techen.lbs.db.model,cn.techen.lbs.mm.api
+							${project.artifactId}.*;version=${project.version},
+							cn.techen.lbs.db.api,cn.techen.lbs.db.common,cn.techen.lbs.db.model,cn.techen.lbs.mm.api
 						</Export-Package>
 						<Import-Package>
-							org.osgi.framework
+							*;resolution:=optional
 						</Import-Package>
 					</instructions>
 				</configuration>

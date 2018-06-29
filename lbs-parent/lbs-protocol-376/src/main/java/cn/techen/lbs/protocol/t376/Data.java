@@ -46,10 +46,9 @@ public class Data extends AbstractElement {
 			
 			for (int i = 0; i < das.length; i++) {
 				for (int j = 0; j < dts.length; j++) {
-					String ex = adMap.get(das[i] + ":" + dts[i]).toExplain();
-					if (ex != null && !ex.isEmpty()) {
-						sb.append(String.format("\r\n%32s", ""));
-						sb.append(ex);
+					AbstractData ad =adMap.get(das[i] + ":" + dts[i]);
+					if (ad != null) {
+						sb.append(String.format("\r\n%32s| %13s |", "", ad.toExplain()));
 					}
 				}
 			}

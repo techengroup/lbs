@@ -11,7 +11,7 @@ import cn.techen.lbs.protocol.common.ProtocolUtil;
 public class ARRAY extends AbstractData {	
 	private int byteLen = 2;
 	private List<String> typeArray;
-	private List<AbstractData> adList = new ArrayList<>();
+	private List<AbstractData> adList = new ArrayList<AbstractData>();
 
 	public ARRAY(String types) {
 		dataTypes = types;

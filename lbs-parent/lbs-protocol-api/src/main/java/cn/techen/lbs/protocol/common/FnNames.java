@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class FnNames extends ConcurrentHashMap<String, String> {
 	
-	private static final long serialVersionUID = -5673784942367330581L;
+	private static final long serialVersionUID = 4903876031095129367L;
 	
 	private static FnNames fnNames = null;
 	

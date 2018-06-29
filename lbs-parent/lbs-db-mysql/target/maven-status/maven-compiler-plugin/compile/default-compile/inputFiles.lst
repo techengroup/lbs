@@ -1,5 +1,8 @@
 D:\Workspace\lbs-parent\lbs-db-mysql\src\main\java\cn\techen\lbs\db\mysql\common\Local.java
+D:\Workspace\lbs-parent\lbs-db-mysql\src\main\java\cn\techen\lbs\db\mysql\impl\GeneralServiceImpl.java
 D:\Workspace\lbs-parent\lbs-db-mysql\src\main\java\cn\techen\lbs\db\mysql\common\MysqlService.java
+D:\Workspace\lbs-parent\lbs-db-mysql\src\main\java\cn\techen\lbs\db\mysql\impl\FnServiceImpl.java
 D:\Workspace\lbs-parent\lbs-db-mysql\src\main\java\cn\techen\lbs\db\mysql\impl\LbsServiceImpl.java
 D:\Workspace\lbs-parent\lbs-db-mysql\src\main\java\cn\techen\lbs\db\mysql\impl\MeterServiceImpl.java
 D:\Workspace\lbs-parent\lbs-db-mysql\src\main\java\cn\techen\lbs\db\mysql\common\MysqlPool.java
+D:\Workspace\lbs-parent\lbs-db-mysql\src\main\java\cn\techen\lbs\db\mysql\impl\ReportServiceImpl.java
