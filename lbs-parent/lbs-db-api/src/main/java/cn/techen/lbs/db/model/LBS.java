@@ -11,10 +11,10 @@ public class LBS extends MyModel {
 	private static final long serialVersionUID = -7600840886253312824L;
 	
 	private String commaddr;
+	private Integer protocol;
 	private String moduleaddr;
 	private String logicaddr;
-	private Integer protocol;
-	private Integer loraprotocol;
+	private Integer moduleprotocol;
 	private Double longitude;
 	private Double latitude;
 	private Integer channel;
@@ -22,6 +22,7 @@ public class LBS extends MyModel {
 	private Integer port;
 	private String ip1;
 	private Integer port1;
+	private String apn;
 	
 	public String getCommaddr() {
 		return commaddr;
@@ -29,6 +30,14 @@ public class LBS extends MyModel {
 	
 	public void setCommaddr(String commaddr) {
 		this.commaddr = commaddr;
+	}
+	
+	public Integer getProtocol() {
+		return protocol;
+	}
+	
+	public void setProtocol(Integer protocol) {
+		this.protocol = protocol;
 	}
 	
 	public String getModuleaddr() {
@@ -47,22 +56,14 @@ public class LBS extends MyModel {
 		this.logicaddr = logicaddr;
 	}
 	
-	public Integer getProtocol() {
-		return protocol;
-	}
-	
-	public void setProtocol(Integer protocol) {
-		this.protocol = protocol;
+	public Integer getModuleprotocol() {
+		return moduleprotocol;
 	}
 
-	public Integer getLoraprotocol() {
-		return loraprotocol;
+	public void setModuleprotocol(Integer moduleprotocol) {
+		this.moduleprotocol = moduleprotocol;
 	}
 
-	public void setLoraprotocol(Integer loraprotocol) {
-		this.loraprotocol = loraprotocol;
-	}
-	
 	public Double getLongitude() {
 		return longitude;
 	}
@@ -117,6 +118,14 @@ public class LBS extends MyModel {
 	
 	public void setPort1(Integer port1) {
 		this.port1 = port1;
+	}
+
+	public String getApn() {
+		return apn;
+	}
+
+	public void setApn(String apn) {
+		this.apn = apn;
 	}
 	
 }

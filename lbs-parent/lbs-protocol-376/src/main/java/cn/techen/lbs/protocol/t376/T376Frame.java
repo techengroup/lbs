@@ -5,10 +5,11 @@ import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.protocol.AbstractFrame;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
+import cn.techen.lbs.protocol.t376.common.Local;
 
 public class T376Frame extends AbstractFrame {
 	private static final Logger log = (Logger) LoggerFactory  
-            .getLogger("T376-Protocol");
+            .getLogger(Local.PROJECT);
 
 	/**
 	 * Frame Header
@@ -88,20 +89,20 @@ public class T376Frame extends AbstractFrame {
 
 	@Override
 	public String toExplain() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("\r\n%s\r\n");
-		sb.append("%11s%-6s:%3s: [%s]H\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s\r\n");
-		return String.format(sb.toString(), "T376Frame {"
-				, "", "Frame", String.valueOf(bytes.length), ProtocolUtil.byte2HexString(bytes, true)
+		StringBuffer sb = new StringBuffer();		
+		sb.append("\r\n%s [%d]B [%s]H\r\n");
+		sb.append("%s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%s\r\n");
+		return String.format(sb.toString(), "T376Frame", bytes.length, ProtocolUtil.byte2HexString(bytes, true)
+				, "{"
 				, "", head.getTitle(), head.getLen(), head.toExplain()
 				, "", dataLen.getTitle(), dataLen.getLen(), dataLen.toExplain()
 				, "", head.getTitle(), head.getLen(), head.toExplain()

@@ -72,11 +72,11 @@ public class ControlField extends AbstractElement {
 	public String toExplain() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("[%s]H  [%s]B\r\n");
-		sb.append("%-24s%-5s: %-10s: [%d]: %s\r\n");
-		sb.append("%-24s%-5s: %-10s: [%d]\r\n");
-		sb.append("%-24s%-5s: %-10s: [%d]: %s\r\n");
-		sb.append("%-24s%-5s: %-10s: [%d]\r\n");
-		sb.append("%-24s%-5s: %-10s: [%d]: %s");
+		sb.append("%15s%-5s: %-10s: [%d]: %s\r\n");
+		sb.append("%15s%-5s: %-10s: [%d]\r\n");
+		sb.append("%15s%-5s: %-10s: [%d]: %s\r\n");
+		sb.append("%15s%-5s: %-10s: [%d]\r\n");
+		sb.append("%15s%-5s: %-10s: [%d]: %s");
 		if (dir == DIR.SERVER.value()) {
 			return String.format(sb.toString()
 					, ProtocolUtil.int2HexString(value), ProtocolUtil.int2BinaryString(value, true)		

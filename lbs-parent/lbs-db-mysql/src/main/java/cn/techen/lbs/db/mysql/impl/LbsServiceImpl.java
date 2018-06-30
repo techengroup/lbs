@@ -21,7 +21,7 @@ public class LbsServiceImpl implements LbsService {
 		PreparedStatement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commaddr, moduleaddr, logicaddr, protocol, channel, longitude, latitude, ip, port, ip1, port1 from PRM_LBS");
+			ddl.append("select id, commaddr, protocol, moduleaddr, logicaddr, moduleprotocol, channel, longitude, latitude, ip, port, ip1, port1, apn from PRM_LBS");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			ResultSet rs = stmt.executeQuery();
@@ -30,9 +30,10 @@ public class LbsServiceImpl implements LbsService {
 				lbs = new LBS();
 				lbs.setId(rs.getInt("id"));
 				lbs.setCommaddr(rs.getString("commaddr"));
+				lbs.setProtocol(rs.getInt("protocol"));
 				lbs.setModuleaddr(rs.getString("moduleaddr"));
 				lbs.setLogicaddr(rs.getString("logicaddr"));
-				lbs.setProtocol(rs.getInt("protocol"));
+				lbs.setModuleprotocol(rs.getInt("moduleprotocol"));
 				lbs.setChannel(rs.getInt("channel"));
 				lbs.setLatitude(rs.getDouble("longitude"));
 				lbs.setLatitude(rs.getDouble("latitude"));
@@ -40,6 +41,7 @@ public class LbsServiceImpl implements LbsService {
 				lbs.setPort(rs.getInt("port"));
 				lbs.setIp1(rs.getString("ip1"));
 				lbs.setPort1(rs.getInt("port1"));
+				lbs.setApn(rs.getString("apn"));
 			}
 			return lbs;
 		} catch (SQLException e) {
@@ -100,7 +102,7 @@ public class LbsServiceImpl implements LbsService {
 		PreparedStatement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commaddr, moduleaddr, logicaddr, protocol, channel, longitude, latitude, ip, port, ip1, port1 from PRM_LBS ");
+			ddl.append("select id, commaddr, protocol, moduleaddr, logicaddr, moduleprotocol, channel, longitude, latitude, ip, port, ip1, port1, apn from PRM_LBS ");
 			ddl.append(" where mdfon>?");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
@@ -111,9 +113,10 @@ public class LbsServiceImpl implements LbsService {
 				lbs = new LBS();
 				lbs.setId(rs.getInt("id"));
 				lbs.setCommaddr(rs.getString("commaddr"));
+				lbs.setProtocol(rs.getInt("protocol"));
 				lbs.setModuleaddr(rs.getString("moduleaddr"));
 				lbs.setLogicaddr(rs.getString("logicaddr"));
-				lbs.setProtocol(rs.getInt("protocol"));
+				lbs.setModuleprotocol(rs.getInt("moduleprotocol"));
 				lbs.setChannel(rs.getInt("channel"));
 				lbs.setLatitude(rs.getDouble("longitude"));
 				lbs.setLatitude(rs.getDouble("latitude"));
@@ -121,6 +124,7 @@ public class LbsServiceImpl implements LbsService {
 				lbs.setPort(rs.getInt("port"));
 				lbs.setIp1(rs.getString("ip1"));
 				lbs.setPort1(rs.getInt("port1"));
+				lbs.setApn(rs.getString("apn"));
 			}
 			return lbs;
 		} catch (SQLException e) {

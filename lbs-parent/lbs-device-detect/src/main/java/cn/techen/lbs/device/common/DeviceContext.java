@@ -61,7 +61,7 @@ public class DeviceContext {
 	
 	public void fireEncode() {
 		try {
-			processHandler.encode(this);
+//			processHandler.encode(this);
 		} catch (Exception e) {
 			processHandler.exceptionCaught(this, e.getCause());
 		}

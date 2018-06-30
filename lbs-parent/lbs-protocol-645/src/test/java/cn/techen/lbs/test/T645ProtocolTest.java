@@ -14,20 +14,18 @@ import junit.framework.TestCase;
 public class T645ProtocolTest extends TestCase {
 	private static Logger log = (Logger) LoggerFactory.getLogger("Lora-Protocol");
 
-	static {
-		Elements.getInstace().put("9110", "Monthly ACTIVE ENERGY Total");
-		
-		Elements.getInstace().put("9110:1", "OCT_STRING,4,xxxxxx.xx,1,DATA_ENERGY_MONTH-ACTIVE_ENERGY0");
-		Elements.getInstace().put("9111:1", "OCT_STRING,4,xxxxxx.xx,1,DATA_ENERGY_MONTH-ACTIVE_ENERGY1");
-		Elements.getInstace().put("9112:1", "OCT_STRING,4,xxxxxx.xx,1,DATA_ENERGY_MONTH-ACTIVE_ENERGY2");
-		Elements.getInstace().put("9113:1", "OCT_STRING,4,xxxxxx.xx,1,DATA_ENERGY_MONTH-ACTIVE_ENERGY3");
-		Elements.getInstace().put("9114:1", "OCT_STRING,4,xxxxxx.xx,1,DATA_ENERGY_MONTH-ACTIVE_ENERGY4");
-		Elements.getInstace().put("911F:1", "OCT_STRING,4,xxxxxx.xx,1,DATA_ENERGY_MONTH-ACTIVE_ENERGY"
-				+ ":OCT_STRING,4,xxxxxx.xx,1,DATA_ENERGY_MONTH-ACTIVE_ENERGY1"
-				+ ":OCT_STRING,4,xxxxxx.xx,1,DATA_ENERGY_MONTH-ACTIVE_ENERGY2"
-				+ ":OCT_STRING,4,xxxxxx.xx,1,DATA_ENERGY_MONTH-ACTIVE_ENERGY3"
-				+ ":OCT_STRING,4,xxxxxx.xx,1,DATA_ENERGY_MONTH-ACTIVE_ENERGY4");
-		Elements.getInstace().put("C429:1", "BIT_STRING,4,XXXXXXXX,1,EventCode");
+	static {		
+		Elements.getInstace().put("9110:1", "OCT_STRING,4,xxxxxx.xx,1");
+		Elements.getInstace().put("9111:1", "OCT_STRING,4,xxxxxx.xx,1");
+		Elements.getInstace().put("9112:1", "OCT_STRING,4,xxxxxx.xx,1");
+		Elements.getInstace().put("9113:1", "OCT_STRING,4,xxxxxx.xx,1");
+		Elements.getInstace().put("9114:1", "OCT_STRING,4,xxxxxx.xx,1");
+		Elements.getInstace().put("911F:1", "OCT_STRING,4,xxxxxx.xx,1"
+				+ ":OCT_STRING,4,xxxxxx.xx,1"
+				+ ":OCT_STRING,4,xxxxxx.xx,1"
+				+ ":OCT_STRING,4,xxxxxx.xx,1"
+				+ ":OCT_STRING,4,xxxxxx.xx,1");
+		Elements.getInstace().put("C429:1", "BIT_STRING,4,XXXXXXXX,1");
 	}
 	
 	public void test() {

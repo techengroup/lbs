@@ -13,6 +13,11 @@ public class SEQ extends AbstractElement  {
 	private int fin;	
 	private int con;	
 	private int seq;
+	
+	public SEQ() {
+		len = 1;
+		title = "SEQ";
+	}
 
 	@Override
 	public void decode(AbstractFrame frame) throws Exception {
@@ -53,11 +58,11 @@ public class SEQ extends AbstractElement  {
 	public String toExplain() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("[%s]H  [%s]B\r\n");
-		sb.append("%-32s%-5s: %-10s: [%d]: %s\r\n");
-		sb.append("%-32s%-5s: %-10s: [%d]\r\n");
-		sb.append("%-32s%-5s: %-10s: [%d]\r\n");
-		sb.append("%-32s%-5s: %-10s: [%d]: %s\r\n");
-		sb.append("%-32s%-5s: %-10s: [%d]");
+		sb.append("%23s%-5s: %-10s: [%d]: %s\r\n");
+		sb.append("%23s%-5s: %-10s: [%d]\r\n");
+		sb.append("%23s%-5s: %-10s: [%d]\r\n");
+		sb.append("%23s%-5s: %-10s: [%d]: %s\r\n");
+		sb.append("%23s%-5s: %-10s: [%d]");
 		return String.format(sb.toString()
 				, ProtocolUtil.int2HexString(value), ProtocolUtil.int2BinaryString(value, true)		
 				, "", "TPV", "bit[7]", tpv, TPV.valueOf(tpv).descOf()

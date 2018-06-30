@@ -5,10 +5,11 @@ import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.protocol.AbstractFrame;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
+import cn.techen.lbs.protocol.t645.common.Local;
 
 public class T645Frame extends AbstractFrame {
 	private static final Logger log = (Logger) LoggerFactory  
-            .getLogger("T654-Protocol");
+            .getLogger(Local.PROJECT);
 
 	/**
 	 * Frame Header
@@ -91,19 +92,19 @@ public class T645Frame extends AbstractFrame {
 	@Override
 	public String toExplain() {
 		StringBuffer sb = new StringBuffer();
+		sb.append("\r\n%s [%d]B [%s]H\r\n");
 		sb.append("%s\r\n");
-		sb.append("%11s%-6s:%3s: [%s]H\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s\r\n");
-		return String.format(sb.toString(), "T645Frame ["
-				, "", "Frame", String.valueOf(bytes.length), ProtocolUtil.byte2HexString(bytes, true)
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%s\r\n");
+		return String.format(sb.toString(), "T645Frame", bytes.length, ProtocolUtil.byte2HexString(bytes, true)
+				, "{"
 				, "", head.getTitle(), head.getLen(), head.toExplain()
 				, "", addrField.getTitle(), addrField.getLen(), addrField.toExplain()
 				, "", head.getTitle(), head.getLen(), head.toExplain()
@@ -112,7 +113,7 @@ public class T645Frame extends AbstractFrame {
 				, "", dataField.getTitle(), dataField.getLen(), dataField.toExplain()
 				, "", cs.getTitle(), cs.getLen(), cs.toExplain()
 				, "", tail.getTitle(), tail.getLen(), tail.toExplain()
-				, "]");
+				, "}");
 	}
 	
 	private void minus33H() {

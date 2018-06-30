@@ -2,7 +2,7 @@ package cn.techen.lbs.protocol.t376.common;
 
 public class Local {
 	
-	public static final String PROJECT = "Protocol-376";
+	public static final String PROJECT = "LBS-PROTOCOL-376";
 	
 	public static final Integer CODE = 100;
 	

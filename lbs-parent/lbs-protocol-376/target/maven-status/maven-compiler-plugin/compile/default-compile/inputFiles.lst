@@ -2,6 +2,7 @@ D:\Workspace\lbs-parent\lbs-protocol-376\src\main\java\cn\techen\lbs\protocol\t3
 D:\Workspace\lbs-parent\lbs-protocol-376\src\main\java\cn\techen\lbs\protocol\t376\Tailer.java
 D:\Workspace\lbs-parent\lbs-protocol-376\src\main\java\cn\techen\lbs\protocol\t376\DataLen.java
 D:\Workspace\lbs-parent\lbs-protocol-376\src\main\java\cn\techen\lbs\protocol\impl\T376Proxy.java
+D:\Workspace\lbs-parent\lbs-protocol-376\src\main\java\cn\techen\lbs\protocol\t376\AFN0.java
 D:\Workspace\lbs-parent\lbs-protocol-376\src\main\java\cn\techen\lbs\protocol\impl\T376Protocol.java
 D:\Workspace\lbs-parent\lbs-protocol-376\src\main\java\cn\techen\lbs\protocol\t376\T376Frame.java
 D:\Workspace\lbs-parent\lbs-protocol-376\src\main\java\cn\techen\lbs\protocol\t376\AddressField.java

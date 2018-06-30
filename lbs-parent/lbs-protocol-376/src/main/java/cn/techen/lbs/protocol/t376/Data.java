@@ -38,8 +38,8 @@ public class Data extends AbstractElement {
 		
 		for (String dadt : dadtList) {
 			String[] dadts = dadt.split(":");
-			sb.append(String.format("\r\n%32s%-5s : [%s]", "", "Point", dadts[0]));
-			sb.append(String.format("\r\n%32s%-5s : [%s] [%s]", "", "Func", dadts[1], FnNames.getInstace().get(dtKeyMap.get(dadt))));
+			sb.append(String.format("\r\n%23s%-5s : [%s]", "", "Point", dadts[0]));
+			sb.append(String.format("\r\n%23s%-5s : [%s] [%s]", "", "Func", dadts[1], FnNames.getInstace().get(dtKeyMap.get(dadt))));
 			
 			String[] das = dadts[0].split(",");
 			String[] dts = dadts[1].split(",");
@@ -48,7 +48,7 @@ public class Data extends AbstractElement {
 				for (int j = 0; j < dts.length; j++) {
 					AbstractData ad =adMap.get(das[i] + ":" + dts[i]);
 					if (ad != null) {
-						sb.append(String.format("\r\n%32s| %13s |", "", ad.toExplain()));
+						sb.append(String.format("\r\n%23s%s", "", ad.toExplain()));
 					}
 				}
 			}
@@ -94,7 +94,7 @@ public class Data extends AbstractElement {
 					if (x == 1) {
 						int t = (i + 1) + 8 * dt2;
 						dts.add(String.valueOf(t));
-						dtKeys.add(Local.CODE + ":" + dir.value() + ":" + afn.value() + ":" + t);
+						dtKeys.add(Local.CODE + ":" + dir.value() + ":" + ProtocolUtil.int2HexString(afn.value()) + ":" + t);
 					}
 				}
 				
@@ -158,7 +158,7 @@ public class Data extends AbstractElement {
 	private String[] getDtKeys(DIR dir, AFN afn, String[] dts) {
 		List<String> kList = new ArrayList<String>();
 		for (String dt : dts) {
-			kList.add(Local.CODE + ":" + dir.value() + ":" + afn.value() + ":" + dt);
+			kList.add(Local.CODE + ":" + dir.value() + ":" + ProtocolUtil.int2HexString(afn.value()) + ":" + dt);
 		}
 		return kList.toArray(new String[0]);
 	}

@@ -95,9 +95,9 @@ public class AddressField extends AbstractElement {
 	public String toExplain() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("[%s]H\r\n");
-		sb.append("%-24s%s: %s\r\n");
-		sb.append("%-24s%s: %s\r\n");
-		sb.append("%-24s%s: %s");
+		sb.append("%15s%s: %s\r\n");
+		sb.append("%15s%s: %s\r\n");
+		sb.append("%15s%s: %s");
 		return String.format(sb.toString()
 				, ProtocolUtil.byte2HexString(bytes, true)
 				, "", "sourceAddr", sourceAddr

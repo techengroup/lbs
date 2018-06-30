@@ -72,12 +72,12 @@ public class InfoField extends AbstractElement {
 	public String toExplain() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("[%s]H  [%s]B\r\n");
-		sb.append("%-24s%-19s: %-10s: [%d]: %s\r\n");
-		sb.append("%-24s%-19s: %-10s: [%d]: %s\r\n");
-		sb.append("%-24s%-19s: %-10s: [%d]: %s\r\n");
-		sb.append("%-24s%-19s: %-10s: [%d]\r\n");
-		sb.append("%-24s%-19s: %-10s: [%d]\r\n");
-		sb.append("%-24s%-19s: %-10s: [%d]");
+		sb.append("%15s%-19s: %-10s: [%d]: %s\r\n");
+		sb.append("%15s%-19s: %-10s: [%d]: %s\r\n");
+		sb.append("%15s%-19s: %-10s: [%d]: %s\r\n");
+		sb.append("%15s%-19s: %-10s: [%d]\r\n");
+		sb.append("%15s%-19s: %-10s: [%d]\r\n");
+		sb.append("%15s%-19s: %-10s: [%d]");
 		return String.format(sb.toString()
 				, ProtocolUtil.byte2HexString(bytes, true), ProtocolUtil.byte2BinaryString(bytes, true)				
 				, "", "Transport Direction", "bit[10]", dir, DIR.valueOf(dir).descOf()

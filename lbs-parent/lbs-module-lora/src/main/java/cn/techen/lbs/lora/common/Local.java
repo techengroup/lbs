@@ -2,7 +2,7 @@ package cn.techen.lbs.lora.common;
 
 public final class Local {
 	
-	public final static String PROJECT = "MODULE-LORA";
+	public final static String PROJECT = "LBS-MODULE-LORA";
 	
 	public final static int PROTOCOL = 0;
 	

@@ -5,10 +5,11 @@ import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.protocol.AbstractFrame;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
+import cn.techen.lbs.protocol.lora.common.Local;
 
 public class LoraFrame extends AbstractFrame {
 	private static final Logger logger = (Logger) LoggerFactory  
-            .getLogger("Lora-Protocol");
+            .getLogger(Local.PROJECT);
 	/**
 	 * Frame Header
 	 */
@@ -100,20 +101,20 @@ public class LoraFrame extends AbstractFrame {
 	@Override
 	public String toExplain() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("\r\n%s\r\n");
-		sb.append("%11s%-6s:%3s: [%s]H\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s%-6s:%3s: %s\r\n");
-		sb.append("%11s\r\n");
-		return String.format(sb.toString(), "LoraFrame {"
-				, "", "Frame", String.valueOf(bytes.length), ProtocolUtil.byte2HexString(bytes, true)
+		sb.append("\r\n%s [%d]B [%s]H\r\n");
+		sb.append("%s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%2s%-6s:%3s: %s\r\n");
+		sb.append("%s\r\n");
+		return String.format(sb.toString(), "LoraFrame", bytes.length, ProtocolUtil.byte2HexString(bytes, true)
+				, "{"
 				, "", head.getTitle(), head.getLen(), head.toExplain()
 				, "", dataLen.getTitle(), dataLen.getLen(), dataLen.toExplain()
 				, "", ctrlCode.getTitle(), ctrlCode.getLen(), ctrlCode.toExplain()

@@ -19,10 +19,10 @@ public class T376ProtocolTest extends TestCase {
 	private static Logger log = (Logger) LoggerFactory.getLogger("Lora-Protocol");
 	
 	static {
-		Elements.getInstace().put("100:1:2:1", "DATE_TIME,6,xxxx,1");
-		FnNames.getInstace().put("100:1:2:1", "Login");
+		Elements.getInstace().put("100:1:02:1", "DATE_TIME,6,xxxx,1");
+		FnNames.getInstace().put("100:1:02:1", "Login");
 		
-		Titles.getInstace().put("100:1:2:1", "|            Clock           |");
+		Titles.getInstace().put("100:1:02:1", "|            Clock           |");
 	}
 	
 	public void test() {

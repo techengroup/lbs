@@ -19,7 +19,7 @@ public class ProcessHandler {
 		byte[] rBytes = frame.getReadBytes();
 		if (rBytes != null) {
 			ProtocolConfig config = context.getProtocolManagerService()
-					.getProtocol(context.getLbs().getLoraprotocol()).decode(frame.getReadBytes());
+					.getProtocol(context.getLbs().getModuleprotocol()).decode(frame.getReadBytes());
 			if (config != null) {					
 				Object obj = config.units().poll();
 				if (obj != null) {
@@ -27,17 +27,12 @@ public class ProcessHandler {
 					if (result == 1) {
 						Global.LoraReady = true;
 						context.setLbs(context.getnLbs());
-						context.setState(State.FINISHED);
-					} else {
-						rewrite(context, frame);
 					}
 				}				
-			} else {
-				rewrite(context, frame);
 			}
-		} else {
-			rewrite(context, frame);
 		}
+		
+		context.setState(State.FINISHED);
 	}
 
 	public void encode(DeviceContext context)  throws Exception {		
@@ -46,7 +41,7 @@ public class ProcessHandler {
 		config.funcs().add(String.valueOf(3));
 		config.units().add(context.getnLbs().getChannel());	
 		
-		byte[] frame = context.getProtocolManagerService().getProtocol(context.getnLbs().getLoraprotocol()).encode(config);
+		byte[] frame = context.getProtocolManagerService().getProtocol(context.getnLbs().getModuleprotocol()).encode(config);
 		ProtocolFrame pFrame = new ProtocolFrame();
 		pFrame.setPriority(context.PRIORITY);
 		pFrame.setWriteBytes(frame);
@@ -66,14 +61,5 @@ public class ProcessHandler {
 		cause.printStackTrace();
     	context.setState(State.FINISHED);
     }
-	
-	private void rewrite(DeviceContext context, ProtocolFrame frame) throws Exception {
-		frame.increaseRetryTimes();
-		if (frame.getRetryTimes() < 10) {
-			write(context, frame);
-		} else {
-			context.setState(State.FINISHED);
-		}
-	}
 
 }

@@ -114,7 +114,7 @@ public class DefaultLoraConfig extends AbstractConfig  implements LoraConfig {
 
 	@Override
 	public DefaultLoraConfig addRelayAddrs(String... relayAddrs) {
-		this.relayAddrs.addAll(Arrays.asList(relayAddrs));
+		if (relayAddrs != null) this.relayAddrs.addAll(Arrays.asList(relayAddrs));
 		return this;
 	}
 

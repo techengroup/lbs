@@ -2,7 +2,7 @@ package cn.techen.lbs.protocol.t645.common;
 
 public class Local {
 	
-	public static final String PROJECT = "Protocol-645";
+	public static final String PROJECT = "LBS-PROTOCOL-645";
 	
 	public static final Integer CODE = 1;
 	
