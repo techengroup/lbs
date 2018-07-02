@@ -19,25 +19,14 @@ public class ReadHandler extends AbstractHandler {
 
 	@Override
 	public void operate(LoraContext context) throws Exception {
-		byte[] readBytes = null;
 		if (context.getFrame() != null) {
-			readBytes = context.getFrame().getReadBytes();
+			byte[] readBytes = context.getFrame().getReadBytes();
 			if (readBytes != null || timeout(context)) {
-				context.setFlag(1);
+				if (readBytes != null) {
+					logger.info("\r\nRead {}B {}", readBytes.length, ProtocolUtil.byte2HexString(readBytes, true));
+				}
+				getHandler().operate(context);
 			}
-		}
-		if (context.getReportFrame() != null) {
-			if (context.getFlag() == 0) {
-				context.setFlag(2);
-			} else {
-				context.setFlag(3);
-			}
-			readBytes = context.getReportFrame().getReadBytes();
-		}
-		
-		if (context.getFlag() > 0) {
-			logger.info("Read:\r\n{}", ProtocolUtil.byte2HexString(readBytes, true));
-			getHandler().operate(context);
 		}
 	}
 

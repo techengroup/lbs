@@ -13,18 +13,9 @@ public class StoreHandler extends AbstractHandler {
 
 	@Override
 	public void operate(LoraContext context) throws Exception {
-		int flag = context.getFlag();
-		if (flag == 1 || flag == 3) {
-			context.getFrame().setrInTime(new Date());
-			context.getmTaskService().lpush(MTaskService.QUEUE_RETURN + context.getFrame().getPriority().value(), context.getFrame());		
-			context.setFrame(null);
-		}		
-		if (flag == 2 || flag == 3) {
-			context.getReportFrame().setrInTime(new Date());
-			context.getmTaskService().lpush(MTaskService.QUEUE_RETURN + context.getReportFrame().getPriority().value(), context.getReportFrame());	
-			context.setReportFrame(null);
-		}
-		context.setFlag(0);
+		context.getFrame().setrInTime(new Date());
+		context.getmTaskService().lpush(MTaskService.QUEUE_RETURN + context.getFrame().getPriority().value(), context.getFrame());		
+		context.reset();
 	}
 
 }

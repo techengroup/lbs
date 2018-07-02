@@ -22,12 +22,13 @@ public class ControlCode extends AbstractElement {
 	}
 
 	public void encode(AbstractFrame frame) throws Exception {
-		LoraConfig loraConfig = (LoraConfig) frame.config();
-		int value0 = loraConfig.getControl().value();
-		if (value0 == DIR.SERVER.value()) {
-			value = value0 | 0x90;
+		LoraConfig config = (LoraConfig) frame.config();
+		int value0 = config.getControl().value();
+		if (config.getDir() == DIR.SERVER) {
+			value0 = value0 | 0x90;
 		}
-		desc = Control.valueOf(value0).descOf();
+		value = value0;
+		desc = Control.valueOf(value).descOf();
 		frame.process().vector.add(0, (byte) value);
 	}
 

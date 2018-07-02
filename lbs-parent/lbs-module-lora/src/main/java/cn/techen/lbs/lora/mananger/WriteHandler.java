@@ -19,11 +19,13 @@ public class WriteHandler extends AbstractHandler {
 
 	@Override
 	public void operate(LoraContext context) throws Exception {
-		for (int i = 0; i < context.getFrame().getWriteTimes(); i++) {
-			if (context.getFrame().getReadBytes() != null) break;				
-			if (i > 0) Thread.sleep(2000);
-			
-			send(context);
+		if (context.getFrame() != null) {		
+			for (int i = 0; i < context.getFrame().getWriteTimes(); i++) {
+				if (context.getFrame().getReadBytes() != null) break;				
+				if (i > 0) Thread.sleep(2000);
+				
+				send(context);
+			}
 		}
 	}
 	
@@ -31,7 +33,7 @@ public class WriteHandler extends AbstractHandler {
 		byte[] writeBytes = context.getFrame().getWriteBytes();
 		context.channel().write(writeBytes);
 		context.getFrame().setWriteTime(new Date());
-		logger.info("Write:\r\n{}", ProtocolUtil.byte2HexString(writeBytes, true));
+		logger.info("\r\nWrite {}B {}", writeBytes.length, ProtocolUtil.byte2HexString(writeBytes, true));
 	}
 
 }

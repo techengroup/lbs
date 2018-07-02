@@ -3,6 +3,7 @@ package cn.techen.lbs.db.mysql.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,19 +32,18 @@ public class ReportServiceImpl implements ReportService {
 	public int save(Report entity) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
-		PreparedStatement stmt = null;
+		Statement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("insert into LOG_REPORT( meterid, reporttime, commaddr, route, singalstrength, savetime) values(");
-			ddl.append("?,?,?,?,?,NOW())");
+			ddl.append("insert into LOG_REPORT(meterid, reporttime, commaddr, route, signalstrength) values(");
+			ddl.append(entity.getMeterid() + ",");
+			ddl.append("'" + new java.sql.Timestamp(entity.getReporttime().getTime()) + "',");
+			ddl.append("'" + entity.getCommaddr() + "',");
+			ddl.append("'" + entity.getRoute() + "',");
+			ddl.append(entity.getSignal() + ")");
 			conn = mp.getConnection();
-			stmt = conn.prepareStatement(ddl.toString());			
-			stmt.setInt(1, entity.getMeterid());
-			stmt.setTimestamp(2, new java.sql.Timestamp(entity.getReporttime().getTime())); 
-			stmt.setString(3, entity.getCommaddr());
-			stmt.setString(3, entity.getRoute());
-			stmt.setInt(1, entity.getSignal());
-			return stmt.executeUpdate();
+			stmt = conn.createStatement();
+			return stmt.executeUpdate(ddl.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

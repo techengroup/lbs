@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1530323181901
+Bnd-LastModified: 1530509688763
 Build-Jdk: 1.8.0_152
 Built-By: ZY
 Bundle-Blueprint: OSGI-INF/blueprint/db-redis.xml
@@ -19,14 +19,14 @@ Embedded-Artifacts: lib/jedis-2.9.0.jar;g="redis.clients";a="jedis";v="2
  l2";v="2.5.0"
 Export-Package: cn.techen.lbs.mm.redis.impl;uses:="cn.techen.lbs.db.mode
  l,cn.techen.lbs.mm.api";version="1.0.0"
-Export-Service: cn.techen.lbs.mm.api.MMeterService;osgi.service.blueprin
- t.compname=mMeterBean,cn.techen.lbs.mm.api.MLbsService;osgi.service.blu
- eprint.compname=mLbsBean,cn.techen.lbs.mm.api.MBaseService;osgi.service
- .blueprint.compname=mBaseBean,cn.techen.lbs.mm.api.MTaskService;osgi.se
- rvice.blueprint.compname=mTaskBean,cn.techen.lbs.mm.api.MRegisterServic
- e;osgi.service.blueprint.compname=mRegisterBean,cn.techen.lbs.mm.api.MS
- ectorService;osgi.service.blueprint.compname=mSectorBean,cn.techen.lbs.
- mm.api.MRelayService;osgi.service.blueprint.compname=mRelayBean
+Export-Service: cn.techen.lbs.mm.api.MRelayService;osgi.service.blueprin
+ t.compname=mRelayBean,cn.techen.lbs.mm.api.MBaseService;osgi.service.bl
+ ueprint.compname=mBaseBean,cn.techen.lbs.mm.api.MMeterService;osgi.serv
+ ice.blueprint.compname=mMeterBean,cn.techen.lbs.mm.api.MSectorService;o
+ sgi.service.blueprint.compname=mSectorBean,cn.techen.lbs.mm.api.MLbsSer
+ vice;osgi.service.blueprint.compname=mLbsBean,cn.techen.lbs.mm.api.MReg
+ isterService;osgi.service.blueprint.compname=mRegisterBean,cn.techen.lb
+ s.mm.api.MTaskService;osgi.service.blueprint.compname=mTaskBean
 Import-Package: cn.techen.lbs.db.model;resolution:=optional;version="[1.
  0,2)",cn.techen.lbs.mm.api;resolution:=optional;version="[1.0,2)",javax
  .management;resolution:=optional,javax.net;resolution:=optional,javax.n

@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1530323179887
+Bnd-LastModified: 1530509686745
 Build-Jdk: 1.8.0_152
 Built-By: ZY
 Bundle-Blueprint: OSGI-INF/blueprint/db-mysql.xml
@@ -20,12 +20,12 @@ Embedded-Artifacts: lib/druid-1.1.8.jar;g="com.alibaba";a="druid";v="1.1
  va";v="5.1.45"
 Export-Package: cn.techen.lbs.db.mysql.impl;uses:="cn.techen.lbs.db.api,
  cn.techen.lbs.db.model";version="1.0.0"
-Export-Service: cn.techen.lbs.db.api.FnService;osgi.service.blueprint.co
- mpname=fnBean,cn.techen.lbs.db.api.LbsService;osgi.service.blueprint.co
- mpname=lbsBean,cn.techen.lbs.db.api.ReportService;osgi.service.blueprin
- t.compname=reportBean,cn.techen.lbs.db.api.MeterService;osgi.service.bl
- ueprint.compname=meterBean,cn.techen.lbs.db.api.GeneralService;osgi.ser
- vice.blueprint.compname=generalBean
+Export-Service: cn.techen.lbs.db.api.MeterService;osgi.service.blueprint
+ .compname=meterBean,cn.techen.lbs.db.api.FnService;osgi.service.bluepri
+ nt.compname=fnBean,cn.techen.lbs.db.api.GeneralService;osgi.service.blu
+ eprint.compname=generalBean,cn.techen.lbs.db.api.ReportService;osgi.ser
+ vice.blueprint.compname=reportBean,cn.techen.lbs.db.api.LbsService;osgi
+ .service.blueprint.compname=lbsBean
 Import-Package: cn.techen.lbs.db.api;resolution:=optional;version="[1.0,
  2)",cn.techen.lbs.db.model;resolution:=optional;version="[1.0,2)",com.a
  liyun.odps.udf;resolution:=optional,com.google.common.collect;resolutio

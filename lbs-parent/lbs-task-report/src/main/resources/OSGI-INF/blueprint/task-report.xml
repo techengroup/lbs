@@ -6,8 +6,6 @@
 	
 	<reference id="reportService" interface="cn.techen.lbs.db.api.ReportService" />
 	
-	<reference id="mBaseService" interface="cn.techen.lbs.mm.api.MBaseService" />
-	
 	<reference id="mMeterService" interface="cn.techen.lbs.mm.api.MMeterService" />
 	
 	<reference id="mTaskService" interface="cn.techen.lbs.mm.api.MTaskService" />
@@ -22,8 +20,7 @@
 	</bean>
 	
 	<bean id="bootstrapBean" class="cn.techen.lbs.task.report.Bootstrap" init-method="start">		
-		<property name="context" ref="reportContextBean"/>		
-		<property name="mBaseService" ref="mBaseService"/>	
+		<property name="context" ref="reportContextBean"/>
 	</bean>
 	
 </blueprint>

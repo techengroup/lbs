@@ -56,7 +56,20 @@ public class LoraProtocolTest extends TestCase {
 	}
 	
 	public void testA() {
-		Titles.getInstace().put("1", "");
+		ProtocolConfig config = new DefaultProtocolConfig();
+		config.setCommAddr("00000003,170903400023").setDir(DIR.CLIENT).setOperation(OPERATION.REPORT);
+//		config.funcs().add("2");
+//		config.units().add("0003");
+		
+		LoraProxy loraProxy = new LoraProxy();
+		try {
+			log.info("Encode frame.");
+			byte[] frame = loraProxy.encode(config);
+			log.info("Decode frame");
+			loraProxy.decode(frame);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

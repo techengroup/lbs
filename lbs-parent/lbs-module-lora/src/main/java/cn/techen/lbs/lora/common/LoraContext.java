@@ -15,10 +15,6 @@ public class LoraContext {
 	private ProtocolManagerService protocolManagerService;
 	
 	private ProtocolFrame frame;
-	
-	private ProtocolFrame reportFrame;
-	
-	private int flag = 0; //0:None 1:Read 2:Report 3:Both
 
 	public int getTimeout() {
 		return timeout;
@@ -53,22 +49,10 @@ public class LoraContext {
 
 	public void setFrame(ProtocolFrame frame) {
 		this.frame = frame;
-	}
+	}	
 
-	public ProtocolFrame getReportFrame() {
-		return reportFrame;
-	}
-
-	public void setReportFrame(ProtocolFrame reportFrame) {
-		this.reportFrame = reportFrame;
-	}
-
-	public int getFlag() {
-		return flag;
-	}
-
-	public void setFlag(int flag) {
-		this.flag = flag;
+	public void reset() {
+		this.frame = null;
 	}
 
 	public RxtxChannel channel() throws Exception {

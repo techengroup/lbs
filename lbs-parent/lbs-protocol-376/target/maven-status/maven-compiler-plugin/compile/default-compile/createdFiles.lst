@@ -21,4 +21,5 @@ cn\techen\lbs\protocol\t376\T376Config$DIR.class
 cn\techen\lbs\protocol\t376\DefaultT376Config.class
 cn\techen\lbs\protocol\t376\T376Config$ACD.class
 cn\techen\lbs\protocol\t376\T376Config.class
+cn\techen\lbs\protocol\t376\AFN0.class
 cn\techen\lbs\protocol\t376\Header.class
