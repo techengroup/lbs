@@ -1,8 +1,8 @@
-package cn.techen.lbs.business.sql;
+package cn.techen.lbs.db.sql;
 
 import java.util.Queue;
 
-import cn.techen.lbs.db.common.AbstractSQL;
+import cn.techen.lbs.db.sql.AbstractSQL;
 
 public class Fn1000043 extends AbstractSQL {
 

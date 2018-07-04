@@ -68,7 +68,7 @@ public class ARRAY extends AbstractData {
 	
 	public String toExplain() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(String.format("%s[%d]", "ARRAY2", len));
+		sb.append(String.format("%s[%d]", "ARRAY", len));
 		for (AbstractData ad : adList) {
 			sb.append("\r\n" + ad.toExplain());
 		}

@@ -13,7 +13,6 @@ public class Meter extends MyModel {
 
 	private static final long serialVersionUID = 7790695323805734224L;
 
-	private Integer serialno;
 	private Integer pointno;
 	private String commaddr;
 	private String logicaddr;
@@ -40,14 +39,6 @@ public class Meter extends MyModel {
 	private Integer failTimes;
 		
 	private Running running = new Running();
-
-	public Integer getSerialno() {
-		return serialno;
-	}
-
-	public void setSerialno(Integer serialno) {
-		this.serialno = serialno;
-	}
 
 	public Integer getPointno() {
 		return pointno;

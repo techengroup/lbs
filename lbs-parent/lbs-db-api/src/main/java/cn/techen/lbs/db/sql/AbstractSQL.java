@@ -1,4 +1,4 @@
-package cn.techen.lbs.db.common;
+package cn.techen.lbs.db.sql;
 
 import java.util.Queue;
 

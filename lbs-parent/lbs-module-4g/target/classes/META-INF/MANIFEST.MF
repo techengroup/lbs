@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1530509683724
+Bnd-LastModified: 1530605684211
 Build-Jdk: 1.8.0_152
 Built-By: ZY
 Bundle-Blueprint: OSGI-INF/blueprint/dev-4g.xml
@@ -47,7 +47,7 @@ Import-Package: cn.techen.lbs.db.model;resolution:=optional;version="[1.
  n="[1.7,2)",org.slf4j.helpers;resolution:=optional;version="[1.7,2)",su
  n.misc;resolution:=optional,sun.security.util;resolution:=optional,sun.
  security.x509;resolution:=optional
-Import-Service: cn.techen.lbs.mm.api.MTaskService;multiple:=false,cn.tec
- hen.lbs.mm.api.MLbsService;multiple:=false
+Import-Service: cn.techen.lbs.mm.api.MLbsService;multiple:=false,cn.tech
+ en.lbs.mm.api.MTaskService;multiple:=false
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
 Tool: Bnd-3.5.0.201709291849

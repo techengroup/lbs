@@ -24,12 +24,18 @@ public class GeneralServiceImpl implements GeneralService {
 			
 			conn = mp.getConnection();
 			stmt = conn.createStatement();			
-			ResultSet rs = stmt.executeQuery(sql);
+			ResultSet rs = stmt.executeQuery(sql.replace("{LEN}", ""));
+			int colCount = rs.getMetaData().getColumnCount();
 			
 			while (rs.next()) {
-				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+				for (int i = 1; i <= colCount; i++) {
 					datas.add(rs.getObject(i));
 				}				
+			}
+			
+			if (sql.indexOf("{LEN}") >= 0) {
+				int len = datas.size() / colCount;
+				datas.add(0, len);
 			}
 			
 			return datas;

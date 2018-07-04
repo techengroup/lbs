@@ -7,7 +7,7 @@
     <property name="java.specification.version" value="1.8"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="D:\Workspace\lbs-parent\lbs-task-report\target\test-classes;D:\Workspace\lbs-parent\lbs-task-report\target\classes;C:\Users\ZY\.m2\repository\cn\techen\lbs\lbs-db-api\1.0\lbs-db-api-1.0.jar;C:\Users\ZY\.m2\repository\cn\techen\lbs\lbs-protocol-api\1.0\lbs-protocol-api-1.0.jar;C:\Users\ZY\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\ZY\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\ZY\.m2\repository\org\apache\felix\org.apache.felix.framework\5.6.10\org.apache.felix.framework-5.6.10.jar;C:\Users\ZY\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-log4j12\1.7.7\slf4j-log4j12-1.7.7.jar;"/>
+    <property name="java.class.path" value="D:\Workspace\lbs-parent\lbs-task-report\target\test-classes;D:\Workspace\lbs-parent\lbs-task-report\target\classes;D:\Workspace\lbs-parent\lbs-db-api\target\lbs-db-api-1.0.jar;D:\Workspace\lbs-parent\lbs-protocol-api\target\lbs-protocol-api-1.0.jar;C:\Users\ZY\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\ZY\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\ZY\.m2\repository\org\apache\felix\org.apache.felix.framework\5.6.10\org.apache.felix.framework-5.6.10.jar;C:\Users\ZY\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-log4j12\1.7.7\slf4j-log4j12-1.7.7.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -18,8 +18,8 @@
     <property name="user.country" value="CN"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="D:\Work\Program\Java\jdk1.8.0\jre\bin"/>
-    <property name="sun.java.command" value="C:\Users\ZY\AppData\Local\Temp\surefire5343315720427387028\surefirebooter4170954543580165285.jar C:\Users\ZY\AppData\Local\Temp\surefire5343315720427387028 2018-07-02T16-13-31_421-jvmRun1 surefire7465267883143574765tmp surefire_02517935612993053804tmp"/>
-    <property name="surefire.test.class.path" value="D:\Workspace\lbs-parent\lbs-task-report\target\test-classes;D:\Workspace\lbs-parent\lbs-task-report\target\classes;C:\Users\ZY\.m2\repository\cn\techen\lbs\lbs-db-api\1.0\lbs-db-api-1.0.jar;C:\Users\ZY\.m2\repository\cn\techen\lbs\lbs-protocol-api\1.0\lbs-protocol-api-1.0.jar;C:\Users\ZY\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\ZY\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\ZY\.m2\repository\org\apache\felix\org.apache.felix.framework\5.6.10\org.apache.felix.framework-5.6.10.jar;C:\Users\ZY\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-log4j12\1.7.7\slf4j-log4j12-1.7.7.jar;"/>
+    <property name="sun.java.command" value="C:\Users\ZY\AppData\Local\Temp\surefire8785440601670281670\surefirebooter7221316872397930651.jar C:\Users\ZY\AppData\Local\Temp\surefire8785440601670281670 2018-07-03T16-10-32_042-jvmRun1 surefire4871780784932703401tmp surefire_93792511206628136931tmp"/>
+    <property name="surefire.test.class.path" value="D:\Workspace\lbs-parent\lbs-task-report\target\test-classes;D:\Workspace\lbs-parent\lbs-task-report\target\classes;D:\Workspace\lbs-parent\lbs-db-api\target\lbs-db-api-1.0.jar;D:\Workspace\lbs-parent\lbs-protocol-api\target\lbs-protocol-api-1.0.jar;C:\Users\ZY\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\ZY\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\ZY\.m2\repository\org\apache\felix\org.apache.felix.framework\5.6.10\org.apache.felix.framework-5.6.10.jar;C:\Users\ZY\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-log4j12\1.7.7\slf4j-log4j12-1.7.7.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\ZY"/>
     <property name="user.language" value="zh"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\ZY\AppData\Local\Temp\surefire5343315720427387028\surefirebooter4170954543580165285.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\ZY\AppData\Local\Temp\surefire8785440601670281670\surefirebooter7221316872397930651.jar"/>
     <property name="sun.boot.class.path" value="D:\Work\Program\Java\jdk1.8.0\jre\lib\resources.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\rt.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\sunrsasign.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\jsse.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\jce.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\charsets.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\jfr.jar;D:\Work\Program\Java\jdk1.8.0\jre\classes"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -60,5 +60,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="52.0"/>
   </properties>
-  <testcase name="test" classname="cn.techen.lbs.test.ReportTest" time="0.01"/>
+  <testcase name="test" classname="cn.techen.lbs.test.ReportTest" time="0.006"/>
 </testsuite>

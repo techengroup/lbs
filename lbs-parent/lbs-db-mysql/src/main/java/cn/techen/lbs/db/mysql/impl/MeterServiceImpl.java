@@ -31,7 +31,7 @@ public class MeterServiceImpl implements MeterService {
 		try {
 			List<Meter> list = new ArrayList<Meter>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, status, serialno, pointno, commaddr, logicaddr from PRM_METER");
+			ddl.append("select id, status, pointno, commaddr, logicaddr from PRM_METER");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			ResultSet rs = stmt.executeQuery();
@@ -39,7 +39,6 @@ public class MeterServiceImpl implements MeterService {
 				Meter meter = new Meter();
 				meter.setId(rs.getInt("id"));
 				meter.setStatus(rs.getInt("status"));
-				meter.setSerialno(rs.getInt("serialno"));
 				meter.setPointno(rs.getInt("pointno"));
 				meter.setCommaddr(rs.getString("commaddr"));
 				meter.setLogicaddr(rs.getString("logicaddr"));
@@ -98,7 +97,7 @@ public class MeterServiceImpl implements MeterService {
 		try {
 			List<Meter> list = new ArrayList<Meter>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, status, serialno, pointno, commaddr, logicaddr from PRM_METER ");
+			ddl.append("select id, status, pointno, commaddr, logicaddr from PRM_METER ");
 			ddl.append("where crton>? or mdfon>?");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
@@ -109,7 +108,6 @@ public class MeterServiceImpl implements MeterService {
 				Meter meter = new Meter();
 				meter.setId(rs.getInt("id"));
 				meter.setStatus(rs.getInt("status"));
-				meter.setSerialno(rs.getInt("serialno"));
 				meter.setPointno(rs.getInt("pointno"));
 				meter.setCommaddr(rs.getString("commaddr"));
 				meter.setLogicaddr(rs.getString("logicaddr"));

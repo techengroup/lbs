@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="cn.techen.lbs.test.RxtxTest" time="0.354" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="cn.techen.lbs.test.RxtxTest" time="0.44" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -18,7 +18,7 @@
     <property name="user.country" value="CN"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="D:\Work\Program\Java\jdk1.8.0\jre\bin"/>
-    <property name="sun.java.command" value="C:\Users\ZY\AppData\Local\Temp\surefire6457847063537026446\surefirebooter3728271607112798.jar C:\Users\ZY\AppData\Local\Temp\surefire6457847063537026446 2018-07-02T13-34-30_849-jvmRun1 surefire7216786001734650424tmp surefire_03446680844112081583tmp"/>
+    <property name="sun.java.command" value="C:\Users\ZY\AppData\Local\Temp\surefire6579149529721902432\surefirebooter5982362504995688503.jar C:\Users\ZY\AppData\Local\Temp\surefire6579149529721902432 2018-07-03T16-10-32_042-jvmRun1 surefire4690395574328217330tmp surefire_04598787815422463592tmp"/>
     <property name="surefire.test.class.path" value="D:\Workspace\lbs-parent\lbs-transport-rxtx\target\test-classes;D:\Workspace\lbs-parent\lbs-transport-rxtx\target\classes;C:\Users\ZY\.m2\repository\org\rxtx\rxtx-osgi\2.2-pre2\rxtx-osgi-2.2-pre2.jar;C:\Users\ZY\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\ZY\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\ZY\.m2\repository\org\apache\felix\org.apache.felix.framework\5.6.10\org.apache.felix.framework-5.6.10.jar;C:\Users\ZY\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-log4j12\1.7.7\slf4j-log4j12-1.7.7.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\ZY"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\ZY\AppData\Local\Temp\surefire6457847063537026446\surefirebooter3728271607112798.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\ZY\AppData\Local\Temp\surefire6579149529721902432\surefirebooter5982362504995688503.jar"/>
     <property name="sun.boot.class.path" value="D:\Work\Program\Java\jdk1.8.0\jre\lib\resources.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\rt.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\sunrsasign.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\jsse.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\jce.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\charsets.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\jfr.jar;D:\Work\Program\Java\jdk1.8.0\jre\classes"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -60,5 +60,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="52.0"/>
   </properties>
-  <testcase name="testGetMeter" classname="cn.techen.lbs.test.RxtxTest" time="0.347"/>
+  <testcase name="testGetMeter" classname="cn.techen.lbs.test.RxtxTest" time="0.417"/>
 </testsuite>

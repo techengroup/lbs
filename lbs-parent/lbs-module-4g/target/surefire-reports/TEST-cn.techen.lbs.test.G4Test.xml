@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="cn.techen.lbs.test.G4Test" time="0.095" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="cn.techen.lbs.test.G4Test" time="0.091" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -7,7 +7,7 @@
     <property name="java.specification.version" value="1.8"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="D:\Workspace\lbs-parent\lbs-module-4g\target\test-classes;D:\Workspace\lbs-parent\lbs-module-4g\target\classes;C:\Users\ZY\.m2\repository\io\netty\netty-all\4.1.24.Final\netty-all-4.1.24.Final.jar;D:\Workspace\lbs-parent\lbs-db-api\target\lbs-db-api-1.0.jar;C:\Users\ZY\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\ZY\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\ZY\.m2\repository\org\apache\felix\org.apache.felix.framework\5.6.10\org.apache.felix.framework-5.6.10.jar;C:\Users\ZY\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-log4j12\1.7.7\slf4j-log4j12-1.7.7.jar;"/>
+    <property name="java.class.path" value="D:\Workspace\lbs-parent\lbs-module-4g\target\test-classes;D:\Workspace\lbs-parent\lbs-module-4g\target\classes;C:\Users\ZY\.m2\repository\io\netty\netty-all\4.1.24.Final\netty-all-4.1.24.Final.jar;C:\Users\ZY\.m2\repository\cn\techen\lbs\lbs-db-api\1.0\lbs-db-api-1.0.jar;C:\Users\ZY\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\ZY\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\ZY\.m2\repository\org\apache\felix\org.apache.felix.framework\5.6.10\org.apache.felix.framework-5.6.10.jar;C:\Users\ZY\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-log4j12\1.7.7\slf4j-log4j12-1.7.7.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -18,8 +18,8 @@
     <property name="user.country" value="CN"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="D:\Work\Program\Java\jdk1.8.0\jre\bin"/>
-    <property name="sun.java.command" value="C:\Users\ZY\AppData\Local\Temp\surefire1567125405413377836\surefirebooter4550664741291530724.jar C:\Users\ZY\AppData\Local\Temp\surefire1567125405413377836 2018-07-02T13-34-30_849-jvmRun1 surefire3452122277758304289tmp surefire_43270991549595685430tmp"/>
-    <property name="surefire.test.class.path" value="D:\Workspace\lbs-parent\lbs-module-4g\target\test-classes;D:\Workspace\lbs-parent\lbs-module-4g\target\classes;C:\Users\ZY\.m2\repository\io\netty\netty-all\4.1.24.Final\netty-all-4.1.24.Final.jar;D:\Workspace\lbs-parent\lbs-db-api\target\lbs-db-api-1.0.jar;C:\Users\ZY\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\ZY\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\ZY\.m2\repository\org\apache\felix\org.apache.felix.framework\5.6.10\org.apache.felix.framework-5.6.10.jar;C:\Users\ZY\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-log4j12\1.7.7\slf4j-log4j12-1.7.7.jar;"/>
+    <property name="sun.java.command" value="C:\Users\ZY\AppData\Local\Temp\surefire2161456892373703216\surefirebooter3313548789302764010.jar C:\Users\ZY\AppData\Local\Temp\surefire2161456892373703216 2018-07-03T16-14-39_807-jvmRun1 surefire5044388518778789996tmp surefire_0837752677182722702tmp"/>
+    <property name="surefire.test.class.path" value="D:\Workspace\lbs-parent\lbs-module-4g\target\test-classes;D:\Workspace\lbs-parent\lbs-module-4g\target\classes;C:\Users\ZY\.m2\repository\io\netty\netty-all\4.1.24.Final\netty-all-4.1.24.Final.jar;C:\Users\ZY\.m2\repository\cn\techen\lbs\lbs-db-api\1.0\lbs-db-api-1.0.jar;C:\Users\ZY\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\ZY\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\ZY\.m2\repository\org\apache\felix\org.apache.felix.framework\5.6.10\org.apache.felix.framework-5.6.10.jar;C:\Users\ZY\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-api\1.7.7\slf4j-api-1.7.7.jar;C:\Users\ZY\.m2\repository\org\slf4j\slf4j-log4j12\1.7.7\slf4j-log4j12-1.7.7.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\ZY"/>
     <property name="user.language" value="zh"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\ZY\AppData\Local\Temp\surefire1567125405413377836\surefirebooter4550664741291530724.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\ZY\AppData\Local\Temp\surefire2161456892373703216\surefirebooter3313548789302764010.jar"/>
     <property name="sun.boot.class.path" value="D:\Work\Program\Java\jdk1.8.0\jre\lib\resources.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\rt.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\sunrsasign.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\jsse.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\jce.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\charsets.jar;D:\Work\Program\Java\jdk1.8.0\jre\lib\jfr.jar;D:\Work\Program\Java\jdk1.8.0\jre\classes"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
