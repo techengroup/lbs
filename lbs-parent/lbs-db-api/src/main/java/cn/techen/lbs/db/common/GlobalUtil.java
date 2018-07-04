@@ -67,6 +67,50 @@ public class GlobalUtil {
     }
 	
 	/**
+	 * 通过角度计算扇区
+	 * 
+	 * @param angle
+	 * @return
+	 */
+	public static int sector(double angle) {
+		int var = 0;
+
+		if ((angle - 0.0) == 0) {
+			var = 1;
+		} else {
+			var = (int) Math.ceil(angle / 15);
+		}
+		return var;
+	}
+
+	/**
+	 * 计算子扇区的X坐标
+	 * 
+	 * @param distance
+	 * @return
+	 */
+
+	public static int districtX(double distance) {
+		int var = 0;
+		var = (int) Math.floor(distance / 50);
+		return var;
+	}
+
+	/**
+	 * 计算子扇区的Y坐标
+	 * 
+	 * @param angle
+	 * @return
+	 */
+
+	public static int districtY(double angle) {
+		int var = 0;
+
+		var = (int) Math.floorMod((int) angle, 15) / 5;
+		return var;
+	}
+	
+	/**
 	 * 实例化对象
 	 * @param className
 	 * @return

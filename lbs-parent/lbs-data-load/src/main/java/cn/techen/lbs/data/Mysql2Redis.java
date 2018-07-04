@@ -15,7 +15,6 @@ import cn.techen.lbs.db.model.Fn;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.db.model.Meter;
 import cn.techen.lbs.mm.api.MBaseService;
-import cn.techen.lbs.mm.api.MLbsService;
 import cn.techen.lbs.mm.api.MMeterService;
 import cn.techen.lbs.mm.api.MRegisterService;
 import cn.techen.lbs.mm.api.MRelayService;
@@ -30,7 +29,6 @@ public class Mysql2Redis implements Runnable {
 	private MeterService meterService;	
 	private FnService fnService;
 	private MBaseService mBaseService;
-	private MLbsService mLbsService;
 	private MMeterService mMeterService;
 	private MRegisterService mRegisterService;
 	private MRelayService mRelayService;
@@ -50,7 +48,7 @@ public class Mysql2Redis implements Runnable {
 				if (count > 100000) count = 1;
 			} catch (InterruptedException e) {
 				log.error(e.getMessage());
-			} catch (Exception e) {			
+			} catch (Exception e) {	
 				log.error(e.getMessage());
 			}
 		}
@@ -69,61 +67,75 @@ public class Mysql2Redis implements Runnable {
 			Local.LASTTIME = new Date();
 			
 			lbs = lbsService.selectByKey(0);
+			fns = fnService.selectAll();
 			meters = meterService.selectAll();
 			unregisterMeters = meterService.selectUnregister();
 			relays = meterService.selectRelay();
-			fns = fnService.selectAll();
+			
+			if (lbs == null) {
+				log.error("There is no any lbs in the database...");
+				return;
+			}
+			if (fns == null || fns.size() <= 0) {
+				log.error("There is no any protocol function in the database...");
+				return;
+			}
+			
+			load(lbs, fns, meters, unregisterMeters, relays);
+			
+			Global.DATAReady = true;
 		} else {
 			Date nowTime = new Date();
 			
 			lbs = lbsService.selectByTime(Local.LASTTIME);
+			fns = fnService.selectByTime(Local.LASTTIME);
 			meters = meterService.selectByTime(Local.LASTTIME);
 			unregisterMeters = meterService.selectUnregisterByTime(Local.LASTTIME);
-			fns = fnService.selectByTime(Local.LASTTIME);
 			
 			Local.LASTTIME = nowTime;
+			
+			load(lbs, fns, meters, unregisterMeters, null);
+		}
+	}
+	
+	private void load(LBS lbs, List<Fn> fns
+			, List<Meter> meters, List<Meter> unregisterMeters, List<Meter> relays) {
+
+		if (lbs != null) {
+			Global.lbs = lbs;
+			if (!Global.lbs.getChannel().equals(lbs.getChannel())) {
+				Global.LoraReady = false;
+			}
+			if (lbs.getLongitude() != null && lbs.getLatitude() != null) {
+				Global.GISReady = true;
+			}
+			log.info("LBS parameters have been modified...");
 		}
 		
-		if (lbs == null) {
-			log.warn("There is no any lbs in the database...");
-		} else {
-			mLbsService.set(lbs);
-			log.info("Load lbs amount is {} from database.", 1);
-		}
-		
-		if (meters == null || meters.size() <= 0) {
-			log.warn("There is no any meter in the database...");
-		} else {
-			mMeterService.put(meters);
-			log.info("Load meter amount is {} from database.", meters.size());
-		}	
-		
-		if (unregisterMeters == null || unregisterMeters.size() <= 0) {
-			log.info("There is no any unregister meter in the database...");
-		} else {
-			mRegisterService.lpush(unregisterMeters);
-			log.info("Load unregister meter amount is {} from database.", unregisterMeters.size());
-		}
-		
-		if (relays == null || relays.size() <= 0) {
-			log.info("There is no any relay in the database...");
-		} else {
-			mRelayService.put(relays);
-			log.info("Load relay amount is {} from database.", relays.size());
-		}	
-		
-		if (fns == null || fns.size() <= 0) {
-			log.warn("There is no any protocol function in the database...");
-		} else {
+		if (fns != null && fns.size() > 0) {
 			for (Fn fn : fns) {
 				String key = fn.getProtocol() + ":" + fn.getDirection() + ":" + fn.getOperation() + ":" + fn.getFunction();
 				FnNames.getInstace().put(key, (fn.getName() == null) ? "" : fn.getName());				
 				Elements.getInstace().put(key, (fn.getElements() == null) ? "" : fn.getElements());
 				Titles.getInstace().put(key, (fn.getTitles() == null) ? "" : fn.getTitles());
 			}
-		}		
+			log.info("Load updated protocol function[{}] in the database...", fns.size());
+		}	
 		
-		Global.DBReady = true;
+		if (meters != null && meters.size() > 0) {
+			mMeterService.put(meters);
+			log.info("Load updated meter[{}] from database...", meters.size());
+		}	
+		
+		if (unregisterMeters != null && unregisterMeters.size() > 0) {
+			mRegisterService.lpush(unregisterMeters);
+			log.info("Load updated unregister meter[{}] from database...", unregisterMeters.size());
+		}
+		
+		if (relays != null && relays.size() > 0) {
+			mRelayService.put(relays);
+			log.info("Load updated relay[{}] from database...", relays.size());
+		}
 	}
 	
 	public void setLbsService(LbsService lbsService) {
@@ -140,10 +152,6 @@ public class Mysql2Redis implements Runnable {
 
 	public void setmBaseService(MBaseService mBaseService) {
 		this.mBaseService = mBaseService;
-	}
-
-	public void setmLbsService(MLbsService mLbsService) {
-		this.mLbsService = mLbsService;
 	}
 	
 	public void setmMeterService(MMeterService mMeterService) {

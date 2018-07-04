@@ -51,7 +51,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					if (Global.DBReady) {
+					if (Global.DATAReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}

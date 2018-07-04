@@ -39,10 +39,8 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.DETECTMILLIS);
 										
-					if (Global.DBReady) {
-						context.setnLbs(context.getmLbsService().get());
-						if (context.getLbs() == null || !context.getLbs().getChannel().equals(context.getnLbs().getChannel())) {
-							Global.LoraReady = false;
+					if (Global.DATAReady) {
+						if (!Global.LoraReady) {
 							context.fireEncode();
 						}
 					}

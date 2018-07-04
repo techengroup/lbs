@@ -10,6 +10,7 @@ public class Entrance {
             .getLogger(Local.PROJECT);
 	
 	private Mysql2Redis mysql2Redis;
+	private GIS gis;
 	
 	/**
 	 * Data load service start
@@ -18,10 +19,18 @@ public class Entrance {
 		log.info("Data load is starting......");			
 		Thread myThread = new Thread(mysql2Redis);
 		myThread.start();
+		
+		log.info("GIS is starting......");			
+		Thread gisThread = new Thread(gis);
+		gisThread.start();
 	}
 
 	public void setMysql2Redis(Mysql2Redis mysql2Redis) {
 		this.mysql2Redis = mysql2Redis;
+	}
+
+	public void setGis(GIS gis) {
+		this.gis = gis;
 	}
 
 }

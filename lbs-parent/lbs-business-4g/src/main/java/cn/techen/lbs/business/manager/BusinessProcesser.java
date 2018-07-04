@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.techen.lbs.business.common.BusinessContext;
-import cn.techen.lbs.db.model.LBS;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
@@ -12,7 +12,6 @@ import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
 public class BusinessProcesser {
 	
 	private Map<Integer, AbstractHandler> handlerMap = new HashMap<Integer, AbstractHandler>();
-	private LBS lbs = null;
 	
 	public BusinessProcesser() {
 		handlerMap.put(OPERATION.GET.value(), new GetHandler());
@@ -25,21 +24,19 @@ public class BusinessProcesser {
 		handlerMap.put(OPERATION.CONFIRM.value(), new ConfirmHandler());		
 	}
 		
-	public void operate(BusinessContext context) throws Exception {
-		if (lbs == null) lbs = context.getmLbsService().get();
-		
+	public void operate(BusinessContext context) throws Exception {		
 		byte[] data = context.getmTaskService().rpop(MTaskService.UPQUEUE_RETURN);
 		AbstractHandler handler = null;
 		
 		if (data != null && data.length > 0) {
 			if (data.length == 1) {
 				handler = handlerMap.get((int)data[0]);
-				handler.operate(context, lbs, null);
+				handler.operate(context, null);
 			} else {				
-				ProtocolConfig config = context.getProtocolManagerService().getProtocol(lbs.getProtocol()).decode(data);
+				ProtocolConfig config = context.getProtocolManagerService().getProtocol(Global.lbs.getProtocol()).decode(data);
 				handler = handlerMap.get(config.getOperation().value());
 				if (handler != null) {
-					handler.operate(context, lbs, config);
+					handler.operate(context, config);
 				}
 			}
 		}

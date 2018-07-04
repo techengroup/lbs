@@ -1,6 +1,6 @@
 package cn.techen.lbs.g4;
 
-import cn.techen.lbs.db.model.LBS;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.g4.common.G4Context;
 import cn.techen.lbs.g4.common.Local;
 import cn.techen.lbs.g4.common.Status;
@@ -46,8 +46,10 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.CONNECTINTERVALMILLIS);		
 					
-					disconnect();
-					connect();
+					if (Global.DATAReady) {
+						disconnect();
+						connect();
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}				
@@ -83,12 +85,11 @@ public class Bootstrap {
 			}
 		}
 		
-		private void disconnect() {			
-			LBS lbs = context.getmLbsService().get();			
-			String newHost0 = lbs.getIp();
-			Integer newPort0 = lbs.getPort();
-			String newHost1 = lbs.getIp1();
-			Integer newPort1 = lbs.getPort1();
+		private void disconnect() {	
+			String newHost0 = Global.lbs.getIp();
+			Integer newPort0 = Global.lbs.getPort();
+			String newHost1 = Global.lbs.getIp1();
+			Integer newPort1 = Global.lbs.getPort1();
 			
 			if (host0 == null || !newHost0.equals(host0) || !newPort0.equals(port0)) {			
 				host0 = newHost0;

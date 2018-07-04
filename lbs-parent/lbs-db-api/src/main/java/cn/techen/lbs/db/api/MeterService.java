@@ -32,5 +32,9 @@ public interface MeterService extends IService<Meter> {
 	int updateFail(Meter entity, boolean changeStatus, boolean recordlog);
 	
 	int updateRelay(Meter entity);
+
+	List<Meter> selectGIS();
+
+	int updateGIS(List<Meter> entitys);
 	
 }

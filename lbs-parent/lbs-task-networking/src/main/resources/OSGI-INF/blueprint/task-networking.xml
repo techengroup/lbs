@@ -6,8 +6,6 @@
 	
 	<reference id="meterService" interface="cn.techen.lbs.db.api.MeterService" />
 	
-	<reference id="mLbsService" interface="cn.techen.lbs.mm.api.MLbsService" />
-	
 	<reference id="mMeterService" interface="cn.techen.lbs.mm.api.MMeterService" />
 	
 	<reference id="mRegisterService" interface="cn.techen.lbs.mm.api.MRegisterService" />
@@ -20,7 +18,6 @@
 
 	<bean id="netContextBean" class="cn.techen.lbs.task.networking.common.NetContext">	
 		<property name="meterService" ref="meterService"/>
-		<property name="mLbsService" ref="mLbsService"/>	
 		<property name="mMeterService" ref="mMeterService"/>
 		<property name="mRegisterService" ref="mRegisterService"/>
 		<property name="mRelayService" ref="mRelayService"/>

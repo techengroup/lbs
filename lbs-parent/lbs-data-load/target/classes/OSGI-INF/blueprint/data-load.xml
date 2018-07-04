@@ -12,8 +12,6 @@
 	
 	<reference id="mBaseService" interface="cn.techen.lbs.mm.api.MBaseService" />
 	
-	<reference id="mLbsService" interface="cn.techen.lbs.mm.api.MLbsService" />
-	
 	<reference id="mMeterService" interface="cn.techen.lbs.mm.api.MMeterService" />
 	
 	<reference id="mRegisterService" interface="cn.techen.lbs.mm.api.MRegisterService" />
@@ -25,14 +23,18 @@
 		<property name="meterService" ref="meterService"/>
 		<property name="fnService" ref="fnService"/>
 		<property name="mBaseService" ref="mBaseService"/>
-		<property name="mLbsService" ref="mLbsService"/>
 		<property name="mMeterService" ref="mMeterService"/>
 		<property name="mRegisterService" ref="mRegisterService"/>
 		<property name="mRelayService" ref="mRelayService"/>
 	</bean>	
 	
+	<bean id="gisBean" class="cn.techen.lbs.data.GIS">
+		<property name="meterService" ref="meterService"/>
+	</bean>	
+	
 	<bean id="entranceBean" class="cn.techen.lbs.data.Entrance" init-method="start">
 		<property name="mysql2Redis" ref="mysql2RedisBean"/>
+		<property name="gis" ref="gisBean"/>
 	</bean>
 	
 </blueprint>

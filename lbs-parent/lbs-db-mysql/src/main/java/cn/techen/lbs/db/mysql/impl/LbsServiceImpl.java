@@ -21,7 +21,7 @@ public class LbsServiceImpl implements LbsService {
 		PreparedStatement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commaddr, protocol, moduleaddr, logicaddr, moduleprotocol, channel, longitude, latitude, ip, port, ip1, port1, apn from PRM_LBS");
+			ddl.append("select id, commaddr, protocol, moduleaddr, logicaddr, moduleprotocol, channel, longitude, latitude, ip, port, ip1, port1, apn from KNL_LBS");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			ResultSet rs = stmt.executeQuery();
@@ -102,7 +102,7 @@ public class LbsServiceImpl implements LbsService {
 		PreparedStatement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commaddr, protocol, moduleaddr, logicaddr, moduleprotocol, channel, longitude, latitude, ip, port, ip1, port1, apn from PRM_LBS ");
+			ddl.append("select id, commaddr, protocol, moduleaddr, logicaddr, moduleprotocol, channel, longitude, latitude, ip, port, ip1, port1, apn from KNL_LBS ");
 			ddl.append(" where mdfon>?");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());

@@ -1,9 +1,7 @@
 package cn.techen.lbs.task.networking.common;
 
 import cn.techen.lbs.db.api.MeterService;
-import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.db.model.Meter;
-import cn.techen.lbs.mm.api.MLbsService;
 import cn.techen.lbs.mm.api.MMeterService;
 import cn.techen.lbs.mm.api.MRegisterService;
 import cn.techen.lbs.mm.api.MRelayService;
@@ -21,8 +19,6 @@ public class NetContext {
 	
 	private MeterService meterService;
 	
-	private MLbsService mLbsService;
-	
 	private MMeterService mMeterService;
 	
 	private MRegisterService mRegisterService;
@@ -33,18 +29,9 @@ public class NetContext {
 	
 	private ProtocolManagerService protocolManagerService;
 	
-	private LBS lbs;
-	
 	private Meter meter;
 	
 	private ProtocolFrame frame;
-
-	public LBS getLbs() {
-		if (lbs == null) {
-			lbs = mLbsService.get();
-		}
-		return lbs;
-	}
 
 	public Meter getMeter() {
 		if (meter == null) {
@@ -86,10 +73,6 @@ public class NetContext {
 
 	public void setMeterService(MeterService meterService) {
 		this.meterService = meterService;
-	}
-
-	public void setmLbsService(MLbsService mLbsService) {
-		this.mLbsService = mLbsService;
 	}
 	
 	public MMeterService getmMeterService() {

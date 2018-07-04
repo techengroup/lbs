@@ -19,14 +19,13 @@ public class ProcessHandler {
 		byte[] rBytes = frame.getReadBytes();
 		if (rBytes != null) {
 			ProtocolConfig config = context.getProtocolManagerService()
-					.getProtocol(context.getLbs().getModuleprotocol()).decode(frame.getReadBytes());
+					.getProtocol(Global.lbs.getModuleprotocol()).decode(frame.getReadBytes());
 			if (config != null) {					
 				Object obj = config.units().poll();
 				if (obj != null) {
 					int result  = Integer.parseInt(obj.toString());
 					if (result == 1) {
 						Global.LoraReady = true;
-						context.setLbs(context.getnLbs());
 					}
 				}				
 			}
@@ -39,9 +38,9 @@ public class ProcessHandler {
 		ProtocolConfig config = new DefaultProtocolConfig();
 		config.setDir(DIR.CLIENT).setOperation(OPERATION.SET);
 		config.funcs().add(String.valueOf(3));
-		config.units().add(context.getnLbs().getChannel());	
+		config.units().add(Global.lbs.getChannel());	
 		
-		byte[] frame = context.getProtocolManagerService().getProtocol(context.getnLbs().getModuleprotocol()).encode(config);
+		byte[] frame = context.getProtocolManagerService().getProtocol(Global.lbs.getModuleprotocol()).encode(config);
 		ProtocolFrame pFrame = new ProtocolFrame();
 		pFrame.setPriority(context.PRIORITY);
 		pFrame.setWriteBytes(frame);

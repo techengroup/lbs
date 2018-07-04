@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1530605453912
+Bnd-LastModified: 1530692740333
 Build-Jdk: 1.8.0_152
 Built-By: ZY
 Bundle-Blueprint: OSGI-INF/blueprint/data-load.xml
@@ -16,11 +16,11 @@ Import-Package: cn.techen.lbs.db.api;resolution:=optional;version="[1.0,
  ommon;resolution:=optional;version="[1.0,2)",org.osgi.service.blueprint
  ;version="[1.0.0,2.0.0)";resolution:=optional,org.slf4j;resolution:=opt
  ional;version="[1.7,2)"
-Import-Service: cn.techen.lbs.db.api.FnService;multiple:=false,cn.techen
- .lbs.mm.api.MMeterService;multiple:=false,cn.techen.lbs.mm.api.MBaseSer
- vice;multiple:=false,cn.techen.lbs.mm.api.MRelayService;multiple:=false
- ,cn.techen.lbs.db.api.MeterService;multiple:=false,cn.techen.lbs.db.api
- .LbsService;multiple:=false,cn.techen.lbs.mm.api.MRegisterService;multi
- ple:=false,cn.techen.lbs.mm.api.MLbsService;multiple:=false
-Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.5))"
+Import-Service: cn.techen.lbs.mm.api.MBaseService;multiple:=false,cn.tec
+ hen.lbs.db.api.FnService;multiple:=false,cn.techen.lbs.db.api.LbsServic
+ e;multiple:=false,cn.techen.lbs.mm.api.MRegisterService;multiple:=false
+ ,cn.techen.lbs.mm.api.MMeterService;multiple:=false,cn.techen.lbs.mm.ap
+ i.MRelayService;multiple:=false,cn.techen.lbs.db.api.MeterService;multi
+ ple:=false
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.5.0.201709291849

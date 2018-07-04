@@ -1,6 +1,6 @@
 package cn.techen.lbs.task.networking.manager;
 
-import cn.techen.lbs.db.model.LBS;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.model.Meter;
 import cn.techen.lbs.task.networking.common.NetContext;
 import cn.techen.lbs.protocol.FrameConfig.State;
@@ -13,15 +13,14 @@ public class ObtainHandler extends AbstractHandler {
 
 	@Override
 	public void operate(NetContext context) throws Exception {		
-		if (State.FINISHED == context.getState()) {			
-			LBS lbs = context.getLbs();
+		if (State.FINISHED == context.getState()) {
 			Meter meter = context.getMeter();
-			if (lbs != null && meter != null) {
+			if (meter != null) {
 				boolean routed = true;
 				if (context.getFrame() == null) {	
 					if (meter.getStatus() == -1 || meter.getFailTimes() < 2) {
 						Meter relay = context.getmRelayService().getOptimal(meter.getSector(), 0);
-						routed = route(context, "0/", lbs.getCommaddr(), 0, 0, meter, relay);
+						routed = route(context, "0/", Global.lbs.getCommaddr(), 0, 0, meter, relay);
 					} else {
 						routed = routeN(context, meter);
 					}					

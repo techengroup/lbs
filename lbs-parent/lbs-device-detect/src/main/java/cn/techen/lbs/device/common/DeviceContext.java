@@ -3,9 +3,7 @@ package cn.techen.lbs.device.common;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.device.manager.ProcessHandler;
-import cn.techen.lbs.mm.api.MLbsService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.ProtocolManagerService;
@@ -15,30 +13,11 @@ import cn.techen.lbs.protocol.FrameConfig.State;
 public class DeviceContext {
 	public final Priority PRIORITY = Priority.DETECT;	
 	private State state = State.FINISHED;
-	private LBS lbs;
-	private LBS nLbs;
-	private MLbsService mLbsService;
 	private MTaskService<ProtocolFrame> mTaskService;
 	private ProtocolManagerService protocolManagerService;	
 	private ProcessHandler processHandler = new ProcessHandler();
 	private Queue<ProtocolFrame> detectQueue = new LinkedList<ProtocolFrame>();
 	
-	public LBS getLbs() {
-		return lbs;
-	}
-
-	public void setLbs(LBS lbs) {
-		this.lbs = lbs;
-	}
-
-	public LBS getnLbs() {
-		return nLbs;
-	}
-
-	public void setnLbs(LBS nLbs) {
-		this.nLbs = nLbs;
-	}
-
 	public State getState() {
 		return state;
 	}
@@ -73,14 +52,6 @@ public class DeviceContext {
 		} catch (Exception e) {
 			processHandler.exceptionCaught(this, e.getCause());
 		}
-	}
-
-	public MLbsService getmLbsService() {
-		return mLbsService;
-	}
-
-	public void setmLbsService(MLbsService mLbsService) {
-		this.mLbsService = mLbsService;
 	}
 
 	public MTaskService<ProtocolFrame> getmTaskService() {

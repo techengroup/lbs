@@ -25,7 +25,7 @@ public class Meter extends MyModel {
 	private Integer customersubclass;
 	private Double longitude;
 	private Double latitude;
-	private Float distance;
+	private Double distance;
 	private Float angle;
 	private Integer sector;
 	private Integer districtX;
@@ -136,11 +136,11 @@ public class Meter extends MyModel {
 		this.latitude = latitude;
 	}
 
-	public Float getDistance() {
+	public Double getDistance() {
 		return distance;
 	}
 
-	public void setDistance(Float distance) {
+	public void setDistance(Double distance) {
 		this.distance = distance;
 	}
 

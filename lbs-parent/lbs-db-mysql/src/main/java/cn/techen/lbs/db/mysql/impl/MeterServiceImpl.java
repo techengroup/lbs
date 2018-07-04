@@ -31,7 +31,7 @@ public class MeterServiceImpl implements MeterService {
 		try {
 			List<Meter> list = new ArrayList<Meter>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, status, pointno, commaddr, logicaddr from PRM_METER");
+			ddl.append("select id, status, pointno, commaddr, logicaddr, protocol, moduleprotocol, longitude, latitude from PRM_METER");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			ResultSet rs = stmt.executeQuery();
@@ -42,6 +42,10 @@ public class MeterServiceImpl implements MeterService {
 				meter.setPointno(rs.getInt("pointno"));
 				meter.setCommaddr(rs.getString("commaddr"));
 				meter.setLogicaddr(rs.getString("logicaddr"));
+				meter.setProtocol(rs.getInt("protocol"));
+				meter.setModuleprotocol(rs.getInt("moduleprotocol"));
+				meter.setLongitude(rs.getDouble("longitude"));
+				meter.setLatitude(rs.getDouble("latitude"));
 				list.add(meter);
 			}
 			return list;
@@ -97,7 +101,7 @@ public class MeterServiceImpl implements MeterService {
 		try {
 			List<Meter> list = new ArrayList<Meter>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, status, pointno, commaddr, logicaddr from PRM_METER ");
+			ddl.append("select id, status, pointno, commaddr, logicaddr, protocol, moduleprotocol, longitude, latitude from PRM_METER ");
 			ddl.append("where crton>? or mdfon>?");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
@@ -111,6 +115,10 @@ public class MeterServiceImpl implements MeterService {
 				meter.setPointno(rs.getInt("pointno"));
 				meter.setCommaddr(rs.getString("commaddr"));
 				meter.setLogicaddr(rs.getString("logicaddr"));
+				meter.setProtocol(rs.getInt("protocol"));
+				meter.setModuleprotocol(rs.getInt("moduleprotocol"));
+				meter.setLongitude(rs.getDouble("longitude"));
+				meter.setLatitude(rs.getDouble("latitude"));
 				list.add(meter);
 			}
 			return list;
@@ -133,6 +141,83 @@ public class MeterServiceImpl implements MeterService {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public List<Meter> selectGIS() {
+		MysqlPool mp = MysqlPool.getInstance();
+		DruidPooledConnection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			List<Meter> list = new ArrayList<Meter>();
+			StringBuffer ddl = new StringBuffer();
+			ddl.append("select id, longitude, latitude from PRM_METER ");
+			ddl.append("where distance is null");
+			conn = mp.getConnection();
+			stmt = conn.prepareStatement(ddl.toString());
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Meter meter = new Meter();
+				meter.setId(rs.getInt("id"));
+				meter.setLongitude(rs.getDouble("longitude"));
+				meter.setLatitude(rs.getDouble("latitude"));
+				list.add(meter);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}				
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public int updateGIS(List<Meter> entitys) {
+		MysqlPool mp = MysqlPool.getInstance();
+		DruidPooledConnection conn = null;
+		Statement stmt = null;
+		try {			
+			conn = mp.getConnection();
+			stmt = conn.createStatement();
+			for (Meter meter : entitys) {
+				stmt.addBatch(String.format("update PRM_METER set distance=%d, angle=%d, sector=%d, districtx=%d, districty=%d, mdfon=NOW() where id=%d"
+						, meter.getDistance(), meter.getAngle(), meter.getSector(), meter.getDistrictX(), meter.getDistrictY()));
+			}
+			
+			return stmt.executeBatch()[0];
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}				
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return -1;
 	}
 	
 	@Override
@@ -195,7 +280,7 @@ public class MeterServiceImpl implements MeterService {
 			List<Meter> list = new ArrayList<Meter>();
 			StringBuffer ddl = new StringBuffer();
 			ddl.append("select id, commaddr, logicaddr, status, moduleProtocol, distance, angle, sector, districtX, districtY, failTimes, pathType from PRM_METER ");
-			ddl.append("where status<1 ");						
+			ddl.append("where status<1 and distance is not null ");						
 			ddl.append("order by status, distance");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
@@ -208,7 +293,7 @@ public class MeterServiceImpl implements MeterService {
 				meter.setLogicaddr(rs.getString("logicaddr"));
 				meter.setStatus(rs.getInt("status"));
 				meter.setModuleprotocol(rs.getInt("moduleProtocol"));
-				meter.setDistance(rs.getFloat("distance"));
+				meter.setDistance(rs.getDouble("distance"));
 				meter.setAngle(rs.getFloat("angle"));
 				meter.setSector(rs.getInt("sector"));
 				meter.setDistrictX(rs.getInt("districtX"));
@@ -250,7 +335,7 @@ public class MeterServiceImpl implements MeterService {
 			List<Meter> list = new ArrayList<Meter>();
 			StringBuffer ddl = new StringBuffer();
 			ddl.append("select id, commaddr, logicaddr, status, moduleProtocol, distance, angle, sector, districtX, districtY, failTimes, pathType from PRM_METER ");
-			ddl.append("where status<1 and (crton>? or unregon>?) ");						
+			ddl.append("where status<1 and distance is not null and (mdfon>? or unregon>?) ");						
 			ddl.append("order by status, distance");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
@@ -265,7 +350,7 @@ public class MeterServiceImpl implements MeterService {
 				meter.setLogicaddr(rs.getString("logicaddr"));
 				meter.setStatus(rs.getInt("status"));
 				meter.setModuleprotocol(rs.getInt("moduleProtocol"));
-				meter.setDistance(rs.getFloat("distance"));
+				meter.setDistance(rs.getDouble("distance"));
 				meter.setAngle(rs.getFloat("angle"));
 				meter.setSector(rs.getInt("sector"));
 				meter.setDistrictX(rs.getInt("districtX"));
@@ -356,7 +441,7 @@ public class MeterServiceImpl implements MeterService {
 				Meter relay = new Meter();
 				relay.setId(rs.getInt("id"));
 				relay.setCommaddr(rs.getString("commaddr"));
-				relay.setDistance(rs.getFloat("distance"));
+				relay.setDistance(rs.getDouble("distance"));
 				relay.setAngle(rs.getFloat("angle"));
 				relay.setSector(rs.getInt("sector"));
 				relay.setGrade(rs.getInt("grade"));
@@ -416,7 +501,7 @@ public class MeterServiceImpl implements MeterService {
 				relay = new Meter();
 				relay.setId(rs.getInt("id"));
 				relay.setCommaddr(rs.getString("commaddr"));
-				relay.setDistance(rs.getFloat("distance"));
+				relay.setDistance(rs.getDouble("distance"));
 				relay.setAngle(rs.getFloat("angle"));
 				relay.setSector(rs.getInt("sector"));
 				relay.setGrade(rs.getInt("grade"));

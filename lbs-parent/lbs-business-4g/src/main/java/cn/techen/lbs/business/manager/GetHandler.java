@@ -1,8 +1,8 @@
 package cn.techen.lbs.business.manager;
 
 import cn.techen.lbs.business.common.BusinessContext;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.common.GlobalUtil;
-import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.db.sql.AbstractSQL;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
@@ -13,9 +13,9 @@ import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
 public class GetHandler extends AbstractHandler {
 
 	@Override
-	public void operate(BusinessContext context, LBS lbs, ProtocolConfig config) throws Exception {
+	public void operate(BusinessContext context, ProtocolConfig config) throws Exception {
 		ProtocolConfig respConnfig = new DefaultProtocolConfig();
-		respConnfig.setCommAddr(lbs.getCommaddr()).setDir(DIR.SERVER)
+		respConnfig.setCommAddr(config.getCommAddr()).setDir(DIR.SERVER)
 			.setOperation(OPERATION.GET).runs().put("PRM", 0);
 		respConnfig.funcs().addAll(config.funcs());
 		
@@ -37,7 +37,7 @@ public class GetHandler extends AbstractHandler {
 			}		
 		}
 		
-		byte[] frame = context.getProtocolManagerService().getProtocol(lbs.getProtocol()).encode(respConnfig);
+		byte[] frame = context.getProtocolManagerService().getProtocol(Global.lbs.getProtocol()).encode(respConnfig);
 		
 		if (frame != null && frame.length > 0) {
 			context.getmTaskService().lpush(MTaskService.UPQUEUE_SEND, frame);			

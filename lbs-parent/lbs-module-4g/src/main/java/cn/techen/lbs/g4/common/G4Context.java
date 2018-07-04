@@ -1,12 +1,10 @@
 package cn.techen.lbs.g4.common;
 
 import cn.techen.lbs.g4.manager.FrameHandler;
-import cn.techen.lbs.mm.api.MLbsService;
 import cn.techen.lbs.mm.api.MTaskService;
 import io.netty.channel.ChannelHandlerContext;
 
 public class G4Context {
-	private MLbsService mLbsService;
 	private MTaskService<byte[]> mTaskService;
 	private ChannelHandlerContext ctx = null;
 	private FrameHandler frameHandler = new FrameHandler();
@@ -67,12 +65,5 @@ public class G4Context {
 	public void setmTaskService(MTaskService<byte[]> mTaskService) {
 		this.mTaskService = mTaskService;
 	}
-
-	public MLbsService getmLbsService() {
-		return mLbsService;
-	}
-
-	public void setmLbsService(MLbsService mLbsService) {
-		this.mLbsService = mLbsService;
-	}
+	
 }
