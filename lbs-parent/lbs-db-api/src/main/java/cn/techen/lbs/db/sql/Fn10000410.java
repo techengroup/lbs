@@ -30,12 +30,12 @@ public class Fn10000410 extends AbstractSQL {
 			int districty = 0;	
 			///TODO 根据经度纬度计算相关的参数
 			
-			sb.append("insert into prm_meter(id, pointno, baudrate, port, protocol, commaddr, tariffcount, integercount, decimalcount"
+			sb.append("insert IGNORE into prm_meter(id, pointno, baudrate, port, protocol, commaddr, tariffcount, integercount, decimalcount"
 					+ ", customerclass, customersubclass, longitude, latitude, distance, angle, sector, districtx, districty) ");
 			sb.append(String.format("values(%d, %d, %d, %d, %d, '%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d) "
 					, sn, pointNo, protocol, ratePort[0], ratePort[1], commAddr, tariffCount, dataDigit[0], dataDigit[1]
 					, customerClass[0], customerClass[1], longitude, latitude, distance, angle, sector, districtx, districty));
-			sb.append("ON DUPLICATE KEY update mdfon=NOW();");
+//			sb.append("ON DUPLICATE KEY update mdfon=NOW();");
 //			sb.append(String.format("pointno= %d, protocol=%d, commaddr='%s', tariffcount=%d, integercount=%d, decimalcount=%d"
 //					+ ", customerclass=%d, customersubclass=%d, longitude=%d, latitude=%d, distance=%d, distance=%d"
 //					+ ", angle=%d, sector=%d, districtx=%d, districty=%d;", pointNo, protocol, commAddr, tariffCount
