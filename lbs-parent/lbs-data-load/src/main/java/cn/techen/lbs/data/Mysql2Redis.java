@@ -101,14 +101,14 @@ public class Mysql2Redis implements Runnable {
 	private void load(LBS lbs, List<Fn> fns
 			, List<Meter> meters, List<Meter> unregisterMeters, List<Meter> relays) {
 
-		if (lbs != null) {
-			Global.lbs = lbs;
-			if (!Global.lbs.getChannel().equals(lbs.getChannel())) {
+		if (lbs != null) {			
+			if (Global.lbs == null || !Global.lbs.getChannel().equals(lbs.getChannel())) {
 				Global.LoraReady = false;
 			}
 			if (lbs.getLongitude() != null && lbs.getLatitude() != null) {
 				Global.GISReady = true;
 			}
+			Global.lbs = lbs;
 			log.info("LBS parameters have been modified...");
 		}
 		
