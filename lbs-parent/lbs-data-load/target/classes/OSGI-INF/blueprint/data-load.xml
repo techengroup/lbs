@@ -18,7 +18,7 @@
 	
 	<reference id="mRelayService" interface="cn.techen.lbs.mm.api.MRelayService" />
 	
-	<bean id="mysql2RedisBean" class="cn.techen.lbs.data.Mysql2Redis">
+	<bean id="mysql2RedisBean" class="cn.techen.lbs.data.manager.Mysql2Redis">
 		<property name="lbsService" ref="lbsService"/>
 		<property name="meterService" ref="meterService"/>
 		<property name="fnService" ref="fnService"/>
@@ -28,13 +28,13 @@
 		<property name="mRelayService" ref="mRelayService"/>
 	</bean>	
 	
-	<bean id="gisBean" class="cn.techen.lbs.data.GIS">
+	<bean id="gis2NetBean" class="cn.techen.lbs.data.manager.GIS2Net">
 		<property name="meterService" ref="meterService"/>
 	</bean>	
 	
-	<bean id="entranceBean" class="cn.techen.lbs.data.Entrance" init-method="start">
+	<bean id="bootStrapBean" class="cn.techen.lbs.data.Bootstrap" init-method="start">
 		<property name="mysql2Redis" ref="mysql2RedisBean"/>
-		<property name="gis" ref="gisBean"/>
+		<property name="gis2Net" ref="gis2NetBean"/>
 	</bean>
 	
 </blueprint>

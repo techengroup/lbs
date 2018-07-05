@@ -1,4 +1,4 @@
-package cn.techen.lbs.data;
+package cn.techen.lbs.data.manager;
 
 import java.util.Date;
 import java.util.List;
@@ -47,9 +47,9 @@ public class Mysql2Redis implements Runnable {
 				count++;
 				if (count > 100000) count = 1;
 			} catch (InterruptedException e) {
-				log.error(e.getMessage());
+				log.error(e.getCause().getMessage());
 			} catch (Exception e) {	
-				log.error(e.getMessage());
+				log.error(e.getCause().getMessage());
 			}
 		}
 	}

@@ -486,9 +486,9 @@ public class MeterServiceImpl implements MeterService {
 			ddl.append("select id, commAddr, distance, angle, sector, grade, relay, districtX, districtY, signalStrength, parent, path from prm_meter ");
 			ddl.append("where status=1 and id!=? ");
 			ddl.append("and id NOT IN(select DISTINCT IFNULL(relayID, -1) rId ");
-			ddl.append("from log_networking where meterID=?) ");
+			ddl.append("from log_network where meterID=?) ");
 			ddl.append("order by ABS(districtX-?), SignalStrength, ABS(Angle-?) limit 1) a ");
-			ddl.append("LEFT JOIN log_networking b ON a.id = b.meterID");
+			ddl.append("LEFT JOIN log_network b ON a.id = b.meterID");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			stmt.setInt(1, entity.getId());
@@ -560,7 +560,7 @@ public class MeterServiceImpl implements MeterService {
 			ddl1.append("where id=" + entity.getId());
 			
 			StringBuffer ddl2 = new StringBuffer();
-			ddl2.append("insert into LOG_NETWORKING(MeterID, StartTime, EndTime, CommAddr, Route, SignalStrength, Result, RelayID) values(");
+			ddl2.append("insert into LOG_NETWORK(MeterID, StartTime, EndTime, CommAddr, Route, SignalStrength, Result, RelayID) values(");
 			ddl2.append(entity.getId() + ",");
 			ddl2.append("'" + new java.sql.Timestamp(entity.running().getStartTime().getTime()) + "',");
 			ddl2.append("'" + new java.sql.Timestamp(entity.running().getEndTime().getTime()) + "',");
@@ -619,7 +619,7 @@ public class MeterServiceImpl implements MeterService {
 			StringBuffer ddl1 = null;
 			if (recordlog) {
 				ddl1 = new StringBuffer();
-				ddl1.append("insert into LOG_NETWORKING(MeterID, StartTime, EndTime, CommAddr, Route, SignalStrength, Result, RelayID) values(");
+				ddl1.append("insert into LOG_NETWORK(MeterID, StartTime, EndTime, CommAddr, Route, SignalStrength, Result, RelayID) values(");
 				ddl1.append(entity.getId() + ",");
 				ddl1.append("'" + new java.sql.Timestamp(entity.running().getStartTime().getTime()) + "',");
 				ddl1.append("'" + new java.sql.Timestamp(entity.running().getEndTime().getTime()) + "',");

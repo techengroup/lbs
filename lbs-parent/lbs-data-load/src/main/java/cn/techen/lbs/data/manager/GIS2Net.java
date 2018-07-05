@@ -1,4 +1,4 @@
-package cn.techen.lbs.data;
+package cn.techen.lbs.data.manager;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Meter;
 
-public class GIS implements Runnable {
+public class GIS2Net implements Runnable {
 	private static final Logger log = (Logger) LoggerFactory  
             .getLogger(Local.PROJECT);
 	private MeterService meterService;
@@ -24,9 +24,9 @@ public class GIS implements Runnable {
 				
 				if (Global.GISReady) start();
 			} catch (InterruptedException e) {
-				log.error(e.getMessage());
+				log.error(e.getCause().getMessage());
 			} catch (Exception e) {		
-				log.error(e.getMessage());
+				log.error(e.getCause().getMessage());
 			}
 		}
 	}
@@ -49,7 +49,9 @@ public class GIS implements Runnable {
 			meter.setDistrictY(districtY);
 		}
 		
-		meterService.updateGIS(meters);		
+		if (meters != null && meters.size() > 0) {
+			meterService.updateGIS(meters);
+		}		
 	}
 	
 	public void setMeterService(MeterService meterService) {
