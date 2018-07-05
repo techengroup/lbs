@@ -38,7 +38,7 @@ public class Fn10000410 extends AbstractSQL {
 				sb.append(String.format("delete from log_report where meterid=%d;", sn));
 				sb.append(String.format("delete from data_event where meterid=%d;", sn));
 				sb.append(String.format("delete from data_energy_month where meterid=%d;", sn));
-				sb.append("insert IGNORE into log_exit(id, pointno, commaddr, logicaddr, protocol, moduleprotocol"
+				sb.append("insert IGNORE into log_exit(meterid, pointno, commaddr, logicaddr, protocol, moduleprotocol"
 						+ ", baudrate, port, tariffcount, integercount, decimalcount, customerclass, customersubclass"
 						+ ", longitude, latitude, distance, angle, sector, districtx, districty, relay, grade, parent"
 						+ ", path, route, failtimes) select * from(select m.ID, m.PointNo, m.CommAddr, m.logicaddr"
