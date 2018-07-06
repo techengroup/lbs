@@ -10,6 +10,8 @@
 	
 	<reference id="fnService" interface="cn.techen.lbs.db.api.FnService" />
 	
+	<reference id="reportService" interface="cn.techen.lbs.db.api.ReportService" />
+	
 	<reference id="mBaseService" interface="cn.techen.lbs.mm.api.MBaseService" />
 	
 	<reference id="mMeterService" interface="cn.techen.lbs.mm.api.MMeterService" />
@@ -18,14 +20,18 @@
 	
 	<reference id="mRelayService" interface="cn.techen.lbs.mm.api.MRelayService" />
 	
+	<reference id="mReportService" interface="cn.techen.lbs.mm.api.MReportService" />
+	
 	<bean id="mysql2RedisBean" class="cn.techen.lbs.data.manager.Mysql2Redis">
 		<property name="lbsService" ref="lbsService"/>
 		<property name="meterService" ref="meterService"/>
 		<property name="fnService" ref="fnService"/>
+		<property name="reportService" ref="reportService"/>
 		<property name="mBaseService" ref="mBaseService"/>
 		<property name="mMeterService" ref="mMeterService"/>
 		<property name="mRegisterService" ref="mRegisterService"/>
 		<property name="mRelayService" ref="mRelayService"/>
+		<property name="mReportService" ref="mReportService"/>
 	</bean>	
 	
 	<bean id="gis2NetBean" class="cn.techen.lbs.data.manager.GIS2Net">

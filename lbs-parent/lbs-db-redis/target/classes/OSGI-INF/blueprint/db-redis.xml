@@ -16,6 +16,8 @@
 	
 	<bean id="mRelayBean" class="cn.techen.lbs.mm.redis.impl.MRelayServiceImpl" />
 	
+	<bean id="mReportBean" class="cn.techen.lbs.mm.redis.impl.MReportServiceImpl" />
+	
 	<bean id="mTaskBean" class="cn.techen.lbs.mm.redis.impl.MTaskServiceImpl" />
 	
 	<service id="mBaseService" ref="mBaseBean" interface="cn.techen.lbs.mm.api.MBaseService"/>	
@@ -29,6 +31,8 @@
 	<service id="mSectorService" ref="mSectorBean" interface="cn.techen.lbs.mm.api.MSectorService"/>
 	
 	<service id="mRelayService" ref="mRelayBean" interface="cn.techen.lbs.mm.api.MRelayService"/>
+	
+	<service id="mReportService" ref="mReportBean" interface="cn.techen.lbs.mm.api.MReportService"/>
 	
 	<service id="mTaskService" ref="mTaskBean" interface="cn.techen.lbs.mm.api.MTaskService"/>
 	

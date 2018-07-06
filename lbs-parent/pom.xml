@@ -89,5 +89,6 @@
 		<module>lbs-business-4g</module>
 		<module>lbs-task-report</module>
 		<module>lbs-device-detect</module>
+		<module>lbs-task-event</module>
 	</modules>	
 </project>

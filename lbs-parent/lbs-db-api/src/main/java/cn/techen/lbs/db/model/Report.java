@@ -1,7 +1,6 @@
 package cn.techen.lbs.db.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Report
@@ -14,11 +13,11 @@ public class Report implements Serializable {
 	private static final long serialVersionUID = 2223443567719545055L;
 	
 	private Integer meterid;
-	private Date reporttime;
 	private String commaddr;
 	private String route;
-	private Integer result;
 	private Integer signal;
+	private String content;
+	private Integer result;
 	
 	public Integer getMeterid() {
 		return meterid;
@@ -26,14 +25,6 @@ public class Report implements Serializable {
 	
 	public void setMeterid(Integer meterid) {
 		this.meterid = meterid;
-	}
-	
-	public Date getReporttime() {
-		return reporttime;
-	}
-	
-	public void setReporttime(Date reporttime) {
-		this.reporttime = reporttime;
 	}
 	
 	public String getCommaddr() {
@@ -51,14 +42,6 @@ public class Report implements Serializable {
 	public void setRoute(String route) {
 		this.route = route;
 	}
-	
-	public Integer getResult() {
-		return result;
-	}
-	
-	public void setResult(Integer result) {
-		this.result = result;
-	}
 
 	public Integer getSignal() {
 		return signal;
@@ -66,6 +49,22 @@ public class Report implements Serializable {
 
 	public void setSignal(Integer signal) {
 		this.signal = signal;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
+	public Integer getResult() {
+		return result;
+	}
+	
+	public void setResult(Integer result) {
+		this.result = result;
 	}
 
 }

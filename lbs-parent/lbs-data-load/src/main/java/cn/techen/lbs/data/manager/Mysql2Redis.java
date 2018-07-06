@@ -10,14 +10,17 @@ import cn.techen.lbs.data.common.Local;
 import cn.techen.lbs.db.api.FnService;
 import cn.techen.lbs.db.api.LbsService;
 import cn.techen.lbs.db.api.MeterService;
+import cn.techen.lbs.db.api.ReportService;
 import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.model.Fn;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.db.model.Meter;
+import cn.techen.lbs.db.model.Report;
 import cn.techen.lbs.mm.api.MBaseService;
 import cn.techen.lbs.mm.api.MMeterService;
 import cn.techen.lbs.mm.api.MRegisterService;
 import cn.techen.lbs.mm.api.MRelayService;
+import cn.techen.lbs.mm.api.MReportService;
 import cn.techen.lbs.protocol.common.Elements;
 import cn.techen.lbs.protocol.common.FnNames;
 import cn.techen.lbs.protocol.common.Titles;
@@ -28,10 +31,12 @@ public class Mysql2Redis implements Runnable {
 	private LbsService lbsService;
 	private MeterService meterService;	
 	private FnService fnService;
+	private ReportService reportService;
 	private MBaseService mBaseService;
 	private MMeterService mMeterService;
 	private MRegisterService mRegisterService;
 	private MRelayService mRelayService;
+	private MReportService mReportService;
 
 	private int count = 0;
 	
@@ -60,6 +65,7 @@ public class Mysql2Redis implements Runnable {
 		List<Meter> unregisterMeters = null;
 		List<Meter> relays = null;
 		List<Fn> fns = null;
+		List<Report> reports = null;
 		
 		if (count == 0) {
 			mBaseService.flushDB();
@@ -71,6 +77,7 @@ public class Mysql2Redis implements Runnable {
 			meters = meterService.selectAll();
 			unregisterMeters = meterService.selectUnregister();
 			relays = meterService.selectRelay();
+			reports = reportService.selectAll();
 			
 			if (lbs == null) {
 				log.error("There is no any lbs in the database...");
@@ -81,7 +88,7 @@ public class Mysql2Redis implements Runnable {
 				return;
 			}
 			
-			load(lbs, fns, meters, unregisterMeters, relays);
+			load(lbs, fns, meters, unregisterMeters, relays, reports);
 			
 			Global.DATAReady = true;
 		} else {
@@ -91,15 +98,16 @@ public class Mysql2Redis implements Runnable {
 			fns = fnService.selectByTime(Local.LASTTIME);
 			meters = meterService.selectByTime(Local.LASTTIME);
 			unregisterMeters = meterService.selectUnregisterByTime(Local.LASTTIME);
+			reports = reportService.selectByTime(Local.LASTTIME);
 			
 			Local.LASTTIME = nowTime;
 			
-			load(lbs, fns, meters, unregisterMeters, null);
+			load(lbs, fns, meters, unregisterMeters, null, reports);
 		}
 	}
 	
-	private void load(LBS lbs, List<Fn> fns
-			, List<Meter> meters, List<Meter> unregisterMeters, List<Meter> relays) {
+	private void load(LBS lbs, List<Fn> fns, List<Meter> meters
+			, List<Meter> unregisterMeters, List<Meter> relays, List<Report> reports) {
 
 		if (lbs != null) {			
 			if (Global.lbs == null || !Global.lbs.getChannel().equals(lbs.getChannel())) {
@@ -136,6 +144,11 @@ public class Mysql2Redis implements Runnable {
 			mRelayService.put(relays);
 			log.info("Load updated relay[{}] from database...", relays.size());
 		}
+		
+		if (reports != null && reports.size() > 0) {
+			mReportService.lpush(reports);
+			log.info("Load updated report event[{}] from database...", reports.size());
+		}
 	}
 	
 	public void setLbsService(LbsService lbsService) {
@@ -148,6 +161,10 @@ public class Mysql2Redis implements Runnable {
 
 	public void setFnService(FnService fnService) {
 		this.fnService = fnService;
+	}
+
+	public void setReportService(ReportService reportService) {
+		this.reportService = reportService;
 	}
 
 	public void setmBaseService(MBaseService mBaseService) {
@@ -164,6 +181,10 @@ public class Mysql2Redis implements Runnable {
 	
 	public void setmRelayService(MRelayService mRelayService) {
 		this.mRelayService = mRelayService;
+	}
+
+	public void setmReportService(MReportService mReportService) {
+		this.mReportService = mReportService;
 	}
 	
 }
