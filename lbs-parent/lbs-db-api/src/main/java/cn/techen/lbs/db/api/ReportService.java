@@ -13,5 +13,7 @@ import cn.techen.lbs.db.model.Report;
 public interface ReportService extends IService<Report> {
 	
     List<Report> selectByTime(Date time);
+
+	int updateFail(int meterId);
 	
 }

@@ -45,9 +45,10 @@ public class ProcessHandler {
 	}
 
 	public void decode(EventContext context, ProtocolFrame frame)  throws Exception {
+		Meter meter = context.getmMeterService().get(context.getReport().getCommaddr());
+		
 		ProtocolConfig config = null;
 		byte[] readBytes = frame.getReadBytes();
-		Meter meter = context.getmMeterService().get(context.getReport().getCommaddr());
 		if (readBytes != null && readBytes.length > 8) {
 			ProtocolService protocolService = context.getProtocolManagerService()
 					.getProtocol(meter.getModuleprotocol());
@@ -64,7 +65,7 @@ public class ProcessHandler {
 	
 	public void exceptionCaught(EventContext context, Throwable cause) {
 		cause.printStackTrace();
-    	context.setState(State.FINISHED);
+    	context.reset();
     }
 	
 	private void write(EventContext context, ProtocolFrame frame)  throws Exception {
@@ -84,18 +85,19 @@ public class ProcessHandler {
 					context.getGeneralService().save(as.handle(meter.getId(), config.units()));
 				}
 			}
+
+			context.reset();
 		} else {
 			frame.increaseRetryTimes();
 			int mod = frame.getRetryTimes() % 3;
 			if (mod != 0) {
 				write(context, frame);
 			} else {
-
-				context.setState(State.FINISHED);
+				context.getReportService().updateFail(meter.getId());
+				context.reset();
 			}
 		}
 
-		context.setState(State.FINISHED);
 	}
 
 }
