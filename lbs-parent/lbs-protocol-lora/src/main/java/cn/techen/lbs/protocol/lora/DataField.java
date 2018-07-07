@@ -55,7 +55,7 @@ public class DataField extends AbstractElement {
 
 			LoraConfig config = ((LoraConfig) frame.config());
 			String key = Local.CODE  + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()) + ":" + func;
-			fnKeyMap.put(String.valueOf(func), key);
+			fnKeyMap.put(String.valueOf(func), key.toUpperCase());
 			
 			AbstractData ad = null;
 			dataTypes = Elements.getInstace().get(key);
@@ -82,7 +82,7 @@ public class DataField extends AbstractElement {
 			byteList.add(f);
 			
 			String key = Local.CODE + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()) + ":" + func ;
-			fnKeyMap.put(String.valueOf(func), key);
+			fnKeyMap.put(String.valueOf(func), key.toUpperCase());
 			
 			AbstractData ad = null;
 			dataTypes = Elements.getInstace().get(key);

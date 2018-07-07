@@ -1,5 +1,6 @@
 package cn.techen.lbs.task.event.common;
 
+import cn.techen.lbs.db.api.GeneralService;
 import cn.techen.lbs.db.api.ReportService;
 import cn.techen.lbs.db.model.Report;
 import cn.techen.lbs.mm.api.MMeterService;
@@ -16,6 +17,8 @@ public class EventContext {
 	public final Priority PRIORITY = Priority.EVENT;
 	
 	private State state = State.FINISHED;
+	
+	private GeneralService generalService;
 	
 	private ReportService reportService;
 	
@@ -65,6 +68,14 @@ public class EventContext {
 		} catch (Exception e) {
 			processHandler.exceptionCaught(this, e.getCause());
 		}
+	}
+
+	public GeneralService getGeneralService() {
+		return generalService;
+	}
+
+	public void setGeneralService(GeneralService generalService) {
+		this.generalService = generalService;
 	}
 
 	public ReportService getReportService() {

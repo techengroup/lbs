@@ -3,6 +3,8 @@ package cn.techen.lbs.db.common;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import cn.techen.lbs.db.sql.AbstractSQL;
 
@@ -22,6 +24,17 @@ public class GlobalUtil {
 	public static AbstractSQL newSql(String dataClass) throws Exception {				
 		Class<?> c = Class.forName(String.format("cn.techen.lbs.db.sql.%s", dataClass));
 		return (AbstractSQL) c.newInstance();
+	}
+	
+	/**
+	 * 时间转字符串	
+	 * @param time
+	 * @param format
+	 * @return
+	 */
+	public static String date2String(Date time, String format) {
+		 SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+		 return dateFormat.format(time);
 	}
 
 	/**

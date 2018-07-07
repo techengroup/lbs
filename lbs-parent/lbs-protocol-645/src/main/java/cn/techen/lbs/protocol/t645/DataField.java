@@ -60,7 +60,7 @@ public class DataField extends AbstractElement {
 
 			T645Config config = ((T645Config) frame.config());
 			String key = Local.CODE  + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()) + ":" + func;
-			fnKeyMap.put(String.valueOf(func), key);
+			fnKeyMap.put(String.valueOf(func), key.toUpperCase());
 			
 			AbstractData ad = null;
 			dataTypes = Elements.getInstace().get(key);
@@ -88,7 +88,7 @@ public class DataField extends AbstractElement {
 			}
 			
 			String key = Local.CODE + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()) + ":" + func ;
-			fnKeyMap.put(String.valueOf(func), key);
+			fnKeyMap.put(String.valueOf(func), key.toUpperCase());
 			
 			AbstractData ad = null;
 			dataTypes = Elements.getInstace().get(key);

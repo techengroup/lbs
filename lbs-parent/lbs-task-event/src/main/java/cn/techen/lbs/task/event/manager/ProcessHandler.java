@@ -2,8 +2,10 @@ package cn.techen.lbs.task.event.manager;
 
 import java.util.Date;
 
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Meter;
 import cn.techen.lbs.db.model.Report;
+import cn.techen.lbs.db.sql.AbstractSQL;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
 import cn.techen.lbs.protocol.FrameConfig.State;
@@ -43,33 +45,21 @@ public class ProcessHandler {
 	}
 
 	public void decode(EventContext context, ProtocolFrame frame)  throws Exception {
-		ProtocolConfig protocolConfig = null;
+		ProtocolConfig config = null;
 		byte[] readBytes = frame.getReadBytes();
+		Meter meter = context.getmMeterService().get(context.getReport().getCommaddr());
 		if (readBytes != null && readBytes.length > 8) {
-			Meter meter = context.getmMeterService().get(context.getReport().getCommaddr());
-			
 			ProtocolService protocolService = context.getProtocolManagerService()
 					.getProtocol(meter.getModuleprotocol());
-			protocolConfig = protocolService.decode(readBytes);
-			byte[] transBytes = (byte[]) protocolConfig.units().poll();
+			config = protocolService.decode(readBytes);
+			byte[] transBytes = (byte[]) config.units().poll();
 			
 			protocolService = context.getProtocolManagerService()
 					.getProtocol(meter.getProtocol());
-			protocolConfig = protocolService.decode(transBytes);		
+			config = protocolService.decode(transBytes);		
 		}
 		
-		if (protocolConfig != null) {					
-			store(context, protocolConfig);
-		} else {
-			frame.increaseRetryTimes();
-			int mod = frame.getRetryTimes() % 3;
-			if (mod != 0) {
-				write(context, frame);
-			} else {
-//				context.eventQueue().add(frame);
-				context.setState(State.FINISHED);
-			}
-		}
+		store(context, frame, meter, config);
 	}
 	
 	public void exceptionCaught(EventContext context, Throwable cause) {
@@ -84,9 +74,25 @@ public class ProcessHandler {
 		context.setState(State.RECIEVING);
 	}
 	
-	private void store(EventContext context, ProtocolConfig protocolConfig)  throws Exception {
-		if (protocolConfig != null) {
-			
+	private void store(EventContext context, ProtocolFrame frame, Meter meter, ProtocolConfig config)  throws Exception {
+		if (config != null) {					
+			for (String fn : config.funcs()) {
+				String fnKey = config.funcKeys().get(fn);
+				if (fnKey != null && !fnKey.isEmpty()) {						
+					String className = String.format("Fn%s", fnKey.replace(":", ""));
+					AbstractSQL as = GlobalUtil.newSql(className);						
+					context.getGeneralService().save(as.handle(meter.getId(), config.units()));
+				}
+			}
+		} else {
+			frame.increaseRetryTimes();
+			int mod = frame.getRetryTimes() % 3;
+			if (mod != 0) {
+				write(context, frame);
+			} else {
+
+				context.setState(State.FINISHED);
+			}
 		}
 
 		context.setState(State.FINISHED);
