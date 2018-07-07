@@ -36,5 +36,7 @@ public interface MeterService extends IService<Meter> {
 	List<Meter> selectGIS();
 
 	int updateGIS(List<Meter> entitys);
+
+	List<Meter> selectMonth(Date month);
 	
 }

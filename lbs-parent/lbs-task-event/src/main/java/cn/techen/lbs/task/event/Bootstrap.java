@@ -4,6 +4,8 @@ import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.task.event.common.EventContext;
 import cn.techen.lbs.task.event.common.Local;
 import cn.techen.lbs.task.event.manager.AbstractHandler;
+import cn.techen.lbs.task.event.manager.ObtainHandler;
+import cn.techen.lbs.task.event.manager.ReadHandler;
 
 public class Bootstrap {
 		
@@ -16,19 +18,20 @@ public class Bootstrap {
 	public void start() {
 		initHandler();
 		
-		Thread net = new Thread(new NetThread());
-		net.start();
+		Thread event = new Thread(new EventThread());
+		event.start();
 	}
 	
 	private void initHandler() {
-		
+		obtain = new ObtainHandler();
+		read = new ReadHandler();
 	}
 
 	public void setContext(EventContext context) {
 		this.context = context;
 	}
 
-	protected class NetThread implements Runnable {
+	protected class EventThread implements Runnable {
 
 		@Override
 		public void run() {

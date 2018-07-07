@@ -696,4 +696,50 @@ public class MeterServiceImpl implements MeterService {
 		return -1;
 	}
 	
+	@Override
+	public List<Meter> selectMonth(Date month) {
+		MysqlPool mp = MysqlPool.getInstance();
+		DruidPooledConnection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			List<Meter> list = new ArrayList<Meter>();
+			StringBuffer ddl = new StringBuffer();
+			ddl.append("select select m.id, m.commaddr, m.logicaddr, m.protocol, m.moduleprotocol, (select route from log_network n where n.meterid=m.id and n.result=1 order by savetime desc LIMIT 1) from prm_meter m ");
+			ddl.append("where m.status=1 and m.id NOT IN(select meterid from data_energy_month em where em.frozentime = ?)");
+			conn = mp.getConnection();
+			stmt = conn.prepareStatement(ddl.toString());
+			stmt.setTimestamp(1, new java.sql.Timestamp(month.getTime()));
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Meter meter = new Meter();
+				meter.setId(rs.getInt("id"));
+				meter.setCommaddr(rs.getString("commaddr"));
+				meter.setLogicaddr(rs.getString("logicaddr"));
+				meter.setProtocol(rs.getInt("protocol"));
+				meter.setModuleprotocol(rs.getInt("moduleProtocol"));
+				meter.running().setRoute(rs.getString("route"));
+				list.add(meter);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}				
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+	
 }

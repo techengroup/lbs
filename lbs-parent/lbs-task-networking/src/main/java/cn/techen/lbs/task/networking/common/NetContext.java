@@ -13,7 +13,7 @@ import cn.techen.lbs.protocol.ProtocolManagerService;
 
 public class NetContext {
 	
-	public final Priority PRIORITY = Priority.NETWORKING;
+	public final Priority PRIORITY = Priority.CALL;
 	
 	private State state = State.FINISHED;
 	

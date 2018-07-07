@@ -37,6 +37,7 @@ public class ARRAY_645_EVENT extends AbstractData {
 			
 			AbstractData ad = ProtocolUtil.newData(dataClass, dataTypes);
 			ad.decode(frame);	
+			adList.add(ad);
 			
 			byteList.addAll(ad.getByteList());			
 			dataTypes = ad.getDataTypes();
@@ -92,7 +93,7 @@ public class ARRAY_645_EVENT extends AbstractData {
 		}
 		
 		List<String> list  = typeArray.subList(0, count);
-		list.addAll(Arrays.asList(dataTypes.split(",")));
+		if (!dataTypes.isEmpty()) list.addAll(Arrays.asList(dataTypes.split(",")));
 		dataTypes = String.join(",", list.toArray(new String[0]));
 	}
 

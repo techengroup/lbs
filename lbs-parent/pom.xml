@@ -90,5 +90,6 @@
 		<module>lbs-task-report</module>
 		<module>lbs-device-detect</module>
 		<module>lbs-task-event</module>
+		<module>lbs-task-month</module>
 	</modules>	
 </project>

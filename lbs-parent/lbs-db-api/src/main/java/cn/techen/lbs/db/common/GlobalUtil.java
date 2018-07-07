@@ -3,6 +3,7 @@ package cn.techen.lbs.db.common;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,6 +36,18 @@ public class GlobalUtil {
 	public static String date2String(Date time, String format) {
 		 SimpleDateFormat dateFormat = new SimpleDateFormat(format);
 		 return dateFormat.format(time);
+	}
+	
+	/**
+	 * 字符串转时间
+	 * @param time
+	 * @param format
+	 * @return
+	 * @throws ParseException
+	 */
+	public static Date string2Date(String time, String format) throws ParseException {
+		 SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+		 return dateFormat.parse(time);
 	}
 
 	/**
