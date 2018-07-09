@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1530692116564
+Bnd-LastModified: 1531104278651
 Build-Jdk: 1.8.0_152
 Built-By: ZY
 Bundle-Blueprint: OSGI-INF/blueprint/lbs-protocol-376.xml

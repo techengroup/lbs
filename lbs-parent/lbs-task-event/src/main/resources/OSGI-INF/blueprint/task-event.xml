@@ -25,7 +25,7 @@
 		<property name="protocolManagerService" ref="protocolManagerService"/>
 	</bean>
 	
-	<bean id="bootstrapBean" class="cn.techen.lbs.task.networking.Bootstrap" init-method="start">		
+	<bean id="bootstrapBean" class="cn.techen.lbs.task.event.Bootstrap" init-method="start">		
 		<property name="context" ref="eventContextBean"/>		
 	</bean>
 	

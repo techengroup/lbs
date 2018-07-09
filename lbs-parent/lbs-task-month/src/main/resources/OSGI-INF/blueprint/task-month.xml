@@ -12,15 +12,15 @@
 	
 	<reference id="protocolManagerService" interface="cn.techen.lbs.protocol.ProtocolManagerService" />
 
-	<bean id="eventContextBean" class="cn.techen.lbs.task.event.common.EventContext">	
+	<bean id="monthContextBean" class="cn.techen.lbs.task.month.common.MonthContext">	
 		<property name="generalService" ref="generalService"/>
 		<property name="meterService" ref="meterService"/>
 		<property name="mTaskService" ref="mTaskService"/>
 		<property name="protocolManagerService" ref="protocolManagerService"/>
 	</bean>
 	
-	<bean id="bootstrapBean" class="cn.techen.lbs.task.networking.Bootstrap" init-method="start">		
-		<property name="context" ref="eventContextBean"/>		
+	<bean id="bootstrapBean" class="cn.techen.lbs.task.month.Bootstrap" init-method="start">		
+		<property name="context" ref="monthContextBean"/>		
 	</bean>
 	
 </blueprint>

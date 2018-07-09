@@ -1,4 +1,4 @@
-cn\techen\lbs\data\Mysql2Redis.class
-cn\techen\lbs\data\Entrance.class
-cn\techen\lbs\data\GIS.class
+cn\techen\lbs\data\Bootstrap.class
+cn\techen\lbs\data\manager\Mysql2Redis.class
 cn\techen\lbs\data\common\Local.class
+cn\techen\lbs\data\manager\GIS2Net.class

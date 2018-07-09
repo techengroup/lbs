@@ -7,4 +7,5 @@ cn\techen\lbs\mm\redis\impl\MRegisterServiceImpl.class
 cn\techen\lbs\mm\redis\impl\MBaseServiceImpl.class
 cn\techen\lbs\mm\redis\common\RedisPool.class
 cn\techen\lbs\mm\redis\impl\MTaskServiceImpl.class
+cn\techen\lbs\mm\redis\impl\MReportServiceImpl.class
 cn\techen\lbs\mm\redis\impl\MSectorServiceImpl.class

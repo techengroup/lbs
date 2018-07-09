@@ -20,6 +20,7 @@ cn\techen\lbs\protocol\type\ASCII.class
 cn\techen\lbs\protocol\FrameConfig$Priority.class
 cn\techen\lbs\protocol\type\BYTE_ARRAY.class
 cn\techen\lbs\protocol\AbstractType.class
+cn\techen\lbs\protocol\type\ARRAY_645_EVENT.class
 cn\techen\lbs\protocol\DefaultProtocolConfig.class
 cn\techen\lbs\protocol\common\Elements.class
 cn\techen\lbs\protocol\IExplain.class

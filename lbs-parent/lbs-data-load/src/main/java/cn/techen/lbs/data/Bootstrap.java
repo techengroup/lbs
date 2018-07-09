@@ -13,7 +13,7 @@ public class Bootstrap {
 	
 	private Mysql2Redis mysql2Redis;
 	private GIS2Net gis2Net;
-	
+
 	/**
 	 * Data load service start
 	 */
@@ -30,9 +30,10 @@ public class Bootstrap {
 	public void setMysql2Redis(Mysql2Redis mysql2Redis) {
 		this.mysql2Redis = mysql2Redis;
 	}
-
-	public void setGis(GIS2Net gis2Net) {
+	
+	public void setGis2Net(GIS2Net gis2Net) {
 		this.gis2Net = gis2Net;
 	}
+
 
 }
