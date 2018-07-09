@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-07-05 15:39:51
+Date: 2018-07-09 16:50:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -43,6 +43,11 @@ CREATE TABLE `data_energy_month` (
   `Active_Energy2` double(12,4) DEFAULT NULL,
   `Active_Energy3` double(12,4) DEFAULT NULL,
   `Active_Energy4` double(12,4) DEFAULT NULL,
+  `Negative_Energy0` double(12,4) DEFAULT NULL,
+  `Negative_Energy1` double(12,4) DEFAULT NULL,
+  `Negative_Energy2` double(12,4) DEFAULT NULL,
+  `Negative_Energy3` double(12,4) DEFAULT NULL,
+  `Negative_Energy4` double(12,4) DEFAULT NULL,
   `SaveTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`MeterID`,`FrozenTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -53,11 +58,11 @@ CREATE TABLE `data_energy_month` (
 DROP TABLE IF EXISTS `data_event`;
 CREATE TABLE `data_event` (
   `MeterID` int(8) NOT NULL,
-  `SubClass` int(3) NOT NULL,
+  `EventID` int(3) NOT NULL,
   `OccurTime` datetime NOT NULL,
   `Remark` varchar(200) DEFAULT NULL,
   `SaveTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`MeterID`,`SubClass`,`OccurTime`)
+  PRIMARY KEY (`MeterID`,`EventID`,`OccurTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -162,13 +167,14 @@ CREATE TABLE `log_network` (
 DROP TABLE IF EXISTS `log_report`;
 CREATE TABLE `log_report` (
   `MeterID` int(8) NOT NULL,
-  `ReportTime` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `Status` int(1) NOT NULL DEFAULT '-1',
   `CommAddr` varchar(20) NOT NULL,
-  `Route` varchar(255) DEFAULT NULL,
+  `Route` varchar(255) NOT NULL,
   `SignalStrength` int(4) DEFAULT '0',
-  `SaveTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Result` int(1) DEFAULT '-1',
-  PRIMARY KEY (`MeterID`,`ReportTime`)
+  `Content` varchar(40) NOT NULL,
+  `CRTOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `MDFOn` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`MeterID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
