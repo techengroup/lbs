@@ -1,6 +1,7 @@
 package cn.techen.lbs.task.month;
 
 import cn.techen.lbs.db.common.Global;
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.task.month.common.Local;
 import cn.techen.lbs.task.month.common.MonthContext;
 import cn.techen.lbs.task.month.manager.AbstractHandler;
@@ -43,8 +44,12 @@ public class Bootstrap {
 					Thread.sleep(Local.MONTHMILLIS);
 					
 					if (Global.DATAReady) {
-						if (context.months().isEmpty()) {
-							context.load();
+						if (!GlobalUtil.isFirstDayOfMonth() && !GlobalUtil.isLastDayOfMonth()) {
+							if (context.months().isEmpty()) {
+								context.load();
+							}
+						} else {
+							context.months().clear();
 						}
 					}
 				} catch (Exception e) {

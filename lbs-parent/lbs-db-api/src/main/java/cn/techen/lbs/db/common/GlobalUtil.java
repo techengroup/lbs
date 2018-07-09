@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import cn.techen.lbs.db.sql.AbstractSQL;
@@ -49,6 +50,41 @@ public class GlobalUtil {
 		 SimpleDateFormat dateFormat = new SimpleDateFormat(format);
 		 return dateFormat.parse(time);
 	}
+	
+	/**
+	 * 是否是第一天本月
+	 * @return
+	 */
+	public static boolean isFirstDayOfMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        
+        if (1 == day && 2 <= hour) {
+           return true;
+        }
+        return false;
+    }
+
+	
+	/**
+	 * 是否是最后一天本月
+	 * @return
+	 */
+	public static boolean isLastDayOfMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        
+        if (day == lastDay && 22 <= hour) {
+			return true;
+		}
+        return false;
+	}
+
 
 	/**
 	 * 获取两点之间的距离（单位：m）

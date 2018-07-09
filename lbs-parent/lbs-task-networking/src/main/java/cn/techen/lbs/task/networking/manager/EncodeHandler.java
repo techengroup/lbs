@@ -31,7 +31,11 @@ public class EncodeHandler extends AbstractHandler {
 			ProtocolFrame pFrame = new ProtocolFrame();
 			pFrame.setPriority(context.PRIORITY);
 			pFrame.setWriteBytes(frame);
-			pFrame.setWriteTimes(Local.WRITETIMES);
+			if (meter.getGrade() > 0) {
+				pFrame.setWriteTimes(Local.WRITETIMES_RELAY);
+			} else {
+				pFrame.setWriteTimes(Local.WRITETIMES);				
+			}
 			context.setFrame(pFrame);
 		}
 		
