@@ -59,9 +59,8 @@ public class GlobalUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
         
-        if (1 == day && 2 <= hour) {
+        if (1 == day) {
            return true;
         }
         return false;
@@ -76,10 +75,9 @@ public class GlobalUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         
-        if (day == lastDay && 22 <= hour) {
+        if (day == lastDay) {
 			return true;
 		}
         return false;

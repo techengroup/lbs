@@ -22,7 +22,7 @@ public class ProcessHandler {
 		ProtocolService protocolService = context.getProtocolManagerService().getProtocol(month.getProtocol());
 		ProtocolConfig config = new DefaultProtocolConfig();
 		config.setCommAddr(month.getCommaddr()).setDir(DIR.CLIENT).setOperation(OPERATION.GET);
-		config.funcs().add("911F");
+		config.funcs().add("901F");
 		byte[] eventFrame = protocolService.encode(config);
 		
 		protocolService = context.getProtocolManagerService().getProtocol(month.getModuleprotocol());

@@ -704,7 +704,7 @@ public class MeterServiceImpl implements MeterService {
 		try {
 			List<Meter> list = new ArrayList<Meter>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select select m.id, m.commaddr, m.logicaddr, m.protocol, m.moduleprotocol, (select route from log_network n where n.meterid=m.id and n.result=1 order by savetime desc LIMIT 1) from prm_meter m ");
+			ddl.append("select m.id, m.commaddr, m.logicaddr, m.protocol, m.moduleprotocol, (select route from log_network n where n.meterid=m.id and n.result=1 order by savetime desc LIMIT 1) from prm_meter m ");
 			ddl.append("where m.status=1 and m.id NOT IN(select meterid from data_energy_month em where em.frozentime = ?)");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
