@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<project name="maven-antrun-" default="main"  >
-<target name="main">
-  <echo message="copy package to deplay dir"/>
-  <copy file="D:\Workspace\lbs-parent\lbs-task-networking/target/lbs-task-networking-1.0.jar" tofile="D:/Work/App/apache-karaf-4.0.8/deploy/lbs-task-networking-1.0.jar" overwrite="true"/>
-</target>
-</project>

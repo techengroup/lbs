@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: cn.techen.lbs.test.LoraProtocolTest
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.163 s - in cn.techen.lbs.test.LoraProtocolTest
