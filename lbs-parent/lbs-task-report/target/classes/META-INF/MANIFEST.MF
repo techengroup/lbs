@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1531192393664
+Build-Jdk: 1.8.0_152
+Built-By: ZY
+Bundle-Blueprint: OSGI-INF/blueprint/task-report.xml
+Bundle-ManifestVersion: 2
+Bundle-Name: lbs-task-report
+Bundle-SymbolicName: lbs_task_report
+Bundle-Vendor: techen.cn
+Bundle-Version: 1.0
+Created-By: Apache Maven Bundle Plugin
+Import-Package: cn.techen.lbs.db.api;resolution:=optional;version="[1.0,
+ 2)",cn.techen.lbs.db.model;resolution:=optional;version="[1.0,2)",cn.te
+ chen.lbs.mm.api;resolution:=optional;version="[1.0,2)",cn.techen.lbs.pr
+ otocol;resolution:=optional;version="[1.0,2)",org.osgi.service.blueprin
+ t;version="[1.0.0,2.0.0)";resolution:=optional
+Import-Service: cn.techen.lbs.db.api.ReportService;multiple:=false,cn.te
+ chen.lbs.protocol.ProtocolManagerService;multiple:=false,cn.techen.lbs.
+ mm.api.MMeterService;multiple:=false,cn.techen.lbs.mm.api.MTaskService;
+ multiple:=false
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.5))"
+Tool: Bnd-3.5.0.201709291849

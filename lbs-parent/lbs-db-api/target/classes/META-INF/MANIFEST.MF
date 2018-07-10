@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1531192378120
+Build-Jdk: 1.8.0_152
+Built-By: ZY
+Bundle-ManifestVersion: 2
+Bundle-Name: lbs-db-api
+Bundle-SymbolicName: lbs_db_api
+Bundle-Version: 1.0
+Created-By: Apache Maven Bundle Plugin
+Export-Package: cn.techen.lbs.db.api;uses:="cn.techen.lbs.db.model";vers
+ ion="1.0.0",cn.techen.lbs.db.common;uses:="cn.techen.lbs.db.model";vers
+ ion="1.0.0",cn.techen.lbs.db.model;version="1.0.0",cn.techen.lbs.mm.api
+ ;uses:="cn.techen.lbs.db.model";version="1.0.0"
+Import-Package: cn.techen.lbs.db.model;resolution:=optional
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.5))"
+Tool: Bnd-3.5.0.201709291849

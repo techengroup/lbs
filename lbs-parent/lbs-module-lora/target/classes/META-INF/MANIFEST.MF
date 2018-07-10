@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1531192380158
+Build-Jdk: 1.8.0_152
+Built-By: ZY
+Bundle-Blueprint: OSGI-INF/blueprint/dev-lora.xml
+Bundle-ManifestVersion: 2
+Bundle-Name: lbs-module-lora
+Bundle-SymbolicName: lbs_module_lora
+Bundle-Vendor: techen.cn
+Bundle-Version: 1.0
+Created-By: Apache Maven Bundle Plugin
+Import-Package: cn.techen.lbs.channel.rxtx;resolution:=optional;version=
+ "[1.0,2)",cn.techen.lbs.mm.api;resolution:=optional;version="[1.0,2)",c
+ n.techen.lbs.protocol;resolution:=optional;version="[1.0,2)",cn.techen.
+ lbs.protocol.common;resolution:=optional;version="[1.0,2)",org.osgi.ser
+ vice.blueprint;version="[1.0.0,2.0.0)";resolution:=optional,org.slf4j;r
+ esolution:=optional;version="[1.7,2)"
+Import-Service: cn.techen.lbs.mm.api.MTaskService;multiple:=false,cn.tec
+ hen.lbs.protocol.ProtocolManagerService;multiple:=false
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.5))"
+Tool: Bnd-3.5.0.201709291849

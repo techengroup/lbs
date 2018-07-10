@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.2.0"
+           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+	
+	<bean id="lbsBean" class="cn.techen.lbs.db.mysql.impl.LbsServiceImpl" />
+	
+	<bean id="meterBean" class="cn.techen.lbs.db.mysql.impl.MeterServiceImpl" />
+	
+	<bean id="fnBean" class="cn.techen.lbs.db.mysql.impl.FnServiceImpl" />
+	
+	<bean id="reportBean" class="cn.techen.lbs.db.mysql.impl.ReportServiceImpl" />
+	
+	<bean id="generalBean" class="cn.techen.lbs.db.mysql.impl.GeneralServiceImpl" />
+	
+	<service id="lbsService" ref="lbsBean" interface="cn.techen.lbs.db.api.LbsService"/>
+	
+	<service id="meterService" ref="meterBean" interface="cn.techen.lbs.db.api.MeterService"/>
+	
+	<service id="fnService" ref="fnBean" interface="cn.techen.lbs.db.api.FnService"/>
+	
+	<service id="reportService" ref="reportBean" interface="cn.techen.lbs.db.api.ReportService"/>
+	
+	<service id="generalService" ref="generalBean" interface="cn.techen.lbs.db.api.GeneralService"/>
+	
+</blueprint>
