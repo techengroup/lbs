@@ -22,7 +22,7 @@
 						<Bundle-SymbolicName>$(replace;${project.artifactId};-;_)</Bundle-SymbolicName>
 						<Export-Package>
 							${project.artifactId}.*;version=${project.version},
-							cn.techen.lbs.db.api,cn.techen.lbs.db.common,cn.techen.lbs.db.model,cn.techen.lbs.mm.api
+							cn.techen.lbs.db.api,cn.techen.lbs.db.common,cn.techen.lbs.db.model,cn.techen.lbs.db.sql,cn.techen.lbs.mm.api
 						</Export-Package>
 						<Import-Package>
 							*;resolution:=optional
