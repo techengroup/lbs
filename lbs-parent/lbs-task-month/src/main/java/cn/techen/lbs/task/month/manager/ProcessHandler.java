@@ -3,7 +3,7 @@ package cn.techen.lbs.task.month.manager;
 import java.util.Date;
 
 import cn.techen.lbs.db.common.GlobalUtil;
-import cn.techen.lbs.db.model.Meter;
+import cn.techen.lbs.db.model.Month;
 import cn.techen.lbs.db.sql.AbstractSQL;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
@@ -18,16 +18,16 @@ import cn.techen.lbs.task.month.common.MonthContext;
 
 public class ProcessHandler {
 	
-	public void encode(MonthContext context, Meter month)  throws Exception {		
+	public void encode(MonthContext context, Month month)  throws Exception {		
 		ProtocolService protocolService = context.getProtocolManagerService().getProtocol(month.getProtocol());
 		ProtocolConfig config = new DefaultProtocolConfig();
 		config.setCommAddr(month.getCommaddr()).setDir(DIR.CLIENT).setOperation(OPERATION.GET);
-		config.funcs().add("901F");
+		config.funcs().add(month.getDataId());
 		byte[] eventFrame = protocolService.encode(config);
 		
 		protocolService = context.getProtocolManagerService().getProtocol(month.getModuleprotocol());
 		config = new DefaultProtocolConfig();
-		config.setCommAddr(month.running().getRoute()).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
+		config.setCommAddr(month.getRoute()).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
 		config.funcs().add("6");
 		config.units().add(eventFrame.length);
 		config.units().add(eventFrame);	
@@ -42,7 +42,7 @@ public class ProcessHandler {
 	}
 
 	public void decode(MonthContext context, ProtocolFrame frame)  throws Exception {
-		Meter month = context.getMonth();
+		Month month = context.getMonth();
 		
 		ProtocolConfig config = null;
 		byte[] readBytes = frame.getReadBytes();
@@ -72,7 +72,7 @@ public class ProcessHandler {
 		context.setState(State.RECIEVING);
 	}
 	
-	private void store(MonthContext context, ProtocolFrame frame, Meter month, ProtocolConfig config)  throws Exception {
+	private void store(MonthContext context, ProtocolFrame frame, Month month, ProtocolConfig config)  throws Exception {
 		if (config != null) {					
 			for (String fn : config.funcs()) {
 				String fnKey = config.funcKeys().get(fn);

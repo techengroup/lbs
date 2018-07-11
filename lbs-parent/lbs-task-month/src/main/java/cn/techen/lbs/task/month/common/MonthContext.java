@@ -7,8 +7,9 @@ import java.util.Queue;
 
 import cn.techen.lbs.db.api.GeneralService;
 import cn.techen.lbs.db.api.MeterService;
+import cn.techen.lbs.db.common.DataConfig.ENERGY;
 import cn.techen.lbs.db.common.GlobalUtil;
-import cn.techen.lbs.db.model.Meter;
+import cn.techen.lbs.db.model.Month;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.FrameConfig.Priority;
@@ -32,11 +33,11 @@ public class MonthContext {
 	
 	private ProcessHandler processHandler = new ProcessHandler();
 	
-	private Queue<Meter> months = new LinkedList<Meter>();
+	private Queue<Month> months = new LinkedList<Month>();
 	
-	private Meter month;
+	private Month month;
 
-	public Queue<Meter> months() {
+	public Queue<Month> months() {
 		return months;
 	}
 	
@@ -44,10 +45,11 @@ public class MonthContext {
 		Date time = new Date();
 		String ms = GlobalUtil.date2String(time, "yyyy-MM-01");
 		time = GlobalUtil.string2Date(ms, "yyyy-MM-01");
-		months.addAll(meterService.selectMonth(time));
+		months.addAll(meterService.selectMonth(ENERGY.ACTIVE, time));//正向有功
+		months.addAll(meterService.selectMonth(ENERGY.NEGATIVE, time));//正向无功
 	}
 	
-	public Meter getMonth() {
+	public Month getMonth() {
 		if (month == null) {
 			month = months.poll();
 		}
@@ -68,7 +70,7 @@ public class MonthContext {
 		this.state = state;
 	}
 	
-	public void fireEncode(Meter month) {
+	public void fireEncode(Month month) {
 		try {
 			processHandler.encode(this, month);
 		} catch (Exception e) {

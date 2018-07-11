@@ -3,7 +3,9 @@ package cn.techen.lbs.db.api;
 import java.util.Date;
 import java.util.List;
 
+import cn.techen.lbs.db.common.DataConfig.ENERGY;
 import cn.techen.lbs.db.model.Meter;
+import cn.techen.lbs.db.model.Month;
 import cn.techen.lbs.db.model.Sector;
 
 /**
@@ -37,6 +39,6 @@ public interface MeterService extends IService<Meter> {
 
 	int updateGIS(List<Meter> entitys);
 
-	List<Meter> selectMonth(Date month);
+	List<Month> selectMonth(ENERGY energy, Date time);
 	
 }

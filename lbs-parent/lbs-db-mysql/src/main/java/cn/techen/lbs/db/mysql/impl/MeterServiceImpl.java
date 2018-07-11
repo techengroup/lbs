@@ -12,14 +12,15 @@ import com.alibaba.druid.pool.DruidPooledConnection;
 
 import cn.techen.lbs.db.api.MeterService;
 import cn.techen.lbs.db.model.Meter;
+import cn.techen.lbs.db.model.Month;
 import cn.techen.lbs.db.model.Sector;
 import cn.techen.lbs.db.mysql.common.MysqlPool;
+import cn.techen.lbs.db.common.DataConfig.ENERGY;
 
 public class MeterServiceImpl implements MeterService {
 	
 	@Override
 	public Meter selectByKey(Object key) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -697,28 +698,39 @@ public class MeterServiceImpl implements MeterService {
 	}
 	
 	@Override
-	public List<Meter> selectMonth(Date month) {
+	public List<Month> selectMonth(ENERGY energy, Date time) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		PreparedStatement stmt = null;
 		try {
-			List<Meter> list = new ArrayList<Meter>();
+			List<Month> list = new ArrayList<Month>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select m.id, m.commaddr, m.logicaddr, m.protocol, m.moduleprotocol, (select route from log_network n where n.meterid=m.id and n.result=1 order by savetime desc LIMIT 1) from prm_meter m ");
-			ddl.append("where m.status=1 and m.id NOT IN(select meterid from data_energy_month em where em.frozentime = ?)");
+			ddl.append("select m.id, m.commaddr, m.logicaddr, m.protocol, m.moduleprotocol");
+			ddl.append(", (select route from log_network n where n.meterid=m.id and n.result=1 order by savetime desc LIMIT 1) route from prm_meter m ");
+			ddl.append("where m.status=1 and m.id NOT IN(select meterid from data_energy_month em where em.frozentime = ? ");
+			if (energy == ENERGY.ACTIVE) {
+				ddl.append("or active_energy0 is null)");
+			} else if (energy == ENERGY.NEGATIVE) {
+				ddl.append("or negative_energy0 is null)");
+			}
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
-			stmt.setTimestamp(1, new java.sql.Timestamp(month.getTime()));
+			stmt.setTimestamp(1, new java.sql.Timestamp(time.getTime()));
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				Meter meter = new Meter();
-				meter.setId(rs.getInt("id"));
-				meter.setCommaddr(rs.getString("commaddr"));
-				meter.setLogicaddr(rs.getString("logicaddr"));
-				meter.setProtocol(rs.getInt("protocol"));
-				meter.setModuleprotocol(rs.getInt("moduleProtocol"));
-				meter.running().setRoute(rs.getString("route"));
-				list.add(meter);
+				Month month = new Month();
+				month.setId(rs.getInt("id"));
+				month.setCommaddr(rs.getString("commaddr"));
+				month.setLogicaddr(rs.getString("logicaddr"));
+				month.setProtocol(rs.getInt("protocol"));
+				month.setModuleprotocol(rs.getInt("moduleProtocol"));
+				month.setRoute(rs.getString("route"));
+				if (energy == ENERGY.ACTIVE) {
+					month.setDataId(energy.descOf());
+				} else if (energy == ENERGY.NEGATIVE) {
+					month.setDataId(energy.descOf());
+				}
+				list.add(month);
 			}
 			return list;
 		} catch (SQLException e) {
