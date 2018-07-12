@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1530692116848
-Build-Jdk: 1.8.0_152
-Built-By: ZY
+Bnd-LastModified: 1531189340030
+Build-Jdk: 1.8.0_161
+Built-By: fanyamin
 Bundle-ManifestVersion: 2
 Bundle-Name: lbs-task-schedule
 Bundle-SymbolicName: lbs_task_schedule
@@ -11,5 +11,5 @@ Created-By: Apache Maven Bundle Plugin
 Import-Package: cn.techen.lbs.db.api;resolution:=optional;version="[1.0,
  2)",cn.techen.lbs.mm.api;resolution:=optional;version="[1.0,2)",cn.tech
  en.lbs.protocol;resolution:=optional;version="[1.0,2)"
-Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.5))"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.5.0.201709291849

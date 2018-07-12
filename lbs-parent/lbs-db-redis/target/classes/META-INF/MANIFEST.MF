@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1530692114344
-Build-Jdk: 1.8.0_152
-Built-By: ZY
+Bnd-LastModified: 1531189338321
+Build-Jdk: 1.8.0_161
+Built-By: fanyamin
 Bundle-Blueprint: OSGI-INF/blueprint/db-redis.xml
 Bundle-ClassPath: .,lib/jedis-2.9.0.jar,lib/commons-pool2-2.5.0.jar
 Bundle-ManifestVersion: 2
@@ -17,16 +17,16 @@ Embed-Transitive: true
 Embedded-Artifacts: lib/jedis-2.9.0.jar;g="redis.clients";a="jedis";v="2
  .9.0",lib/commons-pool2-2.5.0.jar;g="org.apache.commons";a="commons-poo
  l2";v="2.5.0"
-Export-Package: cn.techen.lbs.mm.redis.impl;uses:="cn.techen.lbs.db.mode
- l,cn.techen.lbs.mm.api";version="1.0.0"
-Export-Service: cn.techen.lbs.mm.api.MRelayService;osgi.service.blueprin
- t.compname=mRelayBean,cn.techen.lbs.mm.api.MRegisterService;osgi.servic
- e.blueprint.compname=mRegisterBean,cn.techen.lbs.mm.api.MSectorService;
- osgi.service.blueprint.compname=mSectorBean,cn.techen.lbs.mm.api.MBaseS
- ervice;osgi.service.blueprint.compname=mBaseBean,cn.techen.lbs.mm.api.M
- MeterService;osgi.service.blueprint.compname=mMeterBean,cn.techen.lbs.m
- m.api.MTaskService;osgi.service.blueprint.compname=mTaskBean,cn.techen.
- lbs.mm.api.MLbsService;osgi.service.blueprint.compname=mLbsBean
+Export-Package: cn.techen.lbs.mm.redis.impl;version="1.0.0";uses:="cn.te
+ chen.lbs.db.model,cn.techen.lbs.mm.api"
+Export-Service: cn.techen.lbs.mm.api.MRegisterService;osgi.service.bluep
+ rint.compname=mRegisterBean,cn.techen.lbs.mm.api.MBaseService;osgi.serv
+ ice.blueprint.compname=mBaseBean,cn.techen.lbs.mm.api.MRelayService;osg
+ i.service.blueprint.compname=mRelayBean,cn.techen.lbs.mm.api.MLbsServic
+ e;osgi.service.blueprint.compname=mLbsBean,cn.techen.lbs.mm.api.MSector
+ Service;osgi.service.blueprint.compname=mSectorBean,cn.techen.lbs.mm.ap
+ i.MMeterService;osgi.service.blueprint.compname=mMeterBean,cn.techen.lb
+ s.mm.api.MTaskService;osgi.service.blueprint.compname=mTaskBean
 Import-Package: cn.techen.lbs.db.model;resolution:=optional;version="[1.
  0,2)",cn.techen.lbs.mm.api;resolution:=optional;version="[1.0,2)",javax
  .management;resolution:=optional,javax.net;resolution:=optional,javax.n
@@ -34,5 +34,5 @@ Import-Package: cn.techen.lbs.db.model;resolution:=optional;version="[1.
  .osgi.service.blueprint;version="[1.0.0,2.0.0)";resolution:=optional,or
  g.slf4j;resolution:=optional;version="[1.7,2)",cn.techen.lbs.protocol;r
  esolution:=optional
-Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.5.0.201709291849

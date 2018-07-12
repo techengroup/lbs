@@ -31,7 +31,7 @@ public class Bootstrap {
 		this.mysql2Redis = mysql2Redis;
 	}
 
-	public void setGis(GIS2Net gis2Net) {
+	public void setGis2Net(GIS2Net gis2Net) {
 		this.gis2Net = gis2Net;
 	}
 

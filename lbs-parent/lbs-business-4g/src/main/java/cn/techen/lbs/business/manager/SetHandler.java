@@ -34,8 +34,9 @@ public class SetHandler extends AbstractHandler {
 					String fnKey = config.funcKeys().get(pn + ":" + fn);
 					if (fnKey != null && !fnKey.isEmpty()) {						
 						String className = String.format("Fn%s", fnKey.replace(":", ""));
-						AbstractSQL as = GlobalUtil.newSql(className);
-						int r = context.getGeneralService().save(as.handle(pn, config.units()));						
+						AbstractSQL ab = GlobalUtil.newSql(className);
+						String sql = ab.handle(pn, config.units());
+						int r = context.getGeneralService().save(sql);						
 						result.add(String.valueOf((r > 0) ? 1 : 2));
 					}
 				}

@@ -2,6 +2,6 @@
 <project name="maven-antrun-" default="main"  >
 <target name="main">
   <echo message="copy package to deplay dir"/>
-  <copy file="D:\Workspace\lbs-parent\lbs-data-load/target/lbs-data-load-1.0.jar" tofile="D:/Work/App/apache-karaf-4.0.8/deploy/lbs-data-load-1.0.jar" overwrite="true"/>
+  <copy file="E:\work\project_LoRaBaseSation\program\lbs-parent\lbs-data-load/target/lbs-data-load-1.0.jar" tofile="D:/softpackage/develop/develop_software/App/apache-karaf-4.0.8/deploy/lbs-data-load-1.0.jar" overwrite="true"/>
 </target>
 </project>

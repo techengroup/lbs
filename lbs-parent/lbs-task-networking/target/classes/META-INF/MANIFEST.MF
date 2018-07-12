@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1530692357059
-Build-Jdk: 1.8.0_152
-Built-By: ZY
+Bnd-LastModified: 1531189332111
+Build-Jdk: 1.8.0_161
+Built-By: fanyamin
 Bundle-Blueprint: OSGI-INF/blueprint/task-networking.xml
 Bundle-ManifestVersion: 2
 Bundle-Name: lbs-task-networking
@@ -15,10 +15,10 @@ Import-Package: cn.techen.lbs.db.api;resolution:=optional;version="[1.0,
  .mm.api;resolution:=optional;version="[1.0,2)",cn.techen.lbs.protocol;r
  esolution:=optional;version="[1.0,2)",org.osgi.service.blueprint;versio
  n="[1.0.0,2.0.0)";resolution:=optional
-Import-Service: cn.techen.lbs.mm.api.MRelayService;multiple:=false,cn.te
- chen.lbs.mm.api.MTaskService;multiple:=false,cn.techen.lbs.protocol.Pro
- tocolManagerService;multiple:=false,cn.techen.lbs.db.api.MeterService;m
- ultiple:=false,cn.techen.lbs.mm.api.MMeterService;multiple:=false,cn.te
- chen.lbs.mm.api.MRegisterService;multiple:=false
-Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.5))"
+Import-Service: cn.techen.lbs.db.api.MeterService;multiple:=false,cn.tec
+ hen.lbs.mm.api.MRegisterService;multiple:=false,cn.techen.lbs.mm.api.MR
+ elayService;multiple:=false,cn.techen.lbs.protocol.ProtocolManagerServi
+ ce;multiple:=false,cn.techen.lbs.mm.api.MTaskService;multiple:=false,cn
+ .techen.lbs.mm.api.MMeterService;multiple:=false
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.5.0.201709291849

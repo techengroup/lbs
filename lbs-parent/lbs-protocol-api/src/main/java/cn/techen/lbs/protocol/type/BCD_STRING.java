@@ -20,9 +20,14 @@ public class BCD_STRING extends AbstractData {
 		
 		for (int i = 0; i < len; i++) {
 			bytes[i] = frame.process().queue.poll();
-			sb.append(ProtocolUtil.bcd2Str(bytes[i]));
 			byteList.add(bytes[i]);
 		}
+		if (sort == 0) {
+			bytes = ProtocolUtil.switchBytes(bytes);
+		}
+		for (int i = 0; i < len; i++) {
+			sb.append(ProtocolUtil.bcd2Str(bytes[i]));	
+		}	    
 		
 		content = sb.toString();
 		desc = sb.toString();
@@ -37,6 +42,9 @@ public class BCD_STRING extends AbstractData {
 		desc = ProtocolUtil.zeroFill(len*2, desc);
 		
 		byte[] bytes = ProtocolUtil.str2Bcd(desc);
+		if (sort == 0) {
+			bytes = ProtocolUtil.switchBytes(bytes);
+		}
 		for (int i = 0; i < len; i++) {				
 			frame.process().vector.add(bytes[i]);
 			byteList.add(bytes[i]);

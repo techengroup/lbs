@@ -1,11 +1,14 @@
 package cn.techen.lbs.protocol.type;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.techen.lbs.protocol.AbstractData;
 import cn.techen.lbs.protocol.AbstractFrame;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
 
-public class BIT_STRING extends AbstractData {	
-	
+public class BIT_STRING extends AbstractData {
+
 	public BIT_STRING(String types) {
 		dataTypes = types;
 		len = Integer.parseInt(extract(dataTypes));
@@ -21,9 +24,21 @@ public class BIT_STRING extends AbstractData {
 			byteList.add(bytes[i]);
 		}
 		
-		content = ProtocolUtil.byte2BinaryString(bytes, false);
-		desc = ProtocolUtil.byte2BinaryString(bytes, true);
+		String val = ProtocolUtil.byte2BinaryString(bytes, false);		
+
+		List<String> vals = new ArrayList<String>();
+		String[] fs = format.split(":");
+		int start = 0;
+		int end = 0;
+		for (String f : fs) {
+			end = start + Integer.parseInt(f);
+			vals.add(String.valueOf(Integer.parseInt(val.substring(start, end), 2)));
+			start = end;
+		}
 		
+		content = String.join(":", vals.toArray(new String[0]));
+		desc = content.toString();
+
 		frame.config().units().add(content);
 	}
 
@@ -32,12 +47,18 @@ public class BIT_STRING extends AbstractData {
 		content = frame.config().units().poll();
 		desc = content.toString();
 		
-		int value = Integer.valueOf(desc, 2);
-		String str = ProtocolUtil.int2HexString(value);
-		desc = ProtocolUtil.zeroFill(len*2, str);
+		String[] ds = desc.split(":");
+		String[] fs = format.split(":");
+		StringBuffer sb = new StringBuffer();
 		
-		bytes = ProtocolUtil.hexString2Byte(desc);
-		for (int i = 0; i < len; i++) {			
+		for (int i = 0; i < fs.length; i++) {
+			sb.append(ProtocolUtil.zeroFill(Integer.parseInt(fs[i]), Integer.toBinaryString(Integer.parseInt(ds[i]))));
+		}
+		
+		int val = Integer.parseInt(sb.toString(), 2);
+
+		for (int i = 0; i < len; i++) {
+			bytes[i] = (byte) (val << (8*i));
 			frame.process().vector.add(bytes[i]);
 			byteList.add(bytes[i]);
 		}

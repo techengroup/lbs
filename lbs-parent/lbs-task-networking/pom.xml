@@ -59,7 +59,7 @@
 			            <target>
 			                <echo message="copy package to deplay dir"/>
 			                <copy file="${basedir}/target/${project.artifactId}-${project.version}.jar"
-			                    tofile="D:/Work/App/apache-karaf-4.0.8/deploy/${project.artifactId}-${project.version}.jar"
+			                    tofile="D:/softpackage/develop/develop_software/App/apache-karaf-4.0.8/deploy/${project.artifactId}-${project.version}.jar"
 			                    overwrite="true"/>
 			            </target>
 			            </configuration>

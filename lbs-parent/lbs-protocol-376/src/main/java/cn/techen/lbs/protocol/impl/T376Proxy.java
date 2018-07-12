@@ -6,6 +6,7 @@ import java.util.Map;
 
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.t376.T376Config;
 import cn.techen.lbs.protocol.t376.T376Config.DIR;
 import cn.techen.lbs.protocol.t376.T376Config.FUNC0;
@@ -80,6 +81,19 @@ public class T376Proxy {
 				config.setOperation(ProtocolConfig.OPERATION.HEARTBEAT);
 			}
 			break;
+		case SETPARAM:
+			config.setOperation(ProtocolConfig.OPERATION.SET);
+			break;
+		case GETPARAM:
+			config.runs().put("CONTROL", "0A");
+		case GETREALTIME:
+			config.runs().put("CONTROL", "0C");
+		case GETHISTORY:
+			config.runs().put("CONTROL", "0D");
+		case GETEVENT:
+			config.runs().put("CONTROL", "0E");
+			config.setOperation(ProtocolConfig.OPERATION.GET);
+			break;
 		default:
 			break;
 		}
@@ -109,8 +123,11 @@ public class T376Proxy {
 	private void op2control(ProtocolConfig config, T376Config t376Config) {
 		switch (config.getOperation()) {
 		case GET:
+			int control = ProtocolUtil.hexString2Int(config.runs().get("CONTROL").toString());
+			t376Config.setFunc(FUNC1.DATA2.value()).setAfn(AFN.valueOf(control)).setFir(1).setFin(1).setCon(CON.NO);
 			break;
 		case SET:
+			t376Config.setFunc(FUNC1.DATA1.value()).setAfn(AFN.SETPARAM).setFir(1).setFin(1).setCon(CON.YES);
 			break;
 		case TRANSPORT:
 			break;

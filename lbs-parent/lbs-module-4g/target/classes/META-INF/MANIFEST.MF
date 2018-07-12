@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1530692109251
-Build-Jdk: 1.8.0_152
-Built-By: ZY
+Bnd-LastModified: 1531189334334
+Build-Jdk: 1.8.0_161
+Built-By: fanyamin
 Bundle-Blueprint: OSGI-INF/blueprint/dev-4g.xml
 Bundle-ClassPath: .,lib/netty-all-4.1.24.Final.jar
 Bundle-ManifestVersion: 2
@@ -49,5 +49,5 @@ Import-Package: cn.techen.lbs.db.common;resolution:=optional;version="[1
  esolution:=optional,sun.security.util;resolution:=optional,sun.security
  .x509;resolution:=optional
 Import-Service: cn.techen.lbs.mm.api.MTaskService;multiple:=false
-Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.5.0.201709291849

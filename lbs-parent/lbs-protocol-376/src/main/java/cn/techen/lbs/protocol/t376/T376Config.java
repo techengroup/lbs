@@ -163,6 +163,21 @@ public interface T376Config extends FrameConfig {
 			case 0x02:
 				str="Link Detection";
 				break;
+			case 0x04:
+				str="Set Parameter";
+				break;
+			case 0x0A:
+				str="Get Parameter";
+				break;
+			case 0x0C:
+				str="Get Real Data";
+				break;
+			case 0x0D:
+				str="Get History Data";
+				break;
+			case 0x0E:
+				str="Get Event";
+				break;
 			default:
 				throw new IllegalArgumentException("unknown " + AFN.class.getSimpleName() + " value: " + value);
 			}
@@ -267,10 +282,10 @@ public interface T376Config extends FrameConfig {
 	
 	enum FUNC1 {
 		REST(0),
-		USERDATA(8),
+		USERDATA(4),
 		LINK(9),
-		DATA1(11),
-		DATA2(12);
+		DATA1(10),
+		DATA2(11);
 
         private final int value;
 
@@ -288,16 +303,16 @@ public interface T376Config extends FrameConfig {
 			case 0x00:
 				str="Request rest, need comfirm";
 				break;
-			case 0x08:
+			case 0x04:
 				str="Send user data, no response";
 				break;
 			case 0x09:
 				str="Request link, need response";
 				break;
-			case 0x0B:
+			case 0x0A:
 				str="Request data class 1, need response";
 				break;
-			case 0x0C:
+			case 0x0B:
 				str="Request data class 2, need response";
 				break;
 			default:

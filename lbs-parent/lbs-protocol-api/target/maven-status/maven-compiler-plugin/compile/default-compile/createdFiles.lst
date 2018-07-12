@@ -1,3 +1,4 @@
+cn\techen\lbs\protocol\type\ADDRESS.class
 cn\techen\lbs\protocol\AbstractFrame$FrameProcess.class
 cn\techen\lbs\protocol\common\ProtocolUtil.class
 cn\techen\lbs\protocol\common\FnNames.class
@@ -17,6 +18,7 @@ cn\techen\lbs\protocol\type\IP_STRING.class
 cn\techen\lbs\protocol\AbstractElement.class
 cn\techen\lbs\protocol\common\Titles.class
 cn\techen\lbs\protocol\type\ASCII.class
+cn\techen\lbs\protocol\type\BIT_STRING1.class
 cn\techen\lbs\protocol\FrameConfig$Priority.class
 cn\techen\lbs\protocol\type\BYTE_ARRAY.class
 cn\techen\lbs\protocol\AbstractType.class
@@ -28,6 +30,7 @@ cn\techen\lbs\protocol\IConfig.class
 cn\techen\lbs\protocol\AbstractFrame.class
 cn\techen\lbs\protocol\ProtocolFrame.class
 cn\techen\lbs\protocol\type\BIT_STRING.class
+cn\techen\lbs\protocol\type\LOCATION.class
 cn\techen\lbs\protocol\ProtocolManager.class
 cn\techen\lbs\protocol\FrameConfig.class
 cn\techen\lbs\protocol\type\STRUCT.class

@@ -23,23 +23,24 @@ public class ARRAY extends AbstractData {
 	public void decode(AbstractFrame frame) throws Exception {
 		for (int i = 0; i < byteLen; i++) {
 			byte b = frame.process().queue.poll();
-			len = (b & 0xff) << (8 * i);
+			len += (b & 0xff) << (8 * i);
 			byteList.add(b);
-		}
+		}		
+
+		frame.config().units().add(len);
 		
 		for (int i = 0; i < len; i++) {
 			String dataClass = extract(dataTypes);
 			
 			AbstractData ad = ProtocolUtil.newData(dataClass, dataTypes);
 			ad.decode(frame);	
+			adList.add(ad);
 			
 			byteList.addAll(ad.getByteList());			
 			dataTypes = ad.getDataTypes();
 			
 			if (i < (len - 1)) repeat(ad);
-		}		
-		
-		frame.config().units().add(len);
+		}				
 	}
 
 	@Override
@@ -82,7 +83,7 @@ public class ARRAY extends AbstractData {
 		}
 		
 		List<String> list  = typeArray.subList(0, count);
-		list.addAll(Arrays.asList(dataTypes.split(",")));
+		if(!dataTypes.isEmpty()) list.addAll(Arrays.asList(dataTypes.split(",")));
 		dataTypes = String.join(",", list.toArray(new String[0]));
 	}
 

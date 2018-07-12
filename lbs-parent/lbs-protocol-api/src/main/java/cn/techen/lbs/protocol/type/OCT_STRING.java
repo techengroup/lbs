@@ -20,6 +20,11 @@ public class OCT_STRING extends AbstractData {
 		for (int i = 0; i < len; i++) {
 			bytes[i] = frame.process().queue.poll();
 			byteList.add(bytes[i]);
+		}
+		if (sort == 0) {
+			bytes = ProtocolUtil.switchBytes(bytes);
+		}
+		for (int i = 0; i < len; i++) {
 			value = (value << (i * 8)) + (bytes[i] & 0xFF);
 		}
 
@@ -33,10 +38,13 @@ public class OCT_STRING extends AbstractData {
 	public void encode(AbstractFrame frame) throws Exception {
 		content = frame.config().units().poll();
 		desc = content.toString();
-		desc = Integer.toHexString(Integer.parseInt(desc));
-		desc = ProtocolUtil.zeroFill(len*2, desc);
+		String desc0 = Integer.toHexString(Integer.parseInt(desc));
+		desc0 = ProtocolUtil.zeroFill(len*2, desc0);
 
-		bytes = ProtocolUtil.hexString2Byte(desc);
+		bytes = ProtocolUtil.hexString2Byte(desc0);
+		if (sort == 0) {
+			bytes = ProtocolUtil.switchBytes(bytes);
+		}
 		for (int i = 0; i < len; i++) {
 			frame.process().vector.add(bytes[i]);
 			byteList.add(bytes[i]);
