@@ -31,6 +31,7 @@ public class Bootstrap {
 	protected class ClientThread implements Runnable {
 		private String host;
 		private Integer port;
+		private String addr;
 		private String host0;
 		private Integer port0;
 		private String host1;
@@ -86,12 +87,14 @@ public class Bootstrap {
 		}
 		
 		private void disconnect() {	
+			String newAddr = Global.lbs.getCommaddr();
 			String newHost0 = Global.lbs.getIp();
 			Integer newPort0 = Global.lbs.getPort();
 			String newHost1 = Global.lbs.getIp1();
 			Integer newPort1 = Global.lbs.getPort1();
 			
-			if (host0 == null || !newHost0.equals(host0) || !newPort0.equals(port0)) {			
+			if (addr == null || !newAddr.equals(addr) || !newHost0.equals(host0) || !newPort0.equals(port0)) {	
+				addr = newAddr;
 				host0 = newHost0;
 				port0 = newPort0;
 				isSwap = true;
