@@ -1,7 +1,0 @@
-cn\techen\lbs\task\schedule\common\Local.class
-cn\techen\lbs\task\schedule\manager\ProcessHandler.class
-cn\techen\lbs\task\schedule\manager\ReadHandler.class
-cn\techen\lbs\task\schedule\Bootstrap.class
-cn\techen\lbs\task\schedule\manager\ObtainHandler.class
-cn\techen\lbs\task\schedule\manager\AbstractHandler.class
-cn\techen\lbs\task\schedule\common\ScheduleContext.class
