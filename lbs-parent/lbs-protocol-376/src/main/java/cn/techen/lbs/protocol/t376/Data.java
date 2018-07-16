@@ -94,7 +94,7 @@ public class Data extends AbstractElement {
 					if (x == 1) {
 						int t = (i + 1) + 8 * dt2;
 						dts.add(String.valueOf(t));
-						dtKeys.add(Local.CODE + ":" + dir.value() + ":" + ProtocolUtil.int2HexString(afn.value()) + ":" + t);
+						dtKeys.add(Local.CODE + ":" + dir.value() + ":" + ProtocolUtil.int2HexString(afn.value()).toUpperCase() + ":" + t);
 					}
 				}
 				
@@ -158,7 +158,7 @@ public class Data extends AbstractElement {
 	private String[] getDtKeys(DIR dir, AFN afn, String[] dts) {
 		List<String> kList = new ArrayList<String>();
 		for (String dt : dts) {
-			kList.add(Local.CODE + ":" + dir.value() + ":" + ProtocolUtil.int2HexString(afn.value()) + ":" + dt);
+			kList.add(Local.CODE + ":" + dir.value() + ":" + ProtocolUtil.int2HexString(afn.value()).toUpperCase() + ":" + dt);
 		}
 		return kList.toArray(new String[0]);
 	}

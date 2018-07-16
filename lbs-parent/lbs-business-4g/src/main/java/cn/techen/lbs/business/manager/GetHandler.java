@@ -17,7 +17,8 @@ public class GetHandler extends AbstractHandler {
 		ProtocolConfig respConnfig = new DefaultProtocolConfig();
 		respConnfig.setCommAddr(config.getCommAddr()).setDir(DIR.SERVER)
 			.setOperation(OPERATION.GET).runs().put("PRM", 0);
-		respConnfig.funcs().addAll(config.funcs());
+		respConnfig.runs().putAll(config.runs());	
+		respConnfig.funcs().addAll(config.funcs());		
 		
 		for (String func : config.funcs()) {
 			String[] at = func.split(":");

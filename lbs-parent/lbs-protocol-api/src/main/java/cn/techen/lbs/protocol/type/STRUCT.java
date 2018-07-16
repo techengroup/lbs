@@ -26,6 +26,8 @@ public class STRUCT extends AbstractData {
 			byteList.addAll(ad.getByteList());
 			
 			dataTypes = ad.getDataTypes();
+			
+			adList.add(ad);
 		}
 	}
 
@@ -35,7 +37,7 @@ public class STRUCT extends AbstractData {
 			String dataClass = extract(dataTypes);
 			
 			AbstractData ad = ProtocolUtil.newData(dataClass, dataTypes);
-			ad.decode(frame);
+			ad.encode(frame);
 			byteList.addAll(ad.getByteList());
 			
 			dataTypes = ad.getDataTypes();

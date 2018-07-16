@@ -24,8 +24,8 @@ public class Fn10000410 extends AbstractSQL {
 			
 			sb.append("insert IGNORE into prm_meter(id, pointno, baudrate, port, protocol, commaddr, tariffcount, integercount, decimalcount"
 					+ ", customerclass, customersubclass, longitude, latitude) ");
-			sb.append(String.format("values(%d, %d, %d, %d, %d, '%s', %d, %d, %d, %d, %d, %d, %d);"
-					, sn, pointNo, protocol, ratePort[0], ratePort[1], commAddr, tariffCount, dataDigit[0], dataDigit[1]
+			sb.append(String.format("values(%d, %d, %s, %s, %d, '%s', %d, %s, %s, %s, %s, %s, %s);"
+					, sn, pointNo, ratePort[0], ratePort[1], protocol, commAddr, tariffCount, dataDigit[1], dataDigit[2]
 					, customerClass[0], customerClass[1], longitude, latitude));
 //			sb.append("ON DUPLICATE KEY update mdfon=NOW();");		
 			

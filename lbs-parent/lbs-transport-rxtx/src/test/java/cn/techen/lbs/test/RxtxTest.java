@@ -1,31 +1,29 @@
 package cn.techen.lbs.test;
 
-import cn.techen.lbs.channel.rxtx.RxtxChannel;
-import cn.techen.lbs.channel.rxtx.RxtxDeviceAddress;
 import junit.framework.TestCase;
 
 public class RxtxTest extends TestCase {
 	
 	public void testGetMeter() {
-		RxtxChannel channel = new RxtxChannel();		
-		channel.config().setBaudrate(9600);
-		
-		try {
-			channel.connect(new RxtxDeviceAddress("COM3"));
-			String byteStr = "68 11 01 00 02 00 00 00 00 00 00 00 03 17 09 03 40 00 23 05 16 ";
-			byteStr = byteStr.replace(" ", "");
-			channel.write(hexString2Byte(byteStr));
-			byte[] bytes = channel.read();
-			if (bytes != null) {
-				System.out.println("Get data:" + bytes.length);
-			}
-			channel.disconnect();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("success.");
-		
+//		RxtxChannel channel = new RxtxChannel();		
+//		channel.config().setBaudrate(9600);
+//		
+//		try {
+//			channel.connect(new RxtxDeviceAddress("COM3"));
+//			String byteStr = "68 11 01 00 02 00 00 00 00 00 00 00 03 17 09 03 40 00 23 05 16 ";
+//			byteStr = byteStr.replace(" ", "");
+//			channel.write(hexString2Byte(byteStr));
+//			byte[] bytes = channel.read();
+//			if (bytes != null) {
+//				System.out.println("Get data:" + bytes.length);
+//			}
+//			channel.disconnect();
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println("success.");
+		hexString2Byte("");
 	}
 	
 	private byte[] hexString2Byte(String val) {

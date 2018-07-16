@@ -351,4 +351,20 @@ public final class ProtocolUtil {
 		}
 		return bytes;
 	}
+
+
+	/**
+	 * @param bytes
+	 * @return
+	 */
+	public static byte[] switchBytes(byte[] bytes) {
+		byte temp = 0;
+		int len = bytes.length;
+		for (int i = 0; i < (len >> 1); i++) {
+			temp = bytes[i];
+			bytes[i] = bytes[len - 1 - i];
+			bytes[len - 1 - i] = temp;
+		}
+		return bytes;
+	}
 }
