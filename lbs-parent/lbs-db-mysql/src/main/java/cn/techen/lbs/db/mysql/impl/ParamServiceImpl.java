@@ -29,16 +29,16 @@ public class ParamServiceImpl implements ParamService {
 		try {
 			List<Param> list = new ArrayList<Param>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, key, value, desc from RUN_PARAM ");
+			ddl.append("select id, key0, value0, remark from RUN_PARAM ");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			ResultSet rs = stmt.executeQuery();			
 			while (rs.next()) {
 				Param param = new Param();
 				param.setId(rs.getInt("id"));
-				param.setKey(rs.getString("key"));
-				param.setValue(rs.getString("value"));
-				param.setDesc(rs.getString("desc"));
+				param.setKey(rs.getString("key0"));
+				param.setValue(rs.getString("value0"));
+				param.setDesc(rs.getString("remark"));
 				list.add(param);
 			}
 			return list;
@@ -94,7 +94,7 @@ public class ParamServiceImpl implements ParamService {
 		try {
 			List<Param> list = new ArrayList<Param>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, key, value, desc from RUN_PARAM ");
+			ddl.append("select id, key0, value0, remark from RUN_PARAM ");
 			ddl.append("where savetime>?");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
@@ -103,9 +103,9 @@ public class ParamServiceImpl implements ParamService {
 			while (rs.next()) {
 				Param param = new Param();
 				param.setId(rs.getInt("id"));
-				param.setKey(rs.getString("key"));
-				param.setValue(rs.getString("value"));
-				param.setDesc(rs.getString("desc"));
+				param.setKey(rs.getString("key0"));
+				param.setValue(rs.getString("value0"));
+				param.setDesc(rs.getString("remark"));
 				list.add(param);
 			}
 			return list;
@@ -137,7 +137,7 @@ public class ParamServiceImpl implements ParamService {
 		Statement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append(String.format("update RUN_PARAM set value='%s' where key='%s'", key, value));			
+			ddl.append(String.format("update RUN_PARAM set value0='%s' where key0='%s'", key, value));			
 			conn = mp.getConnection();
 			stmt = conn.createStatement();
 			return stmt.executeUpdate(ddl.toString());
