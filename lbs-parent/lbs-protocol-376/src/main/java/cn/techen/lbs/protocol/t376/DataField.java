@@ -15,7 +15,6 @@ public class DataField extends AbstractElement {
 	private AUX0 aux = new AUX0();
 	
 	public DataField() {
-		len=2;
 		title="Datas";
 	}
 
@@ -45,12 +44,14 @@ public class DataField extends AbstractElement {
 		sb.append("[%s]H\r\n");
 		sb.append("%15s%-5s: %s\r\n");
 		sb.append("%15s%-5s: %s\r\n");
+		sb.append("%15s%-5s: %s\r\n");
 		sb.append("%15s%-5s: %s");
 		return String.format(sb.toString()
 				, ProtocolUtil.int2HexString(value)		
 				, "", "AFN", afn.toExplain()
 				, "", "SEQ", seq.toExplain()
-				, "", "Units", data.toExplain());
+				, "", "Units", data.toExplain()
+				, "", "AUX", aux.toExplain());
 	}
 
 }

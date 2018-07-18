@@ -1,5 +1,8 @@
 package cn.techen.lbs.db.common;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import cn.techen.lbs.db.model.LBS;
 
 public class Global {
@@ -14,6 +17,8 @@ public class Global {
 	
 	public static volatile boolean GISReady = false;//基站经度和纬度满足	
 	
-	public static volatile LBS lbs = null;
+	public static volatile LBS lbs = null;//基站档案
+	
+	public static volatile Map<String, Object> RunParams = new ConcurrentHashMap<String, Object>();//系统运行参数 包括：最后一次事件上报时间
 
 }

@@ -38,8 +38,8 @@ public class Data extends AbstractElement {
 		
 		for (String dadt : dadtList) {
 			String[] dadts = dadt.split(":");
-			sb.append(String.format("\r\n%23s%-5s : [%s]", "", "Point", dadts[0]));
-			sb.append(String.format("\r\n%23s%-5s : [%s] [%s]", "", "Func", dadts[1], FnNames.getInstace().get(dtKeyMap.get(dadt))));
+			sb.append(String.format("\r\n%23s%-5s: [%s]", "", "Point", dadts[0]));
+			sb.append(String.format("\r\n%23s%-5s: [%s] [%s]", "", "Func", dadts[1], FnNames.getInstace().get(dtKeyMap.get(dadt))));
 			
 			String[] das = dadts[0].split(",");
 			String[] dts = dadts[1].split(",");

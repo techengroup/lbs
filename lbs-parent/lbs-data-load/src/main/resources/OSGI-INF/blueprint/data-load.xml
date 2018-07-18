@@ -12,6 +12,8 @@
 	
 	<reference id="reportService" interface="cn.techen.lbs.db.api.ReportService" />
 	
+	<reference id="paramService" interface="cn.techen.lbs.db.api.ParamService" />
+	
 	<reference id="mBaseService" interface="cn.techen.lbs.mm.api.MBaseService" />
 	
 	<reference id="mMeterService" interface="cn.techen.lbs.mm.api.MMeterService" />
@@ -27,6 +29,7 @@
 		<property name="meterService" ref="meterService"/>
 		<property name="fnService" ref="fnService"/>
 		<property name="reportService" ref="reportService"/>
+		<property name="paramService" ref="paramService"/>
 		<property name="mBaseService" ref="mBaseService"/>
 		<property name="mMeterService" ref="mMeterService"/>
 		<property name="mRegisterService" ref="mRegisterService"/>

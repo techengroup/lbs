@@ -17,8 +17,8 @@ public class Fn1111C42A extends AbstractSQL {
 			int eventId = Integer.parseInt(datas.poll().toString());
 			String occurtime = GlobalUtil.date2String((Date) datas.poll(), "yyyy-MM-dd HH:mm:ss");
 
-			sb.append(String.format("insert IGNORE into data_event(meterid, eventid, occurtime, remark) "
-					+ "values(%s, %d, '%s', null);", id, eventId, occurtime));			
+			sb.append(String.format("insert IGNORE into data_event(meterid, eventid, occurtime) "
+					+ "values(%s, %d, '%s');", id, eventId, occurtime));			
 			sb.append(String.format("update log_report set status=1, mdfon=NOW() where meterid=%s;", id));
 		}
 

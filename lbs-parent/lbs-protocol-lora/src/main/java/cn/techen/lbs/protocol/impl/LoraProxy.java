@@ -169,7 +169,7 @@ public class LoraProxy {
 
 	private void data2data(ProtocolConfig config, LoraConfig loraConfig) {
 		Channel channel = Channel.CHANNEL_0;
-		Object obj = config.runs().get("Channel");
+		Object obj = config.runs().get("CHANNEL");
 		if (obj != null && !obj.toString().trim().equals("")) {
 			channel = Channel.valueOf(Integer.parseInt(obj.toString()));
 		}

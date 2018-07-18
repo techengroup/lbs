@@ -13,4 +13,5 @@ public interface GeneralService {
 	
 	int save(String sqls);
     
+	int selectEventCount();
 }

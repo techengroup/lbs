@@ -12,6 +12,8 @@
 	
 	<bean id="reportBean" class="cn.techen.lbs.db.mysql.impl.ReportServiceImpl" />
 	
+	<bean id="paramBean" class="cn.techen.lbs.db.mysql.impl.ParamServiceImpl" />
+	
 	<bean id="generalBean" class="cn.techen.lbs.db.mysql.impl.GeneralServiceImpl" />
 	
 	<service id="lbsService" ref="lbsBean" interface="cn.techen.lbs.db.api.LbsService"/>
@@ -21,6 +23,8 @@
 	<service id="fnService" ref="fnBean" interface="cn.techen.lbs.db.api.FnService"/>
 	
 	<service id="reportService" ref="reportBean" interface="cn.techen.lbs.db.api.ReportService"/>
+	
+	<service id="paramService" ref="paramBean" interface="cn.techen.lbs.db.api.ParamService"/>
 	
 	<service id="generalService" ref="generalBean" interface="cn.techen.lbs.db.api.GeneralService"/>
 	

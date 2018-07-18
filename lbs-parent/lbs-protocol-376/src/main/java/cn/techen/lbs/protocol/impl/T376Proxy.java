@@ -1,6 +1,5 @@
 package cn.techen.lbs.protocol.impl;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -138,12 +137,10 @@ public class T376Proxy {
 		case HEARTBEAT:
 			t376Config.setFunc(FUNC1.LINK.value()).setAfn(AFN.LINK).setFir(1).setFin(1).setCon(CON.YES);
 			t376Config.funcs().add("0:3");
-			t376Config.units().add(new Date());
 			break;
 		case LOGIN:
 			t376Config.setFunc(FUNC1.LINK.value()).setAfn(AFN.LINK).setFir(1).setFin(1).setCon(CON.YES);
 			t376Config.funcs().add("0:1");
-//			t376Config.unit().add(new Date());
 			break;
 		case CONFIRM:
 			t376Config.setFunc(FUNC0.LINK.value()).setAfn(AFN.CONFIRM).setFir(1).setFin(1).setCon(CON.NO);

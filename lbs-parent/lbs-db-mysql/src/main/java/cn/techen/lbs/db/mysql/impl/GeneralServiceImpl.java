@@ -3,7 +3,7 @@ package cn.techen.lbs.db.mysql.impl;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -96,5 +96,41 @@ public class GeneralServiceImpl implements GeneralService {
 		}
 		
 		return -1;
+	}
+
+	@Override
+	public int selectEventCount() {
+		MysqlPool mp = MysqlPool.getInstance();
+		DruidPooledConnection conn = null;
+		PreparedStatement stmt = null;
+		int quantity = 0;
+		try {			
+			StringBuffer ddl = new StringBuffer();
+			ddl.append("select COUNT(1) quantity from DATA_EVENT");
+			conn = mp.getConnection();
+			stmt = conn.prepareStatement(ddl.toString());
+			ResultSet rs = stmt.executeQuery();			
+			while (rs.next()) {
+				quantity = rs.getInt("quantity");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}				
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return quantity;
 	}
 }

@@ -1,5 +1,7 @@
 package cn.techen.lbs.business.manager;
 
+import java.util.Date;
+
 import cn.techen.lbs.business.common.BusinessContext;
 import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.mm.api.MTaskService;
@@ -12,11 +14,27 @@ public class HeartbeatHandler extends AbstractHandler {
 
 	@Override
 	public void operate(BusinessContext context, ProtocolConfig config) throws Exception {
-		OPERATION op = OPERATION.HEARTBEAT;
+		config = new DefaultProtocolConfig();		
+		OPERATION op = null;
+		
 		if (!context.isLogined()) {
 			op = OPERATION.LOGIN;
+		} else {
+			op = OPERATION.HEARTBEAT;
+			config.units().add(new Date());
+			
+			int start = Integer.parseInt(Global.RunParams.get("LastEventIndex").toString());
+			int count = context.getGeneralService().selectEventCount();
+			
+			int diff = count - start;
+			
+			if (diff > 0) {
+				config.runs().put("ACD", 1);
+				config.units().add(diff);
+				config.units().add(start);
+			}
 		}
-		config = new DefaultProtocolConfig();
+		
 		config.setCommAddr(Global.lbs.getCommaddr()).setDir(DIR.SERVER)
 			.setOperation(op).runs().put("PRM", 1);
 		byte[] frame = context.getProtocolManagerService().getProtocol(Global.lbs.getProtocol()).encode(config);

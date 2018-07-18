@@ -4,7 +4,7 @@ public class Local {
 	
 	public static final String PROJECT = "LBS-PROTOCOL-645";
 	
-	public static final Integer CODE = 1;
+	public static final Integer CODE = 30;
 	
 	public static final String NAME = "Techen_645";
 	
