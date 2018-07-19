@@ -35,7 +35,7 @@ public class LbsServiceImpl implements LbsService {
 				lbs.setLogicaddr(rs.getString("logicaddr"));
 				lbs.setModuleprotocol(rs.getInt("moduleprotocol"));
 				lbs.setChannel(rs.getInt("channel"));
-				lbs.setLatitude(rs.getDouble("longitude"));
+				lbs.setLongitude(rs.getDouble("longitude"));
 				lbs.setLatitude(rs.getDouble("latitude"));
 				lbs.setIp(rs.getString("ip"));
 				lbs.setPort(rs.getInt("port"));
@@ -118,7 +118,7 @@ public class LbsServiceImpl implements LbsService {
 				lbs.setLogicaddr(rs.getString("logicaddr"));
 				lbs.setModuleprotocol(rs.getInt("moduleprotocol"));
 				lbs.setChannel(rs.getInt("channel"));
-				lbs.setLatitude(rs.getDouble("longitude"));
+				lbs.setLongitude(rs.getDouble("longitude"));
 				lbs.setLatitude(rs.getDouble("latitude"));
 				lbs.setIp(rs.getString("ip"));
 				lbs.setPort(rs.getInt("port"));

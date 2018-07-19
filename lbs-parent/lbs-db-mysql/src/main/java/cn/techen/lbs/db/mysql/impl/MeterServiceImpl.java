@@ -195,8 +195,8 @@ public class MeterServiceImpl implements MeterService {
 			conn = mp.getConnection();
 			stmt = conn.createStatement();
 			for (Meter meter : entitys) {
-				stmt.addBatch(String.format("update PRM_METER set distance=%d, angle=%d, sector=%d, districtx=%d, districty=%d, mdfon=NOW() where id=%d"
-						, meter.getDistance(), meter.getAngle(), meter.getSector(), meter.getDistrictX(), meter.getDistrictY()));
+				stmt.addBatch(String.format("update PRM_METER set distance=%f, angle=%f, sector=%d, districtx=%d, districty=%d, mdfon=NOW() where id=%d"
+						, meter.getDistance(), meter.getAngle(), meter.getSector(), meter.getDistrictX(), meter.getDistrictY(), meter.getId()));
 			}
 			
 			return stmt.executeBatch()[0];

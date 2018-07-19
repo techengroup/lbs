@@ -33,7 +33,7 @@ public class GIS2Net implements Runnable {
 	
 	public void start() throws Exception {
 		List<Meter> meters = meterService.selectGIS();
-		log.info("Get no calculate GIS meter{} from database...", meters.size());
+		log.info("Get calculate GIS meter[{}] from database...", meters.size());
 		
 		for (Meter meter : meters) {
 			double distance = GlobalUtil.distance(Global.lbs.getLongitude(), Global.lbs.getLatitude(), meter.getLongitude(), meter.getLatitude());		

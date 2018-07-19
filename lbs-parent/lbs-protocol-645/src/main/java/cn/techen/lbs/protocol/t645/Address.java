@@ -38,7 +38,7 @@ public class Address extends AbstractElement {
 	
 	private void addr2bcd(Vector<Byte> vector, String addr, int num) {		
 		byte[] bcd = ProtocolUtil.str2Bcd(addr);
-		for (int i = (num-1); i >= 0; i--) {
+		for (int i = 0; i < len; i++) {
 			vector.add(0, bcd[i]);
 		}
 	}
@@ -46,7 +46,7 @@ public class Address extends AbstractElement {
 	private String bcd2addr(Queue<Byte> queue, int num) {
 		String addr = "";
 		for (int i = 0; i < num; i++) {				
-			addr += ProtocolUtil.bcd2Str(queue.poll());
+			addr = ProtocolUtil.bcd2Str(queue.poll()) + addr;
 		}		
 		return addr;
 	}

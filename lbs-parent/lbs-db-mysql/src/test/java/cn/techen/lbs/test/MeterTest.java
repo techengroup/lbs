@@ -29,5 +29,11 @@ public class MeterTest extends TestCase {
 						
 		log.info("There is no any sector{}.", "");		
 	}
+	
+	public void testA() {
+		String sql = String.format("update PRM_METER set distance=%f, angle=%f, sector=%d, districtx=%d, districty=%d, mdfon=NOW() where id=%d"
+				, 1.2342342, 1.1234234f, 1, 100, 1000, 1);		
+		log.info(sql);
+	}
 
 }

@@ -25,7 +25,7 @@ public class EncodeHandler extends AbstractHandler {
 			ProtocolConfig config = new DefaultProtocolConfig();
 			config.setCommAddr(meter.running().getRoute()).setDir(DIR.CLIENT).setOperation(OPERATION.LOGIN);
 			config.funcs().add("2");
-			config.units().add(meter.getLogicaddr());
+			config.units().add(meter.getId());
 			
 			byte[] frame = protocolService.encode(config);
 			ProtocolFrame pFrame = new ProtocolFrame();

@@ -1,9 +1,9 @@
 package cn.techen.lbs.task.networking.manager;
 
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.model.Meter;
 import cn.techen.lbs.protocol.ProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolService;
-import cn.techen.lbs.task.networking.common.Local;
 import cn.techen.lbs.task.networking.common.NetContext;
 
 public class DecodeHandler extends AbstractHandler {
@@ -23,7 +23,7 @@ public class DecodeHandler extends AbstractHandler {
 			int rssi = Integer.parseInt(protocolConfig.runs().get("RSSI").toString());	
 			meter.setSignal(rssi);
 			
-			if (Local.SFACTOR <= rssi) {				
+			if (Integer.parseInt(Global.RunParams.get("LoraSignalThreshold").toString()) < rssi) {				
 				meter.running().success();
 			} else {
 				meter.running().fail();

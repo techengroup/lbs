@@ -19,6 +19,11 @@ public class Global {
 	
 	public static volatile LBS lbs = null;//基站档案
 	
-	public static volatile Map<String, Object> RunParams = new ConcurrentHashMap<String, Object>();//系统运行参数 包括：最后一次事件上报时间
+	/**
+	 * 系统运行参数 包括：
+	 * LastEventIndex : 最后一次事件上报索引
+	 * LoraSignalThreshold : Lora信号零界点
+	 */
+	public static volatile Map<String, Object> RunParams = new ConcurrentHashMap<String, Object>();
 
 }

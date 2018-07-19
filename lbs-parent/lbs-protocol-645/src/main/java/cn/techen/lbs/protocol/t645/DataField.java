@@ -53,7 +53,7 @@ public class DataField extends AbstractElement {
 			for (int i = 0; i < 4; i++) {
 				int f = Byte.toUnsignedInt(frame.process().queue.poll());
 				if (f > 0) {
-					func = ProtocolUtil.int2HexString(f) + func;
+					func += ProtocolUtil.int2HexString(f);
 				}
 				byteList.add((byte)f);
 			}
@@ -83,8 +83,8 @@ public class DataField extends AbstractElement {
 			String funcByte = ProtocolUtil.zeroFill(8, func);
 			byte[] bs = ProtocolUtil.hexString2Byte(funcByte);
 			for (int i = 0; i < bs.length; i++) {
-				frame.process().vector.add(0, bs[i]);
-				byteList.add(0, bs[i]);
+				frame.process().vector.add(bs[i]);
+				byteList.add(bs[i]);
 			}
 			
 			String key = Local.CODE + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()) + ":" + func ;
