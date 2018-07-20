@@ -1,5 +1,10 @@
 package cn.techen.lbs.test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +45,15 @@ public class T645ProtocolTest extends TestCase {
 			log.info("Decode frame.");
 			t654Proxy.decode(frame);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		SimpleDateFormat sDateFormat = new SimpleDateFormat("yyMMddHHmmss", Locale.ENGLISH);
+		try {
+			Date time = sDateFormat.parse("180720115311");
+			log.info(time.toString());
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

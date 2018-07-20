@@ -15,6 +15,7 @@ public class CS extends AbstractElement {
 		byte cs = 0x00;
 		byte[] f = frame.getBytes();
 		for (int i = 0; i < (f.length - 2); i++) {
+			if (i < 2 && f[i] == -2) continue;				
 			cs = (byte) ((cs + f[i]) & 0xFF);
 		}
 		desc = String.valueOf(value);

@@ -31,7 +31,7 @@ public class ReportServiceImpl implements ReportService {
 			List<Report> reportList = new ArrayList<Report>();
 			StringBuffer ddl = new StringBuffer();
 			ddl.append("select meterid, commaddr, route, signalstrength, content from LOG_REPORT ");
-			ddl.append("where DATE_ADD(crton, INTERVAL 3 DAY) > ? and status < 1");
+			ddl.append("where status < 1 and DATE_ADD(crton, INTERVAL 3 DAY) > ?");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			stmt.setTimestamp(1, new java.sql.Timestamp(new Date().getTime()));
@@ -130,7 +130,7 @@ public class ReportServiceImpl implements ReportService {
 			List<Report> reportList = new ArrayList<Report>();
 			StringBuffer ddl = new StringBuffer();
 			ddl.append("select meterid, commaddr, route, signalstrength, content from LOG_REPORT ");
-			ddl.append("where DATE_ADD(crton, INTERVAL 3 DAY) > ? and mdfon > ? and status < 1");
+			ddl.append("where status < 1 and (DATE_ADD(crton, INTERVAL 3 DAY) > ? or mdfon > ?)");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			stmt.setTimestamp(1, new java.sql.Timestamp(time.getTime()));

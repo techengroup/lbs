@@ -23,6 +23,7 @@ public class T645Proxy {
 		protocolConfig.runs().putAll(t645Config.runs());
 		protocolConfig.funcs().addAll(t645Config.funcs());
 		protocolConfig.units().addAll(t645Config.units());
+		protocolConfig.funcKeys().putAll(t645Config.funcKeys());
 		return protocolConfig;
 	}
 	

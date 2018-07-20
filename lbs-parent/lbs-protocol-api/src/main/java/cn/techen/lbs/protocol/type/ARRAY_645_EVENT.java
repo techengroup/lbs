@@ -10,7 +10,7 @@ import cn.techen.lbs.protocol.common.ProtocolUtil;
 
 public class ARRAY_645_EVENT extends AbstractData {	
 	private int byteLen = 3;
-	private int totalLen;
+	private int totalLen = 0;
 	private List<String> typeArray;
 	private List<AbstractData> adList = new ArrayList<AbstractData>();
 
@@ -27,10 +27,12 @@ public class ARRAY_645_EVENT extends AbstractData {
 			if (i == 0) {
 				len = b;
 			} else {
-				totalLen = (b & 0xff) << (8 * (i-1));
+				totalLen = (totalLen << (8 * i)) + (b & 0xFF);
 			}
 			byteList.add(b);
 		}
+
+		frame.config().units().add(len);
 		
 		for (int i = 0; i < len; i++) {
 			String dataClass = extract(dataTypes);
@@ -43,9 +45,7 @@ public class ARRAY_645_EVENT extends AbstractData {
 			dataTypes = ad.getDataTypes();
 			
 			if (i < (len - 1)) repeat(ad);
-		}		
-		
-		frame.config().units().add(len);
+		}
 	}
 
 	@Override

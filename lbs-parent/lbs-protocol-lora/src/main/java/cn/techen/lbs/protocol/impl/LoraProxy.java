@@ -52,6 +52,7 @@ public class LoraProxy {
 		protocolConfig.runs().putAll(loraConfig.runs());
 		protocolConfig.funcs().addAll(loraConfig.funcs());
 		protocolConfig.units().addAll(loraConfig.units());
+		protocolConfig.funcKeys().putAll(loraConfig.funcKeys());
 		return protocolConfig;
 	}
 	

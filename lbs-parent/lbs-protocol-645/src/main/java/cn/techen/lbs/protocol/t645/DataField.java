@@ -56,11 +56,13 @@ public class DataField extends AbstractElement {
 					func += ProtocolUtil.int2HexString(f);
 				}
 				byteList.add((byte)f);
-			}
+			}			
 
 			T645Config config = ((T645Config) frame.config());
-			String key = Local.CODE  + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()) + ":" + func;
-			fnKeyMap.put(String.valueOf(func), key.toUpperCase());
+			String key = Local.CODE  + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()).toUpperCase() + ":" + func.toUpperCase();
+			fnKeyMap.put(func, key);
+			
+			config.funcs().add(func);
 			
 			AbstractData ad = null;
 			dataTypes = Elements.getInstace().get(key);
@@ -71,6 +73,8 @@ public class DataField extends AbstractElement {
 				ad.decode(frame);
 				byteList.addAll(ad.getByteList());
 			}
+			
+			config.funcKeys().put(func, key);
 			
 			adMap.put(String.valueOf(func), ad);
 			decodeN(frame);
@@ -87,8 +91,8 @@ public class DataField extends AbstractElement {
 				byteList.add(bs[i]);
 			}
 			
-			String key = Local.CODE + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()) + ":" + func ;
-			fnKeyMap.put(String.valueOf(func), key.toUpperCase());
+			String key = Local.CODE + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()).toUpperCase() + ":" + func.toUpperCase();
+			fnKeyMap.put(String.valueOf(func), key);
 			
 			AbstractData ad = null;
 			dataTypes = Elements.getInstace().get(key);

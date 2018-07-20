@@ -33,16 +33,16 @@ public interface DataConfig {
         	String str = "";
         	switch (value) {
 			case 1:
-				str="901F";
+				str="9010";
 				break;
 			case 2:
-				str="903F";
+				str="9030";
 				break;
 			case 3:
-				str="902F";
+				str="9020";
 				break;
 			case 4:
-				str="904F";
+				str="9040";
 				break;
 			default:
 				throw new IllegalArgumentException("unknown " + ENERGY.class.getSimpleName() + " value: " + value);

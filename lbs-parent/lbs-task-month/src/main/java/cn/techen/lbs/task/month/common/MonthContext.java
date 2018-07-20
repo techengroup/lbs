@@ -46,7 +46,7 @@ public class MonthContext {
 		String ms = GlobalUtil.date2String(time, "yyyy-MM-01");
 		time = GlobalUtil.string2Date(ms, "yyyy-MM-01");
 		months.addAll(meterService.selectMonth(ENERGY.ACTIVE, time));//正向有功
-		months.addAll(meterService.selectMonth(ENERGY.NEGATIVE, time));//正向无功
+//		months.addAll(meterService.selectMonth(ENERGY.NEGATIVE, time));//正向无功
 	}
 	
 	public Month getMonth() {

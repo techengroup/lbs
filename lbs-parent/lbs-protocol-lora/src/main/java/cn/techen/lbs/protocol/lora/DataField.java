@@ -54,8 +54,10 @@ public class DataField extends AbstractElement {
 			byteList.add((byte)func);
 
 			LoraConfig config = ((LoraConfig) frame.config());
-			String key = Local.CODE  + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()) + ":" + func;
-			fnKeyMap.put(String.valueOf(func), key.toUpperCase());
+			String key = Local.CODE  + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()).toUpperCase() + ":" + func;
+			fnKeyMap.put(String.valueOf(func), key);
+			
+			config.funcs().add(String.valueOf(func));
 			
 			AbstractData ad = null;
 			dataTypes = Elements.getInstace().get(key);
@@ -66,6 +68,8 @@ public class DataField extends AbstractElement {
 				ad.decode(frame);
 				byteList.addAll(ad.getByteList());
 			}
+			
+			config.funcKeys().put(String.valueOf(func), key);
 			
 			adMap.put(String.valueOf(func), ad);
 			decodeN(frame);
@@ -81,8 +85,8 @@ public class DataField extends AbstractElement {
 			frame.process().vector.add(0, f);
 			byteList.add(f);
 			
-			String key = Local.CODE + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()) + ":" + func ;
-			fnKeyMap.put(String.valueOf(func), key.toUpperCase());
+			String key = Local.CODE + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()).toUpperCase() + ":" + func ;
+			fnKeyMap.put(String.valueOf(func), key);
 			
 			AbstractData ad = null;
 			dataTypes = Elements.getInstace().get(key);
