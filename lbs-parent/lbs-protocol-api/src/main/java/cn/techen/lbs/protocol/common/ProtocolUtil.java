@@ -95,6 +95,22 @@ public final class ProtocolUtil {
 	}
 	
 	/**
+	 * Format
+	 * @param format
+	 * @param val
+	 */
+	public static String zeroFillLeft(int num, String val) {
+		int len = val.length();
+		if (len < num) {
+			for (int i = 0; i < (num - len); i++) {
+				val =  val +"0" ;
+			}
+		}
+		
+		return val;
+	}
+	
+	/**
 	 * PadLeft
 	 * @param str
 	 * @param num

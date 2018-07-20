@@ -24,7 +24,8 @@ public class BIT_STRING extends AbstractData {
 			byteList.add(bytes[i]);
 		}
 		
-		String val = ProtocolUtil.byte2BinaryString(bytes, false);		
+		String val = ProtocolUtil.byte2BinaryString(bytes, false);	
+		val = val.substring(val.length() - 8*len,val.length());
 
 		List<String> vals = new ArrayList<String>();
 		String[] fs = format.split(":");

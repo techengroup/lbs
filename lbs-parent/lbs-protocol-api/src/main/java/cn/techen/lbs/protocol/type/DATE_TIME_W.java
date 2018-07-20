@@ -59,7 +59,7 @@ public class DATE_TIME_W extends AbstractData {
 				String mm = sDateFormat.format(time);
 				sDateFormat = new SimpleDateFormat("E", Locale.ENGLISH);
 				String week = sDateFormat.format(time);
-				int wm = (DayOfWeek(week) << 4) + Integer.parseInt(mm);
+				int wm = (DayOfWeek(week) << 5) + Integer.parseInt(mm);
 				frame.process().vector.add((byte)wm);
 				byteList.add((byte)wm);
 			} else {

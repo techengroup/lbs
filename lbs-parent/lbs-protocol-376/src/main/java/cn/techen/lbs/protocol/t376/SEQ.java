@@ -34,6 +34,8 @@ public class SEQ extends AbstractElement  {
 		config.setFin(fin);
 		config.setCon(CON.valueOf(con));
 		config.setSeq(seq);
+		
+		config.runs().put("SEQ", seq);
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class T376Proxy {
 		T376Config t376Config = (T376Config) t376Frame.config();
 		t376Config.setCommAddr(config.getCommAddr()).setSeq(Local.sequence());
 		dir2dir(config, t376Config);
-		data2data(config, t376Config);
+		run2run(config, t376Config);
 		op2control(config, t376Config);	
 		t376Config.runs().putAll(config.runs());
 		t376Config.funcs().addAll(config.funcs());
@@ -85,10 +85,16 @@ public class T376Proxy {
 			break;
 		case GETPARAM:
 			config.runs().put("CONTROL", "0A");
+			config.setOperation(ProtocolConfig.OPERATION.GET);
+			break;
 		case GETREALTIME:
 			config.runs().put("CONTROL", "0C");
+			config.setOperation(ProtocolConfig.OPERATION.GET);
+			break;
 		case GETHISTORY:
 			config.runs().put("CONTROL", "0D");
+			config.setOperation(ProtocolConfig.OPERATION.GET);
+			break;
 		case GETEVENT:
 			config.runs().put("CONTROL", "0E");
 			config.setOperation(ProtocolConfig.OPERATION.GET);
@@ -109,14 +115,16 @@ public class T376Proxy {
 		}
 	}
 	
-	private void data2data(ProtocolConfig config, T376Config t376Config) {
+	private void run2run(ProtocolConfig config, T376Config t376Config) {
 		Map<String, Object> datas = config.runs();
 		int prm = (datas.get("PRM") == null) ? 0 : Integer.parseInt(datas.get("PRM").toString());
 		int acd = (datas.get("ACD") == null) ? 0 : Integer.parseInt(datas.get("ACD").toString());
 		int tpv = (datas.get("TPV") == null) ? 0 : Integer.parseInt(datas.get("TPV").toString());
+		int seq = (datas.get("SEQ") == null) ? Local.sequence() : Integer.parseInt(datas.get("SEQ").toString());
 		t376Config.setPrm(prm);
 		t376Config.setAcd(ACD.valueOf(acd));
 		t376Config.setTpv(TPV.valueOf(tpv));
+		t376Config.setSeq(seq);
 	}
 
 	private void op2control(ProtocolConfig config, T376Config t376Config) {
