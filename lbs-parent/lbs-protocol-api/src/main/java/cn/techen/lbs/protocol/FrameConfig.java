@@ -26,12 +26,13 @@ public interface FrameConfig extends IConfig {
 	    }
     }
 	
-	enum Priority {		
-		CALL(0),
-	    SCHEDULE(1),
-	    MONTH(2),
-	    EVENT(3),
-	    REALTIME(4),
+	enum Priority {	
+		EXIT(0),
+		NET(1),
+	    SCHEDULE(2),
+	    MONTH(3),
+	    EVENT(4),
+	    REALTIME(5),
 	    DETECT(9),
 	    REPORT(99);
 

@@ -23,7 +23,7 @@ public class StoreHandler extends AbstractHandler {
 				fail(context, meter);
 				context.reset(true);
 			} else {
-				context.getMeterService().updateFail(meter, false, true);
+				context.getMeterService().updateFail(meter, false);
 				context.reset(false);
 			}
 		}
@@ -56,7 +56,7 @@ public class StoreHandler extends AbstractHandler {
 			}
 		}
 
-		context.getMeterService().updateFail(meter, true, true);
+		context.getMeterService().updateFail(meter, true);
 	}
 
 	private Meter meetOptimal(NetContext context, Meter meter) {

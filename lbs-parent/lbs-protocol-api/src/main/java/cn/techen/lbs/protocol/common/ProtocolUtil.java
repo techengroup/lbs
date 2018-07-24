@@ -3,6 +3,8 @@ package cn.techen.lbs.protocol.common;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.techen.lbs.protocol.AbstractData;
 
@@ -382,5 +384,12 @@ public final class ProtocolUtil {
 			bytes[len - 1 - i] = temp;
 		}
 		return bytes;
+	}
+	
+	public static boolean isAllE(String str) {
+		String regex="^[eE]+$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(str);
+		return matcher.matches();
 	}
 }

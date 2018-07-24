@@ -23,15 +23,20 @@ public class DATE_TIME extends AbstractData {
 		StringBuffer sb = new StringBuffer();
 		
 		for (int i = 0; i < len; i++) {
-			bytes[i] = frame.process().queue.poll();
-			sb.append(ProtocolUtil.bcd2Str(bytes[i]));
+			bytes[i] = frame.process().queue.poll();			
 			byteList.add(bytes[i]);
 		}
 		
-		SimpleDateFormat sDateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
-		Date time = sDateFormat.parse(sb.toString());
-		
-		content = time;		
+		String hex = ProtocolUtil.byte2HexString(bytes, false);
+		if (ProtocolUtil.isAllE(hex)) {
+			content = hex;
+		} else {
+			sb.append(ProtocolUtil.bcd2Str(bytes));
+			SimpleDateFormat sDateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
+			Date time = sDateFormat.parse(sb.toString());			
+			content = time;	
+		}
+			
 		desc = content.toString();
 		
 		frame.config().units().add(content);
@@ -40,17 +45,21 @@ public class DATE_TIME extends AbstractData {
 	@Override
 	public void encode(AbstractFrame frame) throws Exception {
 		content = frame.config().units().poll();
-		Date time = (Date) content;
+		if (ProtocolUtil.isAllE(content.toString())) {
+			bytes = ProtocolUtil.hexString2Byte(content.toString());
+			desc = content.toString();
+		} else {
+			Date time = (Date) content;		
+			SimpleDateFormat sDateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
+			String dd = sDateFormat.format(time);
+			bytes = ProtocolUtil.str2Bcd(dd);			
+			desc = sDateFormat.parse(dd).toString();
+		}
 		
-		SimpleDateFormat sDateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
-		String dd = sDateFormat.format(time);
-		bytes = ProtocolUtil.str2Bcd(dd);
 		for (int i = 0; i < bytes.length; i++) {
 			frame.process().vector.add(bytes[i]);
 			byteList.add(bytes[i]);
 		}
-						
-		desc = sDateFormat.parse(dd).toString();
 	}
 }
 	

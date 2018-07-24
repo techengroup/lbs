@@ -600,7 +600,7 @@ public class MeterServiceImpl implements MeterService {
 	}
 	
 	@Override
-	public int updateFail(Meter entity, boolean changeStatus, boolean recordlog) {
+	public int updateFail(Meter entity, boolean changeStatus) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		Statement stmt = null;
@@ -617,24 +617,22 @@ public class MeterServiceImpl implements MeterService {
 				ddl.append("where id=" + entity.getId());
 			}
 			
-			StringBuffer ddl1 = null;
-			if (recordlog) {
-				ddl1 = new StringBuffer();
-				ddl1.append("insert into LOG_NETWORK(MeterID, StartTime, EndTime, CommAddr, Route, SignalStrength, Result, RelayID) values(");
-				ddl1.append(entity.getId() + ",");
-				ddl1.append("'" + new java.sql.Timestamp(entity.running().getStartTime().getTime()) + "',");
-				ddl1.append("'" + new java.sql.Timestamp(entity.running().getEndTime().getTime()) + "',");
-				ddl1.append("'" + entity.getCommaddr() + "',");
-				ddl1.append("'" + entity.running().getRoute() + "',");
-				ddl1.append(entity.getSignal() + ", ");
-				ddl1.append(entity.running().getResult() + ",");
-				ddl1.append(entity.running().getRelayId() + ")");			
-			}
+			StringBuffer ddl1 = null;			
+			ddl1 = new StringBuffer();
+			ddl1.append("insert into LOG_NETWORK(MeterID, StartTime, EndTime, CommAddr, Route, SignalStrength, Result, RelayID) values(");
+			ddl1.append(entity.getId() + ",");
+			ddl1.append("'" + new java.sql.Timestamp(entity.running().getStartTime().getTime()) + "',");
+			ddl1.append("'" + new java.sql.Timestamp(entity.running().getEndTime().getTime()) + "',");
+			ddl1.append("'" + entity.getCommaddr() + "',");
+			ddl1.append("'" + entity.running().getRoute() + "',");
+			ddl1.append(entity.getSignal() + ", ");
+			ddl1.append(entity.running().getResult() + ",");
+			ddl1.append(entity.running().getRelayId() + ")");
 			
 			conn = mp.getConnection();
 			stmt = conn.createStatement();
 			if (changeStatus) stmt.addBatch(ddl.toString());
-			if (recordlog) stmt.addBatch(ddl1.toString());
+			stmt.addBatch(ddl1.toString());
 			stmt.executeBatch();
 //			conn.commit();
 		} catch (SQLException e) {
@@ -752,6 +750,46 @@ public class MeterServiceImpl implements MeterService {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public int reNetwork(Meter entity) {
+		MysqlPool mp = MysqlPool.getInstance();
+		DruidPooledConnection conn = null;
+		Statement stmt = null;
+		try {
+			StringBuffer ddl = null;			
+			ddl = new StringBuffer();
+			ddl.append("update PRM_METER set unregon=NOW() where id=" + entity.getId());
+			
+			StringBuffer ddl1 = null;			
+			ddl1 = new StringBuffer();
+			ddl1.append("delete from LOG_NETWORK where meterid=" + entity.getId());
+			
+			conn = mp.getConnection();
+			stmt = conn.createStatement();
+			stmt.addBatch(ddl.toString());
+			stmt.addBatch(ddl1.toString());
+			stmt.executeBatch();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}				
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return -1;
 	}
 	
 }

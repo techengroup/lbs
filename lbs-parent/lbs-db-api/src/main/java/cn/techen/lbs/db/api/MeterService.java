@@ -31,7 +31,7 @@ public interface MeterService extends IService<Meter> {
 	
 	int updateSuccess(Meter entity);
 
-	int updateFail(Meter entity, boolean changeStatus, boolean recordlog);
+	int updateFail(Meter entity, boolean changeStatus);
 	
 	int updateRelay(Meter entity);
 
@@ -40,5 +40,7 @@ public interface MeterService extends IService<Meter> {
 	int updateGIS(List<Meter> entitys);
 
 	List<Month> selectMonth(ENERGY energy, Date time);
+
+	int reNetwork(Meter entity);
 	
 }

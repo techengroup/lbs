@@ -1,12 +1,15 @@
 package cn.techen.lbs.db.sql;
 
+import java.util.Date;
 import java.util.Queue;
+
+import cn.techen.lbs.db.common.GlobalUtil;
 
 public class Fn10000D178 extends AbstractSQL {
 
 	@Override
 	public String handle(Object id, Queue<Object> datas) {
-		int time = Integer.parseInt(datas.poll().toString());
+		String time = GlobalUtil.date2String((Date)datas.poll(), "yyyy-MM-01");
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append(String.format("select frozentime, savetime, 4, IFNULL(negative_energy0, 'EEEEEEEE'), IFNULL(negative_energy1, 'EEEEEEEE'), "

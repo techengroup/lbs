@@ -8,6 +8,7 @@ import cn.techen.lbs.protocol.ProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig.DIR;
 import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
 import cn.techen.lbs.protocol.common.Elements;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.common.Titles;
 import cn.techen.lbs.protocol.impl.LoraProxy;
 import junit.framework.TestCase;
@@ -70,6 +71,12 @@ public class LoraProtocolTest extends TestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void testC() {
+		String str = "123EEEeeawvw";
+		boolean b = ProtocolUtil.isAllE(str);
+		log.info("Is all E:{}", b);
 	}
 	
 }
