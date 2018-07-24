@@ -29,11 +29,11 @@ public class DataField extends AbstractElement {
 	}
 	
 	@Override
-	public void encode(AbstractFrame frame) throws Exception {
-		aux.encode(frame);
+	public void encode(AbstractFrame frame) throws Exception {		
 		data.encode(frame);
+		aux.encode(frame);
 		seq.encode(frame);		
-		afn.encode(frame);	
+		afn.encode(frame);		
 		
 		len += data.getLen() + aux.getLen();
 	}

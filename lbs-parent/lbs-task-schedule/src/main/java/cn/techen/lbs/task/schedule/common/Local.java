@@ -2,7 +2,7 @@ package cn.techen.lbs.task.schedule.common;
 
 public final class Local {
 	
-	public final static String PROJECT = "LBS-TASK-REPORT";
+	public final static String PROJECT = "LBS-TASK-SCHEDULE";
 	
 	public final static int INTERVALMILLIS = 200;
 	

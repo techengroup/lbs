@@ -40,7 +40,7 @@ public class T376Proxy {
 		T376Frame t376Frame = new T376Frame();
 
 		T376Config t376Config = (T376Config) t376Frame.config();
-		t376Config.setCommAddr(config.getCommAddr()).setSeq(Local.sequence());
+		t376Config.setCommAddr(config.getCommAddr());
 		dir2dir(config, t376Config);
 		run2run(config, t376Config);
 		op2control(config, t376Config);	

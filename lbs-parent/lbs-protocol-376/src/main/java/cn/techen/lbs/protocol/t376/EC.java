@@ -19,19 +19,28 @@ public class EC extends AbstractElement  {
 	
 	@Override
 	public void decode(AbstractFrame frame) throws Exception {
+		bytes[0] = (byte) frame.process().queue.poll();
+		bytes[1] = (byte) frame.process().queue.poll();
+		bytes[2] = (byte) frame.process().queue.poll();
+		bytes[3] = (byte) frame.process().queue.poll();
 		
+		count = (bytes[1] << 8) + bytes[0];
+		start = (bytes[3] << 8) + bytes[2];
+		
+		for (int i = 0; i < len; i++) {
+			byteList.add(bytes[i]);
+		}
 	}
 
 	@Override
 	public void encode(AbstractFrame frame) throws Exception {
 		count = Integer.parseInt(frame.config().units().poll().toString());
 		start = Integer.parseInt(frame.config().units().poll().toString());
-		
-		byte[] bytes = new byte[len];
+	
 		bytes[0] = (byte) (count & 0x0F);
 		bytes[1] = (byte) ((count >> 8) & 0x0F);
-		bytes[0] = (byte) (count & 0x0F);
-		bytes[1] = (byte) ((count >> 8) & 0x0F);
+		bytes[2] = (byte) (start & 0x0F);
+		bytes[3] = (byte) ((start >> 8) & 0x0F);
 		
 		for (int i = 0; i < len; i++) {
 			frame.process().vector.add(bytes[i]);

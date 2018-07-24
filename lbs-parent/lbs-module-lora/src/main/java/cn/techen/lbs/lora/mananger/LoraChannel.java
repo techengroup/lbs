@@ -2,6 +2,7 @@ package cn.techen.lbs.lora.mananger;
 
 import cn.techen.lbs.channel.rxtx.RxtxChannel;
 import cn.techen.lbs.channel.rxtx.RxtxDeviceAddress;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.lora.common.LoraContext;
 
 public class LoraChannel {
@@ -29,7 +30,7 @@ public class LoraChannel {
 	private LoraChannel(LoraContext context) throws Exception {
 		super();
 		channel = new RxtxChannel();
-		channel.connect(new RxtxDeviceAddress("COM3"));		
+		channel.connect(new RxtxDeviceAddress(Global.RunParams.get("LoraCOM").toString()));		
 		channel.handler(new LoraChannelHandler(context));
 	}
 

@@ -37,7 +37,7 @@ public class SetHandler extends AbstractHandler {
 						AbstractSQL ab = GlobalUtil.newSql(className);
 						String sql = ab.handle(pn, config.units());
 						int r = context.getGeneralService().save(sql);						
-						result.add(String.valueOf((r > 0) ? 1 : 2));
+						result.add(String.valueOf((r >= 0) ? 1 : 2));
 					}
 				}
 			}

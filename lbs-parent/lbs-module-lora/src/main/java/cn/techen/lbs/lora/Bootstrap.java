@@ -2,6 +2,7 @@ package cn.techen.lbs.lora;
 
 import java.util.Date;
 
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.lora.common.Local;
 import cn.techen.lbs.lora.common.LoraContext;
 import cn.techen.lbs.lora.mananger.AbstractHandler;
@@ -59,7 +60,9 @@ public class Bootstrap {
 						lastTime = new Date();
 					}
 					
-					handler0.operate(context);					
+					if (Global.DATAReady) {
+						handler0.operate(context);			
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}				
@@ -75,7 +78,9 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					handler1.operate(context);
+					if (Global.DATAReady) {
+						handler1.operate(context);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}				

@@ -17,7 +17,11 @@ public class AUX0 extends AbstractElement  {
 
 	@Override
 	public void decode(AbstractFrame frame) throws Exception {
-		
+		T376Config config = ((T376Config) frame.config());
+		if (config.getAcd() == ACD.YES) {
+			ec = new EC();
+			ec.decode(frame);
+		}
 	}
 
 	@Override

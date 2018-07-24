@@ -84,7 +84,7 @@ public class RedisPool {
 //		rootPath = RedisPool.class.getClassLoader().getResource("").getPath();
 //		log.info("Root Path:{}", rootPath);
 		rootPath = System.getenv("LBS_HOME");
-		log.info("ENV Path:{}", rootPath);
+		log.info("==================================================ENV Path:{}", rootPath);
 //		rootPath = new File(rootPath).getParent();
 //		log.info("Root Parent Path:{}", rootPath);
 		InputStream inputStream = null;
