@@ -38,11 +38,9 @@ public class BCD_STRING extends AbstractData {
 			
 			if (!fs[1].equals("0")) {
 				sb.insert(Integer.parseInt(fs[0])*2, ".");
-				content = Double.parseDouble(sb.toString());
-			} else {
-				content = Integer.parseInt(sb.toString());
 			}
 			
+			content = sb.toString();
 			desc = content.toString();			
 		}	    
 		

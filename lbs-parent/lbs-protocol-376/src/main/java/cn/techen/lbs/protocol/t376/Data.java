@@ -65,7 +65,7 @@ public class Data extends AbstractElement {
 			}
 			
 			int da1 = bytes[0];
-			int da2 = (bytes[1] << 8) + bytes[2];
+			int da2 = (bytes[2] << 8) + bytes[1];
 			int dt1 = bytes[3];
 			int dt2 = bytes[4];
 	

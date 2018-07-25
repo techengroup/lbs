@@ -12,12 +12,14 @@ public class Fn10000D178 extends AbstractSQL {
 		String time = GlobalUtil.date2String((Date)datas.poll(), "yyyy-MM-01");
 		
 		StringBuffer sb = new StringBuffer();
-		sb.append(String.format("select frozentime, savetime, 4, IFNULL(negative_energy0, 'EEEEEEEE'), IFNULL(negative_energy1, 'EEEEEEEE'), "
-				+ "IFNULL(negative_energy2, 'EEEEEEEE'), IFNULL(negative_energy3, 'EEEEEEEE'), "
-				+ "IFNULL(negative_energy4, 'EEEEEEEE') from data_energy_month  where meterid=%d and frozentime='%s' " 
+		sb.append(String.format("select frozentime, savetime, 4, IFNULL(negative_energy0, 'EEEEEEEE') negative_energy0"
+				+ ", IFNULL(negative_energy1, 'EEEEEEEE') negative_energy1, IFNULL(negative_energy2, 'EEEEEEEE') negative_energy2"
+				+ ", IFNULL(negative_energy3, 'EEEEEEEE') negative_energy3, IFNULL(negative_energy4, 'EEEEEEEE') negative_energy4"
+				+ " from data_energy_month  where meterid=%s and frozentime='%s' " 
 				+ "UNION " 
-				+ "select 'EEEEE', 'EEEEEEEEEE', 4, 'EEEEEEEE', 'EEEEEEEE', 'EEEEEEEE', 'EEEEEEEE', 'EEEEEEEE', 'EEEEEEEE' "
-				+ "from DUAL where NOT EXISTS(select 1 from data_energy_month where meterid=%d and frozentime='%s')",id, time, id, time));			
+				+ "select 'EEEEE' frozentime, 'EEEEEEEEEE' savetime, 4, 'EEEEEEEE' negative_energy0, 'EEEEEEEE' negative_energy1"
+				+ ", 'EEEEEEEE' negative_energy2, 'EEEEEEEE' negative_energy3, 'EEEEEEEE' negative_energy4 from DUAL where "
+				+ "NOT EXISTS(select 1 from data_energy_month where meterid=%s and frozentime='%s')",id, time, id, time));			
 		return sb.toString();
 	}
 }
