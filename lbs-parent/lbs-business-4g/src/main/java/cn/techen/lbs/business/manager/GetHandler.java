@@ -33,6 +33,8 @@ public class GetHandler extends AbstractHandler {
 						String className = String.format("Fn%s", fnKey.replace(":", ""));
 						AbstractSQL as = GlobalUtil.newSql(className);						
 						respConnfig.units().addAll(context.getGeneralService().query(as.handle(pn, config.units())));
+
+						changeEventIndex(context, respConnfig, className);
 					}
 				}
 			}		
@@ -41,9 +43,20 @@ public class GetHandler extends AbstractHandler {
 		byte[] frame = context.getProtocolManagerService().getProtocol(Global.lbs.getProtocol()).encode(respConnfig);
 		
 		if (frame != null && frame.length > 0) {
-			context.getmTaskService().lpush(MTaskService.UPQUEUE_SEND, frame);			
+			context.getmTaskService().lpush(MTaskService.UPQUEUE_SEND, frame);
 		}
 		
+	}
+	
+	private void changeEventIndex(BusinessContext context, ProtocolConfig respConnfig, String className) {
+		if (className.equals("Fn10000E1")) {
+			if (respConnfig.units().size() > 0) {
+				Global.RunParams.put("LastEventIndex", Global.TempLastEventIndex);
+				context.getParamService().updateValue("LastEventIndex", String.valueOf(Global.TempLastEventIndex));
+			} else {
+				Global.TempLastEventIndex = Integer.parseInt(Global.RunParams.get("LastEventIndex").toString());
+			}
+		}
 	}
 	
 	

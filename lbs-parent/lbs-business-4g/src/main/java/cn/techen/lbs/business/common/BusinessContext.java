@@ -1,11 +1,13 @@
 package cn.techen.lbs.business.common;
 
 import cn.techen.lbs.db.api.GeneralService;
+import cn.techen.lbs.db.api.ParamService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolManagerService;
 
 public class BusinessContext {
 	private GeneralService generalService;
+	private ParamService paramService;
 	private MTaskService<byte[]> mTaskService;
 	private ProtocolManagerService protocolManagerService;
 	private boolean logined = false;
@@ -18,6 +20,14 @@ public class BusinessContext {
 		this.generalService = generalService;
 	}
 	
+	public ParamService getParamService() {
+		return paramService;
+	}
+
+	public void setParamService(ParamService paramService) {
+		this.paramService = paramService;
+	}
+
 	public MTaskService<byte[]> getmTaskService() {
 		return mTaskService;
 	}

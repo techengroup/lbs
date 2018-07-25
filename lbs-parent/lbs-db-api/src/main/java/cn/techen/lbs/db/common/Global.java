@@ -23,7 +23,13 @@ public class Global {
 	 * 系统运行参数 包括：
 	 * LastEventIndex : 最后一次事件上报索引
 	 * LoraSignalThreshold : Lora信号零界点
+	 * LoraCOM : Lora模块串口名称
 	 */
 	public static volatile Map<String, Object> RunParams = new ConcurrentHashMap<String, Object>();
+	
+	/**
+	 * 临时最后一次事件索引
+	 */
+	public static volatile int TempLastEventIndex = 0;
 
 }

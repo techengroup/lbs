@@ -5,6 +5,8 @@
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
 	<reference id="generalService" interface="cn.techen.lbs.db.api.GeneralService" />
+	
+	<reference id="paramService" interface="cn.techen.lbs.db.api.ParamService" />
 
 	<reference id="mTaskService" interface="cn.techen.lbs.mm.api.MTaskService" />	
 	
@@ -22,6 +24,7 @@
 	
 	<bean id="businessContextBean" class="cn.techen.lbs.business.common.BusinessContext">
 		<property name="generalService" ref="generalService"/>
+		<property name="paramService" ref="paramService"/>
 		<property name="mTaskService" ref="mTaskService"/>
 		<property name="protocolManagerService" ref="protocolManagerService"/>
 	</bean>	

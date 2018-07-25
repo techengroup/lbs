@@ -11,6 +11,7 @@ import cn.techen.lbs.protocol.ProtocolConfig.DIR;
 import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
 import cn.techen.lbs.protocol.common.Elements;
 import cn.techen.lbs.protocol.common.FnNames;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.common.Titles;
 import cn.techen.lbs.protocol.impl.T376Proxy;
 import junit.framework.TestCase;
@@ -46,6 +47,8 @@ public class T376ProtocolTest extends TestCase {
 		
 		Elements.getInstace().put("100:1:0D:177", "STRUCT,8,DATE_TIME,2,MMyy,1,DATE_TIME,5,mmHHddMMyy,1,OCT_STRING,1,%s,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0");
 		Elements.getInstace().put("100:0:0D:177", "DATE_TIME,2,MMyy,1");
+		Elements.getInstace().put("100:1:0D:178", "STRUCT,8,DATE_TIME,2,MMyy,1,DATE_TIME,5,mmHHddMMyy,1,OCT_STRING,1,%s,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0");
+		Elements.getInstace().put("100:0:0D:178", "DATE_TIME,2,MMyy,1");
 		FnNames.getInstace().put("100:1:04:3", "IP Port APN");
 		FnNames.getInstace().put("100:0:0A:3", "IP Port APN");
 		FnNames.getInstace().put("100:1:04:90", "LOCATION");
@@ -254,6 +257,33 @@ public class T376ProtocolTest extends TestCase {
 //			e.printStackTrace();
 //		}
 	}
+	
+	
+	public void test02() {
+		String string= "78 52 02 52 02 78 4b 00 00 06 00 02 0d 74 04 01 "
+					+"00 01 16 07 18 04 01 00 02 16 07 18 04 01 00 04 "
+					+"16 07 18 04 01 00 08 16 07 18 01 03 00 01 16 07 "
+					+"18 01 03 00 02 16 07 18 01 03 00 04 16 07 18 01 "
+					+"03 00 08 16 07 18 02 03 00 01 16 07 18 02 03 00 "
+					+"02 16 07 18 02 03 00 04 16 07 18 02 03 00 08 16 "
+					+"07 18 04 03 00 01 16 07 18 04 03 00 02 16 07 18 "
+					+"04 03 00 04 16 07 18 04 03 00 08 16 07 18 08 03 "
+					+"00 01 16 07 18 08 03 00 02 16 07 18 08 03 00 04 "
+					+"16 07 18 08 03 00 08 16 07 18 c3 16";
+		string = string.replace(" ", "");
+		
+		byte[] bytes = ProtocolUtil.hexString2Byte(string);
+		
+		T376Proxy proxy = new T376Proxy();
+		try {
+			log.info("Decode frame.");
+				
+			proxy.decode(bytes);			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 //	public void testFile() {
 //
 //		ProtocolConfig config = new DefaultProtocolConfig();
