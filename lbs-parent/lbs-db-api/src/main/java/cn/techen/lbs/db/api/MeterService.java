@@ -41,6 +41,6 @@ public interface MeterService extends IService<Meter> {
 
 	List<Month> selectMonth(ENERGY energy, Date time);
 
-	int reNetwork(Meter entity);
+	int reNet(Meter entity);
 	
 }

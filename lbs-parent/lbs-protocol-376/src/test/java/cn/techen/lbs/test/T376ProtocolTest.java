@@ -44,7 +44,7 @@ public class T376ProtocolTest extends TestCase {
 //		Elements.getInstace().put("100:1:04:89","STRUCT,2,BCD_STRING,2,XXXX,0,OCT_STRING,2,%d,0");
 //		Elements.getInstace().put("100:0:0A:89","STRUCT,2,BCD_STRING,2,XXXX,0,OCT_STRING,2,%d,0");
 		
-		Elements.getInstace().put("100:1:0D:177", "STRUCT,7,DATE_TIME,2,MMyy,1,DATE_TIME,5,mmHHddMMyy,1,OCT_STRING,1,%s,0,BCD_STRING,5,%s,0,BCD_STRING,5,%s,0,BCD_STRING,5,%s,0,BCD_STRING,5,%s,0,BCD_STRING,5,%s,0");
+		Elements.getInstace().put("100:1:0D:177", "STRUCT,8,DATE_TIME,2,MMyy,1,DATE_TIME,5,mmHHddMMyy,1,OCT_STRING,1,%s,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0");
 		Elements.getInstace().put("100:0:0D:177", "DATE_TIME,2,MMyy,1");
 		FnNames.getInstace().put("100:1:04:3", "IP Port APN");
 		FnNames.getInstace().put("100:0:0A:3", "IP Port APN");
@@ -225,11 +225,11 @@ public class T376ProtocolTest extends TestCase {
 		config.units().add(new Date());
 		config.units().add(4);
 		config.units().add("12034");
-		config.units().add("12034");
-		config.units().add("12034");
-		config.units().add("12034");
-		config.units().add("12034");
-		config.units().add("12034");
+		config.units().add("1203.4");
+		config.units().add("120.34");
+		config.units().add("120.34");
+		config.units().add("1203.4");
+		config.units().add("120.34");
 	
 		
 	

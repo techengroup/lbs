@@ -753,14 +753,14 @@ public class MeterServiceImpl implements MeterService {
 	}
 	
 	@Override
-	public int reNetwork(Meter entity) {
+	public int reNet(Meter entity) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		Statement stmt = null;
 		try {
 			StringBuffer ddl = null;			
 			ddl = new StringBuffer();
-			ddl.append("update PRM_METER set unregon=NOW() where id=" + entity.getId());
+			ddl.append("update PRM_METER set failtimes=0, unregon=NOW() where id=" + entity.getId());
 			
 			StringBuffer ddl1 = null;			
 			ddl1 = new StringBuffer();

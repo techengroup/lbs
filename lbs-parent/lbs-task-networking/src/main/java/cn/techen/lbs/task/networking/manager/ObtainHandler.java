@@ -63,7 +63,7 @@ public class ObtainHandler extends AbstractHandler {
 			meter.running().setRelayId(relayN.getId());
 			return true;
 		} else {
-			context.getMeterService().reNetwork(meter);
+			context.getMeterService().reNet(meter);
 			context.reset(true);
 		}
 		

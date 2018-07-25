@@ -37,7 +37,7 @@ public class BCD_STRING extends AbstractData {
 			}
 			
 			if (!fs[1].equals("0")) {
-				sb.insert(Integer.parseInt(fs[0]), ".");
+				sb.insert(Integer.parseInt(fs[0])*2, ".");
 				content = Double.parseDouble(sb.toString());
 			} else {
 				content = Integer.parseInt(sb.toString());
@@ -58,12 +58,18 @@ public class BCD_STRING extends AbstractData {
 			bytes = ProtocolUtil.hexString2Byte(desc);
 		} else {			
 			String[] fs = format.split(":");
-			String[] ds = desc.split(".");
+			String[] ds = desc.split("\\.");
 			StringBuffer sb = new StringBuffer();
 			
 			for (int i = 0; i < fs.length; i++) {
 				int l = Integer.parseInt(fs[i]);
-				sb.append(ProtocolUtil.zeroFill(l*2, ds[i]));
+				if (i == 0) sb.append(ProtocolUtil.zeroFill(l*2, ds[i]));
+				if (i == 1)
+					if (ds.length <=1) {
+						sb.append(ProtocolUtil.zeroFillLeft(l*2, "0"));
+					} else {
+						sb.append(ProtocolUtil.zeroFillLeft(l*2, ds[i]));
+					}
 			}
 			
 			bytes = ProtocolUtil.str2Bcd(sb.toString());
