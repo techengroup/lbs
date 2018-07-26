@@ -39,7 +39,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					if (Global.DATAReady) {
+					if (Global.GISReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}

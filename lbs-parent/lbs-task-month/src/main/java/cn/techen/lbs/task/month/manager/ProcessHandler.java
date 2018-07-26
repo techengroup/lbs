@@ -82,6 +82,12 @@ public class ProcessHandler {
 					context.getGeneralService().save(as.handle(month.getId(), config.units()));
 				}
 			}
+		} else {
+			frame.increaseRetryTimes();
+			int mod = frame.getRetryTimes() % 3;
+			if (mod != 0) {
+				write(context, frame);
+			}
 		}
 		
 		context.reset();

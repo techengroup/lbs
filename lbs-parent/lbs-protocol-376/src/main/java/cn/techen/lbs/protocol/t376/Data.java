@@ -174,9 +174,10 @@ public class Data extends AbstractElement {
 			int y = p % 8;
 			if (y > 0) {				
 				da1 = (1 << (y - 1)) + da1;
-			}	
-			if (p > 0) {
 				da2 = x + 1;
+			} else {
+				if (p > 0) da1 = (1 << 7) + da1;
+				da2 = x;
 			}
 		}
 		

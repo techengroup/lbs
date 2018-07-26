@@ -120,8 +120,8 @@ public class Mysql2Redis implements Runnable {
 			, List<Meter> unregisterMeters, List<Meter> relays, List<Report> reports, List<Param> params) {
 
 		if (lbs != null) {			
-			if (Global.lbs == null || !Global.lbs.getChannel().equals(lbs.getChannel())) {
-				Global.LoraReady = false;
+			if (lbs.getChannel() != null) {
+				Global.ChannelReady = true;
 			}
 			if (lbs.getLongitude() != null && lbs.getLatitude() != null) {
 				Global.GISReady = true;

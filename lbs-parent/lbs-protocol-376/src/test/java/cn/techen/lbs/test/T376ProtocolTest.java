@@ -47,8 +47,9 @@ public class T376ProtocolTest extends TestCase {
 		
 		Elements.getInstace().put("100:1:0D:177", "STRUCT,8,DATE_TIME,2,MMyy,1,DATE_TIME,5,mmHHddMMyy,1,OCT_STRING,1,%s,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0");
 		Elements.getInstace().put("100:0:0D:177", "DATE_TIME,2,MMyy,1");
-		Elements.getInstace().put("100:1:0D:178", "STRUCT,8,DATE_TIME,2,MMyy,1,DATE_TIME,5,mmHHddMMyy,1,OCT_STRING,1,%s,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0,BCD_STRING,5,3:2,0");
+		Elements.getInstace().put("100:1:0D:178", "STRUCT,8,DATE_TIME,2,MMyy,1,DATE_TIME,5,mmHHddMMyy,1,OCT_STRING,1,%s,0,BCD_STRING,4,3:1,0,BCD_STRING,4,3:1,0,BCD_STRING,4,3:1,0,BCD_STRING,4,3:1,0,BCD_STRING,4,3:1,0");
 		Elements.getInstace().put("100:0:0D:178", "DATE_TIME,2,MMyy,1");
+		Elements.getInstace().put("100:1:0E:1", "ARRAY,2,STRUCT,4,OCT_STRING,1,xx,0,BCD_STRING,6,6:0,0,DATE_TIME,6,ssmmHHddMMyy,1,OCT_STRING,16,xx,0");
 		FnNames.getInstace().put("100:1:04:3", "IP Port APN");
 		FnNames.getInstace().put("100:0:0A:3", "IP Port APN");
 		FnNames.getInstace().put("100:1:04:90", "LOCATION");
@@ -219,32 +220,29 @@ public class T376ProtocolTest extends TestCase {
 	
 	public void testMonthFreeze() {
 
-		ProtocolConfig config = new DefaultProtocolConfig();
-		config.setCommAddr("000000003").setDir(DIR.SERVER).setOperation(OPERATION.GET);
-		config.runs().put("CONTROL", "0D");
-		//config.setCommAddr("000000003").setDir(DIR.CLIENT).setOperation(OPERATION.GET);
-		config.funcs().add("1:177");
-		config.units().add(new Date());
-		config.units().add(new Date());
-		config.units().add(4);
-		config.units().add("12034");
-		config.units().add("1203.4");
-		config.units().add("120.34");
-		config.units().add("120.34");
-		config.units().add("1203.4");
-		config.units().add("120.34");
-	
-		
-	
-
-		T376Proxy proxy = new T376Proxy();
-		try {
-			log.info("Encode frame.");
-			byte[] frame = proxy.encode(config);	
-			proxy.decode(frame);			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		ProtocolConfig config = new DefaultProtocolConfig();
+//		config.setCommAddr("000000003").setDir(DIR.SERVER).setOperation(OPERATION.GET);
+//		config.runs().put("CONTROL", "0D");
+//		//config.setCommAddr("000000003").setDir(DIR.CLIENT).setOperation(OPERATION.GET);
+//		config.funcs().add("1:177");
+//		config.units().add(new Date());
+//		config.units().add(new Date());
+//		config.units().add(4);
+//		config.units().add("12034");
+//		config.units().add("1203.4");
+//		config.units().add("120.34");
+//		config.units().add("120.34");
+//		config.units().add("1203.4");		
+//	
+//
+//		T376Proxy proxy = new T376Proxy();
+//		try {
+//			log.info("Encode frame.");
+//			byte[] frame = proxy.encode(config);	
+//			proxy.decode(frame);			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 //		String str = "78 32 00 32 00 78 0b 00 00 00 03 02 00 61 00 00 01 00 72 16";
 //		str = str.replace(" ", "");
@@ -260,28 +258,103 @@ public class T376ProtocolTest extends TestCase {
 	
 	
 	public void test02() {
-		String string= "78 52 02 52 02 78 4b 00 00 06 00 02 0d 75 04 01 "
-				+"00 01 16 07 18 04 01 00 02 16 07 18 02 03 00 01 "
-				+"16 07 18 02 03 00 02 16 07 18 04 03 00 01 16 07 "
-		+"18 04 03 00 02 16 07 18 08 03 00 01 16 07 18 08 "
-		+"03 00 02 16 07 18 20 03 00 01 16 07 18 20 03 00 "
-		+"02 16 07 18 80 03 00 01 16 07 18 80 03 00 02 16 "
-		+"07 18 01 04 00 01 16 07 18 01 04 00 02 16 07 18 "
-		+"02 04 00 01 16 07 18 02 04 00 02 16 07 18 04 04 "
-		+"00 01 16 07 18 04 04 00 02 16 07 18 08 04 00 01 "
-		+"16 07 18 08 04 00 02 16 07 18 d9 16 ";  
-		string = string.replace(" ", "");
-		
-		byte[] bytes = ProtocolUtil.hexString2Byte(string);
-		
+		ProtocolConfig config = new DefaultProtocolConfig();
+		config.setCommAddr("000000006").setDir(DIR.SERVER).setOperation(OPERATION.GET);
+		config.runs().put("CONTROL", "0E");
+		//config.setCommAddr("000000003").setDir(DIR.CLIENT).setOperation(OPERATION.GET);
+		config.funcs().add("0:1");
+		config.units().add(1);
+		config.units().add(11);
+		config.units().add("000000000014");
+		config.units().add(new Date());
+		config.units().add("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");		
+
 		T376Proxy proxy = new T376Proxy();
 		try {
-			log.info("Decode frame.");
-				
-			proxy.decode(bytes);			
+			log.info("Encode frame.");
+			byte[] frame = proxy.encode(config);	
+			proxy.decode(frame);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		String string = "78 52 02 52 02 78 4b 00 00 06 00 02 0d 70 02 03 "
+		 +"00 01 16 07 18 02 03 00 02 16 07 18 04 03 00 01 " 
+		 +"16 07 18 04 03 00 02 16 07 18 08 03 00 01 16 07 "
+		 +"18 08 03 00 02 16 07 18 20 03 00 01 16 07 18 20 "
+		 +"03 00 02 16 07 18 80 03 00 01 16 07 18 80 03 00 "
+		 +"02 16 07 18 01 04 00 01 16 07 18 01 04 00 02 16 "
+		 +"07 18 02 04 00 01 16 07 18 02 04 00 02 16 07 18 "
+		 +"04 04 00 01 16 07 18 04 04 00 02 16 07 18 08 04 "
+		 +"00 01 16 07 18 08 04 00 02 16 07 18 10 04 00 01 "
+		 +"16 07 18 10 04 00 02 16 07 18 f2 16"; 
+		
+		string = string.replace(" ", "");
+		
+		try {
+			proxy.decode(ProtocolUtil.hexString2Byte(string));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String string1 = "78 3b 0b 3b 0b 78 8b 00 00 06 00 00 0d 60 02 03 " + 
+				" 00 01 16 07 18 26 14 26 07 18 04 00 10 00 00 00 " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee 02 03 00 02 16 07 18 26 14 26 07 18 " + 
+				" 04 ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee 04 03 00 01 16 ee ee ee ee ee ee " + 
+				" ee 04 ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee 04 03 00 02 16 " + 
+				" ee ee ee ee ee ee ee 04 ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee 08 03 00 01 " + 
+				" 16 ee ee ee ee ee ee ee 04 ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee 08 03 00 02 16 ee ee ee ee ee ee ee 04 ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee 20 03 00 01 16 ee ee ee ee ee ee ee 04 " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee ee ee 20 03 00 02 16 ee ee " + 
+				" ee ee ee ee ee 04 ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee ee ee ee 00 04 00 01 16 ee " + 
+				" ee ee ee ee ee ee 04 ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" 00 04 00 02 16 ee ee ee ee ee ee ee 04 ee ee ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee 01 04 00 01 16 ee ee ee ee ee ee ee 04 ee ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee 01 04 00 02 16 ee ee ee ee " + 
+				" ee ee ee 04 ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee ee 02 04 00 01 16 ee ee ee " + 
+				" ee ee ee ee 04 ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee ee 02 04 " + 
+				" 00 02 16 ee ee ee ee ee ee ee 04 ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee 04 " + 
+				" 04 00 01 16 07 18 27 14 26 07 18 04 00 51 63 00 " + 
+				" 00 ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee 04 04 00 02 16 07 18 27 14 26 07 " + 
+				" 18 04 ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee 08 04 00 01 16 ee ee ee ee ee " + 
+				" ee ee 04 ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee 08 04 00 02 " + 
+				" 16 ee ee ee ee ee ee ee 04 ee ee ee ee ee ee ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee 10 04 00 " + 
+				" 01 16 07 18 27 14 26 07 18 04 00 00 00 00 00 ee " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee 10 04 00 02 16 07 18 27 14 26 07 18 04 " + 
+				" ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee ee " + 
+				" ee ee ee ee 08 16 "; 
+				
+				string1 = string1.replace(" ", "");
+				
+				try {
+					proxy.decode(ProtocolUtil.hexString2Byte(string1));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		
+		
 	}
 	
 //	public void testFile() {

@@ -39,7 +39,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.DETECTMILLIS);
 										
-					if (Global.DATAReady) {
+					if (Global.ChannelReady) {
 						if (!Global.LoraReady) {
 							context.fireEncode();
 						}

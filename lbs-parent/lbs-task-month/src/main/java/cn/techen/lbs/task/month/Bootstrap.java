@@ -42,7 +42,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.MONTHMILLIS);
 					
-					if (Global.DATAReady) {
+					if (Global.GISReady) {
 						if (context.months().isEmpty()) {
 							context.load();
 						}
@@ -62,7 +62,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					if (Global.DATAReady) {
+					if (Global.GISReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}

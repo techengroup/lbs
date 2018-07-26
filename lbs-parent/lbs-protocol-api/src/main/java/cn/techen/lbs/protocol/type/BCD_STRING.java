@@ -64,7 +64,7 @@ public class BCD_STRING extends AbstractData {
 				if (i == 0) sb.append(ProtocolUtil.zeroFill(l*2, ds[i]));
 				if (i == 1)
 					if (ds.length <=1) {
-						sb.append(ProtocolUtil.zeroFillLeft(l*2, "0"));
+						sb.append(ProtocolUtil.zeroFillLeft(l*2, ""));
 					} else {
 						sb.append(ProtocolUtil.zeroFillLeft(l*2, ds[i]));
 					}
