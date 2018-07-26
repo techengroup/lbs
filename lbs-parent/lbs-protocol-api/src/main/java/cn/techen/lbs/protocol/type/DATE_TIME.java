@@ -49,7 +49,13 @@ public class DATE_TIME extends AbstractData {
 			bytes = ProtocolUtil.hexString2Byte(content.toString());
 			desc = content.toString();
 		} else {
-			Date time = (Date) content;		
+			Date time = null;
+			if (content instanceof Date) {
+				time = (Date) content;
+			} else {
+				SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				time = s.parse(content.toString());
+			}		
 			SimpleDateFormat sDateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
 			String dd = sDateFormat.format(time);
 			bytes = ProtocolUtil.str2Bcd(dd);			
