@@ -11,6 +11,7 @@ import cn.techen.lbs.protocol.FrameConfig.State;
 import cn.techen.lbs.protocol.ProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig.DIR;
 import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.ProtocolService;
 import cn.techen.lbs.task.month.common.Local;
@@ -57,7 +58,7 @@ public class ProcessHandler {
 			config = protocolService.decode(transBytes);		
 		}
 		
-		store(context, frame, month, config);
+		store(context, frame, config);
 	}
 	
 	public void exceptionCaught(MonthContext context, Throwable cause) {
@@ -72,14 +73,19 @@ public class ProcessHandler {
 		context.setState(State.RECIEVING);
 	}
 	
-	private void store(MonthContext context, ProtocolFrame frame, Month month, ProtocolConfig config)  throws Exception {
-		if (config != null) {					
+	private void store(MonthContext context, ProtocolFrame frame, ProtocolConfig config)  throws Exception {
+		if (config != null) {
+			//==网路状况不好时，可能有串包,处理如下== 冻结和事件的处理方式有点区别 == 
+			String commAddr = ProtocolUtil.getCommAddr(config.getCommAddr());
+			int meterId = context.getmMeterService().get(commAddr).getId();
+			//==网路状况不好时，可能有串包,处理如下== 冻结和事件的处理方式有点区别 ==
+						
 			for (String fn : config.funcs()) {
 				String fnKey = config.funcKeys().get(fn);
 				if (fnKey != null && !fnKey.isEmpty()) {						
 					String className = String.format("Fn%s", fnKey.replace(":", ""));
 					AbstractSQL as = GlobalUtil.newSql(className);					
-					context.getGeneralService().save(as.handle(month.getId(), config.units()));
+					context.getGeneralService().save(as.handle(meterId, config.units()));
 				}
 			}
 		} else {

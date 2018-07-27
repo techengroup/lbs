@@ -357,6 +357,12 @@ public class T376ProtocolTest extends TestCase {
 		
 	}
 	
+	public void test03() {
+		int start = 22;
+		byte b = (byte) (start & 0xFF);
+		log.info("===================================={}", b);
+	}
+	
 //	public void testFile() {
 //
 //		ProtocolConfig config = new DefaultProtocolConfig();

@@ -10,6 +10,7 @@ import cn.techen.lbs.db.api.MeterService;
 import cn.techen.lbs.db.common.DataConfig.ENERGY;
 import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Month;
+import cn.techen.lbs.mm.api.MMeterService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.FrameConfig.Priority;
@@ -25,7 +26,9 @@ public class MonthContext {
 	
 	private GeneralService generalService;
 	
-	private MeterService meterService;
+	private MeterService meterService;	
+
+	private MMeterService mMeterService;
 
 	private MTaskService<ProtocolFrame> mTaskService;
 	
@@ -96,6 +99,14 @@ public class MonthContext {
 
 	public MeterService getMeterService() {
 		return meterService;
+	}
+
+	public MMeterService getmMeterService() {
+		return mMeterService;
+	}
+
+	public void setmMeterService(MMeterService mMeterService) {
+		this.mMeterService = mMeterService;
 	}
 
 	public void setMeterService(MeterService meterService) {

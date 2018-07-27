@@ -386,10 +386,24 @@ public final class ProtocolUtil {
 		return bytes;
 	}
 	
+	/**
+	 * String is all 'E'
+	 * @param str
+	 * @return
+	 */
 	public static boolean isAllE(String str) {
 		String regex="^[eE]+$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(str);
 		return matcher.matches();
+	}
+	
+	/**
+	 * Get CommAddr from route
+	 * @param route
+	 */
+	public static String getCommAddr(String route) {
+		String[] addrs = route.split(",");
+		return addrs[addrs.length-1];
 	}
 }

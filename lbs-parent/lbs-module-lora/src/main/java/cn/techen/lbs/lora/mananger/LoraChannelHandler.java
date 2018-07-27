@@ -28,9 +28,9 @@ public class LoraChannelHandler implements RxtxChannelHandler {
 
 	@Override
 	public void channelRead(RxtxChannel channel, byte[] data) throws Exception {
-//		System.out.println("===============================================");
-//		System.out.println(ProtocolUtil.byte2HexString(data, true));
-//		System.out.println("===============================================");
+		System.out.println("===============================================");
+		System.out.println(ProtocolUtil.byte2HexString(data, true));
+		System.out.println("===============================================");
 		bList.addAll(ProtocolUtil.byte2List(data));		
 		byte[] frame = ProtocolUtil.list2byte(bList);		
 		int valid = context.getProtocolManagerService().getProtocol(Local.PROTOCOL).valid(frame);

@@ -12,6 +12,7 @@ import cn.techen.lbs.protocol.FrameConfig.State;
 import cn.techen.lbs.protocol.ProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig.DIR;
 import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.ProtocolService;
 import cn.techen.lbs.task.event.common.EventContext;
@@ -76,15 +77,26 @@ public class ProcessHandler {
 	}
 	
 	private void store(EventContext context, ProtocolFrame frame, Meter meter, ProtocolConfig config)  throws Exception {
-		if (config != null) {					
+		if (config != null) {	
+			//==网路状况不好时，可能有串包,处理如下==
+			String commAddr = ProtocolUtil.getCommAddr(config.getCommAddr());
+			int meterId = context.getmMeterService().get(commAddr).getId();
+			//==网路状况不好时，可能有串包,处理如下==
+			
 			for (String fn : config.funcs()) {
 				String fnKey = config.funcKeys().get(fn);
 				if (fnKey != null && !fnKey.isEmpty()) {						
 					String className = String.format("Fn%s", fnKey.replace(":", ""));
 					AbstractSQL as = GlobalUtil.newSql(className);						
-					context.getGeneralService().save(as.handle(meter.getId(), config.units()));
+					context.getGeneralService().save(as.handle(meterId, config.units()));
 				}
 			}
+			
+			//==网路状况不好时，可能有串包,处理如下==
+			if (!meter.getCommaddr().equals(commAddr)) {
+				context.getReportService().updateFail(meter.getId());
+			}
+			//==网路状况不好时，可能有串包,处理如下==
 
 			context.reset();
 		} else {

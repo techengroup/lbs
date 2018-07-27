@@ -8,6 +8,7 @@ import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.ProtocolService;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.task.report.common.ReportContext;
 
 public class ReportHandler extends AbstractHandler {
@@ -19,7 +20,7 @@ public class ReportHandler extends AbstractHandler {
 			reportFrame.setrOutTime(new Date());
 			
 			String route = reportFrame.getCommAddr();
-			String commAddr = getRealAddr(route);	
+			String commAddr = ProtocolUtil.getCommAddr(route);	
 			if (commAddr != null && !commAddr.isEmpty()) {
 				Meter meter = context.getmMeterService().get(commAddr);
 				
@@ -37,11 +38,6 @@ public class ReportHandler extends AbstractHandler {
 				context.getReportService().save(report);
 			}
 		}
-	}
-	
-	private String getRealAddr(String commAddr) {
-		String[] addrs = commAddr.split(",");
-		return addrs[addrs.length-1];
 	}
 
 }

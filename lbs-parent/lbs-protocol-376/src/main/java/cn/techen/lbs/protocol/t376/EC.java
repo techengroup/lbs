@@ -37,10 +37,10 @@ public class EC extends AbstractElement  {
 		count = Integer.parseInt(frame.config().units().poll().toString());
 		start = Integer.parseInt(frame.config().units().poll().toString());
 	
-		bytes[0] = (byte) (count & 0x0F);
-		bytes[1] = (byte) ((count >> 8) & 0x0F);
-		bytes[2] = (byte) (start & 0x0F);
-		bytes[3] = (byte) ((start >> 8) & 0x0F);
+		bytes[0] = (byte) (count & 0xFF);
+		bytes[1] = (byte) ((count >> 8) & 0xFF);
+		bytes[2] = (byte) (start & 0xFF);
+		bytes[3] = (byte) ((start >> 8) & 0xFF);
 		
 		for (int i = 0; i < len; i++) {
 			frame.process().vector.add(bytes[i]);

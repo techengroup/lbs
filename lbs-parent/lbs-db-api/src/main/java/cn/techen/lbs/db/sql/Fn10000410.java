@@ -31,16 +31,16 @@ public class Fn10000410 extends AbstractSQL {
 				sb.append("delete from log_network where route like '%," + commAddr + ",%';");
 				sb.append("delete from log_report where route like '%," + commAddr + ",%';");				
 				sb.append(String.format("delete from log_report where meterid=%d;", sn));
-				sb.append(String.format("delete from data_event where meterid=%d;", sn));
+//				sb.append(String.format("delete from data_event where meterid=%d;", sn));
 				sb.append(String.format("delete from data_energy_month where meterid=%d;", sn));
-				sb.append(String.format("insert IGNORE into log_exit(meterid, pointno, commaddr, logicaddr, protocol, moduleprotocol"
-						+ ", baudrate, port, tariffcount, integercount, decimalcount, customerclass, customersubclass"
-						+ ", longitude, latitude, distance, angle, sector, districtx, districty, relay, grade, parent"
-						+ ", path, route, failtimes) select * from(select m.ID, m.PointNo, m.CommAddr, m.logicaddr"
-						+ ", m.protocol, m.moduleprotocol, m.baudrate, m.port, m.tariffcount, m.integercount, m.decimalcount"
-						+ ", m.customerclass, m.customersubclass, m.longitude, m.latitude, m.distance, m.angle, m.sector"
-						+ ", m.districtx, m.districty, m.relay, m.grade, m.parent, m.path, n.Route, m.failtimes "
-						+ "from prm_meter m JOIN log_network n on m.id=n.meterID where m.id=%d and n.result=1) as ex;", sn));
+//				sb.append(String.format("insert IGNORE into log_exit(meterid, pointno, commaddr, logicaddr, protocol, moduleprotocol"
+//						+ ", baudrate, port, tariffcount, integercount, decimalcount, customerclass, customersubclass"
+//						+ ", longitude, latitude, distance, angle, sector, districtx, districty, relay, grade, parent"
+//						+ ", path, route, failtimes) select * from(select m.ID, m.PointNo, m.CommAddr, m.logicaddr"
+//						+ ", m.protocol, m.moduleprotocol, m.baudrate, m.port, m.tariffcount, m.integercount, m.decimalcount"
+//						+ ", m.customerclass, m.customersubclass, m.longitude, m.latitude, m.distance, m.angle, m.sector"
+//						+ ", m.districtx, m.districty, m.relay, m.grade, m.parent, m.path, n.Route, m.failtimes "
+//						+ "from prm_meter m JOIN log_network n on m.id=n.meterID where m.id=%d and n.result=1) as ex;", sn));
 				sb.append(String.format("delete from log_network where meterid=%d;", sn));
 				sb.append(String.format("delete from prm_meter where id=%d;", sn));
 			} else {
