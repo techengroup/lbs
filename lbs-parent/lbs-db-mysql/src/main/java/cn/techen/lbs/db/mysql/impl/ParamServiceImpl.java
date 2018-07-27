@@ -98,7 +98,7 @@ public class ParamServiceImpl implements ParamService {
 			ddl.append("where savetime>?");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
-			stmt.setTimestamp(1, new java.sql.Timestamp(new Date().getTime()));
+			stmt.setTimestamp(1, new java.sql.Timestamp(time.getTime()));
 			ResultSet rs = stmt.executeQuery();			
 			while (rs.next()) {
 				Param param = new Param();
