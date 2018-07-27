@@ -23,7 +23,7 @@ public class HeartbeatHandler extends AbstractHandler {
 			op = OPERATION.HEARTBEAT;
 			config.units().add(new Date());
 			
-			int start = Integer.parseInt(Global.RunParams.get("LastEventIndex").toString());
+			int start = Integer.parseInt(Global.RunParams.get("LastReportEventIndex").toString());
 			int count = context.getGeneralService().selectEventCount();
 			
 			int diff = count - start;

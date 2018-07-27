@@ -137,7 +137,7 @@ public class ParamServiceImpl implements ParamService {
 		Statement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append(String.format("update RUN_PARAM set value0='%s' where key0='%s'", key, value));			
+			ddl.append(String.format("update RUN_PARAM set value0='%s' where key0='%s'", value, key));			
 			conn = mp.getConnection();
 			stmt = conn.createStatement();
 			return stmt.executeUpdate(ddl.toString());

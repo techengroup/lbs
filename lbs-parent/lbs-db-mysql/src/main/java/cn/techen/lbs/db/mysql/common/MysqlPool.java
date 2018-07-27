@@ -64,7 +64,7 @@ public class MysqlPool {
 		}
 //		rootPath = RedisPool.class.getClassLoader().getResource("").getPath();
 //		log.info("Root Path:{}", rootPath);
-		rootPath = System.getenv("LBS_HOME");
+		rootPath = "/home/ubuntu/lbs";//System.getenv("LBS_HOME");
 		log.info("==================================================ENV Path:{}", rootPath);
 //		rootPath = new File(rootPath).getParent();
 //		log.info("Root Parent Path:{}", rootPath);
