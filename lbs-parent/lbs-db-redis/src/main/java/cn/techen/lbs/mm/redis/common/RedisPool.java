@@ -8,12 +8,13 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cn.techen.lbs.db.common.GlobalUtil;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 public class RedisPool {
-	private static Logger log = LoggerFactory.getLogger(Local.PROJECT);
+	private static Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	private static RedisPool redisPool = null;
 	private static JedisPool realPool = null;
 	
@@ -31,8 +32,8 @@ public class RedisPool {
 	        Integer port = Integer.valueOf(prop.getProperty("redis.port").trim());
 	        realPool = new JedisPool(config, host, port);
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("Create redis pool faild...");
+			logger.error("New redis pool faild...");
+			logger.error(GlobalUtil.getStackTrace(e));
 		}
 	}
 	
@@ -79,12 +80,12 @@ public class RedisPool {
 	private static Properties loadPropertiesFile(String fullFile) {
 		String rootPath = null;
 		if (null == fullFile || fullFile.equals("")) {
-			throw new IllegalArgumentException("Properties file path can not be null" + fullFile);
+			throw new IllegalArgumentException("Properties file path can not be null..." + fullFile);
 		}
 //		rootPath = RedisPool.class.getClassLoader().getResource("").getPath();
 //		log.info("Root Path:{}", rootPath);
 		rootPath = System.getenv("LBS_HOME");
-		log.info("==================================================ENV Path:{}", rootPath);
+		logger.info("==================================================ENV Path:{}", rootPath);
 //		rootPath = new File(rootPath).getParent();
 //		log.info("Root Parent Path:{}", rootPath);
 		InputStream inputStream = null;

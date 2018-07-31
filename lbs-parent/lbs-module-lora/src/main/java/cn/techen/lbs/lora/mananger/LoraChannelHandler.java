@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cn.techen.lbs.channel.rxtx.RxtxChannel;
 import cn.techen.lbs.channel.rxtx.RxtxChannelHandler;
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.lora.common.Local;
 import cn.techen.lbs.lora.common.LoraContext;
 import cn.techen.lbs.mm.api.MTaskService;
@@ -18,6 +22,7 @@ import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.FrameConfig.Priority;
 
 public class LoraChannelHandler implements RxtxChannelHandler {
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private LoraContext context;
 	private List<Byte> bList = new ArrayList<Byte>();
@@ -28,9 +33,8 @@ public class LoraChannelHandler implements RxtxChannelHandler {
 
 	@Override
 	public void channelRead(RxtxChannel channel, byte[] data) throws Exception {
-		System.out.println("===============================================");
-		System.out.println(ProtocolUtil.byte2HexString(data, true));
-		System.out.println("===============================================");
+		logger.debug(ProtocolUtil.byte2HexString(data, true));
+		
 		bList.addAll(ProtocolUtil.byte2List(data));		
 		byte[] frame = ProtocolUtil.list2byte(bList);		
 		int valid = context.getProtocolManagerService().getProtocol(Local.PROTOCOL).valid(frame);
@@ -72,6 +76,7 @@ public class LoraChannelHandler implements RxtxChannelHandler {
 
 	@Override
 	public void exceptionCaught(RxtxChannel channel, Throwable cause) throws Exception {
+		logger.error(GlobalUtil.getStackTrace(cause));
 		channel.disconnect();
 	}
 

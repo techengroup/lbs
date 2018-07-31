@@ -13,6 +13,7 @@ import cn.techen.lbs.db.api.MeterService;
 import cn.techen.lbs.db.api.ParamService;
 import cn.techen.lbs.db.api.ReportService;
 import cn.techen.lbs.db.common.Global;
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Fn;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.db.model.Meter;
@@ -28,8 +29,8 @@ import cn.techen.lbs.protocol.common.FnNames;
 import cn.techen.lbs.protocol.common.Titles;
 
 public class Mysql2Redis implements Runnable {
-	private static final Logger log = (Logger) LoggerFactory  
-            .getLogger(Local.PROJECT);
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
+	
 	private LbsService lbsService;
 	private MeterService meterService;	
 	private FnService fnService;
@@ -55,9 +56,9 @@ public class Mysql2Redis implements Runnable {
 				count++;
 				if (count > 100000) count = 1;
 			} catch (InterruptedException e) {
-				log.error(e.getCause().getMessage());
+				logger.error(GlobalUtil.getStackTrace(e));
 			} catch (Exception e) {	
-				log.error(e.getCause().getMessage());
+				logger.error(GlobalUtil.getStackTrace(e));
 			}
 		}
 	}
@@ -85,15 +86,15 @@ public class Mysql2Redis implements Runnable {
 			params = paramService.selectAll();
 			
 			if (lbs == null) {
-				log.error("There is no any lbs in the database...");
+				logger.error("There is no any lbs in the database...");
 				return;
 			}
 			if (fns == null || fns.size() <= 0) {
-				log.error("There is no any protocol function in the database...");
+				logger.error("There is no any protocol function in the database...");
 				return;
 			}
 			if (params == null || params.size() <= 0) {
-				log.error("There is no any run param in the database...");
+				logger.error("There is no any run param in the database...");
 				return;
 			}
 			
@@ -127,7 +128,7 @@ public class Mysql2Redis implements Runnable {
 				Global.GISReady = true;
 			}
 			Global.lbs = lbs;
-			log.info("LBS parameters have been modified...");
+			logger.info("LBS parameters have been modified...");
 		}
 		
 		if (fns != null && fns.size() > 0) {
@@ -137,34 +138,34 @@ public class Mysql2Redis implements Runnable {
 				Elements.getInstace().put(key, (fn.getElements() == null) ? "" : fn.getElements());
 				Titles.getInstace().put(key, (fn.getTitles() == null) ? "" : fn.getTitles());
 			}
-			log.info("Load protocol function[{}] in the database...", fns.size());
+			logger.info("Load protocol function[{}] from database...", fns.size());
 		}	
 		
 		if (params != null && params.size() > 0) {
 			for (Param param : params) {
 				Global.RunParams.put(param.getKey(), param.getValue());
 			}
-			log.info("Load run parameter[{}] in the database...", params.size());
+			logger.info("Load run parameter[{}] from database...", params.size());
 		}	
 		
 		if (meters != null && meters.size() > 0) {
 			mMeterService.put(meters);
-			log.info("Load meter[{}] from database...", meters.size());
+			logger.info("Load meter[{}] from database...", meters.size());
 		}	
 		
 		if (unregisterMeters != null && unregisterMeters.size() > 0) {
 			mRegisterService.lpush(unregisterMeters);
-			log.info("Load unregister meter[{}] from database...", unregisterMeters.size());
+			logger.info("Load unregister meter[{}] from database...", unregisterMeters.size());
 		}
 		
 		if (relays != null && relays.size() > 0) {
 			mRelayService.put(relays);
-			log.info("Load relay[{}] from database...", relays.size());
+			logger.info("Load relay[{}] from database...", relays.size());
 		}
 		
 		if (reports != null && reports.size() > 0) {
 			mReportService.lpush(reports);
-			log.info("Load report event[{}] from database...", reports.size());
+			logger.info("Load report event[{}] from database...", reports.size());
 		}
 	}
 	

@@ -10,8 +10,7 @@ import cn.techen.lbs.lora.common.LoraContext;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
 
 public class WriteHandler extends AbstractHandler {
-	private static final Logger logger = (Logger) LoggerFactory  
-            .getLogger(Local.PROJECT);
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	public WriteHandler() {
 		super();

@@ -2,7 +2,11 @@ package cn.techen.lbs.lora;
 
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cn.techen.lbs.db.common.Global;
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.lora.common.Local;
 import cn.techen.lbs.lora.common.LoraContext;
 import cn.techen.lbs.lora.mananger.AbstractHandler;
@@ -12,6 +16,7 @@ import cn.techen.lbs.lora.mananger.WriteHandler;
 import cn.techen.lbs.lora.mananger.StoreHandler;
 
 public class Bootstrap {
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private LoraContext context;
 	
@@ -22,9 +27,11 @@ public class Bootstrap {
 	public void start() {
 		initHandler();
 		
+		logger.info("LBS Lora obtain Module is starting......");
 		Thread obtain = new Thread(new ObtainThread());
 		obtain.start();
 		
+		logger.info("LBS Lora read Module is starting......");
 		Thread read = new Thread(new ReadThread());
 		read.start();
 	}
@@ -64,7 +71,7 @@ public class Bootstrap {
 						handler0.operate(context);			
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(GlobalUtil.getStackTrace(e));
 				}				
 			}
 		}		
@@ -82,7 +89,7 @@ public class Bootstrap {
 						handler1.operate(context);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(GlobalUtil.getStackTrace(e));
 				}				
 			}
 		}		

@@ -1,6 +1,10 @@
 package cn.techen.lbs.task.networking;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cn.techen.lbs.db.common.Global;
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.task.networking.common.Local;
 import cn.techen.lbs.task.networking.common.NetContext;
 import cn.techen.lbs.task.networking.manager.AbstractHandler;
@@ -12,6 +16,7 @@ import cn.techen.lbs.task.networking.manager.WriteHandler;
 import cn.techen.lbs.task.networking.manager.StoreHandler;
 
 public class Bootstrap {
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 		
 	private NetContext context;
 
@@ -22,6 +27,7 @@ public class Bootstrap {
 	public void start() {
 		initHandler();
 		
+		logger.info("LBS Networking Module is starting......");
 		Thread net = new Thread(new NetThread());
 		net.start();
 	}
@@ -56,7 +62,7 @@ public class Bootstrap {
 						read.operate(context);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(GlobalUtil.getStackTrace(e));
 					context.reset(true);
 				}				
 			}

@@ -14,7 +14,7 @@ import cn.techen.lbs.protocol.impl.LoraProxy;
 import junit.framework.TestCase;
 
 public class LoraProtocolTest extends TestCase {
-	private static Logger log = (Logger) LoggerFactory.getLogger("Lora-Protocol");
+	private static Logger log = LoggerFactory.getLogger(LoraProtocolTest.class);
 	
 	static {
 		Elements.getInstace().put("0:0:1:2", "BCD_STRING,2,xxxx,1,Short address");

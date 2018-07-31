@@ -1,6 +1,10 @@
 package cn.techen.lbs.device;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cn.techen.lbs.db.common.Global;
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.device.common.DeviceContext;
 import cn.techen.lbs.device.common.Local;
 import cn.techen.lbs.device.manager.AbstractHandler;
@@ -8,6 +12,8 @@ import cn.techen.lbs.device.manager.ObtainHandler;
 import cn.techen.lbs.device.manager.ReadHandler;
 
 public class Bootstrap {
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
+	
 	private DeviceContext context;
 	private AbstractHandler obtain;	
 	private AbstractHandler read;
@@ -15,11 +21,13 @@ public class Bootstrap {
 	public void start() {
 		initHandler();
 		
+		logger.info("LBS Device Detect Module is starting......");	
 		Thread detect = new Thread(new DetectThread());
 		detect.start();
 		
-		Thread device = new Thread(new DeviceThread());
-		device.start();
+		logger.info("LBS Device Reset Module is starting......");
+		Thread reset = new Thread(new ResetThread());
+		reset.start();
 	}
 	
 	private void initHandler() {
@@ -45,13 +53,13 @@ public class Bootstrap {
 						}
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(GlobalUtil.getStackTrace(e));
 				}				
 			}
 		}		
 	}
 	
-	protected class DeviceThread implements Runnable {
+	protected class ResetThread implements Runnable {
 
 		@Override
 		public void run() {
@@ -62,7 +70,7 @@ public class Bootstrap {
 					obtain.operate(context);
 					read.operate(context);
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(GlobalUtil.getStackTrace(e));
 				}				
 			}
 		}		

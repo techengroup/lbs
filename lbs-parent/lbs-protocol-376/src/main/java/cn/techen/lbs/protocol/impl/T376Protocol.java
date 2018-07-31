@@ -25,7 +25,6 @@ public class T376Protocol implements ProtocolService {
 
 	@Override
 	public int valid(byte[] data) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

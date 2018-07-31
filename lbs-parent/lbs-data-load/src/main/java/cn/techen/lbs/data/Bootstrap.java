@@ -8,8 +8,7 @@ import cn.techen.lbs.data.manager.GIS2Net;
 import cn.techen.lbs.data.manager.Mysql2Redis;
 
 public class Bootstrap {
-	private static final Logger log = (Logger) LoggerFactory  
-            .getLogger(Local.PROJECT);
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private Mysql2Redis mysql2Redis;
 	private GIS2Net gis2Net;
@@ -18,11 +17,11 @@ public class Bootstrap {
 	 * Data load service start
 	 */
 	public void start() {
-		log.info("Data load is starting......");			
+		logger.info("Data load Module is starting......");			
 		Thread myThread = new Thread(mysql2Redis);
 		myThread.start();
 		
-		log.info("GIS to net is starting......");			
+		logger.info("GIS Caculate Module is starting......");			
 		Thread gisThread = new Thread(gis2Net);
 		gisThread.start();
 	}

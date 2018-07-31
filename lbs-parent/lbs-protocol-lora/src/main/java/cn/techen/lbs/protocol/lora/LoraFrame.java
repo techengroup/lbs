@@ -8,8 +8,7 @@ import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.lora.common.Local;
 
 public class LoraFrame extends AbstractFrame {
-	private static final Logger logger = (Logger) LoggerFactory  
-            .getLogger(Local.PROJECT);
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	/**
 	 * Frame Header
 	 */

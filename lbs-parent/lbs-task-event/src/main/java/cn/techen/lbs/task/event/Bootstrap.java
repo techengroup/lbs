@@ -1,6 +1,10 @@
 package cn.techen.lbs.task.event;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cn.techen.lbs.db.common.Global;
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.task.event.common.EventContext;
 import cn.techen.lbs.task.event.common.Local;
 import cn.techen.lbs.task.event.manager.AbstractHandler;
@@ -8,6 +12,7 @@ import cn.techen.lbs.task.event.manager.ObtainHandler;
 import cn.techen.lbs.task.event.manager.ReadHandler;
 
 public class Bootstrap {
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 		
 	private EventContext context;
 	
@@ -18,6 +23,7 @@ public class Bootstrap {
 	public void start() {
 		initHandler();
 		
+		logger.info("LBS Event Module is starting......");
 		Thread event = new Thread(new EventThread());
 		event.start();
 	}
@@ -44,7 +50,7 @@ public class Bootstrap {
 						read.operate(context);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(GlobalUtil.getStackTrace(e));
 					context.reset();
 				}				
 			}

@@ -3,6 +3,7 @@ package cn.techen.lbs.g4.manager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.g4.common.G4Context;
 import cn.techen.lbs.g4.common.Local;
 import cn.techen.lbs.g4.common.Status;
@@ -20,8 +21,7 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 
 public class Client {
-	private static final Logger logger = (Logger) LoggerFactory  
-            .getLogger(Local.PROJECT);
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private G4Context context;
 	public String host;
@@ -57,6 +57,7 @@ public class Client {
             f.channel().closeFuture().sync();
         } catch (Exception e) {
         	logger.error("Server can't be connected /{}:{} for unkown reason.", host, port);
+        	logger.error(GlobalUtil.getStackTrace(e));
         } finally {
         	logger.info("Start to disconnect /{}:{}.", host, port);
         	

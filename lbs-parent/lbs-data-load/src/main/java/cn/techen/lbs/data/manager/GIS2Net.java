@@ -12,8 +12,8 @@ import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Meter;
 
 public class GIS2Net implements Runnable {
-	private static final Logger log = (Logger) LoggerFactory  
-            .getLogger(Local.PROJECT);
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
+	
 	private MeterService meterService;
 	
 	@Override
@@ -24,16 +24,16 @@ public class GIS2Net implements Runnable {
 				
 				if (Global.GISReady) start();
 			} catch (InterruptedException e) {
-				log.error(e.getCause().getMessage());
+				logger.error(GlobalUtil.getStackTrace(e));
 			} catch (Exception e) {		
-				log.error(e.getCause().getMessage());
+				logger.error(GlobalUtil.getStackTrace(e));
 			}
 		}
 	}
 	
 	public void start() throws Exception {
 		List<Meter> meters = meterService.selectGIS();
-		log.info("Get calculate GIS meter[{}] from database...", meters.size());
+		logger.info("Get GIS meter[{}] need caculate from database...", meters.size());
 		
 		for (Meter meter : meters) {
 			double distance = GlobalUtil.distance(Global.lbs.getLongitude(), Global.lbs.getLatitude(), meter.getLongitude(), meter.getLatitude());		

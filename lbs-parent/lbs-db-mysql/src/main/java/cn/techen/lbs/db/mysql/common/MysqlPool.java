@@ -13,8 +13,11 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.alibaba.druid.pool.DruidPooledConnection;
 
+import cn.techen.lbs.db.common.GlobalUtil;
+
 public class MysqlPool {
-	private static Logger log = (Logger) LoggerFactory.getLogger(Local.PROJECT);
+	private static Logger logger = LoggerFactory.getLogger(Local.PROJECT);
+	
 	private static MysqlPool mysqlPool = null;
 	private static DruidDataSource druidDataSource = null;
 
@@ -23,8 +26,8 @@ public class MysqlPool {
 		try {
 			druidDataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties); // DruidDataSrouce工厂模式
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("Create mysql pool faild.");
+			logger.error("New mysql pool faild.");
+			logger.error(GlobalUtil.getStackTrace(e));
 		}
 	}
 
@@ -65,7 +68,7 @@ public class MysqlPool {
 //		rootPath = RedisPool.class.getClassLoader().getResource("").getPath();
 //		log.info("Root Path:{}", rootPath);
 		rootPath = System.getenv("LBS_HOME");
-		log.info("==================================================ENV Path:{}", rootPath);
+		logger.info("==================================================ENV Path:{}", rootPath);
 //		rootPath = new File(rootPath).getParent();
 //		log.info("Root Parent Path:{}", rootPath);
 		InputStream inputStream = null;

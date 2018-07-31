@@ -8,8 +8,7 @@ import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.t376.common.Local;
 
 public class T376Frame extends AbstractFrame {
-	private static final Logger log = (Logger) LoggerFactory  
-            .getLogger(Local.PROJECT);
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 
 	/**
 	 * Frame Header
@@ -65,7 +64,7 @@ public class T376Frame extends AbstractFrame {
 			cs.decode(this);
 			tail.decode(this);
 			
-			log.debug(toExplain());
+			logger.debug(toExplain());
 		} else {
 			throw new RuntimeException("Frame size is not enough.");
 		}
@@ -84,7 +83,7 @@ public class T376Frame extends AbstractFrame {
 
 		process.vector2Byte();
 		
-		log.debug(toExplain());
+		logger.debug(toExplain());
 	}
 
 	@Override

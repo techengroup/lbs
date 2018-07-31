@@ -1,5 +1,7 @@
 package cn.techen.lbs.db.common;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -239,6 +241,25 @@ public class GlobalUtil {
         Method method = instance.getClass().getDeclaredMethod(methodName, classes);
         method.setAccessible(true);
         return method.invoke(instance, objects);
+    }
+    
+    /**
+     * 获取堆棧信息
+     * @param throwable
+     * @return
+     */
+    public static String getStackTrace(Throwable throwable)
+    {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+
+        try
+        {
+            throwable.printStackTrace(pw);
+            return sw.toString();
+        } finally {
+            pw.close();
+        }
     }
     
 }

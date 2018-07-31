@@ -3,6 +3,7 @@ package cn.techen.lbs.g4.manager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.g4.common.G4Context;
 import cn.techen.lbs.g4.common.G4Util;
 import cn.techen.lbs.g4.common.Local;
@@ -12,8 +13,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;
 
 public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
-	private static final Logger logger = (Logger) LoggerFactory  
-            .getLogger(Local.PROJECT);
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private G4Context context;
 	
@@ -23,7 +23,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	
 	@Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		logger.info("{} has connected.", ctx.channel().remoteAddress());
+		logger.info("{} connected.", ctx.channel().remoteAddress());
 		context.setChannel(ctx);
 		context.fireLogin();
     }
@@ -35,14 +35,15 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-    	logger.info("{} has disconnected.", ctx.channel().remoteAddress());
+    	logger.info("{} disconnected.", ctx.channel().remoteAddress());
     	context.setChannel(null);
     	context.fireLogout();
     }
     
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-    	logger.error("Occur exception.", cause.getMessage());
+    	logger.error("4G Occur exception.");
+    	logger.error(GlobalUtil.getStackTrace(cause));
     }
 	
 	@Override

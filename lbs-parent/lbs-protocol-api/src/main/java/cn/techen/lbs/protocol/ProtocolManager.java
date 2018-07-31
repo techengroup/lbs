@@ -12,8 +12,7 @@ import org.slf4j.LoggerFactory;
  * @version V1.0 New Date 2014-09-20
  */
 public class ProtocolManager implements ProtocolManagerService {
-	private static final Logger logger = (Logger) LoggerFactory  
-            .getLogger("LBS-PROTOCOL");
+	private static final Logger logger = LoggerFactory.getLogger("LBS-PROTOCOL");
 	
 	@Override
 	public Map<Integer, ProtocolService> getProtocols() {

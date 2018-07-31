@@ -1,6 +1,10 @@
 package cn.techen.lbs.g4;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cn.techen.lbs.db.common.Global;
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.g4.common.G4Context;
 import cn.techen.lbs.g4.common.Local;
 import cn.techen.lbs.g4.common.Status;
@@ -8,6 +12,7 @@ import cn.techen.lbs.g4.manager.Client;
 import cn.techen.lbs.g4.manager.WriteHandler;
 
 public class Bootstrap {	
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private G4Context context;
 	private Client client;
@@ -17,9 +22,11 @@ public class Bootstrap {
 		client = new Client(context);
 		writeHandler = new WriteHandler();
 		
+		logger.info("LBS 4G client Module is starting......");	
 		Thread clientThread = new Thread(new ClientThread());
 		clientThread.start();
 		
+		logger.info("LBS 4G send Module is starting......");
 		Thread send = new Thread(new SendThread());
 		send.start();
 	}
@@ -52,7 +59,7 @@ public class Bootstrap {
 						connect();
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(GlobalUtil.getStackTrace(e));
 				}				
 			}
 		}
@@ -118,7 +125,7 @@ public class Bootstrap {
 					
 					writeHandler.operate(context);
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(GlobalUtil.getStackTrace(e));
 				}				
 			}
 		}		

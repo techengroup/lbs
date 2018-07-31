@@ -1,6 +1,10 @@
 package cn.techen.lbs.task.month;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cn.techen.lbs.db.common.Global;
+import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.task.month.common.Local;
 import cn.techen.lbs.task.month.common.MonthContext;
 import cn.techen.lbs.task.month.manager.AbstractHandler;
@@ -8,6 +12,7 @@ import cn.techen.lbs.task.month.manager.ObtainHandler;
 import cn.techen.lbs.task.month.manager.ReadHandler;
 
 public class Bootstrap {
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 		
 	private MonthContext context;
 	
@@ -18,9 +23,11 @@ public class Bootstrap {
 	public void start() {
 		initHandler();
 		
+		logger.info("LBS Month Obtain Module is starting......");
 		Thread load = new Thread(new LoadThread());
 		load.start();
 		
+		logger.info("LBS Month Read Module is starting......");
 		Thread month = new Thread(new MonthThread());
 		month.start();
 	}
@@ -48,7 +55,7 @@ public class Bootstrap {
 						}
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(GlobalUtil.getStackTrace(e));
 				}				
 			}
 		}		
@@ -67,7 +74,7 @@ public class Bootstrap {
 						read.operate(context);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(GlobalUtil.getStackTrace(e));
 					context.reset();
 				}				
 			}
