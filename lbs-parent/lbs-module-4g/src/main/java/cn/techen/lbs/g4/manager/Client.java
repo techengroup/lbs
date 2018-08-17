@@ -13,6 +13,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.FixedRecvByteBufAllocator;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -40,6 +41,8 @@ public class Client {
             b.group(group);
             b.channel(NioSocketChannel.class);
             b.option(ChannelOption.TCP_NODELAY, true);
+//            b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000); new AdaptiveRecvByteBufAllocator(512, 1024, 4096)
+            b.option(ChannelOption.RCVBUF_ALLOCATOR, new FixedRecvByteBufAllocator(1024));
             b.handler(new ChannelInitializer<SocketChannel>() {
 				@Override
 				protected void initChannel(SocketChannel socketChannel) throws Exception {
