@@ -52,8 +52,14 @@ public class GetHandler extends AbstractHandler {
 		int currentReadEventIndex = Global.CurrentReadEventStart + Global.CurrentReadEventCount;
 		
 		if (lastReportEventIndex < currentReadEventIndex) {
-			Global.RunParams.put("LastReportEventIndex", currentReadEventIndex);
-			context.getParamService().updateValue("LastReportEventIndex", String.valueOf(currentReadEventIndex));			
+			int index = currentReadEventIndex - 65536;
+			if (index >= 0) {
+				Global.RunParams.put("LastReportEventIndex", index);
+				context.getParamService().updateValue("LastReportEventIndex", String.valueOf(index));
+			} else {
+				Global.RunParams.put("LastReportEventIndex", currentReadEventIndex);
+				context.getParamService().updateValue("LastReportEventIndex", String.valueOf(currentReadEventIndex));	
+			}		
 		}
 	}	
 	

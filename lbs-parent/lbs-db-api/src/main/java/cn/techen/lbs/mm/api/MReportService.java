@@ -9,7 +9,7 @@ import cn.techen.lbs.db.model.Report;
  * @author ZY
  * @since 2018-03-14 16:55
  */
-public interface MReportService extends MyService<String, Report> {
+public interface MReportService extends MyService<String, Report>, MySize {
 	
     static final String DB_REPORT = "DB:REPORT";
         

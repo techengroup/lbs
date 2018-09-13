@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.g4.common.G4Context;
 import cn.techen.lbs.g4.common.Local;
-import cn.techen.lbs.g4.common.Status;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -53,24 +52,17 @@ public class Client {
 				}               
             });
   
-            logger.info("Start to connect /{}:{}.", host, port);
+            logger.info("LBS is creating a connection about server/{}:{}.", host, port);
             ChannelFuture f = b.connect(host, port).sync();
-            context.setStatus(Status.CONNECT);
             
             f.channel().closeFuture().sync();
         } catch (Exception e) {
-        	logger.error("Server can't be connected /{}:{} for unkown reason.", host, port);
+        	logger.error("LBS occur exception.", host, port);
         	logger.error(GlobalUtil.getStackTrace(e));
         } finally {
-        	logger.info("Start to disconnect /{}:{}.", host, port);
-        	
+        	logger.info("LBS shutdown gracefully.", host, port);        	
             group.shutdownGracefully();
-            context.setStatus(Status.DISCONNECT);
         }
-	}
-	
-	public void disconnect() {
-		context.channel().disconnect();		
 	}
 	
 	public String getHost() {

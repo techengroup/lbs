@@ -120,52 +120,6 @@ public class ReportServiceImpl implements ReportService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	@Override
-	public List<Report> selectByTime(Date time) {
-		MysqlPool mp = MysqlPool.getInstance();
-		DruidPooledConnection conn = null;
-		PreparedStatement stmt = null;
-		try {
-			List<Report> reportList = new ArrayList<Report>();
-			StringBuffer ddl = new StringBuffer();
-			ddl.append("select meterid, commaddr, route, signalstrength, content from LOG_REPORT ");
-			ddl.append("where status < 1 and (DATE_ADD(crton, INTERVAL 3 DAY) > ? or mdfon > ?)");
-			conn = mp.getConnection();
-			stmt = conn.prepareStatement(ddl.toString());
-			stmt.setTimestamp(1, new java.sql.Timestamp(time.getTime()));
-			stmt.setTimestamp(2, new java.sql.Timestamp(time.getTime()));
-			ResultSet rs = stmt.executeQuery();			
-			while (rs.next()) {
-				Report report = new Report();
-				report.setMeterid(rs.getInt("meterid"));
-				report.setCommaddr(rs.getString("commaddr"));
-				report.setRoute(rs.getString("route"));
-				report.setSignal(rs.getInt("signalstrength"));
-				report.setContent(rs.getString("content"));
-				reportList.add(report);
-			}
-			return reportList;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}				
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return null;
-	}
 	
 	@Override
 	public int updateFail(int meterId) {

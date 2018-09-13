@@ -26,11 +26,24 @@ public class HeartbeatHandler extends AbstractHandler {
 			int start = Integer.parseInt(Global.RunParams.get("LastReportEventIndex").toString());
 			int count = context.getGeneralService().selectEventCount();
 			
-			int diff = count - start;
+			int rank = count / 65536;
+			if (rank > 0) {
+				Global.EventRecoderOverAmount = count % 65536;
+			} else if (rank > 1) {
+				context.getGeneralService().deleteEventRank0();
+			}
 			
-			if (diff > 0) {
+			int rest = count % 65536;
+			int diff = rest - start;
+			int amount = diff;
+			if (diff < 0) {
+				amount = 65536 + diff;
+			}
+			if (amount > 20) amount = 20;
+			
+			if (amount > 0) {
 				config.runs().put("ACD", 1);
-				config.units().add(diff);
+				config.units().add(amount);
 				config.units().add(start);
 			}
 		}

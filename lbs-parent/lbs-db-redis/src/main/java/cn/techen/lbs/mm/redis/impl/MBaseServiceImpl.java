@@ -5,6 +5,20 @@ import cn.techen.lbs.mm.redis.common.RedisPool;
 import redis.clients.jedis.Jedis;
 
 public class MBaseServiceImpl implements MBaseService {
+	
+	@Override
+	public boolean isConnected() {
+		Jedis jedis = null;
+		try {
+			jedis = RedisPool.getInstance().getResource();
+			return jedis.isConnected();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			RedisPool.getInstance().returnResource(jedis);
+		}
+		return false;
+	}
 
 	@Override
 	public Long del(String key) {

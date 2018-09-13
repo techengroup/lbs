@@ -13,6 +13,41 @@ import cn.techen.lbs.db.api.GeneralService;
 import cn.techen.lbs.db.mysql.common.MysqlPool;
 
 public class GeneralServiceImpl implements GeneralService {
+	
+	@Override
+	public boolean isConnected() {
+		MysqlPool mp = MysqlPool.getInstance();
+		DruidPooledConnection conn = null;
+		PreparedStatement stmt = null;
+		try {			
+			StringBuffer ddl = new StringBuffer();
+			ddl.append("select 1 from DUAL");
+			conn = mp.getConnection();
+			stmt = conn.prepareStatement(ddl.toString());
+			ResultSet rs = stmt.executeQuery();	
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}				
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public List<Object> query(String sql) {
@@ -132,5 +167,37 @@ public class GeneralServiceImpl implements GeneralService {
 			}
 		}
 		return quantity;
+	}
+
+	@Override
+	public int deleteEventRank0() {
+		MysqlPool mp = MysqlPool.getInstance();
+		DruidPooledConnection conn = null;
+		Statement stmt = null;
+		try {
+			StringBuffer ddl = new StringBuffer();
+			ddl.append(String.format("delete from DATA_EVENT order by savetime limit 65536"));			
+			conn = mp.getConnection();
+			stmt = conn.createStatement();
+			return stmt.executeUpdate(ddl.toString());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}				
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return 0;
 	}
 }

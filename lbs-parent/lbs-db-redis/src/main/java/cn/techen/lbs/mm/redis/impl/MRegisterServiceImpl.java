@@ -11,6 +11,20 @@ import redis.clients.jedis.Jedis;
 public class MRegisterServiceImpl implements MRegisterService {
 
 	@Override
+	public Long size() {
+		Jedis jedis = null;
+		try {
+			jedis = RedisPool.getInstance().getResource();
+			return jedis.llen(DB_METER_UNREGISTER.getBytes());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			RedisPool.getInstance().returnResource(jedis);
+		}
+		return null;
+	}
+
+	@Override
 	public void lpush(Meter meter) {
 		Jedis jedis = null;
 		try {

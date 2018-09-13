@@ -1,10 +1,17 @@
 package cn.techen.lbs.task.month;
 
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.common.GlobalUtil;
+import cn.techen.lbs.db.model.Month;
+import cn.techen.lbs.protocol.FrameConfig.State;
+import cn.techen.lbs.db.common.DataConfig.ENERGY;
 import cn.techen.lbs.task.month.common.Local;
 import cn.techen.lbs.task.month.common.MonthContext;
 import cn.techen.lbs.task.month.manager.AbstractHandler;
@@ -47,11 +54,14 @@ public class Bootstrap {
 		public void run() {
 			while (true) {
 				try {
-					Thread.sleep(Local.MONTHMILLIS);
+					Thread.sleep(Local.LOADMILLIS);
 					
-					if (Global.GISReady) {
-						if (context.months().isEmpty()) {
-							context.load();
+					if (Global.GISReady && Global.ChannelReady) {
+						if (context.getState() == State.FINISHED) {
+							Long size = context.getmMonthService().size();
+							if (size == null || size <= 0) {
+								load();
+							}
 						}
 					}
 				} catch (Exception e) {
@@ -59,6 +69,22 @@ public class Bootstrap {
 				}				
 			}
 		}		
+		
+		private void load() throws ParseException {
+			Date time = new Date();
+			String ms = GlobalUtil.date2String(time, "yyyy-MM-01");
+			time = GlobalUtil.string2Date(ms, "yyyy-MM-01");
+			
+			List<Month> actives = context.getMeterService().selectMonth(ENERGY.ACTIVE, time);//正向有功
+			if (actives == null || actives.size() <= 0) {
+				logger.info("Loaded monthly active energy meters[0]...");
+			} else {
+				context.getmMonthService().lpush(actives);
+				logger.info("Loaded monthly active energy meters[{}]...", actives.size());				
+			}
+//			context.getmMonthService().lpush(context.getMeterService().selectMonth(ENERGY.NEGATIVE, time));//正向无功
+		}
+
 	}
 
 	protected class MonthThread implements Runnable {
@@ -69,7 +95,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					if (Global.GISReady) {
+					if (Global.GISReady && Global.ChannelReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}

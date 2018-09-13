@@ -2,6 +2,7 @@ package cn.techen.lbs.task.month.manager;
 
 import java.util.Date;
 
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Month;
 import cn.techen.lbs.db.sql.AbstractSQL;
@@ -29,6 +30,7 @@ public class ProcessHandler {
 		protocolService = context.getProtocolManagerService().getProtocol(month.getModuleprotocol());
 		config = new DefaultProtocolConfig();
 		config.setCommAddr(month.getRoute()).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
+		config.runs().put("CHANNEL", Global.lbs.getChannel());
 		config.funcs().add("6");
 		config.units().add(eventFrame.length);
 		config.units().add(eventFrame);	
@@ -88,15 +90,17 @@ public class ProcessHandler {
 					context.getGeneralService().save(as.handle(meterId, config.units()));
 				}
 			}
+			
+			context.reset();
 		} else {
 			frame.increaseRetryTimes();
 			int mod = frame.getRetryTimes() % 3;
 			if (mod != 0) {
 				write(context, frame);
+			} else {
+				context.reset();
 			}
-		}
-		
-		context.reset();
+		}		
 	}
 
 }

@@ -7,9 +7,11 @@ import cn.techen.lbs.db.model.LBS;
 
 public class Global {
 
-	public static volatile boolean DBReady = false;
+	public static volatile boolean DBReady = false;//关系数据库满足
 	
-	public static volatile boolean G4Ready = false;
+	public static volatile boolean MBReady = false;//内存数据库满足
+	
+	public static volatile boolean G4Ready = false;//GPRS模块满足
 	
 	public static volatile boolean LoraReady = false;//基站Lora模块满足
 
@@ -27,7 +29,12 @@ public class Global {
 	 * LoraSignalThreshold : Lora信号零界点
 	 * LoraCOM : Lora模块串口名称
 	 */
-	public static volatile Map<String, Object> RunParams = new ConcurrentHashMap<String, Object>();
+	public static volatile Map<String, Object> RunParams = new ConcurrentHashMap<String, Object>();	
+	
+	/**
+	 * 事件记录超出65536数量
+	 */
+	public static volatile int EventRecoderOverAmount = 0;
 	
 	/**
 	 * 当前主站招读事件起始索引

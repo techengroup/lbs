@@ -20,8 +20,6 @@ public interface MeterService extends IService<Meter> {
     Sector selectQuantity(int s, int x);
 
     List<Meter> selectUnregister();
-
-	List<Meter> selectUnregisterByTime(Date time);
     
 	int selectQuantityAfterX(int s, int x);
 

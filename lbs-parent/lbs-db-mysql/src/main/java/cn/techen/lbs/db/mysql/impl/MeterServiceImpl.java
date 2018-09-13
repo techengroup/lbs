@@ -328,63 +328,6 @@ public class MeterServiceImpl implements MeterService {
 	}
 	
 	@Override
-	public List<Meter> selectUnregisterByTime(Date time) {
-		MysqlPool mp = MysqlPool.getInstance();
-		DruidPooledConnection conn = null;
-		PreparedStatement stmt = null;
-		try {
-			List<Meter> list = new ArrayList<Meter>();
-			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commaddr, logicaddr, status, moduleProtocol, distance, angle, sector, districtX, districtY, failTimes, pathType from PRM_METER ");
-			ddl.append("where status<1 and distance is not null and (mdfon>? or unregon>?) ");						
-			ddl.append("order by status, distance");
-			conn = mp.getConnection();
-			stmt = conn.prepareStatement(ddl.toString());
-			stmt.setTimestamp(1, new java.sql.Timestamp(time.getTime()));
-			stmt.setTimestamp(2, new java.sql.Timestamp(time.getTime()));
-			ResultSet rs = stmt.executeQuery();
-			
-			while (rs.next()) {
-				Meter meter = new Meter();
-				meter.setId(rs.getInt("id"));
-				meter.setCommaddr(rs.getString("commaddr"));
-				meter.setLogicaddr(rs.getString("logicaddr"));
-				meter.setStatus(rs.getInt("status"));
-				meter.setModuleprotocol(rs.getInt("moduleProtocol"));
-				meter.setDistance(rs.getDouble("distance"));
-				meter.setAngle(rs.getFloat("angle"));
-				meter.setSector(rs.getInt("sector"));
-				meter.setDistrictX(rs.getInt("districtX"));
-				meter.setDistrictY(rs.getInt("districtY"));
-				meter.setFailTimes(rs.getInt("failTimes"));
-				meter.setPathtype(rs.getInt("pathType"));
-				list.add(meter);
-			}
-			
-			return list;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}				
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return null;
-	}
-	
-	@Override
 	public int selectQuantityAfterX(int s, int x) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
@@ -612,8 +555,7 @@ public class MeterServiceImpl implements MeterService {
 				ddl.append("status=" + entity.getStatus() + ",");
 				ddl.append("signalstrength=" + entity.getSignal() + ", ");
 				ddl.append("pathType=" + entity.getPathtype() + ",");
-				ddl.append("failtimes=failtimes+1,");
-				ddl.append("unregon=NOW() ");
+				ddl.append("failtimes=failtimes+1 ");
 				ddl.append("where id=" + entity.getId());
 			}
 			
@@ -760,7 +702,7 @@ public class MeterServiceImpl implements MeterService {
 		try {
 			StringBuffer ddl = null;			
 			ddl = new StringBuffer();
-			ddl.append("update PRM_METER set failtimes=0, unregon=NOW() where id=" + entity.getId());
+			ddl.append("update PRM_METER set failtimes=0 where id=" + entity.getId());
 			
 			StringBuffer ddl1 = null;			
 			ddl1 = new StringBuffer();

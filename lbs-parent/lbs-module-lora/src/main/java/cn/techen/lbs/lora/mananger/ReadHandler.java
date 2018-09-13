@@ -22,7 +22,7 @@ public class ReadHandler extends AbstractHandler {
 			byte[] readBytes = context.getFrame().getReadBytes();
 			if (readBytes != null || timeout(context)) {
 				if (readBytes != null) {
-					logger.info("\r\nRead {}B {}", readBytes.length, ProtocolUtil.byte2HexString(readBytes, true));
+					logger.info("Read： {}B \r\n{}", readBytes.length, ProtocolUtil.byte2HexString(readBytes, true));
 				}
 				getHandler().operate(context);
 			}

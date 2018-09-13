@@ -4,35 +4,34 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.data.common.Local;
-import cn.techen.lbs.data.manager.GIS2Net;
-import cn.techen.lbs.data.manager.Mysql2Redis;
+import cn.techen.lbs.data.manager.GISCalc;
+import cn.techen.lbs.data.manager.RunData;
 
 public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
-	private Mysql2Redis mysql2Redis;
-	private GIS2Net gis2Net;
+	private RunData runData;
+	private GISCalc gisCalc;
 
 	/**
 	 * Data load service start
 	 */
 	public void start() {
-		logger.info("Data load Module is starting......");			
-		Thread myThread = new Thread(mysql2Redis);
+		logger.info("System run data loading is starting......");			
+		Thread myThread = new Thread(runData);
 		myThread.start();
 		
-		logger.info("GIS Caculate Module is starting......");			
-		Thread gisThread = new Thread(gis2Net);
+		logger.info("Meter GIS caculating is starting......");			
+		Thread gisThread = new Thread(gisCalc);
 		gisThread.start();
 	}
 
-	public void setMysql2Redis(Mysql2Redis mysql2Redis) {
-		this.mysql2Redis = mysql2Redis;
-	}
-	
-	public void setGis2Net(GIS2Net gis2Net) {
-		this.gis2Net = gis2Net;
+	public void setRunData(RunData runData) {
+		this.runData = runData;
 	}
 
+	public void setGisCalc(GISCalc gisCalc) {
+		this.gisCalc = gisCalc;
+	}
 
 }

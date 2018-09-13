@@ -27,7 +27,6 @@ public interface FrameConfig extends IConfig {
     }
 	
 	enum Priority {	
-		EXIT(0),
 		NET(1),
 	    SCHEDULE(2),
 	    MONTH(3),

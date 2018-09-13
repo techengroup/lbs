@@ -9,7 +9,7 @@ import cn.techen.lbs.db.model.Meter;
  * @author ZY
  * @since 2018-03-14 16:55
  */
-public interface MRegisterService extends MyService<String, Meter> {
+public interface MRegisterService extends MyService<String, Meter>, MySize {
 	
     static final String DB_METER_UNREGISTER = "DB:METER:UNREGISTER";
         

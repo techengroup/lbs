@@ -23,9 +23,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	
 	@Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		logger.info("{} connected.", ctx.channel().remoteAddress());
-		context.setChannel(ctx);
-		context.fireLogin();
+		logger.info("Channel connected {}.", ctx.channel().remoteAddress());
+		context.fireLogin(ctx);
     }
 	
 	@Override
@@ -35,14 +34,13 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-    	logger.info("{} disconnected.", ctx.channel().remoteAddress());
-    	context.setChannel(null);
+    	logger.info("Channel disconnected {}.", ctx.channel().remoteAddress());
     	context.fireLogout();
     }
     
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-    	logger.error("4G Occur exception.");
+    	logger.error("Channel caught exception.");
     	logger.error(GlobalUtil.getStackTrace(cause));
     }
 	

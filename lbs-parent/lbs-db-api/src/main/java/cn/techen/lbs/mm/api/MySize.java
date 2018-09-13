@@ -1,10 +1,10 @@
 package cn.techen.lbs.mm.api;
 
 /**
- * MService
+ * MySize
  * @author ZY
  * @since 2018-03-14 16:55
  */
-public interface MyService<K, V> {
-		
+public interface MySize {
+	Long size();	
 }

@@ -7,6 +7,8 @@ package cn.techen.lbs.mm.api;
  */
 public interface MBaseService {
 	
+	boolean isConnected();
+	
 	Long del(String key);
 	
 	String flushDB();

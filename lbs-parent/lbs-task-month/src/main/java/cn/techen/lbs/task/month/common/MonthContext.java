@@ -1,16 +1,10 @@
 package cn.techen.lbs.task.month.common;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Queue;
-
 import cn.techen.lbs.db.api.GeneralService;
 import cn.techen.lbs.db.api.MeterService;
-import cn.techen.lbs.db.common.DataConfig.ENERGY;
-import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Month;
 import cn.techen.lbs.mm.api.MMeterService;
+import cn.techen.lbs.mm.api.MMonthService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.FrameConfig.Priority;
@@ -27,6 +21,8 @@ public class MonthContext {
 	private GeneralService generalService;
 	
 	private MeterService meterService;	
+	
+	private MMonthService mMonthService;
 
 	private MMeterService mMeterService;
 
@@ -36,25 +32,11 @@ public class MonthContext {
 	
 	private ProcessHandler processHandler = new ProcessHandler();
 	
-	private Queue<Month> months = new LinkedList<Month>();
-	
 	private Month month;
-
-	public Queue<Month> months() {
-		return months;
-	}
-	
-	public void load() throws ParseException {
-		Date time = new Date();
-		String ms = GlobalUtil.date2String(time, "yyyy-MM-01");
-		time = GlobalUtil.string2Date(ms, "yyyy-MM-01");
-		months.addAll(meterService.selectMonth(ENERGY.ACTIVE, time));//正向有功
-//		months.addAll(meterService.selectMonth(ENERGY.NEGATIVE, time));//正向无功
-	}
 	
 	public Month getMonth() {
 		if (month == null) {
-			month = months.poll();
+			month = mMonthService.rpop();
 		}
 		
 		return month;
@@ -111,6 +93,14 @@ public class MonthContext {
 
 	public void setMeterService(MeterService meterService) {
 		this.meterService = meterService;
+	}
+
+	public MMonthService getmMonthService() {
+		return mMonthService;
+	}
+
+	public void setmMonthService(MMonthService mMonthService) {
+		this.mMonthService = mMonthService;
 	}
 
 	public MTaskService<ProtocolFrame> getmTaskService() {

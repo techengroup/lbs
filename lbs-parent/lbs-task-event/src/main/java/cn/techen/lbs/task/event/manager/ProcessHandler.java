@@ -2,6 +2,7 @@ package cn.techen.lbs.task.event.manager;
 
 import java.util.Date;
 
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Meter;
 import cn.techen.lbs.db.model.Report;
@@ -32,6 +33,7 @@ public class ProcessHandler {
 		protocolService = context.getProtocolManagerService().getProtocol(meter.getModuleprotocol());
 		config = new DefaultProtocolConfig();
 		config.setCommAddr(report.getRoute()).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
+		config.runs().put("CHANNEL", Global.lbs.getChannel());
 		config.funcs().add("6");
 		config.units().add(eventFrame.length);
 		config.units().add(eventFrame);	

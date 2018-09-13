@@ -11,7 +11,7 @@ import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Meter;
 
-public class GIS2Net implements Runnable {
+public class GISCalc implements Runnable {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private MeterService meterService;

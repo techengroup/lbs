@@ -32,7 +32,7 @@ public class WriteHandler extends AbstractHandler {
 		byte[] writeBytes = context.getFrame().getWriteBytes();
 		context.channel().write(writeBytes);
 		context.getFrame().setWriteTime(new Date());
-		logger.info("\r\nWrite {}B {}", writeBytes.length, ProtocolUtil.byte2HexString(writeBytes, true));
+		logger.info("Write： {}B \r\n{}", writeBytes.length, ProtocolUtil.byte2HexString(writeBytes, true));
 	}
 
 }

@@ -8,6 +8,8 @@
 	
 	<reference id="meterService" interface="cn.techen.lbs.db.api.MeterService" />
 	
+	<reference id="mMonthService" interface="cn.techen.lbs.mm.api.MMonthService" />
+	
 	<reference id="mMeterService" interface="cn.techen.lbs.mm.api.MMeterService" />
 	
 	<reference id="mTaskService" interface="cn.techen.lbs.mm.api.MTaskService" />
@@ -17,6 +19,7 @@
 	<bean id="monthContextBean" class="cn.techen.lbs.task.month.common.MonthContext">	
 		<property name="generalService" ref="generalService"/>
 		<property name="meterService" ref="meterService"/>
+		<property name="mMonthService" ref="mMonthService"/>
 		<property name="mMeterService" ref="mMeterService"/>
 		<property name="mTaskService" ref="mTaskService"/>
 		<property name="protocolManagerService" ref="protocolManagerService"/>

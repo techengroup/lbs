@@ -67,7 +67,7 @@ public class MysqlPool {
 		}
 //		rootPath = RedisPool.class.getClassLoader().getResource("").getPath();
 //		log.info("Root Path:{}", rootPath);
-		rootPath = System.getenv("LBS_HOME");
+		rootPath = System.getProperty("karaf.etc");//System.getenv("LBS_HOME");
 		logger.info("==================================================ENV Path:{}", rootPath);
 //		rootPath = new File(rootPath).getParent();
 //		log.info("Root Parent Path:{}", rootPath);

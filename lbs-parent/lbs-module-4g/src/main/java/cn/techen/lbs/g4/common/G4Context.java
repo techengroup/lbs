@@ -8,26 +8,14 @@ public class G4Context {
 	private MTaskService<byte[]> mTaskService;
 	private ChannelHandlerContext ctx = null;
 	private FrameHandler frameHandler = new FrameHandler();
-	private Status status = Status.DISCONNECT;
 
 	public ChannelHandlerContext channel() {
 		return ctx;
 	}
-
-	public void setChannel(ChannelHandlerContext ctx) {
-		this.ctx = ctx;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
 	
-	public void fireLogin() {
+	public void fireLogin(ChannelHandlerContext ctx) {
 		try {		
+			this.ctx = ctx;
 			frameHandler.login(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,6 +40,7 @@ public class G4Context {
 	
 	public void fireLogout() {
 		try {		
+			this.ctx = null;
 			frameHandler.logout(this);
 		} catch (Exception e) {
 			e.printStackTrace();

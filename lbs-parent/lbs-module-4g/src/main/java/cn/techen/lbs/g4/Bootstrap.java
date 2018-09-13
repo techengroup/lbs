@@ -7,7 +7,6 @@ import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.g4.common.G4Context;
 import cn.techen.lbs.g4.common.Local;
-import cn.techen.lbs.g4.common.Status;
 import cn.techen.lbs.g4.manager.Client;
 import cn.techen.lbs.g4.manager.WriteHandler;
 
@@ -65,7 +64,7 @@ public class Bootstrap {
 		}
 		
 		private void connect() {
-			if (context.getStatus() == Status.DISCONNECT) {
+			if (context.channel() == null || !context.channel().channel().isActive()) {
 				if (isSwap) {
 					host = host0;
 					port = port0;
@@ -105,7 +104,7 @@ public class Bootstrap {
 				host0 = newHost0;
 				port0 = newPort0;
 				isSwap = true;
-				if (context.getStatus() == Status.CONNECT) client.disconnect();
+				if (context.channel() != null && context.channel().channel().isActive()) context.channel().close();
 			} else {
 				isSwap = false;
 			}
