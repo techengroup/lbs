@@ -32,7 +32,7 @@ public interface FrameConfig extends IConfig {
 	    MONTH(3),
 	    EVENT(4),
 	    REALTIME(5),
-	    DETECT(9),
+//	    DETECT(9),
 	    REPORT(99);
 
 	    private final int value;

@@ -29,6 +29,7 @@ public class ObtainHandler extends AbstractHandler {
 			if (frame != null) {
 				frame.setwOutTime(new Date());
 				context.setFrame(frame);
+				context.setPriority(ps[i]);
 				return true;
 			}
 		}

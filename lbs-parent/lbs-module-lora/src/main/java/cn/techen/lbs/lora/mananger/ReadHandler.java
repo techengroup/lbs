@@ -1,7 +1,5 @@
 package cn.techen.lbs.lora.mananger;
 
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,26 +18,15 @@ public class ReadHandler extends AbstractHandler {
 	public void operate(LoraContext context) throws Exception {
 		if (context.getFrame() != null) {
 			byte[] readBytes = context.getFrame().getReadBytes();
-			if (readBytes != null || timeout(context)) {
-				if (readBytes != null) {
-					logger.info("Read： {}B \r\n{}", readBytes.length, ProtocolUtil.byte2HexString(readBytes, true));
-				}
+			if (readBytes != null) {
+				logger.info("Read： {}B \r\n{}", readBytes.length, ProtocolUtil.byte2HexString(readBytes, true));
+				getHandler().operate(context);
+			}
+			
+			if (context.getFrame().isTimeout()) {
 				getHandler().operate(context);
 			}
 		}
 	}
-
-	private boolean timeout(LoraContext context) {
-		Date wriTime = context.getFrame().getWriteTime();
-		if (wriTime != null) {
-			Date nowTime = new Date();			
-			long diff = nowTime.getTime() - wriTime.getTime();
-			
-			if (diff > context.getTimeout()) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
+	
 }

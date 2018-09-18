@@ -19,7 +19,6 @@
 	</bean> -->
 	
 	<bean id="loraContextBean" class="cn.techen.lbs.lora.common.LoraContext">
-		<property name="timeout" value="5000"/>		
 		<property name="mTaskService" ref="mTaskService"/>
 		<property name="protocolManagerService" ref="protocolManagerService"/>
 	</bean>	

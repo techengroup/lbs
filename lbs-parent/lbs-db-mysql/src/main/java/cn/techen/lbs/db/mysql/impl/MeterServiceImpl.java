@@ -367,8 +367,7 @@ public class MeterServiceImpl implements MeterService {
 		}
 		return count;
 	}
-	
-	
+		
 	@Override
 	public List<Meter> selectRelay() {
 		MysqlPool mp = MysqlPool.getInstance();

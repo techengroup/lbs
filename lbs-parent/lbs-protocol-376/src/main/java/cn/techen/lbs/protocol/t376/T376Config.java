@@ -178,6 +178,9 @@ public interface T376Config extends FrameConfig {
 			case 0x0E:
 				str="Get Event";
 				break;
+			case 0x10:
+				str="Transfer Data";
+				break;
 			default:
 				throw new IllegalArgumentException("unknown " + AFN.class.getSimpleName() + " value: " + value);
 			}

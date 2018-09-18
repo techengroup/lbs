@@ -2,6 +2,8 @@ package cn.techen.lbs.protocol;
 
 public class DefaultProtocolConfig extends AbstractConfig implements ProtocolConfig {
 	
+	private static final long serialVersionUID = 5603352288508869314L;
+
 	private String commAddr;
 	
 	private DIR dir;

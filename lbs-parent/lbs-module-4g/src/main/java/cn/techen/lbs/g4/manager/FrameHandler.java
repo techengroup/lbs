@@ -19,7 +19,7 @@ public class FrameHandler {
 	
 	public void read(G4Context context, byte[] frame) throws Exception {
 		if (context.channel().channel().isActive()) {
-			if (frame != null && frame.length > 1) {
+			if (frame != null && frame.length > 8) {
 				store(context, frame);
 			}
 		}

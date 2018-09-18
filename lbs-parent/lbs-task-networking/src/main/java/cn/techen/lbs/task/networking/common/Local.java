@@ -10,6 +10,8 @@ public final class Local {
 	
 	public final static int WRITETIMES = 8;
 	
+	public final static long TIMEOUT = 10000;
+	
 	public final static int WRITETIMES_RELAY = 1;
 	
 	public final static int MINFAIL = 3;

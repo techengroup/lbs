@@ -26,6 +26,7 @@
 		<property name="generalService" ref="generalService"/>
 		<property name="paramService" ref="paramService"/>
 		<property name="mTaskService" ref="mTaskService"/>
+		<property name="mConfigService" ref="mTaskService"/>
 		<property name="protocolManagerService" ref="protocolManagerService"/>
 	</bean>	
 	

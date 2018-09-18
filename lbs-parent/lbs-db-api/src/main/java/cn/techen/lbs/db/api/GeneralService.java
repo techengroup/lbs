@@ -18,4 +18,6 @@ public interface GeneralService {
 	int selectEventCount();
 
 	int deleteEventRank0();
+
+	String selectRoute(String commAddr);
 }

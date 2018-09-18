@@ -10,4 +10,6 @@ public final class Local {
 	
 	public final static int WRITETIMES = 1;
 	
+	public final static long TIMEOUT = 10000;
+	
 }

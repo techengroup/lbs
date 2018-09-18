@@ -45,7 +45,6 @@ public class LoraChannelHandler implements RxtxChannelHandler {
 			ProtocolConfig config = context.getProtocolManagerService().getProtocol(Local.PROTOCOL).decode(frame);
 			if (config.getOperation() == OPERATION.REPORT) {
 				ProtocolFrame reportFrame = new ProtocolFrame();
-				reportFrame.setPriority(Priority.REPORT);
 				reportFrame.setCommAddr(config.getCommAddr());
 				reportFrame.setReadTime(new Date());
 				reportFrame.setReadBytes(frame);

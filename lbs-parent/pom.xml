@@ -125,5 +125,6 @@
 		<module>lbs-device-detect</module>
 		<module>lbs-task-event</module>
 		<module>lbs-task-month</module>
+		<module>lbs-task-realtime</module>
 	</modules>	
 </project>

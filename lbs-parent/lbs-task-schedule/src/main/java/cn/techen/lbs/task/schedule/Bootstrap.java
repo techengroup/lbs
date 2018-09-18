@@ -6,15 +6,37 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cn.techen.lbs.mm.api.MTaskService;
+import cn.techen.lbs.protocol.DefaultProtocolConfig;
+import cn.techen.lbs.protocol.ProtocolConfig;
 import cn.techen.lbs.task.schedule.common.Local;
 
 
 public class Bootstrap {
 	private static Logger log = LoggerFactory.getLogger(Local.PROJECT);
 	
+	private MTaskService<byte[]> mByteService;
+
+	private MTaskService<ProtocolConfig> mTaskService;
+	
+	
 	public void start() {
-		Thread env = new Thread(new EnvThread());
-		env.start();		
+		mByteService.lpush(MTaskService.QUEUE_TRANSFER, new byte[] {1,2,3,4,5,6,7,8,9});
+		byte[] a = mByteService.rpop(MTaskService.QUEUE_TRANSFER);
+		for (byte b : a) {
+			log.info("Byte:{}", b);
+		}
+		
+		ProtocolConfig pConfig = new DefaultProtocolConfig();
+		pConfig.setCommAddr("00000006");
+		mTaskService.lpush(MTaskService.UPQUEUE_SEND, pConfig);
+		
+		ProtocolConfig pConfig1 = mTaskService.rpop(MTaskService.UPQUEUE_SEND);
+		log.info("Config:{}", pConfig1.getCommAddr());
+		
+		
+//		Thread env = new Thread(new EnvThread());
+//		env.start();		
 	}
 	
 	protected class EnvThread implements Runnable {
@@ -78,4 +100,22 @@ public class Bootstrap {
 			}
 		}		
 	}
+
+	public MTaskService<byte[]> getmByteService() {
+		return mByteService;
+	}
+
+	public void setmByteService(MTaskService<byte[]> mByteService) {
+		this.mByteService = mByteService;
+	}
+
+	public MTaskService<ProtocolConfig> getmTaskService() {
+		return mTaskService;
+	}
+
+	public void setmTaskService(MTaskService<ProtocolConfig> mTaskService) {
+		this.mTaskService = mTaskService;
+	}
+	
+	
 }

@@ -3,15 +3,11 @@ package cn.techen.lbs.protocol;
 import java.io.Serializable;
 import java.util.Date;
 
-import cn.techen.lbs.protocol.FrameConfig.Priority;
-
 public class ProtocolFrame implements Serializable {
 	/**
 	 * Serial Version UID
 	 */
 	private static final long serialVersionUID = -9173997359455055876L;
-	
-	private Priority priority;
 	
 	private String commAddr;
 	
@@ -36,18 +32,12 @@ public class ProtocolFrame implements Serializable {
 	private Date rOutTime;
 	
 	private int retryTimes = 0;
+	
+	private long timeout = 5000;
 
 	public ProtocolFrame() {
 		super();
 		newTime = new Date();
-	}
-
-	public Priority getPriority() {
-		return priority;
-	}
-
-	public void setPriority(Priority priority) {
-		this.priority = priority;
 	}
 
 	public String getCommAddr() {
@@ -140,6 +130,31 @@ public class ProtocolFrame implements Serializable {
 
 	public void increaseRetryTimes() {
 		this.retryTimes++;
+	}
+
+	public long getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(long timeout) {
+		if (timeout > 5000) {
+			this.timeout = timeout;
+		}
+	}
+	
+	public boolean isTimeout( ) {		
+		if (writeTime != null) {
+			Date nowTime = new Date();			
+			long diff = nowTime.getTime() - writeTime.getTime();
+			
+			if (diff > timeout) {
+				return true;
+			}
+		} else {
+			writeTime = new Date();
+		}
+		
+		return false;
 	}
 
 	public void reset() {

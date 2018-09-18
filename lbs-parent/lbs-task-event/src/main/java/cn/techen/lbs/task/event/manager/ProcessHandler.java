@@ -40,9 +40,9 @@ public class ProcessHandler {
 		eventFrame = protocolService.encode(config);
 		
 		ProtocolFrame frame = new ProtocolFrame();
-		frame.setPriority(context.PRIORITY);
 		frame.setWriteBytes(eventFrame);
 		frame.setWriteTimes(Local.WRITETIMES);
+		frame.setTimeout(Local.TIMEOUT);
 		
 		write(context, frame);
 	}

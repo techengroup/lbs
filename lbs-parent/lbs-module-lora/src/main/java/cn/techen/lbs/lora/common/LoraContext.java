@@ -5,27 +5,17 @@ import cn.techen.lbs.lora.mananger.LoraChannel;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.ProtocolManagerService;
+import cn.techen.lbs.protocol.FrameConfig.Priority;
 
 public class LoraContext {
-	
-	private int timeout = 5000;
 	
 	private MTaskService<ProtocolFrame> mTaskService;	
 
 	private ProtocolManagerService protocolManagerService;
 	
 	private ProtocolFrame frame;
-
-	public int getTimeout() {
-		return timeout;
-	}
-
-	public void setTimeout(int timeout) {
-		this.timeout = timeout;
-		if (this.timeout < 5000) {
-			this.timeout = 5000;
-		}
-	}
+	
+	private Priority priority;
 
 	public MTaskService<ProtocolFrame> getmTaskService() {
 		return mTaskService;
@@ -51,8 +41,17 @@ public class LoraContext {
 		this.frame = frame;
 	}	
 
+	public Priority getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Priority priority) {
+		this.priority = priority;
+	}
+
 	public void reset() {
 		this.frame = null;
+		this.priority = null;
 	}
 
 	public RxtxChannel channel() throws Exception {

@@ -1,6 +1,8 @@
 package cn.techen.lbs.protocol;
 
-public interface ProtocolConfig extends IConfig {
+import java.io.Serializable;
+
+public interface ProtocolConfig extends IConfig, Serializable {
 	enum DIR {
         /**
          * Client -- for meter is LBS, for LBS is MS

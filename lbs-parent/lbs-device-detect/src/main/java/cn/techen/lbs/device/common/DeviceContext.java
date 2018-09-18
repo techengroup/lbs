@@ -11,7 +11,7 @@ import cn.techen.lbs.protocol.FrameConfig.Priority;
 import cn.techen.lbs.protocol.FrameConfig.State;
 
 public class DeviceContext {
-	public final Priority PRIORITY = Priority.DETECT;	
+	public final Priority PRIORITY = Priority.SCHEDULE;	
 	private State state = State.FINISHED;
 	private MTaskService<ProtocolFrame> mTaskService;
 	private ProtocolManagerService protocolManagerService;	

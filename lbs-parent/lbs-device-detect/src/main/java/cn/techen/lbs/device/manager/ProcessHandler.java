@@ -42,7 +42,6 @@ public class ProcessHandler {
 		
 		byte[] frame = context.getProtocolManagerService().getProtocol(Global.lbs.getModuleprotocol()).encode(config);
 		ProtocolFrame pFrame = new ProtocolFrame();
-		pFrame.setPriority(context.PRIORITY);
 		pFrame.setWriteBytes(frame);
 		pFrame.setWriteTimes(Local.WRITETIMES);
 		

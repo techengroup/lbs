@@ -1,6 +1,7 @@
 package cn.techen.lbs.protocol;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,10 @@ public abstract class AbstractConfig {
 	private Map<String, Object> runs = new HashMap<String, Object>();
 	
 	private Map<String, String> funcKeys = new HashMap<String, String>();
+	
+	public Date newTime() {
+		return new Date();
+	}
 	
 	public List<String> funcs() {
 		return funcs;

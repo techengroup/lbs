@@ -99,6 +99,8 @@ public class T376Proxy {
 			config.runs().put("CONTROL", "0E");
 			config.setOperation(ProtocolConfig.OPERATION.GET);
 			break;
+		case TANSFER:
+			config.setOperation(ProtocolConfig.OPERATION.TRANSPORT);
 		default:
 			break;
 		}
@@ -137,6 +139,7 @@ public class T376Proxy {
 			t376Config.setFunc(FUNC1.DATA1.value()).setAfn(AFN.SETPARAM).setFir(1).setFin(1).setCon(CON.YES);
 			break;
 		case TRANSPORT:
+			t376Config.setFunc(FUNC0.USERDATA.value()).setAfn(AFN.TANSFER).setFir(1).setFin(1).setCon(CON.NO);
 			break;
 		case ACTION:
 			break;
