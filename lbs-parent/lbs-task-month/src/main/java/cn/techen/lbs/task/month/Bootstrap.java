@@ -30,11 +30,11 @@ public class Bootstrap {
 	public void start() {
 		initHandler();
 		
-		logger.info("LBS Month Obtain Module is starting......");
+		logger.info("Load monthly energy is starting......");
 		Thread load = new Thread(new LoadThread());
 		load.start();
 		
-		logger.info("LBS Month Read Module is starting......");
+		logger.info("LBS monthly energy task is starting......");
 		Thread month = new Thread(new MonthThread());
 		month.start();
 	}

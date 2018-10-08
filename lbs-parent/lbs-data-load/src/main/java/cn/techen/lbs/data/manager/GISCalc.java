@@ -36,11 +36,11 @@ public class GISCalc implements Runnable {
 		logger.info("Get GIS meter[{}] need caculate from database...", meters.size());
 		
 		for (Meter meter : meters) {
-			double distance = GlobalUtil.distance(Global.lbs.getLongitude(), Global.lbs.getLatitude(), meter.getLongitude(), meter.getLatitude());		
-			float angle = (float) GlobalUtil.angle(Global.lbs.getLongitude(), Global.lbs.getLatitude(), meter.getLongitude(), meter.getLatitude());
-			int sector = GlobalUtil.sector(angle);
-			int districtX = GlobalUtil.districtX(distance);
-			int districtY = GlobalUtil.districtY(angle);
+			double distance = Local.distance(Global.lbs.getLatitude(), Global.lbs.getLongitude(), meter.getLatitude(), meter.getLongitude());		
+			float angle = (float) Local.angle(Global.lbs.getLatitude(), Global.lbs.getLongitude(), meter.getLatitude(), meter.getLongitude());
+			int sector = Local.sector(angle);
+			int districtX = Local.districtX(distance);
+			int districtY = Local.districtY(angle);
 			
 			meter.setDistance(distance);
 			meter.setAngle(angle);

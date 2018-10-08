@@ -126,5 +126,6 @@
 		<module>lbs-task-event</module>
 		<module>lbs-task-month</module>
 		<module>lbs-task-realtime</module>
+		<module>lbs-task-network</module>
 	</modules>	
 </project>

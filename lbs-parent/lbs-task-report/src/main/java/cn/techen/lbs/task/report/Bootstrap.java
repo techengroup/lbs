@@ -19,7 +19,7 @@ public class Bootstrap {
 	public void start() {
 		report = new ReportHandler();
 		
-		logger.info("LBS Event Report Module is starting......");
+		logger.info("LBS report event task is starting......");
 		Thread reportT = new Thread(new ReportThread());
 		reportT.start();
 	}

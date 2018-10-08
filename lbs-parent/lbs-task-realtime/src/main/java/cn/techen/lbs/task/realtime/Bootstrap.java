@@ -23,7 +23,7 @@ public class Bootstrap {
 	public void start() {
 		initHandler();
 		
-		logger.info("LBS Transfer Module is starting......");
+		logger.info("LBS transfer task is starting......");
 		Thread transfer = new Thread(new TransferThread());
 		transfer.start();
 	}

@@ -38,7 +38,7 @@ public class Meter extends MyModel {
 	private Integer pathtype;
 	private Integer failTimes;
 		
-	private Running running = new Running();
+//	private Running running = new Running();
 
 	public Integer getPointno() {
 		return pointno;
@@ -232,71 +232,71 @@ public class Meter extends MyModel {
 		this.failTimes = failTimes;
 	}
 
-	public Running running() {
-		return running;
-	}
-
-	public class Running implements Serializable {
-		private static final long serialVersionUID = 558832645553787804L;
-
-		private String route = "";	
-		private Date startTime;
-		private Date endTime;
-		private int result;
-		private Integer relayId;
-		private int retryTimes = 0;
-		
-		public String getRoute() {
-			return route;
-		}
-		
-		public void setRoute(String route) {
-			this.route = route;
-			startTime = new Date();
-		}
-		
-		public Date getStartTime() {
-			return startTime;
-		}
-
-		public Date getEndTime() {
-			return endTime;
-		}
-
-		public int getResult() {
-			return result;
-		}
-
-		public Integer getRelayId() {
-			return relayId;
-		}
-
-		public void setRelayId(Integer relayId) {
-			this.relayId = relayId;
-		}
-
-		public int retryTimes() {
-			return retryTimes;
-		}
-
-		public void success() {
-			endTime = new Date();
-			result = 1;
-			status = 1;
-		}
-		
-		public void fail() {
-			endTime = new Date();
-			result = 0;
-			retryTimes++;
-			if (retryTimes >= 2) {
-				status = 0;
-			}
-		}
-		
-		public void reset() {
-			startTime = new Date();
-			endTime = null;
-		}
-	}
+//	public Running running() {
+//		return running;
+//	}
+//
+//	public class Running implements Serializable {
+//		private static final long serialVersionUID = 558832645553787804L;
+//
+//		private String route = "";	
+//		private Date startTime;
+//		private Date endTime;
+//		private int result;
+//		private Integer relayId;
+//		private int retryTimes = 0;
+//		
+//		public String getRoute() {
+//			return route;
+//		}
+//		
+//		public void setRoute(String route) {
+//			this.route = route;
+//			startTime = new Date();
+//		}
+//		
+//		public Date getStartTime() {
+//			return startTime;
+//		}
+//
+//		public Date getEndTime() {
+//			return endTime;
+//		}
+//
+//		public int getResult() {
+//			return result;
+//		}
+//
+//		public Integer getRelayId() {
+//			return relayId;
+//		}
+//
+//		public void setRelayId(Integer relayId) {
+//			this.relayId = relayId;
+//		}
+//
+//		public int retryTimes() {
+//			return retryTimes;
+//		}
+//
+//		public void success() {
+//			endTime = new Date();
+//			result = 1;
+//			status = 1;
+//		}
+//		
+//		public void fail() {
+//			endTime = new Date();
+//			result = 0;
+//			retryTimes++;
+//			if (retryTimes >= 2) {
+//				status = 0;
+//			}
+//		}
+//		
+//		public void reset() {
+//			startTime = new Date();
+//			endTime = null;
+//		}
+//	}
 }

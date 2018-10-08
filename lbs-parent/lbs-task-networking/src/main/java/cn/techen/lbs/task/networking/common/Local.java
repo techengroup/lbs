@@ -23,4 +23,5 @@ public final class Local {
 	public final static int DFACTOR = 50;
 	
 	public final static int SFACTOR = 70;
+	
 }

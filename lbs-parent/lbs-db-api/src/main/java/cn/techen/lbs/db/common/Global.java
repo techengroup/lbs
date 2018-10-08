@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import cn.techen.lbs.db.model.LBS;
+import cn.techen.lbs.db.model.Node;
 
 public class Global {
 
@@ -30,6 +31,14 @@ public class Global {
 	 * LoraCOM : Lora模块串口名称
 	 */
 	public static volatile Map<String, Object> RunParams = new ConcurrentHashMap<String, Object>();	
+	
+	/**
+	 * 中继Map,包括:
+	 * 最优中继 - Every Level
+	 * 备选中继 - Every Level, Every District Y
+	 * Key - Sector:Grade:Y
+	 */
+	public static volatile Map<String, Node> RelayMap = new ConcurrentHashMap<String, Node>();	
 	
 	/**
 	 * 事件记录超出65536数量

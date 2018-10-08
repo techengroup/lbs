@@ -12,12 +12,7 @@ import java.util.Date;
 
 import cn.techen.lbs.db.sql.AbstractSQL;
 
-public class GlobalUtil {
-	
-	/**
-	 * 地球半径（单位：m）
-	 */
-	private static final double EARTH_RADIUS = 6378137.0;
+public class GlobalUtil {	
 	
 	/**
 	 * New Data
@@ -83,94 +78,7 @@ public class GlobalUtil {
 			return true;
 		}
         return false;
-	}
-
-
-	/**
-	 * 获取两点之间的距离（单位：m）
-	 * @param lng_a
-	 * @param lat_a
-	 * @param lng_b
-	 * @param lat_b
-	 * @return
-	 */
-	public static double distance(double lng_a, double lat_a, double lng_b, double lat_b) {
-		double radLat1 = Math.toRadians(lat_a);
-		double radLat2 = Math.toRadians(lat_b);
-		double a = radLat1 - radLat2;
-
-		double b = Math.toRadians(lng_a) - Math.toRadians(lng_b);
-		double s = 2 * Math.asin(Math.sqrt(
-				Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
-		
-		s = s * EARTH_RADIUS;
-		s = Math.round(s * 10000) / 10000;
-
-		return s;
-	}
-	
-	/**
-	 * 和中心点角度（东为0度开始，逆时针旋转）
-	 * @param lat_a
-	 * @param lng_a
-	 * @param lat_b
-	 * @param lng_b
-	 * @return
-	 */
-	public static double angle(double lng_a, double lat_a, double lng_b, double lat_b) {
-        double y = Math.sin(lng_b-lng_a) * Math.cos(lat_b);
-        double x = Math.cos(lat_a)*Math.sin(lat_b) - Math.sin(lat_a)*Math.cos(lat_b)*Math.cos(lng_b-lng_a);
-        double brng = Math.atan2(y, x);
-
-        brng = Math.toDegrees(brng);
-        if(brng < 0)
-            brng = brng +360;
-        return brng;
-    }
-	
-	/**
-	 * 通过角度计算扇区
-	 * 
-	 * @param angle
-	 * @return
-	 */
-	public static int sector(double angle) {
-		int var = 0;
-
-		if ((angle - 0.0) == 0) {
-			var = 1;
-		} else {
-			var = (int) Math.ceil(angle / 15);
-		}
-		return var;
-	}
-
-	/**
-	 * 计算子扇区的X坐标
-	 * 
-	 * @param distance
-	 * @return
-	 */
-
-	public static int districtX(double distance) {
-		int var = 0;
-		var = (int) Math.floor(distance / 50);
-		return var;
-	}
-
-	/**
-	 * 计算子扇区的Y坐标
-	 * 
-	 * @param angle
-	 * @return
-	 */
-
-	public static int districtY(double angle) {
-		int var = 0;
-
-		var = (int) Math.floorMod((int) angle, 15) / 5;
-		return var;
-	}
+	}	
 	
 	/**
 	 * 实例化对象

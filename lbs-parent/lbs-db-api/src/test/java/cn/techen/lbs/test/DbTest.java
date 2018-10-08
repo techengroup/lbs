@@ -24,4 +24,9 @@ public class DbTest extends TestCase {
 		}
 		 
 	}
+	
+	public void testGIS() {		
+		
+		 
+	}
 }
