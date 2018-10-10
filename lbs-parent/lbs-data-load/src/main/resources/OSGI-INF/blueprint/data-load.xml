@@ -16,8 +16,6 @@
 	
 	<reference id="mMeterService" interface="cn.techen.lbs.mm.api.MMeterService" />	
 	
-	<reference id="mRelayService" interface="cn.techen.lbs.mm.api.MRelayService" />
-	
 	<bean id="runDataBean" class="cn.techen.lbs.data.manager.RunData">
 		<property name="lbsService" ref="lbsService"/>
 		<property name="paramService" ref="paramService"/>
@@ -25,7 +23,6 @@
 		<property name="meterService" ref="meterService"/>
 		<property name="mBaseService" ref="mBaseService"/>
 		<property name="mMeterService" ref="mMeterService"/>
-		<property name="mRelayService" ref="mRelayService"/>
 	</bean>	
 	
 	<bean id="gisCalcBean" class="cn.techen.lbs.data.manager.GISCalc">

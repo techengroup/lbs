@@ -19,7 +19,7 @@ public class BYTE_ARRAY extends AbstractData {
 	public void decode(AbstractFrame frame) throws Exception {
 		for (int i = 0; i < byteLen; i++) {
 			byte b = frame.process().queue.poll();
-			len = (b & 0xff) << (8 * i);
+			len += (b & 0xff) << (8 * i);
 			byteList.add(b);			
 		}
 		

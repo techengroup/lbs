@@ -5,7 +5,6 @@ import java.util.Date;
 import cn.techen.lbs.db.api.NodeService;
 import cn.techen.lbs.db.model.Node;
 import cn.techen.lbs.mm.api.MNodeService;
-import cn.techen.lbs.mm.api.MRelayService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.FrameConfig.Priority;
@@ -22,8 +21,6 @@ public class NetContext {
 	private NodeService nodeService;
 	
 	private MNodeService mNodeService;
-	
-	private MRelayService mRelayService;
 
 	private MTaskService<ProtocolFrame> mTaskService;
 	
@@ -86,14 +83,6 @@ public class NetContext {
 
 	public void setmNodeService(MNodeService mNodeService) {
 		this.mNodeService = mNodeService;
-	}
-
-	public MRelayService getmRelayService() {
-		return mRelayService;
-	}
-
-	public void setmRelayService(MRelayService mRelayService) {
-		this.mRelayService = mRelayService;
 	}
 
 	public MTaskService<ProtocolFrame> getmTaskService() {

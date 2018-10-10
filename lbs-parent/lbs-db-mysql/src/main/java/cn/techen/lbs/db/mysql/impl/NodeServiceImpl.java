@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.druid.pool.DruidPooledConnection;
 
@@ -112,13 +114,12 @@ public class NodeServiceImpl implements NodeService {
 		PreparedStatement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commaddr, grade, path, route from PRM_NODE where relay=2 and sector=? and grade=(");
-			ddl.append("select MAX(grade) from PRM_NODE where relay=2 and sector=? and distance<?)");
+			ddl.append("select id, commaddr, grade, path, route from PRM_NODE where sector=? and relay=2 and distance<? ");
+			ddl.append("ORDER BY distance desc LIMIT 1");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			stmt.setInt(1, sector);
-			stmt.setInt(2, sector);
-			stmt.setDouble(3, distance);
+			stmt.setDouble(2, distance);
 			ResultSet rs = stmt.executeQuery();
 			Node relay = null;
 			
@@ -155,7 +156,7 @@ public class NodeServiceImpl implements NodeService {
 	}
 	
 	@Override
-	public int selectExecTimesWithRelay(int relayId) {
+	public int selectExecTimesWithOptimalRelay(int relayId) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		PreparedStatement stmt = null;
@@ -202,15 +203,14 @@ public class NodeServiceImpl implements NodeService {
 		PreparedStatement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commaddr, grade, path, route from PRM_NODE where relay=1 and sector=? ");
-			ddl.append("and grade=(select MAX(grade) from PRM_NODE where relay=1 and sector=? and distance<?) ");
-			ddl.append("and id NOT IN(select relayid from LOG_NETWORK where nodeid=?) LIMIT 1");
+			ddl.append("select id, commaddr, grade, path, route from PRM_NODE where sector=? and relay=1 ");
+			ddl.append("and distance<? and id NOT IN(select DISTINCT IFNULL(relayID, -1) rId from LOG_NETWORK where nodeid=?) ");
+			ddl.append("ORDER BY distance desc LIMIT 1");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			stmt.setInt(1, sector);
-			stmt.setInt(2, sector);
-			stmt.setDouble(3, distance);
-			stmt.setDouble(4, nodeId);
+			stmt.setDouble(2, distance);
+			stmt.setDouble(3, nodeId);
 			ResultSet rs = stmt.executeQuery();
 			Node relay = null;
 			
@@ -247,6 +247,104 @@ public class NodeServiceImpl implements NodeService {
 	}
 	
 	@Override
+	public int selectSecondaryRelayAmount(int nodeId) {
+		MysqlPool mp = MysqlPool.getInstance();
+		DruidPooledConnection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			StringBuffer ddl = new StringBuffer();
+			ddl.append("select COUNT(1) num from (");
+			ddl.append("select DISTINCT w.nodeid, n.relay from PRM_NODE n LEFT JOIN log_network w on n.id = w.nodeid ");
+			ddl.append("where n.id = ?) a where a.relay = 1");
+			conn = mp.getConnection();
+			stmt = conn.prepareStatement(ddl.toString());
+			stmt.setInt(1, nodeId);
+			ResultSet rs = stmt.executeQuery();
+			int count = 0;
+			
+			while (rs.next()) {
+				count = rs.getInt("num");
+			}
+			
+			return count;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}				
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return 0;
+	}
+	
+	@Override
+	public Node selectOtherRepeater(int nodeId, int sector, int sRange, int districtX, int xRange) {
+		MysqlPool mp = MysqlPool.getInstance();
+		DruidPooledConnection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			StringBuffer ddl = new StringBuffer();
+			ddl.append("select id, commAddr, grade, path, route, relay from PRM_NODE ");
+			ddl.append("where deviceclass=0 and status=1 and (sector BETWEEN ? AND ?) and (districtX BETWEEN ? AND ?) ");
+			ddl.append("id NOT IN(select DISTINCT IFNULL(relayID, -1) rId from log_network where nodeid=?) ");
+			ddl.append("order by ABS(districtX-?) limit 1");
+			conn = mp.getConnection();
+			stmt = conn.prepareStatement(ddl.toString());
+			stmt.setInt(1, ((sector-sRange) <= 0) ? 24 : (sector-sRange));
+			stmt.setInt(2, ((sector+sRange) > 24) ? 1 : (sector+sRange));
+			stmt.setInt(3, ((districtX-xRange) < 0) ? 0 : (districtX-xRange));
+			stmt.setInt(4, districtX+xRange);
+			stmt.setInt(5, nodeId);
+			stmt.setInt(6, districtX);
+			ResultSet rs = stmt.executeQuery();
+			Node relay = null;
+			
+			while (rs.next()) {
+				relay = new Node();
+				relay.setId(rs.getInt("id"));
+				relay.setCommaddr(rs.getString("commaddr"));
+				relay.setGrade(rs.getInt("grade"));
+				relay.setPath(rs.getString("path"));
+				relay.setRoute(rs.getString("route"));
+				relay.setRelay(rs.getInt("relay"));
+			}
+			
+			return relay;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}				
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	@Override
 	public Node selectOtherRelay(int nodeId, int sector, int sRange, int districtX, int xRange, float angle) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
@@ -256,7 +354,7 @@ public class NodeServiceImpl implements NodeService {
 			ddl.append("select id, commAddr, grade, path, route, relay from PRM_NODE ");
 			ddl.append("where status=1 and (sector BETWEEN ? AND ?) and (districtX BETWEEN ? AND ?) ");
 			ddl.append("id NOT IN(select DISTINCT IFNULL(relayID, -1) rId from log_network where nodeid=?) ");
-			ddl.append("order by relay desc, districtX, ABS(Angle-?) limit 1");
+			ddl.append("order by ABS(districtX-?), ABS(Angle-?) limit 1");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			stmt.setInt(1, ((sector-sRange) <= 0) ? 24 : (sector-sRange));
@@ -278,6 +376,7 @@ public class NodeServiceImpl implements NodeService {
 				relay.setRoute(rs.getString("route"));
 				relay.setRelay(rs.getInt("relay"));
 			}
+			
 			return relay;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -297,6 +396,7 @@ public class NodeServiceImpl implements NodeService {
 				}
 			}
 		}
+		
 		return null;
 	}
 	
@@ -330,12 +430,14 @@ public class NodeServiceImpl implements NodeService {
 				}
 			}
 		}
+		
 		return -1;
 	}
 	
 	@Override
 	public int sucess(int nodeId, String commAddr
-			, int grade, int parent, String path, String route, int relay, Date startTime, Date endTime, int RSSI) {
+			, int grade, int parent, String path, String route, int relay
+			, Date startTime, Date endTime, int RSSI) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		Statement stmt = null;
@@ -367,6 +469,8 @@ public class NodeServiceImpl implements NodeService {
 			stmt.addBatch(ddl.toString());
 			stmt.addBatch(ddl1.toString());
 			stmt.executeBatch();
+			
+			return 1;
 //			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -386,6 +490,7 @@ public class NodeServiceImpl implements NodeService {
 				}
 			}
 		}
+		
 		return -1;
 	}
 	
@@ -461,7 +566,9 @@ public class NodeServiceImpl implements NodeService {
 			stmt = conn.createStatement();
 			stmt.addBatch(ddl.toString());
 			stmt.addBatch(ddl1.toString());
-			return stmt.executeBatch()[0];
+			stmt.executeBatch();
+			
+			return 1;
 //			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -481,6 +588,7 @@ public class NodeServiceImpl implements NodeService {
 				}
 			}
 		}
+		
 		return -1;
 	}
 
@@ -493,7 +601,7 @@ public class NodeServiceImpl implements NodeService {
 		try {
 			StringBuffer ddl = new StringBuffer();
 			ddl.append("select COUNT(1) num from PRM_NODE ");
-			ddl.append("where status=1 and sector=? and Distance>?");
+			ddl.append("where sector=? and status=1 and Distance>?");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());	
 			stmt.setInt(1, sector);
@@ -526,7 +634,53 @@ public class NodeServiceImpl implements NodeService {
 	}
 	
 	@Override
-	public int selectSuccessNodeBeforeNode(int sector, int districtX, int xRange) {
+	public Map<String, Integer> selectTotalAndFailNode(int sector, int districtX) {
+		MysqlPool mp = MysqlPool.getInstance();
+		DruidPooledConnection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			Map<String, Integer> map = new HashMap<String, Integer>();
+			StringBuffer ddl = new StringBuffer();
+			ddl.append("select (select COUNT(1) total from PRM_NODE where sector=? and districtX=?) total, ");
+			ddl.append("(select COUNT(1) fail from PRM_NODE where sector=? and districtX=? and status=0) fail from dual");
+			conn = mp.getConnection();
+			stmt = conn.prepareStatement(ddl.toString());	
+			stmt.setInt(1, sector);
+			stmt.setInt(2, districtX);
+			stmt.setInt(3, sector);
+			stmt.setInt(4, districtX);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				map.put("total", rs.getInt("total"));
+				map.put("fail", rs.getInt("fail"));
+			}
+			
+			return map;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}				
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public int selectSuccessNodeBeforeNode(int sector, double distance) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		PreparedStatement stmt = null;
@@ -534,17 +688,19 @@ public class NodeServiceImpl implements NodeService {
 		try {
 			StringBuffer ddl = new StringBuffer();
 			ddl.append("select COUNT(1) num from PRM_NODE ");
-			ddl.append("where status=1 and sector=? and (districtX BETWEEN ? AND ?)");
+			ddl.append("where sector=? and status=1 and distance<? and districtX>(select MAX(districtX) from PRM_NODE where sector=? and relay>0 and distance<?)");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());	
 			stmt.setInt(1, sector);
-			stmt.setInt(2, ((districtX-xRange) < 0) ? 0 : (districtX-xRange));
-			stmt.setInt(3, districtX);
+			stmt.setInt(2, sector);
+			stmt.setDouble(3, distance);
+			stmt.setDouble(4, distance);
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				count = rs.getInt("num");
 			}
+			
 			return count;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -564,6 +720,7 @@ public class NodeServiceImpl implements NodeService {
 				}
 			}
 		}
+		
 		return count;
 	}
 	
@@ -575,25 +732,33 @@ public class NodeServiceImpl implements NodeService {
 		try {
 			List<Node> list = new ArrayList<Node>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commaddr, deviceClass, status, moduleProtocol, distance, angle, sector, districtX, districtY from PRM_NODE ");
-			ddl.append("where status<1 and distance is not null ");						
-			ddl.append("order by status, distance");
+			ddl.append("select * from (");
+			ddl.append("select n.id, n.districtX, n.districtY, w.signalstrength from prm_node n LEFT JOIN log_network w on n.id = w.nodeid and w.result = 1 ");						
+			ddl.append("where n.sector = ? and n.districtY = 0 and status=1 and n.relay = 0 and n.districtX < ? order by n.districtX desc, n.grade, w.signalstrength desc LIMIT 1) a ");
+			ddl.append("UNION ");
+			ddl.append("select * from (");
+			ddl.append("select n.id, n.districtX, n.districtY, w.signalstrength from prm_node n LEFT JOIN log_network w on n.id = w.nodeid and w.result = 1 ");						
+			ddl.append("where n.sector = ? and n.districtY = 1 and status=1 and n.relay = 0 and n.districtX < ? order by n.districtX desc, n.grade, w.signalstrength desc LIMIT 1) b ");
+			ddl.append("UNION ");
+			ddl.append("select * from (");
+			ddl.append("select n.id, n.districtX, n.districtY, w.signalstrength from prm_node n LEFT JOIN log_network w on n.id = w.nodeid and w.result = 1 ");						
+			ddl.append("where n.sector = ? and n.districtY = 2 and status=1 and n.relay = 0 and n.districtX < ? order by n.districtX desc, n.grade, w.signalstrength desc LIMIT 1) c ");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
+			stmt.setInt(1, sector);
+			stmt.setInt(2, districtX);
+			stmt.setInt(3, sector);
+			stmt.setInt(4, districtX);
+			stmt.setInt(5, sector);
+			stmt.setInt(6, districtX);
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
 				Node node = new Node();
 				node.setId(rs.getInt("id"));
-				node.setCommaddr(rs.getString("commaddr"));
-				node.setDeviceclass(rs.getInt("deviceClass"));
-				node.setStatus(rs.getInt("status"));				
-				node.setModuleprotocol(rs.getInt("moduleProtocol"));
-				node.setDistance(rs.getDouble("distance"));
-				node.setAngle(rs.getFloat("angle"));
-				node.setSector(rs.getInt("sector"));
 				node.setDistrictX(rs.getInt("districtX"));
 				node.setDistrictY(rs.getInt("districtY"));	
+				node.setRssi(rs.getInt("signalstrength"));
 				list.add(node);
 			}
 			
@@ -621,31 +786,20 @@ public class NodeServiceImpl implements NodeService {
 	}
 	
 	@Override
-	public int optimalRelay(int id0, int relay0, int id1, int relay1, int id2, int relay2) {
+	public int optimalRelay(List<Node> nodes) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		Statement stmt = null;
-		try {
-			StringBuffer ddl0 = new StringBuffer();
-			ddl0.append("update PRM_NODE set ");	
-			ddl0.append("relay=" + relay0 + " ");
-			ddl0.append("where id=" + id0);
-			
-			StringBuffer ddl1 = new StringBuffer();
-			ddl1.append("update PRM_NODE set ");	
-			ddl1.append("relay=" + relay1 + " ");
-			ddl1.append("where id=" + id1);
-			
-			StringBuffer ddl2 = new StringBuffer();
-			ddl2.append("update PRM_NODE set ");	
-			ddl2.append("relay=" + relay2 + " ");
-			ddl2.append("where id=" + id2);		
-			
+		try {			
 			conn = mp.getConnection();
 			stmt = conn.createStatement();
-			stmt.addBatch(ddl0.toString());
-			stmt.addBatch(ddl1.toString());
-			stmt.addBatch(ddl2.toString());
+			for (Node node : nodes) {
+				StringBuffer ddl = new StringBuffer();
+				ddl.append("update PRM_NODE set ");	
+				ddl.append("relay=" + node.getRelay() + " ");
+				ddl.append("where id=" + node.getId());
+				stmt.addBatch(ddl.toString());
+			}
 			stmt.executeBatch();
 			
 			return 1;
@@ -668,43 +822,8 @@ public class NodeServiceImpl implements NodeService {
 				}
 			}
 		}
+		
 		return -1;
-	}
-
-	@Override
-	public List<Node> selectRelay() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Node selectRelay(Node entity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int updateSuccess(Node entity) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateFail(Node entity, boolean changeStatus) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateRelay(Node entity) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int reNet(Node entity) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	
 }

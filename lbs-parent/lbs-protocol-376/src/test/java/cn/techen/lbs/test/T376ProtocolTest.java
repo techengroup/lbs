@@ -3,10 +3,6 @@ package cn.techen.lbs.test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.techen.lbs.protocol.DefaultProtocolConfig;
-import cn.techen.lbs.protocol.ProtocolConfig;
-import cn.techen.lbs.protocol.ProtocolConfig.DIR;
-import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
 import cn.techen.lbs.protocol.common.Elements;
 import cn.techen.lbs.protocol.common.FnNames;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
@@ -38,8 +34,10 @@ public class T376ProtocolTest extends TestCase {
 		Elements.getInstace().put("100:0:0A:89", "ADDRESS,4,XXXX,0");
 		Elements.getInstace().put("100:1:04:10", "ARRAY,2,STRUCT,10,OCT_STRING,3,%s,0,OCT_STRING,3,%s,0,OCT_STRING,1,%s,0,OCT_STRING,1,%s,0,BCD_STRING,6,%s,0,"
 				+ "OCT_STRING,1,%s,0,OCT_STRING,1,%s,0,OCT_STRING,1,%s,0,LOCATION,7,%s%s.%s%s%s%s%s,0,LOCATION,7,%s%s.%s%s%s%s%s,0");
-		Elements.getInstace().put("100:0:0A:10", "ARRAY,2,STRUCT,10,OCT_STRING,3,%s,0,OCT_STRING,3,%s,0,OCT_STRING,1,%s,0,OCT_STRING,1,%s,0,BCD_STRING,6,%s,0,"
+		Elements.getInstace().put("100:1:0A:10", "ARRAY,2,STRUCT,10,OCT_STRING,3,%s,0,OCT_STRING,3,%s,0,OCT_STRING,1,%s,0,OCT_STRING,1,%s,0,BCD_STRING,6,%s,0,"
 				+ "OCT_STRING,1,%s,0,OCT_STRING,1,%s,0,OCT_STRING,1,%s,0,LOCATION,7,%s%s.%s%s%s%s%s,0,LOCATION,7,%s%s.%s%s%s%s%s,0");
+		Elements.getInstace().put("100:0:0A:10", "ARRAY,2,OCT_STRING,3,%s,0");
+		Elements.getInstace().put("100:0:0A:200", "ARRAY,2,OCT_STRING,3,%s,0");
 //		Elements.getInstace().put("100:1:04:89","STRUCT,2,BCD_STRING,2,XXXX,0,OCT_STRING,2,%d,0");
 //		Elements.getInstace().put("100:0:0A:89","STRUCT,2,BCD_STRING,2,XXXX,0,OCT_STRING,2,%d,0");
 		
@@ -58,10 +56,11 @@ public class T376ProtocolTest extends TestCase {
 		FnNames.getInstace().put("100:0:0A:89", "ADDRESS");
 		FnNames.getInstace().put("100:1:04:10", "METER FILES");
 		FnNames.getInstace().put("100:0:0A:10", "METER FILES");
+		FnNames.getInstace().put("100:0:0A:200", "REPEATER FILES");
 		FnNames.getInstace().put("100:1:0D:177", "MONTH FREEZE");
 		FnNames.getInstace().put("100:0:0D:177", "METER FREEZE");
 		
-		Elements.getInstace().put("100:0:10:1", "BYTE_ARRAY,1,xx,1");
+		Elements.getInstace().put("100:0:10:1", "BYTE_ARRAY,2,xx,1");
 		Elements.getInstace().put("100:1:10:1", "STRUCT,2,OCT_STRING,1,xx,0,BYTE_ARRAY,1,xx,1");
 		FnNames.getInstace().put("100:0:10:1", "Transfer Data");
 		FnNames.getInstace().put("100:1:10:1", "Transfer Data");
@@ -360,47 +359,107 @@ public class T376ProtocolTest extends TestCase {
 //		
 //	}
 	
-	public void test03() {
-		int start = 22;
-		byte b = (byte) (start & 0xFF);
-		log.info("===================================={}", b);
+	public void test10() {
+	
+//		String r = "78 9e 00 9e 00 78 4b 00 00 06 00 02 0a 70 00 00 00 80 18 08 00 00 00 00 01 00 00 02 00 00 03 00 00 04 00 00 05 00 00 06 00 00 07 00 00 89 16";
+//		 78 8f 01 8f 01 78 8b 00 00 06 00 00 0a 66 00 00 
+//		 00 00 19 03 00 01 00 00 01 00 00 21 00 67 45 23 
+//		 01 00 00 00 00 00 32 12 20 01 00 00 00 11 42 80
+//		 00 02 00 00 02 00 00 21 00 21 43 65 07 00 00 00
+//		 00 00 23 31 20 01 00 00 00 21 21 30 00 03 00 00 
+//		 03 00 00 21 00 88 77 23 01 00 00 00 00 00 43 41 
+//		 20 01 00 00 00 11 23 30 00 77 16
+//		 78 8f 01 8f 01 78 8b 00 00 06 00 00 0a 6b 00 00 |x....x.......k..|
+//		 |00000010| 00 00 19 03 00 01 00 00 01 00 00 21 00 67 45 23 |...........!.gE#|
+//		 |00000020| 01 00 00 00 00 00 32 12 20 01 00 00 00 11 42 80 |......2. .....B.|
+//		 |00000030| 00 02 00 00 02 00 00 21 00 21 43 65 07 00 00 00 |.......!.!Ce....|
+//		 |00000040| 00 00 23 31 20 01 00 00 00 21 21 30 00 03 00 00 |..#1 ....!!0....|
+//		 |00000050| 03 00 00 21 00 88 77 23 01 00 00 00 00 00 43 41 |...!..w#......CA|
+//		 |00000060| 20 01 00 00 00 11 23 30 00 7c 16
 		
-		String trans = "68 29 05 00 02 13 00 00 00 00 00 00 06 98 07 99 60 00 58 98 07 99 60 00 51 06 10 68 51 00 60 99 07 98 68 11 04 33 33 c3 43 3a 16 2a 16";
-		trans = trans.replace(" ", "");
+//		int dt1 = 0;
+//		int dt2 = 0;
+//		
+//		String[] dts = new String[] {"200"};
+//
+//		for (int i = 0; i < dts.length; i++) {
+//			String d = dts[i];
+//			int t = Integer.parseInt(d);
+//			int x = (int) Math.floor((double)t / 8);
+//			int y = t % 8;
+//			if (y == 0) {
+//				dt1 = (int) Math.pow(2, 7);
+//				dt2 = x - 1;
+//			} else {
+//				dt1 = (int) Math.pow(2, (y-1));
+//				dt2 = x;
+//			}			
+//		}
+//		log.info(String.valueOf(dt1));
+//		log.info(String.valueOf(dt2));
 		
-		ProtocolConfig config = new DefaultProtocolConfig();
-		config.setCommAddr("000000006").setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
-		//config.setCommAddr("000000003").setDir(DIR.CLIENT).setOperation(OPERATION.GET);
-		config.funcs().add("0:1");
-		config.units().add(45);
-		config.units().add(ProtocolUtil.hexString2Byte(trans));
-
+//		78 7e 00 7e 00 78 4b 00 00 06 00 02 10 7c 00 00 |x~.~.xK......|..|
+//		|00000010| 00 01 00 10 00 68 14 00 00 00 00 00 68 11 04 33 |.....h......h..3|
+//		|00000020| 33 c3 43 65 16 d0 16
+		
+		String r = "78 7e 00 7e 00 78 4b 00 00 06 00 02 10 7c 00 00 "
+				+ "00 01 00 10 00 68 14 00 00 00 00 00 68 11 04 33 "
+				+ "33 c3 43 65 16 d0 16";
+		r = r.replace(" ", "");
+		
 		T376Proxy proxy = new T376Proxy();
 		try {
-			log.info("Encode frame.");
-			byte[] frame = proxy.encode(config);	
-			proxy.decode(frame);			
+			proxy.decode(ProtocolUtil.hexString2Byte(r));
+			log.info("");
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		ProtocolConfig returnConfig = new DefaultProtocolConfig();
-		returnConfig.setCommAddr("000000006").setDir(DIR.SERVER)
-			.setOperation(OPERATION.TRANSPORT).runs().put("PRM", 0);
-		returnConfig.runs().put("SEQ", 1);
-		returnConfig.funcs().add("0:1");
-		returnConfig.units().add(80);
-		returnConfig.units().add(45);
-		returnConfig.units().add(ProtocolUtil.hexString2Byte(trans));
 		
-		try {
-			log.info("Encode frame.");
-			byte[] frame = proxy.encode(returnConfig);	
-			proxy.decode(frame);			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
+	
+//	public void test03() {
+//		int start = 22;
+//		byte b = (byte) (start & 0xFF);
+//		log.info("===================================={}", b);
+//		
+//		String trans = "68 29 05 00 02 13 00 00 00 00 00 00 06 98 07 99 60 00 58 98 07 99 60 00 51 06 10 68 51 00 60 99 07 98 68 11 04 33 33 c3 43 3a 16 2a 16";
+//		trans = trans.replace(" ", "");
+//		
+//		ProtocolConfig config = new DefaultProtocolConfig();
+//		config.setCommAddr("000000006").setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
+//		//config.setCommAddr("000000003").setDir(DIR.CLIENT).setOperation(OPERATION.GET);
+//		config.funcs().add("0:1");
+//		config.units().add(45);
+//		config.units().add(ProtocolUtil.hexString2Byte(trans));
+//
+//		T376Proxy proxy = new T376Proxy();
+//		try {
+//			log.info("Encode frame.");
+//			byte[] frame = proxy.encode(config);	
+//			proxy.decode(frame);			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		ProtocolConfig returnConfig = new DefaultProtocolConfig();
+//		returnConfig.setCommAddr("000000006").setDir(DIR.SERVER)
+//			.setOperation(OPERATION.TRANSPORT).runs().put("PRM", 0);
+//		returnConfig.runs().put("SEQ", 1);
+//		returnConfig.funcs().add("0:1");
+//		returnConfig.units().add(80);
+//		returnConfig.units().add(45);
+//		returnConfig.units().add(ProtocolUtil.hexString2Byte(trans));
+//		
+//		try {
+//			log.info("Encode frame.");
+//			byte[] frame = proxy.encode(returnConfig);	
+//			proxy.decode(frame);			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 //	public void testFile() {
 //

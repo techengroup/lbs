@@ -1,8 +1,5 @@
 package cn.techen.lbs.db.model;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
  * Meter
  * 
@@ -35,8 +32,7 @@ public class Meter extends MyModel {
 	private Integer grade;
 	private Integer parent;
 	private String path;
-	private Integer pathtype;
-	private Integer failTimes;
+	private String route;
 		
 //	private Running running = new Running();
 
@@ -216,20 +212,12 @@ public class Meter extends MyModel {
 		this.path = path;
 	}
 
-	public Integer getPathtype() {
-		return pathtype;
+	public String getRoute() {
+		return route;
 	}
 
-	public void setPathtype(Integer pathtype) {
-		this.pathtype = pathtype;
-	}
-
-	public Integer getFailTimes() {
-		return failTimes;
-	}
-
-	public void setFailTimes(Integer failTimes) {
-		this.failTimes = failTimes;
+	public void setRoute(String route) {
+		this.route = route;
 	}
 
 //	public Running running() {

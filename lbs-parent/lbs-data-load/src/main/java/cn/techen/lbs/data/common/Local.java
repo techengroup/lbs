@@ -69,7 +69,7 @@ public final class Local {
 		if ((angle - 0.0) == 0) {
 			var = 1;
 		} else {
-			var = (int) Math.ceil(angle / 15);
+			var = (int) Math.ceil(angle / 30);
 		}
 		return var;
 	}
@@ -83,7 +83,7 @@ public final class Local {
 
 	public static int districtX(double distance) {
 		int var = 0;
-		var = (int) Math.floor(distance / 50);
+		var = (int) Math.ceil(distance / 100);
 		return var;
 	}
 
@@ -97,7 +97,7 @@ public final class Local {
 	public static int districtY(double angle) {
 		int var = 0;
 
-		var = (int) Math.floorMod((int) angle, 15) / 5;
+		var = (int) Math.floorMod((int) angle, 30) / 10;
 		return var;
 	}
 }

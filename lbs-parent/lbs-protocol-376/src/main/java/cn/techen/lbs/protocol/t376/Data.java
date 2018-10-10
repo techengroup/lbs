@@ -201,12 +201,15 @@ public class Data extends AbstractElement {
 		for (int i = 0; i < dts.length; i++) {
 			String d = dts[i];
 			int t = Integer.parseInt(d);
-			int x = t / 8;
+			int x = (int) Math.floor((double)t / 8);
 			int y = t % 8;
-			if (y > 0) {				
-				dt1 = (1 << (y - 1)) + dt1;
-			}
-			dt2 = x;
+			if (y == 0) {
+				dt1 = (int) Math.pow(2, 7);
+				dt2 = x - 1;
+			} else {
+				dt1 = (int) Math.pow(2, (y-1));
+				dt2 = x;
+			}			
 		}
 
 		frame.process().vector.add((byte) dt1);

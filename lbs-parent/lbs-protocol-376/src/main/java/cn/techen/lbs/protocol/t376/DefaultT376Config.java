@@ -3,7 +3,9 @@ package cn.techen.lbs.protocol.t376;
 import cn.techen.lbs.protocol.AbstractConfig;
 
 public class DefaultT376Config extends AbstractConfig implements T376Config {
-
+	
+	private static final long serialVersionUID = -6634808796059611048L;
+	
 	private String commAddr;
 	private DIR dir;
 	private int prm;

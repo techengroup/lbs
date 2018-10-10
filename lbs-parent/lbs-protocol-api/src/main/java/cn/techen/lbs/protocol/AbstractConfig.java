@@ -1,5 +1,6 @@
 package cn.techen.lbs.protocol;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,8 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public abstract class AbstractConfig {
+public abstract class AbstractConfig implements Serializable {
 	
+	private static final long serialVersionUID = 2174469939798209311L;
+
 	private List<String> funcs  = new ArrayList<String>();
 	
 	private Queue<Object> units = new LinkedList<Object>();

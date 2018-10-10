@@ -19,7 +19,6 @@ import cn.techen.lbs.db.model.Meter;
 import cn.techen.lbs.db.model.Param;
 import cn.techen.lbs.mm.api.MBaseService;
 import cn.techen.lbs.mm.api.MMeterService;
-import cn.techen.lbs.mm.api.MRelayService;
 import cn.techen.lbs.protocol.common.Elements;
 import cn.techen.lbs.protocol.common.FnNames;
 import cn.techen.lbs.protocol.common.Titles;
@@ -33,7 +32,6 @@ public class RunData implements Runnable {
 	private MeterService meterService;	
 	private MBaseService mBaseService;
 	private MMeterService mMeterService;
-	private MRelayService mRelayService;
 
 	private int count = 0;
 	
@@ -61,8 +59,6 @@ public class RunData implements Runnable {
 		List<Fn> fns = null;
 		List<Param> params = null;
 		List<Meter> meters = null;
-		List<Meter> relays = null;
-		
 		
 		if (count == 0) {
 			mBaseService.flushDB();
@@ -73,7 +69,6 @@ public class RunData implements Runnable {
 			params = paramService.selectAll();
 			fns = fnService.selectAll();
 			meters = meterService.selectAll();
-			relays = meterService.selectRelay();
 			
 			if (lbs == null) {
 				logger.error("There is no any lbs in the database...");
@@ -88,7 +83,7 @@ public class RunData implements Runnable {
 				return;
 			}
 			
-			load(lbs, params, fns, meters, relays);
+			load(lbs, params, fns, meters);
 			
 			Global.DATAReady = true;
 		} else {
@@ -101,11 +96,11 @@ public class RunData implements Runnable {
 			
 			Local.LASTTIME = nowTime;
 			
-			load(lbs, params, fns, meters, null);
+			load(lbs, params, fns, meters);
 		}
 	}
 	
-	private void load(LBS lbs, List<Param> params, List<Fn> fns, List<Meter> meters, List<Meter> relays) {
+	private void load(LBS lbs, List<Param> params, List<Fn> fns, List<Meter> meters) {
 
 		if (lbs != null) {			
 			if (lbs.getChannel() != null) {
@@ -139,11 +134,6 @@ public class RunData implements Runnable {
 			mMeterService.put(meters);
 			logger.info("Load meter[{}] from database...", meters.size());
 		}
-		
-		if (relays != null && relays.size() > 0) {
-			mRelayService.put(relays);
-			logger.info("Load relay[{}] from database...", relays.size());
-		}
 	}
 	
 	public void setLbsService(LbsService lbsService) {
@@ -168,10 +158,6 @@ public class RunData implements Runnable {
 	
 	public void setmMeterService(MMeterService mMeterService) {
 		this.mMeterService = mMeterService;
-	}
-	
-	public void setmRelayService(MRelayService mRelayService) {
-		this.mRelayService = mRelayService;
 	}
 	
 }

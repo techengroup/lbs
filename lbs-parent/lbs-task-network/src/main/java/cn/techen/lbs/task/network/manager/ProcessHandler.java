@@ -1,8 +1,7 @@
 package cn.techen.lbs.task.network.manager;
 
 import java.util.List;
-
-import javax.imageio.event.IIOReadWarningListener;
+import java.util.Map;
 
 import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.model.Node;
@@ -71,7 +70,7 @@ public class ProcessHandler {
 		Node relay = context.getNodeService().selectPrimeRelay(node.getSector(), node.getDistance());		
 		
 		if (relay == null) {
-			int count = context.getNodeService().selectExecTimesWithRelay(Global.lbs.getId());
+			int count = context.getNodeService().selectExecTimesWithOptimalRelay(Global.lbs.getId());
 			
 			if (count < 4) {//prime route try 2 times, try 2 times at same prime route, other route only try 1 times.
 				Node root = new Node();
@@ -85,7 +84,7 @@ public class ProcessHandler {
 				secondaryRoute(context, node);
 			}
 		} else {
-			int count = context.getNodeService().selectExecTimesWithRelay(relay.getId());
+			int count = context.getNodeService().selectExecTimesWithOptimalRelay(relay.getId());
 			
 			if (count < 4) {//prime route try 2 times, try 2 times at same prime route, other route only try 1 times.
 				node.setRelayNode(relay);
@@ -101,18 +100,29 @@ public class ProcessHandler {
 		if (relay == null) {
 			otherRoute(context, node);
 		} else {
-			node.setRelayNode(relay);
+			int count = context.getNodeService().selectSecondaryRelayAmount(node.getId());
+			
+			if (count < 2) {
+				node.setRelayNode(relay);
+			} else {
+				otherRoute(context, node);
+			}			
 		}
 	}
 	
 	private void otherRoute(NetContext context, Node node) {
-		Node relay = context.getNodeService().selectOtherRelay(node.getId()
-				, node.getSector(), Local.SectorRange, node.getDistrictX(), Local.XRange, node.getAngle());
+		Node repeater = context.getNodeService().selectOtherRepeater(node.getId()
+				, node.getSector(), Local.SectorRange, node.getDistrictX(), Local.XRange);	
 		
-		if (relay == null) {
-			context.getNodeService().clearRoute(node.getId());
-		} else {
-			node.setRelayNode(relay);
+		if (repeater == null) {
+			Node relay = context.getNodeService().selectOtherRelay(node.getId()
+					, node.getSector(), Local.SectorRange, node.getDistrictX(), Local.XRange, node.getAngle());
+			
+			if (relay == null) {
+				context.getNodeService().clearRoute(node.getId());
+			} else {
+				node.setRelayNode(relay);
+			}
 		}
 	}
 	
@@ -166,84 +176,102 @@ public class ProcessHandler {
 		, node.getRelayNode().getRoute() + "," + node.getCommaddr()
 		, frame.getNewTime(), frame.getReadTime(), node.getRssi(), 0);
 		
-		confirmRelay(context, node);
+		confirmRelayOrNot(context, node);
 	}
 	
-	private void confirmRelay(NetContext context, Node node) {
+	private void confirmRelayOrNot(NetContext context, Node node) {
 		int afterSuccessNodeAmount = context.getNodeService().selectSuccessNodeAfterNode(node.getSector(), node.getDistance());
 		
 		if (afterSuccessNodeAmount <= 0) {
-			int beforeSuccessNodeAmount = context.getNodeService().selectSuccessNodeBeforeNode(node.getSector(), node.getDistrictX(), Local.BeforeXRange);
-			
-			if (beforeSuccessNodeAmount <= 0) {
-				List<Node> optimalNodes = context.getNodeService().selectOptimalNode(node.getSector(), node.getDistrictX());
-				
-				if (optimalNodes != null && optimalNodes.size() > 0) {
-					confirmOptimalRelays(context, optimalNodes);
-				}
+			if (confirmCriticalPoint(context, node.getSector(), node.getDistance(), node.getDistrictX(), 0)) {
+				confirmRelays(context, node);
 			}
 		}
 	}
 	
-	private void confirmOptimalRelays(NetContext context, List<Node> nodes) {
-		int x0 = 0;
-		int x1 = 0;
-		int x2 = 0;
-		int s0 = 0;
-		int s1 = 0;
-		int s2 = 0;
-		int id0 = 0;
-		int id1 = 0;
-		int id2 = 0;
-		int r0 = 0;
-		int r1 = 0;
-		int r2 = 0;
-		
-		for (Node node : nodes) {
-			if (node.getDistrictY() == 0) {
-				id0 = node.getId();
-				x0 = node.getDistrictX();
-				s0 = node.getRssi();
-			} else if (node.getDistrictY() == 1) {
-				id1 = node.getId();
-				x1 = node.getDistrictX();
-				s1 = node.getRssi();
-			} else if (node.getDistrictY() == 2) {
-				id2 = node.getId();
-				x2 = node.getDistrictX();
-				s2 = node.getRssi();
+	private boolean confirmCriticalPoint(NetContext context, int sector, double distance, int districtX, int deep) {
+		if (deep > 0) districtX--;
+		if (districtX <= 0) {		
+			Map<String, Integer> map = context.getNodeService().selectTotalAndFailNode(sector, districtX);
+			
+			if (map != null && !map.isEmpty()) {
+				int total = map.get("total");
+				int fail = map.get("fail");
+				
+				if (deep == 0) {
+					if (total == (fail+1)) {
+						deep++;
+						confirmCriticalPoint(context, sector, distance, districtX, deep);
+					}
+				} else {
+					if (deep < 3) {
+						if (total == fail) {
+							deep++;
+							confirmCriticalPoint(context, sector, distance, districtX, deep);
+						}
+					} else {
+						int count = context.getNodeService().selectSuccessNodeBeforeNode(sector, distance);
+						
+						if (count > 0) {
+							return true;
+						}
+					}
+				}
 			}
 		}
 		
-		if (x0 == x1 && x1 == x2) {
-			if (s0 > s1 && s0 > s2) {
-				r0 = 2;
-				r1 = r2 = 1;
-			}
-			if (s1 > s0 && s1 > s2) {
-				r1 = 2;
-				r0 = r2 = 1;
-			}
-			if (s2 > s1 && s2 > s0) {
-				r2 = 2;
-				r0 = r1 = 1;
-			}
-		} else {
-			if (x0 > x1 && x0 > x2) {
-				r0 = 2;
-				r1 = r2 = 1;
-			}
-			if (x1 > x0 && x1 > x2) {
-				r1 = 2;
-				r0 = r2 = 1;
-			}
-			if (x2 > x1 && x2 > x0) {
-				r2 = 2;
-				r0 = r1 = 1;
-			}
-		}
+		return false;
+	}
+	
+	private void confirmRelays(NetContext context, Node ONode) {
+		List<Node> nodes = context.getNodeService().selectOptimalNode(ONode.getSector(), ONode.getDistrictX());
 		
-		context.getNodeService().optimalRelay(id0, r0, id1, r1, id2, r2);
+		if (nodes != null && !nodes.isEmpty()) {
+			int x = 0;
+			int y = 0;
+			int r = 0;		
+			int id = 0;
+			
+			for (Node node : nodes) {
+				if (x < node.getDistrictX()) {
+					x = node.getDistrictX();
+					y = node.getDistrictY();
+					r = node.getRssi();
+					id = node.getId();
+				} else if (x == node.getDistrictX()) {
+					if (r < node.getRssi()) {
+						if (y == 1) {
+							int ar = node.getRssi() - r;
+							if (ar > 5) {
+								x = node.getDistrictX();
+								y = node.getDistrictY();
+								r = node.getRssi();
+								id = node.getId();
+							}
+						}
+						if (node.getDistrictY() == 1) {
+							int ar = r - node.getRssi();
+							if (ar > 5) {
+								x = node.getDistrictX();
+								y = node.getDistrictY();
+								r = node.getRssi();
+								id = node.getId();
+							}
+						}
+					}
+				}			
+			}
+			
+			for (Node node : nodes) {
+				if (node.getId() == id) {
+					node.setRelay(2);//最优中继
+				} else {
+					node.setRelay(1);//备用中继
+				}
+			}
+			
+			context.getNodeService().optimalRelay(nodes);
+		}
 	}
 	
 }

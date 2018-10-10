@@ -1,6 +1,7 @@
 package cn.techen.lbs.task.realtime.manager;
 
 import cn.techen.lbs.db.common.Global;
+import cn.techen.lbs.db.model.Meter;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig;
@@ -19,26 +20,30 @@ public class ProcessHandler {
 		for (int i = 1; i < 8; i++) {		
 			commAddr = ProtocolUtil.bcd2Str(bFrame[i]) + commAddr;
 		}		
-		String route = context.getGeneralService().selectRoute(commAddr);
+		Meter meter = context.getmMeterService().get(commAddr);
 		
-		if (route != null && !route.isEmpty()) {
-			context.setRoute(route);
+		if (meter != null && !meter.getRoute().isEmpty()) {
+			String route = meter.getRoute();
 			
-			ProtocolService protocolService = context.getProtocolManagerService().getProtocol(Global.lbs.getModuleprotocol());
-			ProtocolConfig config = new DefaultProtocolConfig();
-			config.setCommAddr(route).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
-			config.runs().put("CHANNEL", Global.lbs.getChannel());
-			config.funcs().add("6");
-			config.units().add(bFrame.length);
-			config.units().add(bFrame);	
-			byte[] realFrame = protocolService.encode(config);
-			
-			ProtocolFrame frame = new ProtocolFrame();
-			frame.setWriteBytes(realFrame);
-			frame.setWriteTimes(Local.WRITETIMES);
-			frame.setTimeout(Local.TIMEOUT);
-			
-			context.write(frame);
+			if (route != null && !route.isEmpty()) {
+				context.setRoute(route);		
+				
+				ProtocolService protocolService = context.getProtocolManagerService().getProtocol(Global.lbs.getModuleprotocol());
+				ProtocolConfig config = new DefaultProtocolConfig();
+				config.setCommAddr(route).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
+				config.runs().put("CHANNEL", Global.lbs.getChannel());
+				config.funcs().add("6");
+				config.units().add(bFrame.length);
+				config.units().add(bFrame);	
+				byte[] realFrame = protocolService.encode(config);
+				
+				ProtocolFrame frame = new ProtocolFrame();
+				frame.setWriteBytes(realFrame);
+				frame.setWriteTimes(Local.WRITETIMES);
+				frame.setTimeout(Local.TIMEOUT);
+				
+				context.write(frame);
+			}
 		} else {
 			context.reset();
 		}
@@ -50,7 +55,7 @@ public class ProcessHandler {
 			ProtocolService protocolService = context.getProtocolManagerService()
 					.getProtocol(Global.lbs.getModuleprotocol());
 			ProtocolConfig config = protocolService.decode(readBytes);
-			byte[] transBytes = (byte[]) config.units().poll();
+			byte[] transBytes = (byte[]) config.units().poll();			
 			
 			if (context.getRoute().equals(config.getCommAddr())) {				
 				protocolService = context.getProtocolManagerService()

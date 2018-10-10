@@ -1,6 +1,8 @@
 package cn.techen.lbs.protocol;
 
-public class DefaultProtocolConfig extends AbstractConfig implements ProtocolConfig {
+import java.io.Serializable;
+
+public class DefaultProtocolConfig extends AbstractConfig implements ProtocolConfig, Serializable {
 	
 	private static final long serialVersionUID = 5603352288508869314L;
 

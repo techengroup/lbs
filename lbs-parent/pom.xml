@@ -112,7 +112,6 @@
 		<module>lbs-protocol-lora</module>
 		<module>lbs-protocol-645</module>
 		<module>lbs-module-lora</module>
-		<module>lbs-task-networking</module>
 		<module>lbs-module-4g</module>
 		<module>lbs-db-api</module>
 		<module>lbs-db-mysql</module>

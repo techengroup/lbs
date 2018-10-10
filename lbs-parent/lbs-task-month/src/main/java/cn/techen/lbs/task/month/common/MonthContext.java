@@ -1,7 +1,7 @@
 package cn.techen.lbs.task.month.common;
 
 import cn.techen.lbs.db.api.GeneralService;
-import cn.techen.lbs.db.api.MeterService;
+import cn.techen.lbs.db.api.MonthService;
 import cn.techen.lbs.db.model.Month;
 import cn.techen.lbs.mm.api.MMeterService;
 import cn.techen.lbs.mm.api.MMonthService;
@@ -20,7 +20,7 @@ public class MonthContext {
 	
 	private GeneralService generalService;
 	
-	private MeterService meterService;	
+	private MonthService monthService;	
 	
 	private MMonthService mMonthService;
 
@@ -78,21 +78,20 @@ public class MonthContext {
 	public void setGeneralService(GeneralService generalService) {
 		this.generalService = generalService;
 	}
-
-	public MeterService getMeterService() {
-		return meterService;
+	
+	public MonthService getMonthService() {
+		return monthService;
 	}
 
+	public void setMonthService(MonthService monthService) {
+		this.monthService = monthService;
+	}
 	public MMeterService getmMeterService() {
 		return mMeterService;
 	}
 
 	public void setmMeterService(MMeterService mMeterService) {
 		this.mMeterService = mMeterService;
-	}
-
-	public void setMeterService(MeterService meterService) {
-		this.meterService = meterService;
 	}
 
 	public MMonthService getmMonthService() {

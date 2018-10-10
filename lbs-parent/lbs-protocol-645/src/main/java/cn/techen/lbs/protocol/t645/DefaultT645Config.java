@@ -4,6 +4,8 @@ import cn.techen.lbs.protocol.AbstractConfig;
 
 public class DefaultT645Config extends AbstractConfig implements T645Config {
 	
+	private static final long serialVersionUID = -4864735765489650422L;
+	
 	private Control control;
 	private DIR dir;
 	private Answer answer;

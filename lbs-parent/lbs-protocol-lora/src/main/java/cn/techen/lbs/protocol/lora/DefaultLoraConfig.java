@@ -8,6 +8,8 @@ import cn.techen.lbs.protocol.AbstractConfig;
 
 public class DefaultLoraConfig extends AbstractConfig  implements LoraConfig {
 	
+	private static final long serialVersionUID = -4011337788428351196L;
+	
 	private Control control;
 	private DIR dir;
 	private Channel channel;

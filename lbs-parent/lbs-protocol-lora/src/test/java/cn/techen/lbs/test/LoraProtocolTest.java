@@ -77,6 +77,12 @@ public class LoraProtocolTest extends TestCase {
 		String str = "123EEEeeawvw";
 		boolean b = ProtocolUtil.isAllE(str);
 		log.info("Is all E:{}", b);
+		
+		int c = (int) Math.ceil(16.1 / 15);
+		log.info("var:{}", c);
+		
+		int f = (int) Math.floor(16.1 / 15);
+		log.info("var:{}", f);
 	}
 	
 }

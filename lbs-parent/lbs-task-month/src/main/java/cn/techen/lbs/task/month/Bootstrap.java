@@ -75,7 +75,7 @@ public class Bootstrap {
 			String ms = GlobalUtil.date2String(time, "yyyy-MM-01");
 			time = GlobalUtil.string2Date(ms, "yyyy-MM-01");
 			
-			List<Month> actives = context.getMeterService().selectMonth(ENERGY.ACTIVE, time);//正向有功
+			List<Month> actives = context.getMonthService().selectMonth(ENERGY.ACTIVE, time);//正向有功
 			if (actives == null || actives.size() <= 0) {
 				logger.info("Loaded monthly active energy meters[0]...");
 			} else {

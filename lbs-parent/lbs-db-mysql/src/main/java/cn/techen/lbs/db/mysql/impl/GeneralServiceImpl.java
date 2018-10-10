@@ -200,41 +200,4 @@ public class GeneralServiceImpl implements GeneralService {
 		}
 		return 0;
 	}
-	
-	@Override
-	public String selectRoute(String commAddr) {
-		MysqlPool mp = MysqlPool.getInstance();
-		DruidPooledConnection conn = null;
-		PreparedStatement stmt = null;
-		String quantity = null;
-		try {			
-			StringBuffer ddl = new StringBuffer();
-			ddl.append("select route from LOG_NETWORK where commAddr='" + commAddr + "' and result=1");
-			conn = mp.getConnection();
-			stmt = conn.prepareStatement(ddl.toString());
-			ResultSet rs = stmt.executeQuery();			
-			while (rs.next()) {
-				quantity = rs.getString("route");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}				
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return quantity;
-	}
 }

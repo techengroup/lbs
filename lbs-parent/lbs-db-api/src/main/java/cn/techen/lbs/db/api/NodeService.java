@@ -2,6 +2,7 @@ package cn.techen.lbs.db.api;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import cn.techen.lbs.db.model.Node;
 
@@ -14,23 +15,15 @@ public interface NodeService extends IService<Node> {
 
     List<Node> selectUnregister();
 
-	List<Node> selectRelay();
-
-	Node selectRelay(Node entity);
-	
-	int updateSuccess(Node entity);
-
-	int updateFail(Node entity, boolean changeStatus);
-	
-	int updateRelay(Node entity);
-
-	int reNet(Node entity);
-
 	Node selectPrimeRelay(int sector, double distance);
 
-	int selectExecTimesWithRelay(int relayId);
+	int selectExecTimesWithOptimalRelay(int relayId);
 	
 	Node selectSecondaryRelay(int nodeId, int sector, double distance);
+
+	int selectSecondaryRelayAmount(int nodeId);
+
+	Node selectOtherRepeater(int nodeId, int sector, int sRange, int districtX, int xRange);
 
 	Node selectOtherRelay(int nodeId, int sector, int sRange, int districtX, int xRange, float angle);
 
@@ -47,11 +40,13 @@ public interface NodeService extends IService<Node> {
 
 	int selectSuccessNodeAfterNode(int sector, double distance);
 
-	int selectSuccessNodeBeforeNode(int sector, int districtX, int xRange);
+	Map<String, Integer> selectTotalAndFailNode(int sector, int districtX);
+
+	int selectSuccessNodeBeforeNode(int sector, double distance);
 
 	List<Node> selectOptimalNode(int sector, int districtX);
 
-	int optimalRelay(int id0, int relay0, int id1, int relay1, int id2, int relay2);
+	int optimalRelay(List<Node> nodes);
 
 	
 }

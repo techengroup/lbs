@@ -12,8 +12,6 @@ public final class Local {
 	
 	public final static int XRange = 40;
 	
-	public final static int BeforeXRange = 3;
-	
 	public final static int WRITETIMES = 8;
 	
 	public final static long TIMEOUT = 10000;

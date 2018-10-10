@@ -2,7 +2,7 @@ package cn.techen.lbs.task.realtime.common;
 
 import java.util.Date;
 
-import cn.techen.lbs.db.api.GeneralService;
+import cn.techen.lbs.mm.api.MMeterService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.FrameConfig.Priority;
@@ -17,7 +17,7 @@ public class RealTimeContext {
 	
 	private State state = State.FINISHED;
 	
-	private GeneralService generalService;
+	private MMeterService mMeterService;
 	
 	private MTaskService<byte[]> mByteService;
 
@@ -86,12 +86,12 @@ public class RealTimeContext {
 		setState(State.RECIEVING);
 	}
 
-	public GeneralService getGeneralService() {
-		return generalService;
+	public MMeterService getmMeterService() {
+		return mMeterService;
 	}
 
-	public void setGeneralService(GeneralService generalService) {
-		this.generalService = generalService;
+	public void setmMeterService(MMeterService mMeterService) {
+		this.mMeterService = mMeterService;
 	}
 
 	public MTaskService<byte[]> getmByteService() {
