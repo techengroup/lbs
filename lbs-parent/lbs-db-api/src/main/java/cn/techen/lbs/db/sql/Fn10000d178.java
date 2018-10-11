@@ -3,13 +3,13 @@ package cn.techen.lbs.db.sql;
 import java.util.Date;
 import java.util.Queue;
 
-import cn.techen.lbs.db.common.GlobalUtil;
+import cn.techen.lbs.db.common.Global;
 
 public class Fn10000D178 extends AbstractSQL {
 
 	@Override
 	public String handle(Object id, Queue<Object> datas) {
-		String time = GlobalUtil.date2String((Date)datas.poll(), "yyyy-MM-01");
+		String time = Global.date2String((Date)datas.poll(), "yyyy-MM-01");
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append(String.format("select frozentime, savetime, 4, IFNULL(negative_energy0, 'EEEEEEEE') negative_energy0"

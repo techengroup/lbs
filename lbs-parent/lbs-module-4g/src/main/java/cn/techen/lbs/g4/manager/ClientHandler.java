@@ -3,7 +3,7 @@ package cn.techen.lbs.g4.manager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.techen.lbs.db.common.GlobalUtil;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.g4.common.G4Context;
 import cn.techen.lbs.g4.common.G4Util;
 import cn.techen.lbs.g4.common.Local;
@@ -41,7 +41,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
     	logger.error("Channel caught exception.");
-    	logger.error(GlobalUtil.getStackTrace(cause));
+    	logger.error(Global.getStackTrace(cause));
     }
 	
 	@Override

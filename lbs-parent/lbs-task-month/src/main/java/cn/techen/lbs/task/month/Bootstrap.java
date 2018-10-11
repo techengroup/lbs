@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.db.common.Global;
-import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Month;
 import cn.techen.lbs.protocol.FrameConfig.State;
 import cn.techen.lbs.db.common.DataConfig.ENERGY;
@@ -65,15 +64,15 @@ public class Bootstrap {
 						}
 					}
 				} catch (Exception e) {
-					logger.error(GlobalUtil.getStackTrace(e));
+					logger.error(Global.getStackTrace(e));
 				}				
 			}
 		}		
 		
 		private void load() throws ParseException {
 			Date time = new Date();
-			String ms = GlobalUtil.date2String(time, "yyyy-MM-01");
-			time = GlobalUtil.string2Date(ms, "yyyy-MM-01");
+			String ms = Global.date2String(time, "yyyy-MM-01");
+			time = Global.string2Date(ms, "yyyy-MM-01");
 			
 			List<Month> actives = context.getMonthService().selectMonth(ENERGY.ACTIVE, time);//正向有功
 			if (actives == null || actives.size() <= 0) {
@@ -100,7 +99,7 @@ public class Bootstrap {
 						read.operate(context);
 					}
 				} catch (Exception e) {
-					logger.error(GlobalUtil.getStackTrace(e));
+					logger.error(Global.getStackTrace(e));
 					context.reset();
 				}				
 			}

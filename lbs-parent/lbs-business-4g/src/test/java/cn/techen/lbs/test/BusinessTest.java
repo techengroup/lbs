@@ -8,7 +8,7 @@ import java.util.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.techen.lbs.db.common.GlobalUtil;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.sql.AbstractSQL;
 import junit.framework.TestCase;
 
@@ -21,7 +21,7 @@ public class BusinessTest extends TestCase {
 
 	public void testA() {
 		try {
-			AbstractSQL as = GlobalUtil.newSql("Fn1000043");
+			AbstractSQL as = Global.newSql("Fn1000043");
 			Queue<Object> datas = new LinkedList<Object>();
 			datas.add("10.10.1.1");
 			datas.add("9010");

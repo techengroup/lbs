@@ -1,7 +1,5 @@
 package cn.techen.lbs.task.realtime.common;
 
-import java.util.Date;
-
 import cn.techen.lbs.mm.api.MMeterService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
@@ -51,7 +49,7 @@ public class RealTimeContext {
 		return state;
 	}
 
-	private void setState(State state) {
+	public void setState(State state) {
 		this.state = state;
 	}
 
@@ -77,13 +75,6 @@ public class RealTimeContext {
 		} catch (Exception e) {
 			processHandler.exceptionCaught(this, e.getCause());
 		}
-	}
-	
-	public void write(ProtocolFrame frame)  throws Exception {
-		setState(State.SENDING);
-		mTaskService.lpush(MTaskService.QUEUE_SEND + PRIORITY.value(), frame);
-		frame.setwInTime(new Date());
-		setState(State.RECIEVING);
 	}
 
 	public MMeterService getmMeterService() {

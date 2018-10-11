@@ -1,7 +1,5 @@
 package cn.techen.lbs.lora.common;
 
-import cn.techen.lbs.channel.rxtx.RxtxChannel;
-import cn.techen.lbs.lora.mananger.LoraChannel;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.ProtocolManagerService;
@@ -16,22 +14,6 @@ public class LoraContext {
 	private ProtocolFrame frame;
 	
 	private Priority priority;
-
-	public MTaskService<ProtocolFrame> getmTaskService() {
-		return mTaskService;
-	}
-
-	public void setmTaskService(MTaskService<ProtocolFrame> mTaskService) {
-		this.mTaskService = mTaskService;
-	}
-
-	public ProtocolManagerService getProtocolManagerService() {
-		return protocolManagerService;
-	}
-
-	public void setProtocolManagerService(ProtocolManagerService protocolManagerService) {
-		this.protocolManagerService = protocolManagerService;
-	}	
 
 	public ProtocolFrame getFrame() {
 		return frame;
@@ -52,9 +34,21 @@ public class LoraContext {
 	public void reset() {
 		this.frame = null;
 		this.priority = null;
+	}	
+
+	public MTaskService<ProtocolFrame> getmTaskService() {
+		return mTaskService;
 	}
 
-	public RxtxChannel channel() throws Exception {
-		return LoraChannel.getInstance(this).channel();
+	public void setmTaskService(MTaskService<ProtocolFrame> mTaskService) {
+		this.mTaskService = mTaskService;
 	}
+
+	public ProtocolManagerService getProtocolManagerService() {
+		return protocolManagerService;
+	}
+
+	public void setProtocolManagerService(ProtocolManagerService protocolManagerService) {
+		this.protocolManagerService = protocolManagerService;
+	}	
 }

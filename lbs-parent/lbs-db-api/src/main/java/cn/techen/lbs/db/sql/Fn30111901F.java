@@ -3,7 +3,7 @@ package cn.techen.lbs.db.sql;
 import java.util.Date;
 import java.util.Queue;
 
-import cn.techen.lbs.db.common.GlobalUtil;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.sql.AbstractSQL;
 
 public class Fn30111901F extends AbstractSQL {
@@ -11,7 +11,7 @@ public class Fn30111901F extends AbstractSQL {
 	@Override
 	public String handle(Object id, Queue<Object> datas) {
 		StringBuffer sb = new StringBuffer();
-		String frozentime = GlobalUtil.date2String(new Date(), "yyyy-MM-01");
+		String frozentime = Global.date2String(new Date(), "yyyy-MM-01");
 		double e0 = Double.parseDouble(datas.poll().toString());
 		double e1 = Double.parseDouble(datas.poll().toString());
 		double e2 = Double.parseDouble(datas.poll().toString());

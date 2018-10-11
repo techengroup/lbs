@@ -41,8 +41,8 @@ public class Fn10000410 extends AbstractSQL {
 //				sb.append(String.format("delete from log_network where nodeid=%d;", sn));
 				sb.append("delete from log_network where route like '%," + commAddr + "%';");
 				sb.append(String.format("delete from prm_node where id=%d;", sn));
-				sb.append("update prm_node set status=-1, grade=1, relay=0, path='0/', route=null, parent=0"
-						+ ", mdfon=NOW(), regon=null where path like '%/" + sn + "/%';");
+				sb.append("update prm_node set status=-1, grade=1, relay=0, path=null, route=null, parent=0"
+						+ ", mdfon=NOW(), regon=null where path like '%/" + sn + "%';");
 			} else {
 				sb.append("insert IGNORE into prm_node(id, pointno, deviceclass, baudrate, port, protocol, commaddr, tariffcount, integercount, decimalcount"
 						+ ", customerclass, customersubclass, longitude, latitude) ");

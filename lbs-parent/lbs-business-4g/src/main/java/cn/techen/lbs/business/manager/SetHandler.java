@@ -5,7 +5,6 @@ import java.util.List;
 
 import cn.techen.lbs.business.common.BusinessContext;
 import cn.techen.lbs.db.common.Global;
-import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.sql.AbstractSQL;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
@@ -34,7 +33,7 @@ public class SetHandler extends AbstractHandler {
 					String fnKey = config.funcKeys().get(pn + ":" + fn);
 					if (fnKey != null && !fnKey.isEmpty()) {						
 						String className = String.format("Fn%s", fnKey.replace(":", ""));
-						AbstractSQL ab = GlobalUtil.newSql(className);
+						AbstractSQL ab = Global.newSql(className);
 						String sql = ab.handle(pn, config.units());
 						int r = context.getGeneralService().save(sql);						
 						result.add(String.valueOf((r >= 0) ? 1 : 2));

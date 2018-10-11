@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.lora.common.Local;
 import cn.techen.lbs.lora.common.LoraContext;
+import cn.techen.lbs.lora.common.LoraRxtx;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
 
 public class WriteHandler extends AbstractHandler {
@@ -30,7 +31,7 @@ public class WriteHandler extends AbstractHandler {
 	
 	private void send(LoraContext context) throws Exception {
 		byte[] writeBytes = context.getFrame().getWriteBytes();
-		context.channel().write(writeBytes);
+		LoraRxtx.getInstance().write(writeBytes);
 		context.getFrame().setWriteTime(new Date());
 		logger.info("Write： {}B \r\n{}", writeBytes.length, ProtocolUtil.byte2HexString(writeBytes, true));
 	}

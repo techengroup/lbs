@@ -1,7 +1,5 @@
 package cn.techen.lbs.task.network.common;
 
-import java.util.Date;
-
 import cn.techen.lbs.db.api.NodeService;
 import cn.techen.lbs.db.model.Node;
 import cn.techen.lbs.mm.api.MNodeService;
@@ -46,6 +44,10 @@ public class NetContext {
 		return state;
 	}
 	
+	public void setState(State state) {
+		this.state = state;
+	}
+	
 	public void fireWrite() {
 		try {
 			processHandler.write(this);
@@ -60,13 +62,6 @@ public class NetContext {
 		} catch (Exception e) {
 			processHandler.exceptionCaught(this, e.getCause());
 		}
-	}
-	
-	public void write(ProtocolFrame frame) {
-		state = State.SENDING;
-		mTaskService.lpush(MTaskService.QUEUE_SEND + PRIORITY.value(), frame);
-		frame.setwInTime(new Date());
-		state = State.RECIEVING;
 	}
 
 	public NodeService getNodeService() {

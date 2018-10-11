@@ -3,7 +3,6 @@ package cn.techen.lbs.task.event.manager;
 import java.util.Date;
 
 import cn.techen.lbs.db.common.Global;
-import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Meter;
 import cn.techen.lbs.db.model.Report;
 import cn.techen.lbs.db.sql.AbstractSQL;
@@ -89,7 +88,7 @@ public class ProcessHandler {
 				String fnKey = config.funcKeys().get(fn);
 				if (fnKey != null && !fnKey.isEmpty()) {						
 					String className = String.format("Fn%s", fnKey.replace(":", ""));
-					AbstractSQL as = GlobalUtil.newSql(className);						
+					AbstractSQL as = Global.newSql(className);						
 					context.getGeneralService().save(as.handle(meterId, config.units()));
 				}
 			}

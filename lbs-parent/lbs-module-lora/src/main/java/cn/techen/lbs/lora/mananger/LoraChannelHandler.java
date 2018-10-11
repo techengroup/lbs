@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.channel.rxtx.RxtxChannel;
-import cn.techen.lbs.channel.rxtx.RxtxChannelHandler;
-import cn.techen.lbs.db.common.GlobalUtil;
+import cn.techen.lbs.channel.rxtx.RxtxEventListener;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.lora.common.Local;
 import cn.techen.lbs.lora.common.LoraContext;
 import cn.techen.lbs.mm.api.MTaskService;
@@ -21,7 +21,7 @@ import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.FrameConfig.Priority;
 
-public class LoraChannelHandler implements RxtxChannelHandler {
+public class LoraChannelHandler implements RxtxEventListener {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private LoraContext context;
@@ -70,12 +70,13 @@ public class LoraChannelHandler implements RxtxChannelHandler {
 
 	@Override
 	public void channelInactive(RxtxChannel channel) throws Exception {
+		logger.info("Lora serial port is inactive.");
 		channel.disconnect();
 	}
 
 	@Override
-	public void exceptionCaught(RxtxChannel channel, Throwable cause) throws Exception {
-		logger.error(GlobalUtil.getStackTrace(cause));
+	public void exceptionCaught(RxtxChannel channel, Throwable cause) {
+		logger.error(Global.getStackTrace(cause));
 		channel.disconnect();
 	}
 

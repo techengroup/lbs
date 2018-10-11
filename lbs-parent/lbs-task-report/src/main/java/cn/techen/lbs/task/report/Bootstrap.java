@@ -3,7 +3,7 @@ package cn.techen.lbs.task.report;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.techen.lbs.db.common.GlobalUtil;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.task.report.common.Local;
 import cn.techen.lbs.task.report.common.ReportContext;
 import cn.techen.lbs.task.report.manager.AbstractHandler;
@@ -38,7 +38,7 @@ public class Bootstrap {
 					
 					report.operate(context);
 				} catch (Exception e) {
-					logger.error(GlobalUtil.getStackTrace(e));
+					logger.error(Global.getStackTrace(e));
 				}				
 			}
 		}		

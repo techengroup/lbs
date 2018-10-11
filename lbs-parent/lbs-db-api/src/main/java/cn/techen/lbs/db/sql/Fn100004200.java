@@ -2,6 +2,7 @@ package cn.techen.lbs.db.sql;
 
 import java.util.Queue;
 
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.sql.AbstractSQL;
 
 public class Fn100004200 extends AbstractSQL {
@@ -11,8 +12,8 @@ public class Fn100004200 extends AbstractSQL {
 		StringBuffer sb = new StringBuffer();
 		int len = Integer.parseInt(datas.poll().toString());
 		for (int i = 0; i < len; i++) {
-			int sn = Integer.parseInt(datas.poll().toString()) + 1000000;
-			int pointNo = Integer.parseInt(datas.poll().toString()) + 1000000;
+			int sn = Integer.parseInt(datas.poll().toString()) + Global.RepeaterStartId;
+			int pointNo = Integer.parseInt(datas.poll().toString()) + Global.RepeaterStartId;
 			int deviceclass = 0;
 			String[] ratePort  = datas.poll().toString().split(":");
 			int protocol = Integer.parseInt(datas.poll().toString());
@@ -25,8 +26,8 @@ public class Fn100004200 extends AbstractSQL {
 			if (pointNo == 0) {
 				sb.append("delete from log_network where route like '%," + commAddr + "%';");
 				sb.append(String.format("delete from prm_node where id=%d;", sn));
-				sb.append("update prm_node set status=-1, grade=1, relay=0, path='0/', route=null, parent=0"
-						+ ", mdfon=NOW(), regon=null where path like '%/" + sn + "/%';");
+				sb.append("update prm_node set status=-1, grade=1, relay=0, path=null, route=null, parent=0"
+						+ ", mdfon=NOW(), regon=null where path like '%/" + sn + "%';");
 			} else {
 				sb.append("insert IGNORE into prm_node(id, pointno, deviceclass, baudrate, port, protocol, commaddr"
 						+ ", longitude, latitude) ");

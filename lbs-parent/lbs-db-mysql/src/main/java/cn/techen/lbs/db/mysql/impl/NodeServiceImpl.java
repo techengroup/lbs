@@ -302,8 +302,8 @@ public class NodeServiceImpl implements NodeService {
 			ddl.append("order by ABS(districtX-?) limit 1");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
-			stmt.setInt(1, ((sector-sRange) <= 0) ? 24 : (sector-sRange));
-			stmt.setInt(2, ((sector+sRange) > 24) ? 1 : (sector+sRange));
+			stmt.setInt(1, ((sector-sRange) <= 0) ? 12 : (sector-sRange));
+			stmt.setInt(2, ((sector+sRange) > 12) ? 1 : (sector+sRange));
 			stmt.setInt(3, ((districtX-xRange) < 0) ? 0 : (districtX-xRange));
 			stmt.setInt(4, districtX+xRange);
 			stmt.setInt(5, nodeId);
@@ -357,8 +357,8 @@ public class NodeServiceImpl implements NodeService {
 			ddl.append("order by ABS(districtX-?), ABS(Angle-?) limit 1");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
-			stmt.setInt(1, ((sector-sRange) <= 0) ? 24 : (sector-sRange));
-			stmt.setInt(2, ((sector+sRange) > 24) ? 1 : (sector+sRange));
+			stmt.setInt(1, ((sector-sRange) <= 0) ? 12 : (sector-sRange));
+			stmt.setInt(2, ((sector+sRange) > 12) ? 1 : (sector+sRange));
 			stmt.setInt(3, ((districtX-xRange) < 0) ? 0 : (districtX-xRange));
 			stmt.setInt(4, districtX+xRange);
 			stmt.setInt(5, nodeId);

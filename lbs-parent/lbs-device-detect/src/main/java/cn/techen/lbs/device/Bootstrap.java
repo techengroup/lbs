@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.db.common.Global;
-import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.device.common.DeviceContext;
 import cn.techen.lbs.device.common.Local;
 import cn.techen.lbs.device.manager.AbstractHandler;
@@ -53,7 +52,7 @@ public class Bootstrap {
 						}
 					}
 				} catch (Exception e) {
-					logger.error(GlobalUtil.getStackTrace(e));
+					logger.error(Global.getStackTrace(e));
 				}				
 			}
 		}		
@@ -70,7 +69,7 @@ public class Bootstrap {
 					obtain.operate(context);
 					read.operate(context);
 				} catch (Exception e) {
-					logger.error(GlobalUtil.getStackTrace(e));
+					logger.error(Global.getStackTrace(e));
 				}				
 			}
 		}		

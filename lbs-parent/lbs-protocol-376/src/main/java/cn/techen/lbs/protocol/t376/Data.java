@@ -170,15 +170,14 @@ public class Data extends AbstractElement {
 		for (int i = 0; i < das.length; i++) {
 			String d = das[i];
 			int p = Integer.parseInt(d);
-			int x = p / 8;
+			int x = (int) Math.ceil((double)p / 8);
 			int y = p % 8;
-			if (y > 0) {				
-				da1 = (1 << (y - 1)) + da1;
-				da2 = x + 1;
+			if (y == 0) {
+				da1 = (int) (Math.pow(2, 7) + da1);
 			} else {
-				if (p > 0) da1 = (1 << 7) + da1;
-				da2 = x;
+				da1 = (int) (Math.pow(2, (y-1)) + da1);
 			}
+			da2 = x;
 		}
 		
 		byte b1 = (byte) da1;
@@ -204,10 +203,10 @@ public class Data extends AbstractElement {
 			int x = (int) Math.floor((double)t / 8);
 			int y = t % 8;
 			if (y == 0) {
-				dt1 = (int) Math.pow(2, 7);
+				dt1 = (int) (Math.pow(2, 7) + dt1);
 				dt2 = x - 1;
 			} else {
-				dt1 = (int) Math.pow(2, (y-1));
+				dt1 = (int) (Math.pow(2, (y-1)) + dt1);
 				dt2 = x;
 			}			
 		}

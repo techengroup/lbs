@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import cn.techen.lbs.business.common.BusinessContext;
 import cn.techen.lbs.business.common.Local;
 import cn.techen.lbs.business.manager.BusinessProcesser;
-import cn.techen.lbs.db.common.GlobalUtil;
+import cn.techen.lbs.db.common.Global;
 
 public class Bootstrap {	
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
@@ -35,7 +35,7 @@ public class Bootstrap {
 					
 					businessProcesser.operate(context);
 				} catch (Exception e) {
-					logger.error(GlobalUtil.getStackTrace(e));
+					logger.error(Global.getStackTrace(e));
 				}
 				
 			}

@@ -19,8 +19,9 @@ public class Fn10000A10 extends AbstractSQL {
 		StringBuffer sb = new StringBuffer();
 		sb.append("{LEN}");
 		sb.append(String.format("select id, pointno, CONCAT_WS(':',baudrate,port) bp, protocol, commaddr, tariffcount"
-				+ ", CONCAT('0:', CONCAT_WS(':',integercount-4,decimalcount-1)) di, CONCAT_WS(':',customerclass,customersubclass) cc"
-				+ ", longitude, latitude from prm_node where id IN(%s)",  String.join(",", sns.toArray(new String[0]))));	
+									+ ", CONCAT('0:', CONCAT_WS(':',integercount-4,decimalcount-1)) di"
+									+ ", CONCAT_WS(':',customerclass,customersubclass) cc"
+									+ ", longitude, latitude from prm_node where id IN(%s)", String.join(",", sns.toArray(new String[0]))));	
 				
 		return sb.toString();
 	}

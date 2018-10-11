@@ -3,7 +3,7 @@ package cn.techen.lbs.g4.manager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.techen.lbs.db.common.GlobalUtil;
+import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.g4.common.G4Context;
 import cn.techen.lbs.g4.common.Local;
 import io.netty.bootstrap.Bootstrap;
@@ -58,7 +58,7 @@ public class Client {
             f.channel().closeFuture().sync();
         } catch (Exception e) {
         	logger.error("LBS occur exception.", host, port);
-        	logger.error(GlobalUtil.getStackTrace(e));
+        	logger.error(Global.getStackTrace(e));
         } finally {
         	logger.info("LBS shutdown gracefully.", host, port);        	
             group.shutdownGracefully();

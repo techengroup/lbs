@@ -12,7 +12,6 @@ import cn.techen.lbs.db.api.LbsService;
 import cn.techen.lbs.db.api.MeterService;
 import cn.techen.lbs.db.api.ParamService;
 import cn.techen.lbs.db.common.Global;
-import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.model.Fn;
 import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.db.model.Meter;
@@ -47,9 +46,9 @@ public class RunData implements Runnable {
 				count++;
 				if (count > 100000) count = 1;
 			} catch (InterruptedException e) {
-				logger.error(GlobalUtil.getStackTrace(e));
+				logger.error(Global.getStackTrace(e));
 			} catch (Exception e) {	
-				logger.error(GlobalUtil.getStackTrace(e));
+				logger.error(Global.getStackTrace(e));
 			}
 		}
 	}

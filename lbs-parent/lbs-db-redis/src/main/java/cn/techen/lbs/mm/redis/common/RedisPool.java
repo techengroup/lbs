@@ -8,7 +8,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.techen.lbs.db.common.GlobalUtil;
+import cn.techen.lbs.db.common.Global;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -33,7 +33,7 @@ public class RedisPool {
 	        realPool = new JedisPool(config, host, port);
 		} catch (Exception e) {
 			logger.error("New redis pool faild...");
-			logger.error(GlobalUtil.getStackTrace(e));
+			logger.error(Global.getStackTrace(e));
 		}
 	}
 	

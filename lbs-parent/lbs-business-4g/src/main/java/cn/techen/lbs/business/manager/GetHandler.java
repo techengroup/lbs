@@ -2,7 +2,6 @@ package cn.techen.lbs.business.manager;
 
 import cn.techen.lbs.business.common.BusinessContext;
 import cn.techen.lbs.db.common.Global;
-import cn.techen.lbs.db.common.GlobalUtil;
 import cn.techen.lbs.db.sql.AbstractSQL;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
@@ -31,7 +30,7 @@ public class GetHandler extends AbstractHandler {
 					String fnKey = config.funcKeys().get(pn + ":" + fn);
 					if (fnKey != null && !fnKey.isEmpty()) {						
 						String className = String.format("Fn%s", fnKey.replace(":", ""));
-						AbstractSQL as = GlobalUtil.newSql(className);						
+						AbstractSQL as = Global.newSql(className);						
 						respConnfig.units().addAll(context.getGeneralService().query(as.handle(pn, config.units())));
 					}
 				}

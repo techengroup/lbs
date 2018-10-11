@@ -1,10 +1,12 @@
 package cn.techen.lbs.task.network.manager;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.model.Node;
+import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig.DIR;
@@ -12,6 +14,7 @@ import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.ProtocolService;
+import cn.techen.lbs.protocol.FrameConfig.State;
 import cn.techen.lbs.task.network.common.Local;
 import cn.techen.lbs.task.network.common.NetContext;
 
@@ -23,7 +26,7 @@ public class ProcessHandler {
 		route(context, node);
 		
 		if (node.getRelayNode() != null) {
-			context.write(encodeFrame(context, node));
+			write(context, encodeFrame(context, node));
 		} else {
 			context.reset();
 		}		
@@ -48,7 +51,7 @@ public class ProcessHandler {
 					int mod = frame.getRetryTimes() % 2;
 					if (mod != 0) {
 						fail(context, frame, node);
-						context.write(frame);						
+						write(context, frame);						
 					} else {
 						failCompletely(context, frame, node);
 						context.reset();
@@ -77,8 +80,8 @@ public class ProcessHandler {
 				root.setId(Global.lbs.getId());
 				root.setCommaddr(Global.lbs.getCommaddr());
 				root.setGrade(0);
-				root.setPath(Global.lbs.getId()+"/");
-				root.setRoute(Global.lbs.getId()+",");
+				root.setPath(Global.lbs.getId().toString());
+				root.setRoute(Global.lbs.getCommaddr());
 				node.setRelayNode(root);
 			} else {				
 				secondaryRoute(context, node);
@@ -112,11 +115,11 @@ public class ProcessHandler {
 	
 	private void otherRoute(NetContext context, Node node) {
 		Node repeater = context.getNodeService().selectOtherRepeater(node.getId()
-				, node.getSector(), Local.SectorRange, node.getDistrictX(), Local.XRange);	
+				, node.getSector(), Local.SEEKRELAYSECTORRANGE, node.getDistrictX(), Local.SEEKRELAYDISTRICTXRANGE);	
 		
 		if (repeater == null) {
 			Node relay = context.getNodeService().selectOtherRelay(node.getId()
-					, node.getSector(), Local.SectorRange, node.getDistrictX(), Local.XRange, node.getAngle());
+					, node.getSector(), Local.SEEKRELAYSECTORRANGE, node.getDistrictX(), Local.SEEKRELAYDISTRICTXRANGE, node.getAngle());
 			
 			if (relay == null) {
 				context.getNodeService().clearRoute(node.getId());
@@ -129,7 +132,8 @@ public class ProcessHandler {
 	private ProtocolFrame encodeFrame(NetContext context, Node node) throws Exception {		
 		ProtocolService protocolService = context.getProtocolManagerService().getProtocol(node.getModuleprotocol());
 		ProtocolConfig config = new DefaultProtocolConfig();
-		config.setCommAddr(node.getRoute()).setDir(DIR.CLIENT).setOperation(OPERATION.LOGIN);
+		String route = node.getRelayNode().getRoute() + "," + node.getCommaddr();
+		config.setCommAddr(route).setDir(DIR.CLIENT).setOperation(OPERATION.LOGIN);
 		config.runs().put("CHANNEL", Global.lbs.getChannel());
 		config.funcs().add("2");			
 		config.units().add(node.getId());
@@ -137,7 +141,7 @@ public class ProcessHandler {
 		byte[] frame = protocolService.encode(config);
 		ProtocolFrame pFrame = new ProtocolFrame();
 		pFrame.setWriteBytes(frame);
-		if (node.getGrade() > 0) {
+		if (node.getRelayNode().getGrade() > 0) {
 			pFrame.setWriteTimes(Local.WRITETIMES_RELAY);
 		} else {
 			pFrame.setWriteTimes(Local.WRITETIMES);				
@@ -145,6 +149,13 @@ public class ProcessHandler {
 		pFrame.setTimeout(Local.TIMEOUT);
 		
 		return pFrame;
+	}
+	
+	private void write(NetContext context, ProtocolFrame frame)  throws Exception {
+		context.setState(State.SENDING);
+		context.getmTaskService().lpush(MTaskService.QUEUE_SEND + context.PRIORITY.value(), frame);
+		frame.setwInTime(new Date());
+		context.setState(State.RECIEVING);
 	}
 	
 	private void success(NetContext context, Node node, ProtocolFrame frame) throws Exception {

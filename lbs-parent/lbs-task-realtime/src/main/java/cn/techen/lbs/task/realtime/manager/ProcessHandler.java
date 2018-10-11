@@ -1,5 +1,7 @@
 package cn.techen.lbs.task.realtime.manager;
 
+import java.util.Date;
+
 import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.model.Meter;
 import cn.techen.lbs.mm.api.MTaskService;
@@ -10,6 +12,7 @@ import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.ProtocolService;
+import cn.techen.lbs.protocol.FrameConfig.State;
 import cn.techen.lbs.task.realtime.common.Local;
 import cn.techen.lbs.task.realtime.common.RealTimeContext;
 
@@ -42,7 +45,7 @@ public class ProcessHandler {
 				frame.setWriteTimes(Local.WRITETIMES);
 				frame.setTimeout(Local.TIMEOUT);
 				
-				context.write(frame);
+				write(context, frame);
 			}
 		} else {
 			context.reset();
@@ -81,5 +84,12 @@ public class ProcessHandler {
 		cause.printStackTrace();
     	context.reset();
     }
+	
+	private void write(RealTimeContext context, ProtocolFrame frame)  throws Exception {
+		context.setState(State.SENDING);
+		context.getmTaskService().lpush(MTaskService.QUEUE_SEND + context.PRIORITY.value(), frame);
+		frame.setwInTime(new Date());
+		context.setState(State.RECIEVING);
+	}
 
 }

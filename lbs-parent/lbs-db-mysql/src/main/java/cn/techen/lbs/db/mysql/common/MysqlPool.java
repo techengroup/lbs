@@ -13,7 +13,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.alibaba.druid.pool.DruidPooledConnection;
 
-import cn.techen.lbs.db.common.GlobalUtil;
+import cn.techen.lbs.db.common.Global;
 
 public class MysqlPool {
 	private static Logger logger = LoggerFactory.getLogger(Local.PROJECT);
@@ -27,7 +27,7 @@ public class MysqlPool {
 			druidDataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties); // DruidDataSrouce工厂模式
 		} catch (Exception e) {
 			logger.error("New mysql pool faild.");
-			logger.error(GlobalUtil.getStackTrace(e));
+			logger.error(Global.getStackTrace(e));
 		}
 	}
 
