@@ -16,23 +16,41 @@ import cn.techen.lbs.db.model.LBS;
 import cn.techen.lbs.db.sql.AbstractSQL;
 
 public class Global {
-
-	public static volatile boolean DBReady = false;//关系数据库满足
 	
-	public static volatile boolean MBReady = false;//内存数据库满足
-	
+	/**
+	 * GPRS模块
+	 */
 	public static volatile boolean G4Ready = false;//GPRS模块满足
 	
+	/**
+	 * Lora模块
+	 */
 	public static volatile boolean LoraReady = false;//基站Lora模块满足
 
-	public static volatile boolean DATAReady = false;//基站所需运行基础数据满足
+//	public static volatile boolean DBReady = false;//关系数据库满足
+//	
+//	public static volatile boolean MBReady = false;//内存数据库满足
+
+	public static volatile boolean IPReady = false;//连接主站信息满足
 	
+	/**
+	 * 基站GIS信息
+	 */
 	public static volatile boolean GISReady = false;//基站经度和纬度满足
 	
+	/**
+	 * 基站通道信息
+	 */
 	public static volatile boolean ChannelReady = false;//基站通道满足
 	
+	/**
+	 * 基站档案
+	 */
 	public static volatile LBS lbs = null;//基站档案
 	
+	/**
+	 * 中继设备起始Id
+	 */
 	public static volatile int RepeaterStartId = 1000000;
 	
 	/**
@@ -59,7 +77,7 @@ public class Global {
 	public static volatile int CurrentReadEventCount = 0;
 	
 	/**
-	 * New Data
+	 * New Sql
 	 * @param dataClass
 	 * @return
 	 * @throws Exception

@@ -435,9 +435,7 @@ public class NodeServiceImpl implements NodeService {
 	}
 	
 	@Override
-	public int sucess(int nodeId, String commAddr
-			, int grade, int parent, String path, String route, int relay
-			, Date startTime, Date endTime, int RSSI) {
+	public int saveSuccess(int nodeId, String commAddr, int grade, int parent, String path, String route, int relay, Date startTime, Date endTime, int RSSI) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		Statement stmt = null;
@@ -495,15 +493,14 @@ public class NodeServiceImpl implements NodeService {
 	}
 	
 	@Override
-	public int fail(int nodeId, String commAddr
-			, int parent, String path, String route, Date startTime, Date endTime, int RSSI) {
+	public int saveFailSingle(int nodeId, String commAddr, int parent, String path, String route, Date startTime, Date endTime, Integer RSSI) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		Statement stmt = null;
 		try {			
 			StringBuffer ddl = null;			
 			ddl = new StringBuffer();
-			ddl.append("insert into LOG_NETWORK(MeterID, StartTime, EndTime, CommAddr, Route, SignalStrength, Result, RelayID) values(");
+			ddl.append("insert into LOG_NETWORK(NodeID, StartTime, EndTime, CommAddr, Route, SignalStrength, Result, RelayID) values(");
 			ddl.append(nodeId + ",");
 			ddl.append("'" + new java.sql.Timestamp(startTime.getTime()) + "',");
 			ddl.append("'" + new java.sql.Timestamp(endTime.getTime()) + "',");
@@ -539,8 +536,7 @@ public class NodeServiceImpl implements NodeService {
 	}
 	
 	@Override
-	public int fail(int nodeId, String commAddr
-			, int parent, String path, String route, Date startTime, Date endTime, int RSSI, int status) {
+	public int saveFailCompletely(int nodeId, String commAddr, int parent, String path, String route, Date startTime, Date endTime, Integer RSSI, int status) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		Statement stmt = null;
@@ -552,7 +548,7 @@ public class NodeServiceImpl implements NodeService {
 			
 			StringBuffer ddl1 = null;			
 			ddl1 = new StringBuffer();
-			ddl1.append("insert into LOG_NETWORK(MeterID, StartTime, EndTime, CommAddr, Route, SignalStrength, Result, RelayID) values(");
+			ddl1.append("insert into LOG_NETWORK(NodeID, StartTime, EndTime, CommAddr, Route, SignalStrength, Result, RelayID) values(");
 			ddl1.append(nodeId + ",");
 			ddl1.append("'" + new java.sql.Timestamp(startTime.getTime()) + "',");
 			ddl1.append("'" + new java.sql.Timestamp(endTime.getTime()) + "',");

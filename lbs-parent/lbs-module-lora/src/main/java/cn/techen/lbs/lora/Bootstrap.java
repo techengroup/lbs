@@ -5,7 +5,9 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cn.techen.lbs.channel.rxtx.RxtxChannel;
 import cn.techen.lbs.channel.rxtx.RxtxDeviceAddress;
+import cn.techen.lbs.channel.rxtx.RxtxEventListener;
 import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.lora.common.Local;
 import cn.techen.lbs.lora.common.LoraContext;
@@ -14,6 +16,7 @@ import cn.techen.lbs.lora.mananger.AbstractHandler;
 import cn.techen.lbs.lora.mananger.ObtainHandler;
 import cn.techen.lbs.lora.mananger.ReadHandler;
 import cn.techen.lbs.lora.mananger.WriteHandler;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.lora.mananger.StoreHandler;
 
 public class Bootstrap {
@@ -21,52 +24,84 @@ public class Bootstrap {
 	
 	private LoraContext context;
 	
-	private AbstractHandler handler0;
+	private AbstractHandler readHandler;
 	
-	private AbstractHandler handler1;
+	private AbstractHandler storeHandler;
+	
+	private AbstractHandler obtainHandler;
 	
 	public void start() {
 		initHandler();
 		
-		logger.info("LBS Lora is detecting lora serialport......");
-		Thread detect = new Thread(new DetectThread());
-		detect.start();
+		logger.info("Lora module init is starting......");
+		Thread init = new Thread(new InitThread());
+		init.start();
 		
-		logger.info("LBS Lora obtain Module is starting......");
+		logger.info("Lora module obtain is starting......");
 		Thread obtain = new Thread(new ObtainThread());
 		obtain.start();
 		
-		logger.info("LBS Lora read Module is starting......");
+		logger.info("Lora module read is starting......");
 		Thread read = new Thread(new ReadThread());
 		read.start();
 	}
 	
-	private void initHandler() {
-		AbstractHandler obtainHandler = new ObtainHandler();		
-		AbstractHandler writeHandler = new WriteHandler();
-		AbstractHandler readHandler = new ReadHandler();
-		AbstractHandler storeHandler = new StoreHandler();
-		obtainHandler.setHandler(writeHandler);
+	private void initHandler() {		
+		readHandler = new ReadHandler();
+		storeHandler = new StoreHandler();
 		readHandler.setHandler(storeHandler);
-		handler0 = obtainHandler;
-		handler1 = readHandler;
+		
+		obtainHandler = new ObtainHandler();		
+		AbstractHandler writeHandler = new WriteHandler();
+		obtainHandler.setHandler(writeHandler);
 	}
 
 	public void setContext(LoraContext context) {
 		this.context = context;
 	}
 	
-	protected class DetectThread implements Runnable {
+	protected class InitThread implements Runnable {
 		
 		@Override
 		public void run() {
 			while (true) {				
 				try {
-					if (!LoraRxtx.getInstance().isReady()) {
+					if (!Global.LoraReady) {
 						try {
-							LoraRxtx.getInstance().connect(new RxtxDeviceAddress(Global.RunParams.get("LoraCOM").toString()));
+							LoraRxtx loraRxtx = LoraRxtx.getInstance();
+							loraRxtx.connect(new RxtxDeviceAddress(Global.RunParams.get("LoraCOM").toString()));
+							loraRxtx.addEventListener(new RxtxEventListener() {
+								@Override
+								public void channelActive(RxtxChannel channel) throws Exception {
+									logger.info("Connected Lora serial port:{}.", channel.remoteAddress());
+									Global.LoraReady = true;
+								}
+								
+								@Override
+								public void channelRead(RxtxChannel channel, byte[] data) throws Exception {
+									logger.info(ProtocolUtil.byte2HexString(data, true));
+									context.byteBuffer.addAll(ProtocolUtil.byte2List(data));
+								}
+								
+								@Override
+								public void channelInactive(RxtxChannel channel) throws Exception {
+									logger.info("Disconnected lora serial port:{}.", channel.remoteAddress());
+									channel.disconnect();
+									Global.LoraReady = false;
+								}
+								
+								@Override
+								public void exceptionCaught(RxtxChannel channel, Throwable cause) {
+									logger.error(Global.getStackTrace(cause));
+									channel.disconnect();
+									Global.LoraReady = false;
+								}
+							});
+							
+							Global.LoraReady = true;
 						} catch (Exception e) {
 							logger.error(Global.getStackTrace(e));
+							Global.LoraReady = false;
 						}
 					}
 					
@@ -94,8 +129,8 @@ public class Bootstrap {
 						lastTime = new Date();
 					}
 					
-					if (LoraRxtx.getInstance().isReady() && Global.DATAReady) {
-						handler0.operate(context);			
+					if (Global.LoraReady) {
+						obtainHandler.operate(context);			
 					}
 				} catch (Exception e) {
 					logger.error(Global.getStackTrace(e));
@@ -105,15 +140,21 @@ public class Bootstrap {
 	}
 	
 	protected class ReadThread implements Runnable {
-
+		
 		@Override
 		public void run() {
 			while (true) {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					if (LoraRxtx.getInstance().isReady() && Global.DATAReady) {
-						handler1.operate(context);
+					if (Global.LoraReady) {
+						readHandler.operate(context);			
+					} 
+					
+					if (context.getFrame() != null) {
+						if (context.getFrame().isTimeout()) {
+							storeHandler.operate(context);
+						}	
 					}
 				} catch (Exception e) {
 					logger.error(Global.getStackTrace(e));

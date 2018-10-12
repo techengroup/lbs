@@ -55,12 +55,10 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.LOADMILLIS);
 					
-					if (Global.GISReady && Global.ChannelReady) {
-						if (context.getState() == State.FINISHED) {
-							Long size = context.getmMonthService().size();
-							if (size == null || size <= 0) {
-								load();
-							}
+					if (context.getState() == State.FINISHED) {
+						Long size = context.getmMonthService().size();
+						if (size == null || size <= 0) {
+							load();
 						}
 					}
 				} catch (Exception e) {
@@ -94,7 +92,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					if (Global.GISReady && Global.ChannelReady) {
+					if (Global.LoraReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}

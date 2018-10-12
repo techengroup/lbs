@@ -1,8 +1,6 @@
 package cn.techen.lbs.lora.mananger;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,24 +19,18 @@ import cn.techen.lbs.protocol.common.ProtocolUtil;
 
 public class ReadHandler extends AbstractHandler {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
-	private List<Byte> bList = new ArrayList<Byte>();
 
 	public ReadHandler() {
 		super();
 	}
 
 	@Override
-	public void operate(LoraContext context) throws Exception {		
-		byte[] data = LoraRxtx.getInstance().read();
-		
-		if (data != null && data.length > 0) {			
-			logger.debug(ProtocolUtil.byte2HexString(data, true));
-			
-			bList.addAll(ProtocolUtil.byte2List(data));		
-			byte[] frame = ProtocolUtil.list2byte(bList);		
+	public void operate(LoraContext context) throws Exception {	
+		if (!context.byteBuffer.isEmpty()) {				
+			byte[] frame = ProtocolUtil.list2byte(context.byteBuffer);		
 			int valid = context.getProtocolManagerService().getProtocol(Local.PROTOCOL).valid(frame);
 			
-			if (valid < 2) bList.clear();
+			if (valid < 2) context.byteBuffer.clear();
 			
 			if (valid == 1) {			
 				logger.info("Read： {}B \r\n{}", frame.length, ProtocolUtil.byte2HexString(frame, true));
@@ -66,13 +58,9 @@ public class ReadHandler extends AbstractHandler {
 						context.getFrame().setReadBytes(frame);	
 						getHandler().operate(context);
 					}
-					
-					if (context.getFrame().isTimeout()) {
-						getHandler().operate(context);
-					}
 				}
-			}
-		}		
+			}			
+		}
 	}
 	
 }

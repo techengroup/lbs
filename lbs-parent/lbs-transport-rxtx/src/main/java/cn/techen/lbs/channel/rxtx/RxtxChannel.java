@@ -17,7 +17,6 @@ import gnu.io.UnsupportedCommOperationException;
 public class RxtxChannel {
 
 	private final RxtxChannelConfig config;
-
 	private RxtxDeviceAddress deviceAddress;
 	private SerialPort serialPort;
 
@@ -27,18 +26,7 @@ public class RxtxChannel {
 	}
 
 	/**
-	 * 是否打开
-	 * 
-	 * @return
-	 */
-	public boolean isReady() {
-		if (this.serialPort == null) return false;
-		return this.serialPort.isDSR();
-	}
-
-	/**
 	 * Rxtx配置
-	 * 
 	 * @return
 	 */
 	public RxtxChannelConfig config() {
@@ -47,7 +35,6 @@ public class RxtxChannel {
 
 	/**
 	 * Rxtx设备地址
-	 * 
 	 * @return
 	 */
 	public RxtxDeviceAddress remoteAddress() {
@@ -56,8 +43,7 @@ public class RxtxChannel {
 
 	/**
 	 * 链接设备
-	 * 
-	 * @param deviceAddress
+	 * @param remoteAddress
 	 * @throws Exception
 	 */
 	public void connect(SocketAddress remoteAddress) throws Exception {
@@ -75,29 +61,44 @@ public class RxtxChannel {
 					throw new Exception("Don't support to set parameters for serialport.", e.getCause());
 				}
 			} else {
-				throw new Exception("This port is not a serialport.");
+				throw new Exception("The rxtx port is not a serialport.");
 			}
 		} catch (NoSuchPortException e) {
-			throw new Exception("There is no such port.", e.getCause());
+			throw new Exception("The rxtx port is not existed.", e.getCause());
 		} catch (PortInUseException e) {
-			throw new Exception("This port is used.", e.getCause());
+			throw new Exception("The rxtx port is occupied.", e.getCause());
 		}
 	}
 
 	/**
-	 * 处理设备句柄
+	 * 断开设备
 	 * 
-	 * @param rch
 	 * @throws Exception
 	 */
-	public void handler(RxtxEventListener rch) throws Exception {
-		addLinstener(rch);
+	public void disconnect() {
+		if (serialPort != null) {
+			serialPort.removeEventListener();
+			serialPort.close();
+			serialPort = null;
+		}
 	}
 	
+	/**
+	 * 添加Listener
+	 * @param rxtxEventListener
+	 * @throws Exception
+	 */
 	public void addEventListener(final RxtxEventListener rxtxEventListener) throws Exception  {
 		serialPort.addEventListener(new SerialPortEventListener() {
 			public void serialEvent(SerialPortEvent serialPortEvent) {
 				switch (serialPortEvent.getEventType()) {
+				case SerialPortEvent.DSR: // 4数据设备准备好
+					try {
+						rxtxEventListener.channelActive(RxtxChannel.this);						
+					} catch (Exception e) {
+						rxtxEventListener.exceptionCaught(RxtxChannel.this, e.getCause());
+					}
+					break;
 				case SerialPortEvent.BI: // 10通讯中断
 					try {
 						rxtxEventListener.channelInactive(RxtxChannel.this);						
@@ -111,25 +112,7 @@ public class RxtxChannel {
 					} catch (Exception e) {
 						rxtxEventListener.exceptionCaught(RxtxChannel.this, e.getCause());
 					}
-					break;
-				// case SerialPortEvent.OE: // 7溢位错误
-				//
-				// case SerialPortEvent.FE: // 9帧错误
-				//
-				// case SerialPortEvent.PE: // 8奇偶校验错
-				//
-				// case SerialPortEvent.CD: // 6载波检测
-				//
-				// case SerialPortEvent.CTS: // 3清除发送
-				//
-				// case SerialPortEvent.DSR: // 4数据设备准备好
-				// System.out.println("===============DSR.");
-				// break;
-				// case SerialPortEvent.RI: // 5振铃指示
-				//
-				// case SerialPortEvent.OUTPUT_BUFFER_EMPTY: // 2输出缓冲区已清空
-				// System.out.println("===============OUTPUT_BUFFER_EMPTY.");
-				// break;				
+					break;			
 				}
 			}
 		});
@@ -138,57 +121,52 @@ public class RxtxChannel {
 		serialPort.notifyOnBreakInterrupt(true);
 	}
 
-	/**
-	 * 添加Listener
-	 * 
-	 * @throws Exception
-	 */
-	protected void addLinstener(final RxtxEventListener rch) throws Exception {
-		serialPort.addEventListener(new SerialPortEventListener() {
-			public void serialEvent(SerialPortEvent serialPortEvent) {
-				switch (serialPortEvent.getEventType()) {
-				case SerialPortEvent.BI: // 10通讯中断
-					try {
-						rch.channelInactive(RxtxChannel.this);						
-					} catch (Exception e) {
-						rch.exceptionCaught(RxtxChannel.this, e.getCause());
-					}
-					break;
-				// case SerialPortEvent.OE: // 7溢位错误
-				//
-				// case SerialPortEvent.FE: // 9帧错误
-				//
-				// case SerialPortEvent.PE: // 8奇偶校验错
-				//
-				// case SerialPortEvent.CD: // 6载波检测
-				//
-				// case SerialPortEvent.CTS: // 3清除发送
-				//
-				// case SerialPortEvent.DSR: // 4数据设备准备好
-				// System.out.println("===============DSR.");
-				// break;
-				// case SerialPortEvent.RI: // 5振铃指示
-				//
-				// case SerialPortEvent.OUTPUT_BUFFER_EMPTY: // 2输出缓冲区已清空
-				// System.out.println("===============OUTPUT_BUFFER_EMPTY.");
-				// break;
-				case SerialPortEvent.DATA_AVAILABLE: // 1读到可用数据时激活
-					try {
-						rch.channelRead(RxtxChannel.this, read());
-					} catch (Exception e) {
-						rch.exceptionCaught(RxtxChannel.this, e.getCause());
-					}
-					break;
-				}
-			}
-		});
-
-		serialPort.notifyOnDataAvailable(true);
-		serialPort.notifyOnBreakInterrupt(true);
-	}
+//	protected void addLinstener(final RxtxEventListener rch) throws Exception {
+//		serialPort.addEventListener(new SerialPortEventListener() {
+//			public void serialEvent(SerialPortEvent serialPortEvent) {
+//				switch (serialPortEvent.getEventType()) {
+//				case SerialPortEvent.BI: // 10通讯中断
+//					try {
+//						rch.channelInactive(RxtxChannel.this);						
+//					} catch (Exception e) {
+//						rch.exceptionCaught(RxtxChannel.this, e.getCause());
+//					}
+//					break;
+//				// case SerialPortEvent.OE: // 7溢位错误
+//				//
+//				// case SerialPortEvent.FE: // 9帧错误
+//				//
+//				// case SerialPortEvent.PE: // 8奇偶校验错
+//				//
+//				// case SerialPortEvent.CD: // 6载波检测
+//				//
+//				// case SerialPortEvent.CTS: // 3清除发送
+//				//
+//				// case SerialPortEvent.DSR: // 4数据设备准备好
+//				// System.out.println("===============DSR.");
+//				// break;
+//				// case SerialPortEvent.RI: // 5振铃指示
+//				//
+//				// case SerialPortEvent.OUTPUT_BUFFER_EMPTY: // 2输出缓冲区已清空
+//				// System.out.println("===============OUTPUT_BUFFER_EMPTY.");
+//				// break;
+//				case SerialPortEvent.DATA_AVAILABLE: // 1读到可用数据时激活
+//					try {
+//						rch.channelRead(RxtxChannel.this, read());
+//					} catch (Exception e) {
+//						rch.exceptionCaught(RxtxChannel.this, e.getCause());
+//					}
+//					break;
+//				}
+//			}
+//		});
+//
+//		serialPort.notifyOnDataAvailable(true);
+//		serialPort.notifyOnBreakInterrupt(true);
+//	}
 
 	/**
-	 * Read Data
+	 * 读数据
 	 * @return
 	 * @throws Exception
 	 */
@@ -208,7 +186,7 @@ public class RxtxChannel {
 		} catch (NullPointerException e) {
 			throw new Exception("Serailport is null.", e.getCause());
 		} catch (IOException e) {
-			throw new Exception("Read data failure.", e.getCause());
+			throw new Exception("Read data fail.", e.getCause());
 		} finally {
 			if (in != null) {
 				in.close();
@@ -219,7 +197,6 @@ public class RxtxChannel {
 
 	/**
 	 * 写数据
-	 * 
 	 * @param data
 	 */
 	public void write(byte[] data) throws Exception {
@@ -231,24 +208,11 @@ public class RxtxChannel {
 		} catch (NullPointerException e) {
 			throw new Exception("Serailport is null.", e.getCause());
 		} catch (IOException e) {
-			throw new Exception("Send data failure.", e.getCause());
+			throw new Exception("Send data fail.", e.getCause());
 		} finally {
 			if (out != null) {
 				out.close();
 			}
-		}
-	}
-
-	/**
-	 * 断开设备
-	 * 
-	 * @throws Exception
-	 */
-	public void disconnect() {
-		if (serialPort != null) {
-			serialPort.removeEventListener();
-			serialPort.close();
-			serialPort = null;
 		}
 	}
 

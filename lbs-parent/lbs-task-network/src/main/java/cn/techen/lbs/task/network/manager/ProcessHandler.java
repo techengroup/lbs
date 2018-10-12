@@ -47,20 +47,14 @@ public class ProcessHandler {
 				if (Integer.parseInt(Global.RunParams.get("LoraSignalThreshold").toString()) < node.getRssi()) {
 					success(context, node, frame);					
 				} else {
-					frame.increaseRetryTimes();
-					int mod = frame.getRetryTimes() % 2;
-					if (mod != 0) {
-						fail(context, frame, node);
-						write(context, frame);						
-					} else {
-						failCompletely(context, frame, node);
-						context.reset();
-					}
+					fail(context, frame, node);
 				}	
 			} else {
 				//TODO need consider
 				context.reset();
 			}		
+		} else {//timeout
+			fail(context, frame, node);
 		}
 	}
 	
@@ -126,6 +120,8 @@ public class ProcessHandler {
 			} else {
 				node.setRelayNode(relay);
 			}
+		} else {
+			node.setRelayNode(repeater);
 		}
 	}
 	
@@ -153,8 +149,8 @@ public class ProcessHandler {
 	
 	private void write(NetContext context, ProtocolFrame frame)  throws Exception {
 		context.setState(State.SENDING);
-		context.getmTaskService().lpush(MTaskService.QUEUE_SEND + context.PRIORITY.value(), frame);
 		frame.setwInTime(new Date());
+		context.getmTaskService().lpush(MTaskService.QUEUE_SEND + context.PRIORITY.value(), frame);
 		context.setState(State.RECIEVING);
 	}
 	
@@ -165,29 +161,34 @@ public class ProcessHandler {
 			node.setRelay(0);
 		}
 		
-		context.getNodeService().sucess(node.getId(), node.getCommaddr()
+		context.getNodeService().saveSuccess(node.getId(), node.getCommaddr()
 				, node.getRelayNode().getGrade() + 1, node.getRelayNode().getId()
 				, node.getRelayNode().getPath() + "/" + node.getId()
 				, node.getRelayNode().getRoute() + "," + node.getCommaddr()
-				, node.getRelay() , frame.getNewTime(), frame.getReadTime(), node.getRssi());
+				, node.getRelay() , frame.getwInTime(), frame.getrOutTime(), node.getRssi());
 	}
 	
-	private void fail(NetContext context, ProtocolFrame frame, Node node) {
-		context.getNodeService().fail(node.getId(), node.getCommaddr()
-		, node.getRelayNode().getId()
-		, node.getRelayNode().getPath() + "/" + node.getId()
-		, node.getRelayNode().getRoute() + "," + node.getCommaddr()
-		, frame.getNewTime(), frame.getReadTime(), node.getRssi());
-	}
-	
-	private void failCompletely(NetContext context, ProtocolFrame frame, Node node) {
-		context.getNodeService().fail(node.getId(), node.getCommaddr()
-		, node.getRelayNode().getId()
-		, node.getRelayNode().getPath() + "/" + node.getId()
-		, node.getRelayNode().getRoute() + "," + node.getCommaddr()
-		, frame.getNewTime(), frame.getReadTime(), node.getRssi(), 0);
-		
-		confirmRelayOrNot(context, node);
+	private void fail(NetContext context, ProtocolFrame frame, Node node) throws Exception {
+		frame.increaseRetryTimes();
+		int mod = frame.getRetryTimes() % 3;
+		if (mod != 0) {
+			context.getNodeService().saveFailSingle(node.getId(), node.getCommaddr()
+					, node.getRelayNode().getId()
+					, node.getRelayNode().getPath() + "/" + node.getId()
+					, node.getRelayNode().getRoute() + "," + node.getCommaddr()
+					, frame.getwInTime(), frame.getrOutTime(), node.getRssi());
+			
+			write(context, frame);						
+		} else {
+			context.getNodeService().saveFailCompletely(node.getId(), node.getCommaddr()
+					, node.getRelayNode().getId()
+					, node.getRelayNode().getPath() + "/" + node.getId()
+					, node.getRelayNode().getRoute() + "," + node.getCommaddr()
+					, frame.getwInTime(), frame.getrOutTime(), node.getRssi(), 0);
+					
+			confirmRelayOrNot(context, node);
+			context.reset();
+		}
 	}
 	
 	private void confirmRelayOrNot(NetContext context, Node node) {

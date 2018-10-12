@@ -52,17 +52,15 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.LOADMILLIS);
 					
-					if (Global.GISReady && Global.ChannelReady) {
-						if (context.getState() == State.FINISHED) {
-							Long size = context.getmReportService().size();
-							if (size == null || size <= 0) {
-								List<Report> reports = context.getReportService().selectAll();
-								if (reports == null || reports.size() <= 0) {
-									logger.info("Loaded event report meters[0]...");
-								} else {
-									context.getmReportService().lpush(reports);
-									logger.info("Loaded event report meters[{}]...", reports.size());
-								}
+					if (context.getState() == State.FINISHED) {
+						Long size = context.getmReportService().size();
+						if (size == null || size <= 0) {
+							List<Report> reports = context.getReportService().selectAll();
+							if (reports == null || reports.size() <= 0) {
+								logger.info("Loaded event report meters[0]...");
+							} else {
+								context.getmReportService().lpush(reports);
+								logger.info("Loaded event report meters[{}]...", reports.size());
 							}
 						}
 					}
@@ -81,7 +79,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					if (Global.GISReady && Global.ChannelReady) {
+					if (Global.LoraReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}

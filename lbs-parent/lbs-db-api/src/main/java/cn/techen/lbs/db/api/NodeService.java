@@ -29,15 +29,15 @@ public interface NodeService extends IService<Node> {
 
 	int clearRoute(int nodeId);
 
-	int sucess(int nodeId, String commAddr, int grade, int parent, String path, String route, int relay, Date startTime,
-			Date endTime, int RSSI);
+	int saveSuccess(int nodeId, String commAddr, int grade, int parent, String path, String route, int relay,
+			Date startTime, Date endTime, int RSSI);
 
-	int fail(int nodeId, String commAddr, int parent, String path, String route, Date startTime, Date endTime,
-			int RSSI);
+	int saveFailSingle(int nodeId, String commAddr, int parent, String path, String route, Date startTime, Date endTime,
+			Integer RSSI);
 
-	int fail(int nodeId, String commAddr, int parent, String path, String route, Date startTime, Date endTime, int RSSI,
-			int status);
-
+	int saveFailCompletely(int nodeId, String commAddr, int parent, String path, String route, Date startTime,
+			Date endTime, Integer RSSI, int status);
+	
 	int selectSuccessNodeAfterNode(int sector, double distance);
 
 	Map<String, Integer> selectTotalAndFailNode(int sector, int districtX);
@@ -47,6 +47,8 @@ public interface NodeService extends IService<Node> {
 	List<Node> selectOptimalNode(int sector, int districtX);
 
 	int optimalRelay(List<Node> nodes);
+
+	
 
 	
 }

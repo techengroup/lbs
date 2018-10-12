@@ -45,8 +45,6 @@ public class RunData implements Runnable {
 				
 				count++;
 				if (count > 100000) count = 1;
-			} catch (InterruptedException e) {
-				logger.error(Global.getStackTrace(e));
 			} catch (Exception e) {	
 				logger.error(Global.getStackTrace(e));
 			}
@@ -83,8 +81,6 @@ public class RunData implements Runnable {
 			}
 			
 			load(lbs, params, fns, meters);
-			
-			Global.DATAReady = true;
 		} else {
 			Date nowTime = new Date();
 			
@@ -107,6 +103,9 @@ public class RunData implements Runnable {
 			}
 			if (lbs.getLongitude() != null && lbs.getLatitude() != null) {
 				Global.GISReady = true;
+			}
+			if (lbs.getIp() != null && lbs.getPort() != null) {
+				Global.IPReady = true;
 			}
 			Global.lbs = lbs;
 			logger.info("LBS parameters have been modified...");

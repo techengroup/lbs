@@ -1,5 +1,8 @@
 package cn.techen.lbs.lora.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.ProtocolManagerService;
@@ -14,6 +17,8 @@ public class LoraContext {
 	private ProtocolFrame frame;
 	
 	private Priority priority;
+	
+	public volatile List<Byte> byteBuffer = new ArrayList<Byte>();
 
 	public ProtocolFrame getFrame() {
 		return frame;

@@ -44,7 +44,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					if (Global.GISReady && Global.ChannelReady) {
+					if (Global.LoraReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}

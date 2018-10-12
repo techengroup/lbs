@@ -60,6 +60,7 @@ public class NetContext {
 		try {
 			processHandler.read(this, frame);
 		} catch (Exception e) {
+			e.printStackTrace();
 			processHandler.exceptionCaught(this, e.getCause());
 		}
 	}

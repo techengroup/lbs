@@ -52,7 +52,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.CONNECTINTERVALMILLIS);		
 					
-					if (Global.DATAReady) {
+					if (Global.IPReady) {
 						disconnect();
 						connect();
 					}

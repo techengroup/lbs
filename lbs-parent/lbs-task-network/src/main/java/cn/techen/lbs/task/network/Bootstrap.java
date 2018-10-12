@@ -52,17 +52,15 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.LOADMILLIS);
 					
-					if (Global.GISReady && Global.ChannelReady) {
-						if (context.getState() == State.FINISHED) {
-							Long size = context.getmNodeService().size();
-							if (size == null || size <= 0) {
-								List<Node> nodes = context.getNodeService().selectUnregister();
-								if (nodes == null || nodes.size() <= 0) {
-									logger.info("Loaded unregister node[0]...");
-								} else {
-									context.getmNodeService().lpush(nodes);
-									logger.info("Loaded unregister node[{}]...", nodes.size());
-								}
+					if (context.getState() == State.FINISHED) {
+						Long size = context.getmNodeService().size();
+						if (size == null || size <= 0) {
+							List<Node> nodes = context.getNodeService().selectUnregister();
+							if (nodes == null || nodes.size() <= 0) {
+								logger.info("Loaded unregister node[0]...");
+							} else {
+								context.getmNodeService().lpush(nodes);
+								logger.info("Loaded unregister node[{}]...", nodes.size());
 							}
 						}
 					}
@@ -81,7 +79,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					if (Global.GISReady && Global.ChannelReady) {
+					if (Global.LoraReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}
