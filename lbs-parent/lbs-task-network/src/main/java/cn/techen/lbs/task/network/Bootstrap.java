@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.model.Node;
+import cn.techen.lbs.mm.api.MNodeService;
 import cn.techen.lbs.protocol.FrameConfig.State;
 import cn.techen.lbs.task.network.common.Local;
 import cn.techen.lbs.task.network.common.NetContext;
@@ -53,7 +54,7 @@ public class Bootstrap {
 					Thread.sleep(Local.LOADMILLIS);
 					
 					if (context.getState() == State.FINISHED) {
-						Long size = context.getmNodeService().size();
+						Long size = context.getmNodeService().size(MNodeService.DB_NODE_UNREGISTER);
 						if (size == null || size <= 0) {
 							List<Node> nodes = context.getNodeService().selectUnregister();
 							if (nodes == null || nodes.size() <= 0) {

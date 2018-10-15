@@ -3,8 +3,8 @@ package cn.techen.lbs.task.month.common;
 import cn.techen.lbs.db.api.GeneralService;
 import cn.techen.lbs.db.api.MonthService;
 import cn.techen.lbs.db.model.Month;
-import cn.techen.lbs.mm.api.MMeterService;
 import cn.techen.lbs.mm.api.MMonthService;
+import cn.techen.lbs.mm.api.MNodeService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.FrameConfig.Priority;
@@ -24,7 +24,7 @@ public class MonthContext {
 	
 	private MMonthService mMonthService;
 
-	private MMeterService mMeterService;
+	private MNodeService mNodeService;
 
 	private MTaskService<ProtocolFrame> mTaskService;
 	
@@ -86,12 +86,13 @@ public class MonthContext {
 	public void setMonthService(MonthService monthService) {
 		this.monthService = monthService;
 	}
-	public MMeterService getmMeterService() {
-		return mMeterService;
+
+	public MNodeService getmNodeService() {
+		return mNodeService;
 	}
 
-	public void setmMeterService(MMeterService mMeterService) {
-		this.mMeterService = mMeterService;
+	public void setmNodeService(MNodeService mNodeService) {
+		this.mNodeService = mNodeService;
 	}
 
 	public MMonthService getmMonthService() {

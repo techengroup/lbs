@@ -7,8 +7,6 @@
 	<bean id="mBaseBean" class="cn.techen.lbs.mm.redis.impl.MBaseServiceImpl" />
 	
 	<bean id="mLbsBean" class="cn.techen.lbs.mm.redis.impl.MLbsServiceImpl" />
-
-	<bean id="mMeterBean" class="cn.techen.lbs.mm.redis.impl.MMeterServiceImpl" />
 	
 	<bean id="mNodeBean" class="cn.techen.lbs.mm.redis.impl.MNodeServiceImpl" />
 	
@@ -21,8 +19,6 @@
 	<service id="mBaseService" ref="mBaseBean" interface="cn.techen.lbs.mm.api.MBaseService"/>	
 	
 	<service id="mLbsService" ref="mLbsBean" interface="cn.techen.lbs.mm.api.MLbsService"/>
-	
-	<service id="mMeterService" ref="mMeterBean" interface="cn.techen.lbs.mm.api.MMeterService"/>
 	
 	<service id="mNodeService" ref="mNodeBean" interface="cn.techen.lbs.mm.api.MNodeService"/>
 	

@@ -3,7 +3,7 @@ package cn.techen.lbs.task.event.common;
 import cn.techen.lbs.db.api.GeneralService;
 import cn.techen.lbs.db.api.ReportService;
 import cn.techen.lbs.db.model.Report;
-import cn.techen.lbs.mm.api.MMeterService;
+import cn.techen.lbs.mm.api.MNodeService;
 import cn.techen.lbs.mm.api.MReportService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
@@ -22,7 +22,7 @@ public class EventContext {
 	
 	private ReportService reportService;
 	
-	private MMeterService mMeterService;
+	private MNodeService mNodeService;
 	
 	private MReportService mReportService;
 
@@ -86,12 +86,12 @@ public class EventContext {
 		this.reportService = reportService;
 	}
 
-	public MMeterService getmMeterService() {
-		return mMeterService;
+	public MNodeService getmNodeService() {
+		return mNodeService;
 	}
 
-	public void setmMeterService(MMeterService mMeterService) {
-		this.mMeterService = mMeterService;
+	public void setmNodeService(MNodeService mNodeService) {
+		this.mNodeService = mNodeService;
 	}
 
 	public MReportService getmReportService() {

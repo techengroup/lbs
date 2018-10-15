@@ -56,7 +56,7 @@ public class Bootstrap {
 					Thread.sleep(Local.LOADMILLIS);
 					
 					if (context.getState() == State.FINISHED) {
-						Long size = context.getmMonthService().size();
+						Long size = context.getmMonthService().size(null);
 						if (size == null || size <= 0) {
 							load();
 						}

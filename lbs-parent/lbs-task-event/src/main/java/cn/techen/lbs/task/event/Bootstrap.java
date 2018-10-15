@@ -53,7 +53,7 @@ public class Bootstrap {
 					Thread.sleep(Local.LOADMILLIS);
 					
 					if (context.getState() == State.FINISHED) {
-						Long size = context.getmReportService().size();
+						Long size = context.getmReportService().size(null);
 						if (size == null || size <= 0) {
 							List<Report> reports = context.getReportService().selectAll();
 							if (reports == null || reports.size() <= 0) {

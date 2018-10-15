@@ -15,6 +15,8 @@ public class Node extends MyModel {
 	private Integer status;
 	private Integer protocol;
 	private Integer moduleprotocol;
+	private Double longitude;
+	private Double latitude;
 	private Double distance;
 	private Float angle;
 	private Integer sector;
@@ -81,6 +83,22 @@ public class Node extends MyModel {
 
 	public void setModuleprotocol(Integer moduleprotocol) {
 		this.moduleprotocol = moduleprotocol;
+	}
+	
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 
 	public Double getDistance() {

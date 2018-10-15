@@ -67,7 +67,7 @@ public class ProcessHandler {
 		Node relay = context.getNodeService().selectPrimeRelay(node.getSector(), node.getDistance());		
 		
 		if (relay == null) {
-			int count = context.getNodeService().selectExecTimesWithOptimalRelay(Global.lbs.getId());
+			int count = context.getNodeService().selectExecTimesWithOptimalRelay(node.getId(), Global.lbs.getId());
 			
 			if (count < 4) {//prime route try 2 times, try 2 times at same prime route, other route only try 1 times.
 				Node root = new Node();
@@ -81,7 +81,7 @@ public class ProcessHandler {
 				secondaryRoute(context, node);
 			}
 		} else {
-			int count = context.getNodeService().selectExecTimesWithOptimalRelay(relay.getId());
+			int count = context.getNodeService().selectExecTimesWithOptimalRelay(node.getId(), relay.getId());
 			
 			if (count < 4) {//prime route try 2 times, try 2 times at same prime route, other route only try 1 times.
 				node.setRelayNode(relay);
@@ -170,7 +170,7 @@ public class ProcessHandler {
 	
 	private void fail(NetContext context, ProtocolFrame frame, Node node) throws Exception {
 		frame.increaseRetryTimes();
-		int mod = frame.getRetryTimes() % 3;
+		int mod = frame.getRetryTimes() % 2;
 		if (mod != 0) {
 			context.getNodeService().saveFailSingle(node.getId(), node.getCommaddr()
 					, node.getRelayNode().getId()

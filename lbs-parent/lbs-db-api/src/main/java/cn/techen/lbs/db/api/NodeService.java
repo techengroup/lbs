@@ -12,12 +12,18 @@ import cn.techen.lbs.db.model.Node;
  * @since 2018-03-14 16:55
  */
 public interface NodeService extends IService<Node> {
+	
+	List<Node> selectByTime(Date time);
+
+	List<Node> selectGIS();
+
+	int updateGIS(List<Node> entitys);
 
     List<Node> selectUnregister();
 
 	Node selectPrimeRelay(int sector, double distance);
 
-	int selectExecTimesWithOptimalRelay(int relayId);
+	int selectExecTimesWithOptimalRelay(int nodeId, int relayId);
 	
 	Node selectSecondaryRelay(int nodeId, int sector, double distance);
 
@@ -47,8 +53,5 @@ public interface NodeService extends IService<Node> {
 	List<Node> selectOptimalNode(int sector, int districtX);
 
 	int optimalRelay(List<Node> nodes);
-
-	
-
 	
 }

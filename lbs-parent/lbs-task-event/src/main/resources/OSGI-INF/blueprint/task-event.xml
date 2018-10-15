@@ -8,7 +8,7 @@
 	
 	<reference id="reportService" interface="cn.techen.lbs.db.api.ReportService" />
 	
-	<reference id="mMeterService" interface="cn.techen.lbs.mm.api.MMeterService" />
+	<reference id="mNodeService" interface="cn.techen.lbs.mm.api.MNodeService" />
 	
 	<reference id="mReportService" interface="cn.techen.lbs.mm.api.MReportService" />
 	
@@ -19,7 +19,7 @@
 	<bean id="eventContextBean" class="cn.techen.lbs.task.event.common.EventContext">	
 		<property name="generalService" ref="generalService"/>
 		<property name="reportService" ref="reportService"/>
-		<property name="mMeterService" ref="mMeterService"/>
+		<property name="mNodeService" ref="mNodeService"/>
 		<property name="mReportService" ref="mReportService"/>
 		<property name="mTaskService" ref="mTaskService"/>
 		<property name="protocolManagerService" ref="protocolManagerService"/>

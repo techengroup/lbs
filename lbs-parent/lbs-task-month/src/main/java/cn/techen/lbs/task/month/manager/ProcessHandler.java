@@ -78,7 +78,7 @@ public class ProcessHandler {
 		if (config != null) {
 			//==网路状况不好时，可能有串包,处理如下== 冻结和事件的处理方式有点区别 == 
 			String commAddr = ProtocolUtil.getCommAddr(config.getCommAddr());
-			int meterId = context.getmMeterService().get(commAddr).getId();
+			int nodeId = context.getmNodeService().get(commAddr).getId();
 			//==网路状况不好时，可能有串包,处理如下== 冻结和事件的处理方式有点区别 ==
 						
 			for (String fn : config.funcs()) {
@@ -86,14 +86,14 @@ public class ProcessHandler {
 				if (fnKey != null && !fnKey.isEmpty()) {						
 					String className = String.format("Fn%s", fnKey.replace(":", ""));
 					AbstractSQL as = Global.newSql(className);					
-					context.getGeneralService().save(as.handle(meterId, config.units()));
+					context.getGeneralService().save(as.handle(nodeId, config.units()));
 				}
 			}
 			
 			context.reset();
 		} else {
 			frame.increaseRetryTimes();
-			int mod = frame.getRetryTimes() % 3;
+			int mod = frame.getRetryTimes() % 2;
 			if (mod != 0) {
 				write(context, frame);
 			} else {

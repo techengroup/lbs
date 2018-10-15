@@ -10,23 +10,23 @@
 	
 	<reference id="fnService" interface="cn.techen.lbs.db.api.FnService" />
 	
-	<reference id="meterService" interface="cn.techen.lbs.db.api.MeterService" />
+	<reference id="nodeService" interface="cn.techen.lbs.db.api.NodeService" />
 	
 	<reference id="mBaseService" interface="cn.techen.lbs.mm.api.MBaseService" />
 	
-	<reference id="mMeterService" interface="cn.techen.lbs.mm.api.MMeterService" />	
+	<reference id="mNodeService" interface="cn.techen.lbs.mm.api.MNodeService" />	
 	
 	<bean id="runDataBean" class="cn.techen.lbs.data.manager.RunData">
 		<property name="lbsService" ref="lbsService"/>
 		<property name="paramService" ref="paramService"/>
 		<property name="fnService" ref="fnService"/>
-		<property name="meterService" ref="meterService"/>
+		<property name="nodeService" ref="nodeService"/>
 		<property name="mBaseService" ref="mBaseService"/>
-		<property name="mMeterService" ref="mMeterService"/>
+		<property name="mNodeService" ref="mNodeService"/>
 	</bean>	
 	
 	<bean id="gisCalcBean" class="cn.techen.lbs.data.manager.GISCalc">
-		<property name="meterService" ref="meterService"/>
+		<property name="nodeService" ref="nodeService"/>
 	</bean>	
 	
 	<bean id="bootStrapBean" class="cn.techen.lbs.data.Bootstrap" init-method="start">

@@ -1,6 +1,6 @@
 package cn.techen.lbs.task.realtime.common;
 
-import cn.techen.lbs.mm.api.MMeterService;
+import cn.techen.lbs.mm.api.MNodeService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.FrameConfig.Priority;
@@ -15,7 +15,7 @@ public class RealTimeContext {
 	
 	private State state = State.FINISHED;
 	
-	private MMeterService mMeterService;
+	private MNodeService mNodeService;
 	
 	private MTaskService<byte[]> mByteService;
 
@@ -77,12 +77,12 @@ public class RealTimeContext {
 		}
 	}
 
-	public MMeterService getmMeterService() {
-		return mMeterService;
+	public MNodeService getmNodeService() {
+		return mNodeService;
 	}
 
-	public void setmMeterService(MMeterService mMeterService) {
-		this.mMeterService = mMeterService;
+	public void setmNodeService(MNodeService mNodeService) {
+		this.mNodeService = mNodeService;
 	}
 
 	public MTaskService<byte[]> getmByteService() {

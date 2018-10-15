@@ -11,7 +11,16 @@ import cn.techen.lbs.db.model.Node;
  */
 public interface MNodeService extends MyService<String, Node>, MySize {
 	
+	static final String DB_NODE = "DB:NODE";
     static final String DB_NODE_UNREGISTER = "DB:NODE:UNREGISTER";
+    
+    void put(Node node);
+    
+    void put(List<Node> nodes);
+    
+    Node get(String commAddr);
+    
+    List<Node> get();
         
     void lpush(Node node);
     

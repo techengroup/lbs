@@ -9,15 +9,15 @@ import org.slf4j.LoggerFactory;
 import cn.techen.lbs.data.common.Local;
 import cn.techen.lbs.db.api.FnService;
 import cn.techen.lbs.db.api.LbsService;
-import cn.techen.lbs.db.api.MeterService;
+import cn.techen.lbs.db.api.NodeService;
 import cn.techen.lbs.db.api.ParamService;
 import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.model.Fn;
 import cn.techen.lbs.db.model.LBS;
-import cn.techen.lbs.db.model.Meter;
+import cn.techen.lbs.db.model.Node;
 import cn.techen.lbs.db.model.Param;
 import cn.techen.lbs.mm.api.MBaseService;
-import cn.techen.lbs.mm.api.MMeterService;
+import cn.techen.lbs.mm.api.MNodeService;
 import cn.techen.lbs.protocol.common.Elements;
 import cn.techen.lbs.protocol.common.FnNames;
 import cn.techen.lbs.protocol.common.Titles;
@@ -28,9 +28,9 @@ public class RunData implements Runnable {
 	private LbsService lbsService;
 	private ParamService paramService;
 	private FnService fnService;
-	private MeterService meterService;	
+	private NodeService nodeService;	
 	private MBaseService mBaseService;
-	private MMeterService mMeterService;
+	private MNodeService mNodeService;
 
 	private int count = 0;
 	
@@ -55,7 +55,7 @@ public class RunData implements Runnable {
 		LBS lbs = null;
 		List<Fn> fns = null;
 		List<Param> params = null;
-		List<Meter> meters = null;
+		List<Node> nodes = null;
 		
 		if (count == 0) {
 			mBaseService.flushDB();
@@ -65,7 +65,7 @@ public class RunData implements Runnable {
 			lbs = lbsService.selectByKey(0);
 			params = paramService.selectAll();
 			fns = fnService.selectAll();
-			meters = meterService.selectAll();
+			nodes = nodeService.selectAll();
 			
 			if (lbs == null) {
 				logger.error("There is no any lbs in the database...");
@@ -80,22 +80,22 @@ public class RunData implements Runnable {
 				return;
 			}
 			
-			load(lbs, params, fns, meters);
+			load(lbs, params, fns, nodes);
 		} else {
 			Date nowTime = new Date();
 			
 			lbs = lbsService.selectByTime(Local.LASTTIME);
 			fns = fnService.selectByTime(Local.LASTTIME);
-			meters = meterService.selectByTime(Local.LASTTIME);
+			nodes = nodeService.selectByTime(Local.LASTTIME);
 			params = paramService.selectByTime(Local.LASTTIME);
 			
 			Local.LASTTIME = nowTime;
 			
-			load(lbs, params, fns, meters);
+			load(lbs, params, fns, nodes);
 		}
 	}
 	
-	private void load(LBS lbs, List<Param> params, List<Fn> fns, List<Meter> meters) {
+	private void load(LBS lbs, List<Param> params, List<Fn> fns, List<Node> nodes) {
 
 		if (lbs != null) {			
 			if (lbs.getChannel() != null) {
@@ -128,9 +128,9 @@ public class RunData implements Runnable {
 			logger.info("Load protocol function[{}] from database...", fns.size());
 		}	
 		
-		if (meters != null && meters.size() > 0) {
-			mMeterService.put(meters);
-			logger.info("Load meter[{}] from database...", meters.size());
+		if (nodes != null && nodes.size() > 0) {
+			mNodeService.put(nodes);
+			logger.info("Load node[{}] from database...", nodes.size());
 		}
 	}
 	
@@ -145,17 +145,17 @@ public class RunData implements Runnable {
 	public void setFnService(FnService fnService) {
 		this.fnService = fnService;
 	}
-	
-	public void setMeterService(MeterService meterService) {
-		this.meterService = meterService;
+
+	public void setNodeService(NodeService nodeService) {
+		this.nodeService = nodeService;
 	}
 
 	public void setmBaseService(MBaseService mBaseService) {
 		this.mBaseService = mBaseService;
 	}
-	
-	public void setmMeterService(MMeterService mMeterService) {
-		this.mMeterService = mMeterService;
+
+	public void setmNodeService(MNodeService mNodeService) {
+		this.mNodeService = mNodeService;
 	}
 	
 }

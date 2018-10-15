@@ -6,8 +6,6 @@
 	
 	<reference id="nodeService" interface="cn.techen.lbs.db.api.NodeService" />	
 	
-	<reference id="mMeterService" interface="cn.techen.lbs.mm.api.MMeterService" />
-	
 	<reference id="mNodeService" interface="cn.techen.lbs.mm.api.MNodeService" />
 	
 	<reference id="mTaskService" interface="cn.techen.lbs.mm.api.MTaskService" />

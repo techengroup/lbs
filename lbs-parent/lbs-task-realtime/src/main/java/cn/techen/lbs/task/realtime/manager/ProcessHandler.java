@@ -3,7 +3,7 @@ package cn.techen.lbs.task.realtime.manager;
 import java.util.Date;
 
 import cn.techen.lbs.db.common.Global;
-import cn.techen.lbs.db.model.Meter;
+import cn.techen.lbs.db.model.Node;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.DefaultProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig;
@@ -23,10 +23,10 @@ public class ProcessHandler {
 		for (int i = 1; i < 8; i++) {		
 			commAddr = ProtocolUtil.bcd2Str(bFrame[i]) + commAddr;
 		}		
-		Meter meter = context.getmMeterService().get(commAddr);
+		Node node = context.getmNodeService().get(commAddr);
 		
-		if (meter != null && !meter.getRoute().isEmpty()) {
-			String route = meter.getRoute();
+		if (node != null && !node.getRoute().isEmpty()) {
+			String route = node.getRoute();
 			
 			if (route != null && !route.isEmpty()) {
 				context.setRoute(route);		

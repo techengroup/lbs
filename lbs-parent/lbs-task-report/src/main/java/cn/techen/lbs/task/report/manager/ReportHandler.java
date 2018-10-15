@@ -2,7 +2,7 @@ package cn.techen.lbs.task.report.manager;
 
 import java.util.Date;
 
-import cn.techen.lbs.db.model.Meter;
+import cn.techen.lbs.db.model.Node;
 import cn.techen.lbs.db.model.Report;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolConfig;
@@ -22,15 +22,15 @@ public class ReportHandler extends AbstractHandler {
 			String route = reportFrame.getCommAddr();
 			String commAddr = ProtocolUtil.getCommAddr(route);	
 			if (commAddr != null && !commAddr.isEmpty()) {
-				Meter meter = context.getmMeterService().get(commAddr);
+				Node node = context.getmNodeService().get(commAddr);
 				
 				ProtocolService protocolService = context.getProtocolManagerService()
-						.getProtocol(meter.getModuleprotocol());
+						.getProtocol(node.getModuleprotocol());
 				ProtocolConfig protocolConfig = protocolService.decode(reportFrame.getReadBytes());
 				int rssi = Integer.parseInt(protocolConfig.runs().get("RSSI").toString());
 				
 				Report report = new Report();
-				report.setMeterid(meter.getId());
+				report.setMeterid(node.getId());
 				report.setCommaddr(commAddr);
 				report.setRoute(route);
 				report.setSignal(rssi);

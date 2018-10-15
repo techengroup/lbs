@@ -11,7 +11,7 @@ import redis.clients.jedis.Jedis;
 public class MMonthServiceImpl implements MMonthService {
 
 	@Override
-	public Long size() {
+	public Long size(String key) {
 		Jedis jedis = null;
 		try {
 			jedis = RedisPool.getInstance().getResource();

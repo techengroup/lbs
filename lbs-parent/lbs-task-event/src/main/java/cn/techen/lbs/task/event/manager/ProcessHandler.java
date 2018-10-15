@@ -3,7 +3,7 @@ package cn.techen.lbs.task.event.manager;
 import java.util.Date;
 
 import cn.techen.lbs.db.common.Global;
-import cn.techen.lbs.db.model.Meter;
+import cn.techen.lbs.db.model.Node;
 import cn.techen.lbs.db.model.Report;
 import cn.techen.lbs.db.sql.AbstractSQL;
 import cn.techen.lbs.mm.api.MTaskService;
@@ -21,15 +21,15 @@ import cn.techen.lbs.task.event.common.Local;
 public class ProcessHandler {
 	
 	public void encode(EventContext context, Report report)  throws Exception {		
-		Meter meter = context.getmMeterService().get(report.getCommaddr());
+		Node node = context.getmNodeService().get(report.getCommaddr());
 		
-		ProtocolService protocolService = context.getProtocolManagerService().getProtocol(meter.getProtocol());
+		ProtocolService protocolService = context.getProtocolManagerService().getProtocol(node.getProtocol());
 		ProtocolConfig config = new DefaultProtocolConfig();
 		config.setCommAddr(report.getCommaddr()).setDir(DIR.CLIENT).setOperation(OPERATION.GET);
 		config.funcs().add("C42A");
 		byte[] eventFrame = protocolService.encode(config);
 		
-		protocolService = context.getProtocolManagerService().getProtocol(meter.getModuleprotocol());
+		protocolService = context.getProtocolManagerService().getProtocol(node.getModuleprotocol());
 		config = new DefaultProtocolConfig();
 		config.setCommAddr(report.getRoute()).setDir(DIR.CLIENT).setOperation(OPERATION.TRANSPORT);
 		config.runs().put("CHANNEL", Global.lbs.getChannel());
@@ -47,22 +47,22 @@ public class ProcessHandler {
 	}
 
 	public void decode(EventContext context, ProtocolFrame frame)  throws Exception {
-		Meter meter = context.getmMeterService().get(context.getReport().getCommaddr());
+		Node node = context.getmNodeService().get(context.getReport().getCommaddr());
 		
 		ProtocolConfig config = null;
 		byte[] readBytes = frame.getReadBytes();
 		if (readBytes != null && readBytes.length > 8) {
 			ProtocolService protocolService = context.getProtocolManagerService()
-					.getProtocol(meter.getModuleprotocol());
+					.getProtocol(node.getModuleprotocol());
 			config = protocolService.decode(readBytes);
 			byte[] transBytes = (byte[]) config.units().poll();
 			
 			protocolService = context.getProtocolManagerService()
-					.getProtocol(meter.getProtocol());
+					.getProtocol(node.getProtocol());
 			config = protocolService.decode(transBytes);		
 		}
 		
-		store(context, frame, meter, config);
+		store(context, frame, node, config);
 	}
 	
 	public void exceptionCaught(EventContext context, Throwable cause) {
@@ -77,11 +77,11 @@ public class ProcessHandler {
 		context.setState(State.RECIEVING);
 	}
 	
-	private void store(EventContext context, ProtocolFrame frame, Meter meter, ProtocolConfig config)  throws Exception {
+	private void store(EventContext context, ProtocolFrame frame, Node node, ProtocolConfig config)  throws Exception {
 		if (config != null) {	
 			//==网路状况不好时，可能有串包,处理如下==
 			String commAddr = ProtocolUtil.getCommAddr(config.getCommAddr());
-			int meterId = context.getmMeterService().get(commAddr).getId();
+			int nodeId = context.getmNodeService().get(commAddr).getId();
 			//==网路状况不好时，可能有串包,处理如下==
 			
 			for (String fn : config.funcs()) {
@@ -89,24 +89,24 @@ public class ProcessHandler {
 				if (fnKey != null && !fnKey.isEmpty()) {						
 					String className = String.format("Fn%s", fnKey.replace(":", ""));
 					AbstractSQL as = Global.newSql(className);						
-					context.getGeneralService().save(as.handle(meterId, config.units()));
+					context.getGeneralService().save(as.handle(nodeId, config.units()));
 				}
 			}
 			
 			//==网路状况不好时，可能有串包,处理如下==
-			if (!meter.getCommaddr().equals(commAddr)) {
-				context.getReportService().updateFail(meter.getId());
+			if (!node.getCommaddr().equals(commAddr)) {
+				context.getReportService().updateFail(node.getId());
 			}
 			//==网路状况不好时，可能有串包,处理如下==
 
 			context.reset();
 		} else {
 			frame.increaseRetryTimes();
-			int mod = frame.getRetryTimes() % 3;
+			int mod = frame.getRetryTimes() % 2;
 			if (mod != 0) {
 				write(context, frame);
 			} else {
-				context.getReportService().updateFail(meter.getId());
+				context.getReportService().updateFail(node.getId());
 				context.reset();
 			}
 		}

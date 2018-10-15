@@ -1,7 +1,7 @@
 package cn.techen.lbs.task.report.common;
 
 import cn.techen.lbs.db.api.ReportService;
-import cn.techen.lbs.mm.api.MMeterService;
+import cn.techen.lbs.mm.api.MNodeService;
 import cn.techen.lbs.mm.api.MTaskService;
 import cn.techen.lbs.protocol.ProtocolFrame;
 import cn.techen.lbs.protocol.ProtocolManagerService;
@@ -13,7 +13,7 @@ public class ReportContext {
 	
 	private ReportService reportService;
 	
-	private MMeterService mMeterService;
+	private MNodeService mNodeService;
 	
 	private MTaskService<ProtocolFrame> mTaskService;
 	
@@ -27,12 +27,12 @@ public class ReportContext {
 		this.reportService = reportService;
 	}
 
-	public MMeterService getmMeterService() {
-		return mMeterService;
+	public MNodeService getmNodeService() {
+		return mNodeService;
 	}
 
-	public void setmMeterService(MMeterService mMeterService) {
-		this.mMeterService = mMeterService;
+	public void setmNodeService(MNodeService mNodeService) {
+		this.mNodeService = mNodeService;
 	}
 
 	public MTaskService<ProtocolFrame> getmTaskService() {
