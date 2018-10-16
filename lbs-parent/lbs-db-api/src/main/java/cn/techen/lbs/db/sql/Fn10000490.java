@@ -6,7 +6,7 @@ public class Fn10000490  extends AbstractSQL {
 
 	@Override
 	public String handle(Object id, Queue<Object> datas) {
-		return String.format("update KNL_LBS set longitude=%s, latitude=%s"
+		return String.format("update KNL_LBS set latitude=%s, longitude=%s"
 				, datas.poll(),datas.poll());
 	}
 

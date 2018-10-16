@@ -79,7 +79,7 @@ public class Bootstrap {
 								
 								@Override
 								public void channelRead(RxtxChannel channel, byte[] data) throws Exception {
-									logger.info(ProtocolUtil.byte2HexString(data, true));
+									logger.debug(ProtocolUtil.byte2HexString(data, true));
 									context.byteBuffer.addAll(ProtocolUtil.byte2List(data));
 								}
 								
@@ -148,7 +148,11 @@ public class Bootstrap {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
 					if (Global.LoraReady) {
-						readHandler.operate(context);			
+						try {
+							readHandler.operate(context);
+						} catch (Exception e) {
+							logger.error(Global.getStackTrace(e));
+						}			
 					} 
 					
 					if (context.getFrame() != null) {
@@ -157,7 +161,7 @@ public class Bootstrap {
 						}	
 					}
 				} catch (Exception e) {
-					logger.error(Global.getStackTrace(e));
+					logger.error(Global.getStackTrace(e));					
 				}				
 			}
 		}		

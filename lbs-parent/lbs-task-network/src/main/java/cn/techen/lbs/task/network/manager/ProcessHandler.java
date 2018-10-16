@@ -166,6 +166,8 @@ public class ProcessHandler {
 				, node.getRelayNode().getPath() + "/" + node.getId()
 				, node.getRelayNode().getRoute() + "," + node.getCommaddr()
 				, node.getRelay() , frame.getwInTime(), frame.getrOutTime(), node.getRssi());
+		
+		context.reset();
 	}
 	
 	private void fail(NetContext context, ProtocolFrame frame, Node node) throws Exception {

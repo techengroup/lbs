@@ -227,6 +227,9 @@ public class Global {
         {
             throwable.printStackTrace(pw);
             return sw.toString();
+        } catch (Exception e) {
+			e.printStackTrace();
+			return null;
         } finally {
             pw.close();
         }

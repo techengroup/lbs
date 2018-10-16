@@ -7,7 +7,7 @@ public final class Local {
 	public final static String PROJECT = "LBS-DATA-LOAD";
 	
 	/**
-	 * 地球半径（单位：m）
+	 * 地球半径（单位：m） 纬度范围-90~90，经度范围-180~180
 	 */
 	private final static double EARTH_RADIUS = 6378137.0;
 	
@@ -58,7 +58,7 @@ public final class Local {
     }
 	
 	/**
-	 * 通过角度计算扇区
+	 * 通过角度计算扇区 - 索引从1开始
 	 * 
 	 * @param angle
 	 * @return
@@ -76,18 +76,18 @@ public final class Local {
 	}
 
 	/**
-	 * 计算子扇区的X坐标
+	 * 计算子扇区的X坐标 - 索引从0开始
 	 * 
 	 * @param distance
 	 * @return
 	 */
 
 	public static int districtX(double distance) {
-		return (int) Math.ceil(distance / 100);
+		return (int) Math.floor(distance / 100);
 	}
 
 	/**
-	 * 计算子扇区的Y坐标
+	 * 计算子扇区的Y坐标 - 索引从0开始
 	 * 
 	 * @param angle
 	 * @return

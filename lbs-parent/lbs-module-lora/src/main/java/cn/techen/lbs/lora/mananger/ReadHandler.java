@@ -33,7 +33,7 @@ public class ReadHandler extends AbstractHandler {
 			if (valid < 2) context.byteBuffer.clear();
 			
 			if (valid == 1) {			
-				logger.info("Read： {}B \r\n{}", frame.length, ProtocolUtil.byte2HexString(frame, true));
+				logger.info("Read: {}B \r\n{}", frame.length, ProtocolUtil.byte2HexString(frame, true));
 				
 				ProtocolConfig config = context.getProtocolManagerService().getProtocol(Local.PROTOCOL).decode(frame);
 				if (config.getOperation() == OPERATION.REPORT) {

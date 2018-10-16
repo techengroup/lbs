@@ -20,8 +20,8 @@ public class Fn10000410 extends AbstractSQL {
 			int tariffCount = Integer.parseInt(datas.poll().toString());
 			String[] dataDigit  = datas.poll().toString().split(":");
 			String[] customerClass = datas.poll().toString().split(":");
-			double longitude = Double.parseDouble(datas.poll().toString());
-			double latitude = Double.parseDouble(datas.poll().toString());			
+			double latitude = Double.parseDouble(datas.poll().toString());
+			double longitude = Double.parseDouble(datas.poll().toString());			
 			
 //			sb.append("ON DUPLICATE KEY update mdfon=NOW();");		
 			
@@ -45,10 +45,10 @@ public class Fn10000410 extends AbstractSQL {
 						+ ", mdfon=NOW(), regon=null where path like '%/" + sn + "%';");
 			} else {
 				sb.append("insert IGNORE into prm_node(id, pointno, deviceclass, baudrate, port, protocol, commaddr, tariffcount, integercount, decimalcount"
-						+ ", customerclass, customersubclass, longitude, latitude) ");
+						+ ", customerclass, customersubclass, latitude, longitude) ");
 				sb.append(String.format("values(%d, %d, %d, %s, %s, %d, '%s', %d, %s, %s, %s, %s, %s, %s);"
 						, sn, pointNo, deviceclass, ratePort[0], ratePort[1], protocol, commAddr, tariffCount, Integer.parseInt(dataDigit[1])+4, Integer.parseInt(dataDigit[2])+1
-						, customerClass[0], customerClass[1], longitude, latitude));
+						, customerClass[0], customerClass[1], latitude, longitude));
 			}
 		}
 		

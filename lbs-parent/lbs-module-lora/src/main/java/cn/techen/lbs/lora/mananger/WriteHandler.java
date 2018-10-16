@@ -33,7 +33,7 @@ public class WriteHandler extends AbstractHandler {
 		byte[] writeBytes = context.getFrame().getWriteBytes();
 		LoraRxtx.getInstance().write(writeBytes);
 		context.getFrame().setWriteTime(new Date());
-		logger.info("Write： {}B \r\n{}", writeBytes.length, ProtocolUtil.byte2HexString(writeBytes, true));
+		logger.info("Write: {}B \r\n{}", writeBytes.length, ProtocolUtil.byte2HexString(writeBytes, true));
 	}
 
 }

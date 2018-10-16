@@ -32,7 +32,7 @@ public class NodeServiceImpl implements NodeService {
 		try {
 			List<Node> list = new ArrayList<Node>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, status, pointno, commaddr, protocol, moduleprotocol, longitude, latitude, route from PRM_NODE");
+			ddl.append("select id, status, pointno, commaddr, protocol, moduleprotocol, latitude, longitude, route from PRM_NODE");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			ResultSet rs = stmt.executeQuery();
@@ -44,8 +44,8 @@ public class NodeServiceImpl implements NodeService {
 				node.setCommaddr(rs.getString("commaddr"));
 				node.setProtocol(rs.getInt("protocol"));
 				node.setModuleprotocol(rs.getInt("moduleprotocol"));
-				node.setLongitude(rs.getDouble("longitude"));
 				node.setLatitude(rs.getDouble("latitude"));
+				node.setLongitude(rs.getDouble("longitude"));
 				node.setRoute(rs.getString("route"));
 				list.add(node);
 			}
@@ -104,7 +104,7 @@ public class NodeServiceImpl implements NodeService {
 		try {
 			List<Node> list = new ArrayList<Node>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, status, pointno, commaddr, protocol, moduleprotocol, longitude, latitude, route from PRM_NODE ");
+			ddl.append("select id, status, pointno, commaddr, protocol, moduleprotocol, latitude, longitude, route from PRM_NODE ");
 			ddl.append("where crton>? or mdfon>?");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
@@ -119,8 +119,8 @@ public class NodeServiceImpl implements NodeService {
 				node.setCommaddr(rs.getString("commaddr"));
 				node.setProtocol(rs.getInt("protocol"));
 				node.setModuleprotocol(rs.getInt("moduleprotocol"));
-				node.setLongitude(rs.getDouble("longitude"));
 				node.setLatitude(rs.getDouble("latitude"));
+				node.setLongitude(rs.getDouble("longitude"));
 				node.setRoute(rs.getString("route"));
 				list.add(node);
 			}
@@ -154,7 +154,7 @@ public class NodeServiceImpl implements NodeService {
 		try {
 			List<Node> list = new ArrayList<Node>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, longitude, latitude from PRM_NODE ");
+			ddl.append("select id, latitude, longitude from PRM_NODE ");
 			ddl.append("where distance is null");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
@@ -162,8 +162,8 @@ public class NodeServiceImpl implements NodeService {
 			while (rs.next()) {
 				Node node = new Node();
 				node.setId(rs.getInt("id"));
-				node.setLongitude(rs.getDouble("longitude"));
 				node.setLatitude(rs.getDouble("latitude"));
+				node.setLongitude(rs.getDouble("longitude"));
 				list.add(node);
 			}
 			return list;
