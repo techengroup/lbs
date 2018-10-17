@@ -18,8 +18,8 @@ public class Fn100004200 extends AbstractSQL {
 			String[] ratePort  = datas.poll().toString().split(":");
 			int protocol = Integer.parseInt(datas.poll().toString());
 			String commAddr = datas.poll().toString();
-			double latitude = Double.parseDouble(datas.poll().toString());
-			double longitude = Double.parseDouble(datas.poll().toString());			
+			double longitude = Double.parseDouble(datas.poll().toString());
+			double latitude = Double.parseDouble(datas.poll().toString());			
 			
 //			sb.append("ON DUPLICATE KEY update mdfon=NOW();");		
 			

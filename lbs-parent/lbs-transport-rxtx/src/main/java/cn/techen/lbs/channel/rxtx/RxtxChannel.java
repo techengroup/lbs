@@ -108,6 +108,7 @@ public class RxtxChannel {
 					break;
 				case SerialPortEvent.DATA_AVAILABLE: // 1读到可用数据时激活
 					try {
+						Thread.sleep(100);
 						rxtxEventListener.channelRead(RxtxChannel.this, read());
 					} catch (Exception e) {
 						rxtxEventListener.exceptionCaught(RxtxChannel.this, e.getCause());
@@ -117,6 +118,8 @@ public class RxtxChannel {
 			}
 		});
 
+
+		serialPort.notifyOnDSR(true);
 		serialPort.notifyOnDataAvailable(true);
 		serialPort.notifyOnBreakInterrupt(true);
 	}

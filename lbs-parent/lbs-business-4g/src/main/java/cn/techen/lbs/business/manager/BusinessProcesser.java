@@ -25,7 +25,7 @@ public class BusinessProcesser {
 	}
 		
 	public void operate(BusinessContext context) throws Exception {		
-		byte[] data = context.getmTaskService().rpop(MTaskService.UPQUEUE_RETURN);
+		byte[] data = context.getmTaskService().rpop(MTaskService.QUEUE_4G_RECEIVE);
 		AbstractHandler handler = null;
 		
 		if (data != null && data.length > 0) {

@@ -8,7 +8,7 @@ public class TransportHandler extends AbstractHandler {
 
 	@Override
 	public void operate(BusinessContext context, ProtocolConfig config) throws Exception {		
-		context.getmConfigService().lpush(MTaskService.QUEUE_TRANSFER, config);
+		context.getmConfigService().lpush(MTaskService.QUEUE_4G_TANS_LORA, config);
 	}	
 	
 }

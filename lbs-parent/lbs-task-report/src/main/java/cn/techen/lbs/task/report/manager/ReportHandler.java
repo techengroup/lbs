@@ -15,7 +15,7 @@ public class ReportHandler extends AbstractHandler {
 
 	@Override
 	public void operate(ReportContext context) throws Exception {		
-		ProtocolFrame reportFrame = context.getmTaskService().rpop(MTaskService.QUEUE_RETURN + context.PRIORITY.value());
+		ProtocolFrame reportFrame = context.getmTaskService().rpop(MTaskService.QUEUE_LORA_RECEIVE + context.PRIORITY.value());
 		if (reportFrame != null) {
 			reportFrame.setrOutTime(new Date());
 			

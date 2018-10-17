@@ -53,6 +53,7 @@ public class ProcessHandler {
 					.getProtocol(month.getModuleprotocol());
 			config = protocolService.decode(readBytes);
 			byte[] transBytes = (byte[]) config.units().poll();
+			transBytes = ProtocolUtil.subByteArray(transBytes, 2);
 			
 			protocolService = context.getProtocolManagerService()
 					.getProtocol(month.getProtocol());
@@ -70,7 +71,7 @@ public class ProcessHandler {
 	private void write(MonthContext context, ProtocolFrame frame)  throws Exception {
 		context.setState(State.SENDING);
 		frame.setwInTime(new Date());
-		context.getmTaskService().lpush(MTaskService.QUEUE_SEND + context.PRIORITY.value(), frame);
+		context.getmTaskService().lpush(MTaskService.QUEUE_LORA_SEND + context.PRIORITY.value(), frame);
 		context.setState(State.RECIEVING);
 	}
 	

@@ -406,4 +406,16 @@ public final class ProtocolUtil {
 		String[] addrs = route.split(",");
 		return addrs[addrs.length-1];
 	}
+	
+	/**
+	 * Sub byte array
+	 * @param route
+	 */
+	public static byte[] subByteArray(byte[] data, int start) {
+		byte[] d = new byte[data.length-start];
+		for (int i = 0; i < d.length; i++) {
+			d[i] = data[i+start];
+		}		
+		return d;
+	}
 }

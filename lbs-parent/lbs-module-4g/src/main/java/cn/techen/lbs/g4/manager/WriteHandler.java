@@ -13,7 +13,7 @@ public class WriteHandler {
 	}	
 	
 	private void obtain(G4Context context) {
-		byte[] data = context.getmTaskService().rpop(MTaskService.UPQUEUE_SEND);
+		byte[] data = context.getmTaskService().rpop(MTaskService.QUEUE_4G_SEND);
 		if (data != null && data.length > 0) {
 			context.channel().writeAndFlush(G4Util.byteToBuf(data));
 		}

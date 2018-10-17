@@ -20,7 +20,7 @@ public class ProcessHandler {
 	
 	public void encode(RealTimeContext context, byte[] bFrame)  throws Exception {	
 		String commAddr = "";
-		for (int i = 1; i < 8; i++) {		
+		for (int i = 1; i < 7; i++) {		
 			commAddr = ProtocolUtil.bcd2Str(bFrame[i]) + commAddr;
 		}		
 		Node node = context.getmNodeService().get(commAddr);
@@ -29,7 +29,7 @@ public class ProcessHandler {
 			String route = node.getRoute();
 			
 			if (route != null && !route.isEmpty()) {
-				context.setRoute(route);		
+				context.setCommAddr(commAddr);
 				
 				ProtocolService protocolService = context.getProtocolManagerService().getProtocol(Global.lbs.getModuleprotocol());
 				ProtocolConfig config = new DefaultProtocolConfig();
@@ -60,7 +60,7 @@ public class ProcessHandler {
 			ProtocolConfig config = protocolService.decode(readBytes);
 			byte[] transBytes = (byte[]) config.units().poll();			
 			
-			if (context.getRoute().equals(config.getCommAddr())) {				
+			if (context.getCommAddr().equals(ProtocolUtil.getCommAddr(config.getCommAddr()))) {				
 				protocolService = context.getProtocolManagerService()
 						.getProtocol(Global.lbs.getProtocol());
 				ProtocolConfig returnConfig = new DefaultProtocolConfig();
@@ -69,11 +69,12 @@ public class ProcessHandler {
 				returnConfig.runs().putAll(context.getConfig().runs());
 				returnConfig.funcs().addAll(context.getConfig().funcs());
 				returnConfig.units().add(config.runs().get("RSSI"));
+				transBytes = ProtocolUtil.subByteArray(transBytes, 2);
 				returnConfig.units().add(transBytes.length);
 				returnConfig.units().add(transBytes);
-				byte[] returnFrame = context.getProtocolManagerService().getProtocol(Global.lbs.getProtocol()).encode(config);
+				byte[] returnFrame = context.getProtocolManagerService().getProtocol(Global.lbs.getProtocol()).encode(returnConfig);
 				
-				context.getmByteService().lpush(MTaskService.UPQUEUE_RETURN, returnFrame);
+				context.getmByteService().lpush(MTaskService.QUEUE_4G_SEND, returnFrame);
 			}
 		}
 		
@@ -88,7 +89,7 @@ public class ProcessHandler {
 	private void write(RealTimeContext context, ProtocolFrame frame)  throws Exception {
 		context.setState(State.SENDING);
 		frame.setwInTime(new Date());
-		context.getmTaskService().lpush(MTaskService.QUEUE_SEND + context.PRIORITY.value(), frame);
+		context.getmTaskService().lpush(MTaskService.QUEUE_LORA_SEND + context.PRIORITY.value(), frame);
 		context.setState(State.RECIEVING);
 	}
 

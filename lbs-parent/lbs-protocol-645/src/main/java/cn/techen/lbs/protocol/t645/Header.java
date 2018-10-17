@@ -12,13 +12,7 @@ public class Header extends AbstractElement {
 	}
 	
 	public void decode(AbstractFrame frame) throws Exception {
-		int h = 0;
-		for (int i = 0; i < 3; i++) {
-			h = frame.process().queue.poll();
-			if (h == value) {
-				break;
-			}
-		}
+		int h = frame.process().queue.poll();
 		if (value != h) throw new IllegalArgumentException("Unknown header value:" + h); 
 		
 	}

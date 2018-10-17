@@ -9,11 +9,11 @@ package cn.techen.lbs.mm.api;
  */
 public interface MTaskService<V> extends MyService<String, V> {
 	
-	static final String QUEUE_SEND = "QUEUE:SEND:FRAME:";
-	static final String QUEUE_RETURN = "QUEUE:RETURN:FRAME:";
-	static final String QUEUE_TRANSFER = "QUEUE:TRANSFER:FRAME";
-	static final String UPQUEUE_SEND = "UPQUEUE:SEND:FRAME";
-	static final String UPQUEUE_RETURN = "UPQUEUE:RETURN:FRAME";
+	static final String QUEUE_LORA_SEND = "QUEUE:LORA:SEND:";
+	static final String QUEUE_LORA_RECEIVE = "QUEUE:LORA:RECEIVE:";
+	static final String QUEUE_4G_TANS_LORA = "QUEUE:4G:TRANS:LORA";
+	static final String QUEUE_4G_SEND = "QUEUE:4G:SEND";
+	static final String QUEUE_4G_RECEIVE = "QUEUE:4G:REVEIVE";
 	
 	void lpush(String queueName, V entity);
 

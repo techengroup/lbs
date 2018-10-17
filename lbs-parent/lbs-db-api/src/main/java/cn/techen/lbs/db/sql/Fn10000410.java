@@ -20,8 +20,8 @@ public class Fn10000410 extends AbstractSQL {
 			int tariffCount = Integer.parseInt(datas.poll().toString());
 			String[] dataDigit  = datas.poll().toString().split(":");
 			String[] customerClass = datas.poll().toString().split(":");
-			double latitude = Double.parseDouble(datas.poll().toString());
-			double longitude = Double.parseDouble(datas.poll().toString());			
+			double longitude = Double.parseDouble(datas.poll().toString());
+			double latitude = Double.parseDouble(datas.poll().toString());			
 			
 //			sb.append("ON DUPLICATE KEY update mdfon=NOW();");		
 			

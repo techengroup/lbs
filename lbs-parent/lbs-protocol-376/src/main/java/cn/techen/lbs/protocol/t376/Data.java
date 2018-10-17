@@ -170,10 +170,11 @@ public class Data extends AbstractElement {
 		for (int i = 0; i < das.length; i++) {
 			String d = das[i];
 			int p = Integer.parseInt(d);
+			if (p == 0) break;
 			int x = (int) Math.ceil((double)p / 8);
 			int y = p % 8;
 			if (y == 0) {
-				da1 = (int) (Math.pow(2, 7) + da1);
+				da1 = (int) (Math.pow(2, 7) + da1);			
 			} else {
 				da1 = (int) (Math.pow(2, (y-1)) + da1);
 			}

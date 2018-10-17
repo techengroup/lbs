@@ -29,11 +29,11 @@ public class RealTimeContext {
 	
 	private ProtocolConfig config;
 	
-	private String route = "";
+	private String commAddr = "";
 	
 	public ProtocolConfig getConfig() {
 		if (config == null) {
-			config = mConfigService.rpop(MTaskService.QUEUE_TRANSFER);
+			config = mConfigService.rpop(MTaskService.QUEUE_4G_TANS_LORA);
 		}
 		
 		return config;
@@ -41,7 +41,7 @@ public class RealTimeContext {
 	
 	public void reset() {
 		config = null;
-		setRoute("");
+		commAddr = "";
 		setState(State.FINISHED);
 	}
 
@@ -53,12 +53,12 @@ public class RealTimeContext {
 		this.state = state;
 	}
 
-	public String getRoute() {
-		return route;
+	public String getCommAddr() {
+		return commAddr;
 	}
 
-	public void setRoute(String route) {
-		this.route = route;
+	public void setCommAddr(String commAddr) {
+		this.commAddr = commAddr;
 	}
 	
 	public void fireEncode(byte[] bFrame) {

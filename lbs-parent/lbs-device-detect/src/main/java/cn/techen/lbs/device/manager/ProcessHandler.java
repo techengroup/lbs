@@ -50,7 +50,7 @@ public class ProcessHandler {
 	
 	public void write(DeviceContext context, ProtocolFrame frame)  throws Exception {
 		context.setState(State.SENDING);
-		context.getmTaskService().lpush(MTaskService.QUEUE_SEND + context.PRIORITY.value(), frame);
+		context.getmTaskService().lpush(MTaskService.QUEUE_LORA_SEND + context.PRIORITY.value(), frame);
 		frame.setwInTime(new Date());
 		context.setState(State.RECIEVING);
 	}

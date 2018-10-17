@@ -40,7 +40,7 @@ public class GetHandler extends AbstractHandler {
 		byte[] frame = context.getProtocolManagerService().getProtocol(Global.lbs.getProtocol()).encode(respConnfig);
 		
 		if (frame != null && frame.length > 0) {
-			context.getmTaskService().lpush(MTaskService.UPQUEUE_SEND, frame);
+			context.getmTaskService().lpush(MTaskService.QUEUE_4G_SEND, frame);
 		}
 		
 		changeEventIndex(context);

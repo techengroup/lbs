@@ -21,17 +21,17 @@ public class Bootstrap {
 	
 	
 	public void start() {
-		mByteService.lpush(MTaskService.QUEUE_TRANSFER, new byte[] {1,2,3,4,5,6,7,8,9});
-		byte[] a = mByteService.rpop(MTaskService.QUEUE_TRANSFER);
+		mByteService.lpush(MTaskService.QUEUE_4G_TANS_LORA, new byte[] {1,2,3,4,5,6,7,8,9});
+		byte[] a = mByteService.rpop(MTaskService.QUEUE_4G_TANS_LORA);
 		for (byte b : a) {
 			log.info("Byte:{}", b);
 		}
 		
 		ProtocolConfig pConfig = new DefaultProtocolConfig();
 		pConfig.setCommAddr("00000006");
-		mTaskService.lpush(MTaskService.UPQUEUE_SEND, pConfig);
+		mTaskService.lpush(MTaskService.QUEUE_4G_SEND, pConfig);
 		
-		ProtocolConfig pConfig1 = mTaskService.rpop(MTaskService.UPQUEUE_SEND);
+		ProtocolConfig pConfig1 = mTaskService.rpop(MTaskService.QUEUE_4G_SEND);
 		log.info("Config:{}", pConfig1.getCommAddr());
 		
 		

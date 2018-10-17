@@ -25,7 +25,7 @@ public class ObtainHandler extends AbstractHandler {
 	private boolean hasTask(LoraContext context) {
 		Priority[] ps = Priority.values();
 		for (int i = (ps.length - 1); i >= 0; i--) {
-			ProtocolFrame frame = context.getmTaskService().rpop(MTaskService.QUEUE_SEND + ps[i].value());
+			ProtocolFrame frame = context.getmTaskService().rpop(MTaskService.QUEUE_LORA_SEND + ps[i].value());
 			if (frame != null) {
 				frame.setwOutTime(new Date());
 				context.setFrame(frame);

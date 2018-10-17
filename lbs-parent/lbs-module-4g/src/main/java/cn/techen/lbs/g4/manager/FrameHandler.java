@@ -32,7 +32,7 @@ public class FrameHandler {
 	}
 	
 	private void store(G4Context context, byte[] frame) {
-		context.getmTaskService().lpush(MTaskService.UPQUEUE_RETURN, frame);
+		context.getmTaskService().lpush(MTaskService.QUEUE_4G_RECEIVE, frame);
 	}
 	
 }

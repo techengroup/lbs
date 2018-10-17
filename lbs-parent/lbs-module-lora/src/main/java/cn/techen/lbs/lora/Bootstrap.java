@@ -14,8 +14,14 @@ import cn.techen.lbs.lora.common.LoraContext;
 import cn.techen.lbs.lora.common.LoraRxtx;
 import cn.techen.lbs.lora.mananger.AbstractHandler;
 import cn.techen.lbs.lora.mananger.ObtainHandler;
-import cn.techen.lbs.lora.mananger.ReadHandler;
 import cn.techen.lbs.lora.mananger.WriteHandler;
+import cn.techen.lbs.mm.api.MTaskService;
+import cn.techen.lbs.protocol.DefaultProtocolConfig;
+import cn.techen.lbs.protocol.ProtocolConfig;
+import cn.techen.lbs.protocol.ProtocolFrame;
+import cn.techen.lbs.protocol.FrameConfig.Priority;
+import cn.techen.lbs.protocol.ProtocolConfig.DIR;
+import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.lora.mananger.StoreHandler;
 
@@ -23,9 +29,7 @@ public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private LoraContext context;
-	
-	private AbstractHandler readHandler;
-	
+		
 	private AbstractHandler storeHandler;
 	
 	private AbstractHandler obtainHandler;
@@ -41,15 +45,13 @@ public class Bootstrap {
 		Thread obtain = new Thread(new ObtainThread());
 		obtain.start();
 		
-		logger.info("Lora module read is starting......");
-		Thread read = new Thread(new ReadThread());
-		read.start();
+		logger.info("Lora module timeout is starting......");
+		Thread timeout = new Thread(new TimeoutThread());
+		timeout.start();
 	}
 	
 	private void initHandler() {		
-		readHandler = new ReadHandler();
 		storeHandler = new StoreHandler();
-		readHandler.setHandler(storeHandler);
 		
 		obtainHandler = new ObtainHandler();		
 		AbstractHandler writeHandler = new WriteHandler();
@@ -61,7 +63,7 @@ public class Bootstrap {
 	}
 	
 	protected class InitThread implements Runnable {
-		
+			
 		@Override
 		public void run() {
 			while (true) {				
@@ -78,9 +80,32 @@ public class Bootstrap {
 								}
 								
 								@Override
-								public void channelRead(RxtxChannel channel, byte[] data) throws Exception {
-									logger.debug(ProtocolUtil.byte2HexString(data, true));
-									context.byteBuffer.addAll(ProtocolUtil.byte2List(data));
+								public void channelRead(RxtxChannel channel, byte[] data) throws Exception {									
+									logger.info("Read: {}B \r\n{}", data.length, ProtocolUtil.byte2HexString(data, true));									
+									ProtocolConfig config = context.getProtocolManagerService().getProtocol(Local.PROTOCOL).decode(data);
+									if (config.getOperation() == OPERATION.REPORT) {
+										ProtocolFrame reportFrame = new ProtocolFrame();
+										reportFrame.setCommAddr(config.getCommAddr());
+										reportFrame.setReadTime(new Date());
+										reportFrame.setReadBytes(data);
+										reportFrame.setrInTime(new Date());				
+										
+										ProtocolConfig config0 = new DefaultProtocolConfig();
+										config0.setCommAddr(config.getCommAddr()).setDir(DIR.CLIENT).setOperation(OPERATION.REPORT);
+										byte[] frame0 = context.getProtocolManagerService().getProtocol(Local.PROTOCOL).encode(config0);
+										reportFrame.setWriteBytes(frame0);
+										
+										channel.write(frame0);
+										reportFrame.setWriteTime(new Date());
+										
+										context.getmTaskService().lpush(MTaskService.QUEUE_LORA_RECEIVE + Priority.REPORT.value(), reportFrame);
+									} else {
+										if (context.getFrame() != null) {	
+											context.getFrame().setReadTime(new Date());
+											context.getFrame().setReadBytes(data);	
+											storeHandler.operate(context);
+										}
+									}
 								}
 								
 								@Override
@@ -99,9 +124,11 @@ public class Bootstrap {
 							});
 							
 							Global.LoraReady = true;
+							logger.info("Lora device is ready...");
 						} catch (Exception e) {
 							logger.error(Global.getStackTrace(e));
 							Global.LoraReady = false;
+							logger.info("Lora device is down...");
 						}
 					}
 					
@@ -139,21 +166,13 @@ public class Bootstrap {
 		}		
 	}
 	
-	protected class ReadThread implements Runnable {
+	protected class TimeoutThread implements Runnable {
 		
 		@Override
 		public void run() {
 			while (true) {
 				try {
-					Thread.sleep(Local.INTERVALMILLIS);
-					
-					if (Global.LoraReady) {
-						try {
-							readHandler.operate(context);
-						} catch (Exception e) {
-							logger.error(Global.getStackTrace(e));
-						}			
-					} 
+					Thread.sleep(Local.INTERVALMILLIS);					
 					
 					if (context.getFrame() != null) {
 						if (context.getFrame().isTimeout()) {
