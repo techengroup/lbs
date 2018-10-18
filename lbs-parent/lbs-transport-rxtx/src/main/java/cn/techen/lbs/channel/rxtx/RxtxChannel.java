@@ -108,7 +108,7 @@ public class RxtxChannel {
 					break;
 				case SerialPortEvent.DATA_AVAILABLE: // 1读到可用数据时激活
 					try {
-						Thread.sleep(100);
+						Thread.sleep(200);
 						rxtxEventListener.channelRead(RxtxChannel.this, read());
 					} catch (Exception e) {
 						rxtxEventListener.exceptionCaught(RxtxChannel.this, e.getCause());
@@ -123,50 +123,6 @@ public class RxtxChannel {
 		serialPort.notifyOnDataAvailable(true);
 		serialPort.notifyOnBreakInterrupt(true);
 	}
-
-//	protected void addLinstener(final RxtxEventListener rch) throws Exception {
-//		serialPort.addEventListener(new SerialPortEventListener() {
-//			public void serialEvent(SerialPortEvent serialPortEvent) {
-//				switch (serialPortEvent.getEventType()) {
-//				case SerialPortEvent.BI: // 10通讯中断
-//					try {
-//						rch.channelInactive(RxtxChannel.this);						
-//					} catch (Exception e) {
-//						rch.exceptionCaught(RxtxChannel.this, e.getCause());
-//					}
-//					break;
-//				// case SerialPortEvent.OE: // 7溢位错误
-//				//
-//				// case SerialPortEvent.FE: // 9帧错误
-//				//
-//				// case SerialPortEvent.PE: // 8奇偶校验错
-//				//
-//				// case SerialPortEvent.CD: // 6载波检测
-//				//
-//				// case SerialPortEvent.CTS: // 3清除发送
-//				//
-//				// case SerialPortEvent.DSR: // 4数据设备准备好
-//				// System.out.println("===============DSR.");
-//				// break;
-//				// case SerialPortEvent.RI: // 5振铃指示
-//				//
-//				// case SerialPortEvent.OUTPUT_BUFFER_EMPTY: // 2输出缓冲区已清空
-//				// System.out.println("===============OUTPUT_BUFFER_EMPTY.");
-//				// break;
-//				case SerialPortEvent.DATA_AVAILABLE: // 1读到可用数据时激活
-//					try {
-//						rch.channelRead(RxtxChannel.this, read());
-//					} catch (Exception e) {
-//						rch.exceptionCaught(RxtxChannel.this, e.getCause());
-//					}
-//					break;
-//				}
-//			}
-//		});
-//
-//		serialPort.notifyOnDataAvailable(true);
-//		serialPort.notifyOnBreakInterrupt(true);
-//	}
 
 	/**
 	 * 读数据
@@ -218,5 +174,49 @@ public class RxtxChannel {
 			}
 		}
 	}
+	
+//	protected void addLinstener(final RxtxEventListener rch) throws Exception {
+//	serialPort.addEventListener(new SerialPortEventListener() {
+//		public void serialEvent(SerialPortEvent serialPortEvent) {
+//			switch (serialPortEvent.getEventType()) {
+//			case SerialPortEvent.BI: // 10通讯中断
+//				try {
+//					rch.channelInactive(RxtxChannel.this);						
+//				} catch (Exception e) {
+//					rch.exceptionCaught(RxtxChannel.this, e.getCause());
+//				}
+//				break;
+//			// case SerialPortEvent.OE: // 7溢位错误
+//			//
+//			// case SerialPortEvent.FE: // 9帧错误
+//			//
+//			// case SerialPortEvent.PE: // 8奇偶校验错
+//			//
+//			// case SerialPortEvent.CD: // 6载波检测
+//			//
+//			// case SerialPortEvent.CTS: // 3清除发送
+//			//
+//			// case SerialPortEvent.DSR: // 4数据设备准备好
+//			// System.out.println("===============DSR.");
+//			// break;
+//			// case SerialPortEvent.RI: // 5振铃指示
+//			//
+//			// case SerialPortEvent.OUTPUT_BUFFER_EMPTY: // 2输出缓冲区已清空
+//			// System.out.println("===============OUTPUT_BUFFER_EMPTY.");
+//			// break;
+//			case SerialPortEvent.DATA_AVAILABLE: // 1读到可用数据时激活
+//				try {
+//					rch.channelRead(RxtxChannel.this, read());
+//				} catch (Exception e) {
+//					rch.exceptionCaught(RxtxChannel.this, e.getCause());
+//				}
+//				break;
+//			}
+//		}
+//	});
+//
+//	serialPort.notifyOnDataAvailable(true);
+//	serialPort.notifyOnBreakInterrupt(true);
+//}
 
 }

@@ -6,7 +6,7 @@ import java.util.Queue;
 import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.sql.AbstractSQL;
 
-public class Fn301119010 extends AbstractSQL {
+public class Fn811119010 extends AbstractSQL {
 
 	@Override
 	public String handle(Object id, Queue<Object> datas) {

@@ -88,7 +88,7 @@ public class Bootstrap {
 										reportFrame.setCommAddr(config.getCommAddr());
 										reportFrame.setReadTime(new Date());
 										reportFrame.setReadBytes(data);
-										reportFrame.setrInTime(new Date());				
+										reportFrame.setrInTime(new Date());
 										
 										ProtocolConfig config0 = new DefaultProtocolConfig();
 										config0.setCommAddr(config.getCommAddr()).setDir(DIR.CLIENT).setOperation(OPERATION.REPORT);
@@ -172,7 +172,7 @@ public class Bootstrap {
 		public void run() {
 			while (true) {
 				try {
-					Thread.sleep(Local.INTERVALMILLIS);					
+					Thread.sleep(Local.TIMEOUTMILLIS);					
 					
 					if (context.getFrame() != null) {
 						if (context.getFrame().isTimeout()) {

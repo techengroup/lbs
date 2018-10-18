@@ -30,9 +30,9 @@ public class Fn100004200 extends AbstractSQL {
 						+ ", mdfon=NOW(), regon=null where path like '%/" + sn + "%';");
 			} else {
 				sb.append("insert IGNORE into prm_node(id, pointno, deviceclass, baudrate, port, protocol, commaddr"
-						+ ", latitude, longitude) ");
+						+ ", longitude, latitude) ");
 				sb.append(String.format("values(%d, %d, %d, %s, %s, %d, '%s', %s, %s);"
-						, sn, pointNo, deviceclass, ratePort[0], ratePort[1], protocol, commAddr, latitude, longitude));
+						, sn, pointNo, deviceclass, ratePort[0], ratePort[1], protocol, commAddr, longitude, latitude));
 			}
 		}
 		

@@ -57,12 +57,12 @@ public class MonthServiceImpl implements MonthService {
 		try {
 			List<Month> list = new ArrayList<Month>();
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select m.id, m.commaddr, m.protocol, m.moduleprotocol, m.route from prm_meter m ");
-			ddl.append("where m.status=1 and m.id NOT IN(select meterid from data_energy_month em where em.frozentime = ? ");
+			ddl.append("select m.id, m.commaddr, m.protocol, m.moduleprotocol, m.route from prm_node m ");
+			ddl.append("where m.deviceclass=1 and m.status=1 and m.id NOT IN(select meterid from data_energy_month em where em.frozentime=? ");
 			if (energy == ENERGY.ACTIVE) {
-				ddl.append("or active_energy0 is null)");
+				ddl.append("or em.active_energy0 is null)");
 			} else if (energy == ENERGY.NEGATIVE) {
-				ddl.append("or negative_energy0 is null)");
+				ddl.append("or em.negative_energy0 is null)");
 			}
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());

@@ -13,5 +13,7 @@ public final class Local {
 	public final static long RESTMILLIS = 10000;
 	
 	public final static long INTERVALMILLIS = 200;
+	
+	public final static long TIMEOUTMILLIS = 100;
 
 }
