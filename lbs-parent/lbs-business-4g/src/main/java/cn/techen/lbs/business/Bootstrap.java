@@ -1,5 +1,9 @@
 package cn.techen.lbs.business;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,34 +16,26 @@ public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private BusinessContext context;
-	private BusinessProcesser businessProcesser;
+	private final BusinessProcesser businessProcesser = new BusinessProcesser();
+	private final ScheduledExecutorService singleSchedule = Executors.newSingleThreadScheduledExecutor();
 	
-	public void start() {
-		businessProcesser = new BusinessProcesser();
-		
-		logger.info("Business Processer Module is starting......");	
-		Thread business = new Thread(new BusinessThread());
-		business.start();
-	}
-
-	public void setContext(BusinessContext context) {
-		this.context = context;
-	}
-	
-	protected class BusinessThread implements Runnable {
-		@Override
-		public void run() {
-			while (true) {
-				try {
-					Thread.sleep(Local.INTERVALMILLIS);
-					
+	public void start() {		
+		logger.info("4G Business processer deamon is starting......");	
+		singleSchedule.scheduleWithFixedDelay(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {					
 					businessProcesser.operate(context);
 				} catch (Exception e) {
 					logger.error(Global.getStackTrace(e));
 				}
-				
 			}
-		}
+		}, Local.INTERVALMILLIS, Local.INTERVALMILLIS, TimeUnit.MILLISECONDS);
+	}
+
+	public void setContext(BusinessContext context) {
+		this.context = context;
 	}
 	
 }

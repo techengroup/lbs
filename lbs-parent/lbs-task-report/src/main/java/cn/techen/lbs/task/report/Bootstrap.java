@@ -1,5 +1,9 @@
 package cn.techen.lbs.task.report;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,36 +16,27 @@ import cn.techen.lbs.task.report.manager.ReportHandler;
 public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
-	private ReportContext context;
-	
-	private AbstractHandler report;
+	private ReportContext context;	
+	private final AbstractHandler report = new ReportHandler();	
+	private final ScheduledExecutorService singleSchedule = Executors.newSingleThreadScheduledExecutor();
 
-	public void start() {
-		report = new ReportHandler();
-		
-		logger.info("LBS report event task is starting......");
-		Thread reportT = new Thread(new ReportThread());
-		reportT.start();
+	public void start() {		
+		logger.info("Event report deamon is starting......");
+		singleSchedule.scheduleWithFixedDelay(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {					
+					report.operate(context);
+				} catch (Exception e) {
+					logger.error(Global.getStackTrace(e));
+				}
+			}
+		}, Local.INTERVALMILLIS, Local.INTERVALMILLIS, TimeUnit.MILLISECONDS);
 	}
 
 	public void setContext(ReportContext context) {
 		this.context = context;
-	}
-
-	protected class ReportThread implements Runnable {
-
-		@Override
-		public void run() {
-			while (true) {
-				try {
-					Thread.sleep(Local.INTERVALMILLIS);
-					
-					report.operate(context);
-				} catch (Exception e) {
-					logger.error(Global.getStackTrace(e));
-				}				
-			}
-		}		
 	}
 	
 }

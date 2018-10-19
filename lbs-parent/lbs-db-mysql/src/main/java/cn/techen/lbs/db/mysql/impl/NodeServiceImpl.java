@@ -197,7 +197,7 @@ public class NodeServiceImpl implements NodeService {
 			conn = mp.getConnection();
 			stmt = conn.createStatement();
 			for (Node node : entitys) {
-				stmt.addBatch(String.format("update PRM_NODE set distance=%f, angle=%f, sector=%d, districtx=%d, districty=%d, mdfon=NOW() where id=%d"
+				stmt.addBatch(String.format("update PRM_NODE set distance=%f, angle=%f, sector=%d, districtx=%d, districty=%d where id=%d"
 						, node.getDistance(), node.getAngle(), node.getSector(), node.getDistrictX(), node.getDistrictY(), node.getId()));
 			}
 			

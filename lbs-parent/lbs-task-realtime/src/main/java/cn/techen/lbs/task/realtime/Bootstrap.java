@@ -1,5 +1,9 @@
 package cn.techen.lbs.task.realtime;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,47 +17,32 @@ import cn.techen.lbs.task.realtime.manager.ReadHandler;
 public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 		
-	private RealTimeContext context;
-	
-	private AbstractHandler obtain;
-	
-	private AbstractHandler read;
+	private RealTimeContext context;	
+	private final AbstractHandler obtain = new ObtainHandler();	
+	private final AbstractHandler read = new ReadHandler();
+	private final ScheduledExecutorService singleSchedule = Executors.newSingleThreadScheduledExecutor();
 
-	public void start() {
-		initHandler();
-		
-		logger.info("LBS transfer task is starting......");
-		Thread transfer = new Thread(new TransferThread());
-		transfer.start();
-	}
-	
-	private void initHandler() {
-		obtain = new ObtainHandler();
-		read = new ReadHandler();
-	}
-
-	public void setContext(RealTimeContext context) {
-		this.context = context;
-	}
-
-	protected class TransferThread implements Runnable {
-
-		@Override
-		public void run() {
-			while (true) {
-				try {
-					Thread.sleep(Local.INTERVALMILLIS);
-					
+	public void start() {		
+		logger.info("Realtime transfer deamon is starting......");
+		singleSchedule.scheduleWithFixedDelay(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {					
 					if (Global.LoraReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}
 				} catch (Exception e) {
-					logger.error(Global.getStackTrace(e));
 					context.reset();
-				}				
+					logger.error(Global.getStackTrace(e));
+				}
 			}
-		}		
+		}, Local.INTERVALMILLIS, Local.INTERVALMILLIS, TimeUnit.MILLISECONDS);
+	}
+
+	public void setContext(RealTimeContext context) {
+		this.context = context;
 	}
 	
 }
