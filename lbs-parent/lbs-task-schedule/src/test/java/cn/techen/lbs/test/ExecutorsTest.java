@@ -1,5 +1,8 @@
 package cn.techen.lbs.test;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -88,6 +91,25 @@ public class ExecutorsTest extends TestCase {
         pool.schedule(myRunnableSleep, 0, TimeUnit.SECONDS);
         
 //        pool.execute(myRunnableSleep);
+	}
+	
+	public void testRutime() {
+		try {
+            Runtime rt = Runtime.getRuntime();
+            Process proc = rt.exec("ping");
+            InputStream stdin = proc.getInputStream();
+            InputStreamReader isr = new InputStreamReader(stdin);
+            BufferedReader br = new BufferedReader(isr);
+            String line = null;
+            System.out.println("<output></output>");
+            while ((line = br.readLine()) != null)
+                System.out.println(line);
+            System.out.println("");
+            int exitVal = proc.waitFor();
+            System.out.println("Process exitValue: " + exitVal);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
 	}
 
 }

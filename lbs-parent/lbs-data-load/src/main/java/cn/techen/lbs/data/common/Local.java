@@ -58,21 +58,13 @@ public final class Local {
     }
 	
 	/**
-	 * 通过角度计算扇区 - 索引从1开始
+	 * 通过角度计算扇区 - 索引从0开始
 	 * 
 	 * @param angle
 	 * @return
 	 */
-	public static int sector(double angle) {
-		int var = 0;
-
-		if ((angle - 0.0) == 0) {
-			var = 1;
-		} else {
-			var = (int) Math.ceil(angle / 30);
-		}
-		
-		return var;
+	public static int sector(double angle) {		
+		return (int) Math.floor(angle / 30);
 	}
 
 	/**

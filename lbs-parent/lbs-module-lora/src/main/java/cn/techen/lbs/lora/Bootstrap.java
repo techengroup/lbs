@@ -28,10 +28,8 @@ import cn.techen.lbs.lora.mananger.StoreHandler;
 public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
-	private LoraContext context;
-		
-	private AbstractHandler storeHandler;
-	
+	private LoraContext context;		
+	private AbstractHandler storeHandler;	
 	private AbstractHandler obtainHandler;
 	
 	public void start() {
@@ -67,7 +65,7 @@ public class Bootstrap {
 		@Override
 		public void run() {
 			while (true) {				
-				try {
+				try {										
 					if (!Global.LoraReady) {
 						try {
 							LoraRxtx loraRxtx = LoraRxtx.getInstance();

@@ -1,6 +1,9 @@
 package cn.techen.lbs.task.network;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,40 +22,18 @@ public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 		
 	private NetContext context;
+	private AbstractHandler obtain = new ObtainHandler();	
+	private AbstractHandler read = new ReadHandler();
+	private final ScheduledExecutorService loadSchedule = Executors.newSingleThreadScheduledExecutor();
+	private final ScheduledExecutorService netSchedule = Executors.newSingleThreadScheduledExecutor();
 
-	private AbstractHandler obtain;
-	
-	private AbstractHandler read;
-
-	public void start() {
-		initHandler();
-		
+	public void start() {		
 		logger.info("Load unregister node is starting......");
-		Thread load = new Thread(new LoadThread());
-		load.start();		
-		
-		logger.info("LBS network task is starting......");
-		Thread net = new Thread(new NetThread());
-		net.start();
-	}
-	
-	private void initHandler() {
-		obtain = new ObtainHandler();
-		read = new ReadHandler();
-	}
-
-	public void setContext(NetContext context) {
-		this.context = context;
-	}
-	
-	protected class LoadThread implements Runnable {
-
-		@Override
-		public void run() {
-			while (true) {
-				try {
-					Thread.sleep(Local.LOADMILLIS);
-					
+		loadSchedule.scheduleWithFixedDelay(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {					
 					if (context.getState() == State.FINISHED) {
 						Long size = context.getmNodeService().size(MNodeService.DB_NODE_UNREGISTER);
 						if (size == null || size <= 0) {
@@ -67,29 +48,30 @@ public class Bootstrap {
 					}
 				} catch (Exception e) {
 					logger.error(Global.getStackTrace(e));
-				}				
+				}
 			}
-		}		
-	}
-
-	protected class NetThread implements Runnable {
-
-		@Override
-		public void run() {
-			while (true) {
-				try {
-					Thread.sleep(Local.INTERVALMILLIS);
-					
+		}, Local.LOADMILLIS, Local.LOADMILLIS, TimeUnit.MILLISECONDS);
+		
+		logger.info("Network deamon is starting......");		
+		netSchedule.scheduleWithFixedDelay(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {					
 					if (Global.LoraReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}
 				} catch (Exception e) {
-					logger.error(Global.getStackTrace(e));
 					context.reset();
-				}				
+					logger.error(Global.getStackTrace(e));
+				}	
 			}
-		}		
+		}, Local.INTERVALMILLIS, Local.INTERVALMILLIS, TimeUnit.MILLISECONDS);
+	}
+
+	public void setContext(NetContext context) {
+		this.context = context;
 	}
 	
 }

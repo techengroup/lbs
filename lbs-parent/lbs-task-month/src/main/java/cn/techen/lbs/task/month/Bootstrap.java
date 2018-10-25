@@ -1,8 +1,10 @@
 package cn.techen.lbs.task.month;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,88 +22,62 @@ import cn.techen.lbs.task.month.manager.ReadHandler;
 public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 		
-	private MonthContext context;
-	
-	private AbstractHandler obtain;
-	
-	private AbstractHandler read;
+	private MonthContext context;	
+	private AbstractHandler obtain = new ObtainHandler();	
+	private AbstractHandler read = new ReadHandler();
+	private final ScheduledExecutorService loadSchedule = Executors.newSingleThreadScheduledExecutor();
+	private final ScheduledExecutorService monthSchedule = Executors.newSingleThreadScheduledExecutor();
 
-	public void start() {
-		initHandler();
-		
-		logger.info("Load monthly energy is starting......");
-		Thread load = new Thread(new LoadThread());
-		load.start();
-		
-		logger.info("LBS monthly energy task is starting......");
-		Thread month = new Thread(new MonthThread());
-		month.start();
-	}
-	
-	private void initHandler() {
-		obtain = new ObtainHandler();
-		read = new ReadHandler();
-	}
-
-	public void setContext(MonthContext context) {
-		this.context = context;
-	}
-	
-	protected class LoadThread implements Runnable {
-
-		@Override
-		public void run() {
-			while (true) {
-				try {
-					Thread.sleep(Local.LOADMILLIS);
-					
+	public void start() {		
+		logger.info("Load no month data is starting......");
+		loadSchedule.scheduleWithFixedDelay(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {					
 					if (context.getState() == State.FINISHED) {
 						Long size = context.getmMonthService().size(null);
 						if (size == null || size <= 0) {
-							load();
+							Date time = new Date();
+							String ms = Global.date2String(time, "yyyy-MM-01");
+							time = Global.string2Date(ms, "yyyy-MM-01");
+							
+							List<Month> actives = context.getMonthService().selectMonth(ENERGY.ACTIVE, time);//正向有功
+							if (actives == null || actives.size() <= 0) {
+								logger.info("Loaded monthly active energy meters[0]...");
+							} else {
+								context.getmMonthService().lpush(actives);
+								logger.info("Loaded monthly active energy meters[{}]...", actives.size());				
+							}
 						}
 					}
 				} catch (Exception e) {
 					logger.error(Global.getStackTrace(e));
-				}				
+				}
+				
 			}
-		}		
+		}, Local.LOADMILLIS, Local.LOADMILLIS, TimeUnit.MILLISECONDS);
 		
-		private void load() throws ParseException {
-			Date time = new Date();
-			String ms = Global.date2String(time, "yyyy-MM-01");
-			time = Global.string2Date(ms, "yyyy-MM-01");
+		logger.info("Month deamon is starting......");
+		monthSchedule.scheduleWithFixedDelay(new Runnable() {
 			
-			List<Month> actives = context.getMonthService().selectMonth(ENERGY.ACTIVE, time);//正向有功
-			if (actives == null || actives.size() <= 0) {
-				logger.info("Loaded monthly active energy meters[0]...");
-			} else {
-				context.getmMonthService().lpush(actives);
-				logger.info("Loaded monthly active energy meters[{}]...", actives.size());				
-			}
-//			context.getmMonthService().lpush(context.getMeterService().selectMonth(ENERGY.NEGATIVE, time));//正向无功
-		}
-
-	}
-
-	protected class MonthThread implements Runnable {
-
-		@Override
-		public void run() {
-			while (true) {
-				try {
-					Thread.sleep(Local.INTERVALMILLIS);
-					
+			@Override
+			public void run() {
+				try {					
 					if (Global.LoraReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}
 				} catch (Exception e) {
-					logger.error(Global.getStackTrace(e));
 					context.reset();
-				}				
+					logger.error(Global.getStackTrace(e));					
+				}
 			}
-		}		
+		}, Local.INTERVALMILLIS, Local.INTERVALMILLIS, TimeUnit.MILLISECONDS);
+	}
+	
+	public void setContext(MonthContext context) {
+		this.context = context;
 	}
 	
 }

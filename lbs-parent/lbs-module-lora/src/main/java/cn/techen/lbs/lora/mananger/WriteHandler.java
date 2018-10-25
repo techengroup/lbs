@@ -24,7 +24,11 @@ public class WriteHandler extends AbstractHandler {
 				if (context.getFrame().getReadBytes() != null) break;				
 				if (i > 0) Thread.sleep(2000);
 				
-				send(context);
+				if (context.getFrame() != null) {
+					send(context);
+				} else {
+					break;
+				}
 			}
 		}
 	}

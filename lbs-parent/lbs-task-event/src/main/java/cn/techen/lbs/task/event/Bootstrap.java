@@ -1,6 +1,9 @@
 package cn.techen.lbs.task.event;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,41 +20,19 @@ import cn.techen.lbs.task.event.manager.ReadHandler;
 public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 		
-	private EventContext context;
-	
-	private AbstractHandler obtain;
-	
-	private AbstractHandler read;
+	private EventContext context;	
+	private AbstractHandler obtain = new ObtainHandler();	
+	private AbstractHandler read = new ReadHandler();
+	private final ScheduledExecutorService loadSchedule = Executors.newSingleThreadScheduledExecutor();
+	private final ScheduledExecutorService eventSchedule = Executors.newSingleThreadScheduledExecutor();
 
 	public void start() {
 		logger.info("Load report event is starting......");
-		Thread load = new Thread(new LoadThread());
-		load.start();
-		
-		initHandler();
-		
-		logger.info("LBS event task is starting......");
-		Thread event = new Thread(new EventThread());
-		event.start();
-	}
-	
-	private void initHandler() {
-		obtain = new ObtainHandler();
-		read = new ReadHandler();
-	}
-
-	public void setContext(EventContext context) {
-		this.context = context;
-	}
-	
-	protected class LoadThread implements Runnable {
-
-		@Override
-		public void run() {
-			while (true) {
-				try {
-					Thread.sleep(Local.LOADMILLIS);
-					
+		loadSchedule.scheduleWithFixedDelay(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {					
 					if (context.getState() == State.FINISHED) {
 						Long size = context.getmReportService().size(null);
 						if (size == null || size <= 0) {
@@ -66,16 +47,15 @@ public class Bootstrap {
 					}
 				} catch (Exception e) {
 					logger.error(Global.getStackTrace(e));
-				}				
+				}	
 			}
-		}		
-	}
-
-	protected class EventThread implements Runnable {
-
-		@Override
-		public void run() {
-			while (true) {
+		}, Local.LOADMILLIS, Local.LOADMILLIS, TimeUnit.MILLISECONDS);
+		
+		logger.info("Event deamon is starting......");
+		eventSchedule.scheduleWithFixedDelay(new Runnable() {
+			
+			@Override
+			public void run() {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
@@ -84,11 +64,15 @@ public class Bootstrap {
 						read.operate(context);
 					}
 				} catch (Exception e) {
-					logger.error(Global.getStackTrace(e));
 					context.reset();
-				}				
+					logger.error(Global.getStackTrace(e));
+				}
 			}
-		}		
+		}, Local.INTERVALMILLIS, Local.INTERVALMILLIS, TimeUnit.MILLISECONDS);
+	}
+
+	public void setContext(EventContext context) {
+		this.context = context;
 	}
 	
 }

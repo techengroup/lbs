@@ -17,12 +17,12 @@ public class Node extends MyModel {
 	private Integer moduleprotocol;
 	private Double latitude;
 	private Double longitude;
-	private Double distance;
+	private Double distance = 0.0d;
 	private Float angle;
-	private Integer sector;
-	private Integer districtX;
-	private Integer districtY;
-	private Integer grade;
+	private Integer sector = -1;
+	private Integer districtX = -1;
+	private Integer districtY = 0;
+	private Integer grade = 0;
 	private Integer parent;
 	private String path;
 	private String route;
@@ -31,6 +31,7 @@ public class Node extends MyModel {
 	//Extend Properties
 	private Node relayNode;
 	private Integer rssi;
+	private boolean optimalRelay = false;
 	/**
 	 *  0: relay is not prime or second node in identical sector or other node in other sector; 
 	 *  1: node and relay is in identical sector, relay is root, prime or second relay
@@ -199,6 +200,14 @@ public class Node extends MyModel {
 
 	public void setRssi(Integer rssi) {
 		this.rssi = rssi;
+	}
+
+	public boolean isOptimalRelay() {
+		return optimalRelay;
+	}
+
+	public void setOptimalRelay(boolean optimalRelay) {
+		this.optimalRelay = optimalRelay;
 	}
 	
 }

@@ -44,7 +44,7 @@ public class ProcessHandler {
 			node.setRssi(Integer.parseInt(config.runs().get("RSSI").toString()));
 			
 			if (node.getCommaddr().equals(readAddr)) {				
-				if (Integer.parseInt(Global.RunParams.get("LoraSignalThreshold").toString()) < node.getRssi()) {
+				if (Integer.parseInt(Global.RunParams.get("LoraSignalThreshold").toString()) <= node.getRssi()) {
 					success(context, node, frame);					
 				} else {
 					fail(context, frame, node);
@@ -73,10 +73,10 @@ public class ProcessHandler {
 				Node root = new Node();
 				root.setId(Global.lbs.getId());
 				root.setCommaddr(Global.lbs.getCommaddr());
-				root.setGrade(0);
 				root.setPath(Global.lbs.getId().toString());
 				root.setRoute(Global.lbs.getCommaddr());
 				node.setRelayNode(root);
+				node.setOptimalRelay(true);
 			} else {				
 				secondaryRoute(context, node);
 			}
@@ -85,6 +85,7 @@ public class ProcessHandler {
 			
 			if (count < 4) {//prime route try 2 times, try 2 times at same prime route, other route only try 1 times.
 				node.setRelayNode(relay);
+				node.setOptimalRelay(true);
 			} else {
 				secondaryRoute(context, node);
 			}
@@ -109,7 +110,7 @@ public class ProcessHandler {
 	
 	private void otherRoute(NetContext context, Node node) {
 		Node repeater = context.getNodeService().selectOtherRepeater(node.getId()
-				, node.getSector(), Local.SEEKRELAYSECTORRANGE, node.getDistrictX(), Local.SEEKRELAYDISTRICTXRANGE);	
+				, node.getSector(), Local.SEEKRELAYSECTORRANGE, node.getDistrictX(), Local.SEEKREPEATERDISTRICTXRANGE);	
 		
 		if (repeater == null) {
 			Node relay = context.getNodeService().selectOtherRelay(node.getId()
@@ -188,57 +189,39 @@ public class ProcessHandler {
 					, node.getRelayNode().getRoute() + "," + node.getCommaddr()
 					, frame.getwInTime(), frame.getrOutTime(), node.getRssi(), 0);
 					
-			confirmRelayOrNot(context, node);
+			if (node.isOptimalRelay()) {
+				confirmRelayOrNot(context, node);
+			}
 			context.reset();
 		}
 	}
 	
 	private void confirmRelayOrNot(NetContext context, Node node) {
-		int afterSuccessNodeAmount = context.getNodeService().selectSuccessNodeAfterNode(node.getSector(), node.getDistance());
+		Map<String, Integer> map = context.getNodeService().selectTotalAndFailNode(node.getSector(), node.getDistrictX());
 		
-		if (afterSuccessNodeAmount <= 0) {
-			if (confirmCriticalPoint(context, node.getSector(), node.getDistance(), node.getDistrictX(), 0)) {
-				confirmRelays(context, node);
-			}
-		}
-	}
-	
-	private boolean confirmCriticalPoint(NetContext context, int sector, double distance, int districtX, int deep) {
-		if (deep > 0) districtX--;
-		if (districtX <= 0) {		
-			Map<String, Integer> map = context.getNodeService().selectTotalAndFailNode(sector, districtX);
+		if (map != null && !map.isEmpty()) {
+			int total = map.get("total");
+			int fail = map.get("fail");
 			
-			if (map != null && !map.isEmpty()) {
-				int total = map.get("total");
-				int fail = map.get("fail");
+			if (total == fail && total >= 3) {				
+				Node beforeNearestRelay = node.getRelayNode();
+				Node beforeSuccessNode = context.getNodeService().selectSuccessNodeBeforeNode(node.getSector(), node.getDistance());
 				
-				if (deep == 0) {
-					if (total == (fail+1)) {
-						deep++;
-						confirmCriticalPoint(context, sector, distance, districtX, deep);
-					}
-				} else {
-					if (deep < 3) {
-						if (total == fail) {
-							deep++;
-							confirmCriticalPoint(context, sector, distance, districtX, deep);
-						}
-					} else {
-						int count = context.getNodeService().selectSuccessNodeBeforeNode(sector, distance);
-						
-						if (count > 0) {
-							return true;
-						}
+				if (beforeSuccessNode != null) {
+					int s2s = node.getDistrictX() - beforeSuccessNode.getDistrictX();//在此结点与其最近成功注册表的距离
+					int r2s = beforeSuccessNode.getDistrictX();//最近成功注册表与最近最优结点的距离					
+					if (beforeNearestRelay != null) r2s = beforeSuccessNode.getDistrictX() - beforeNearestRelay.getDistrictX();
+					
+					if (r2s >= 5 && s2s >= 1) {
+						confirmRelays(context, node.getSector(), beforeNearestRelay.getDistance(), beforeSuccessNode.getDistance());
 					}
 				}
 			}
 		}
-		
-		return false;
 	}
 	
-	private void confirmRelays(NetContext context, Node ONode) {
-		List<Node> nodes = context.getNodeService().selectOptimalNode(ONode.getSector(), ONode.getDistrictX());
+	private void confirmRelays(NetContext context, int sector, double priviousRelayDistance, double nearSuccessNodeDistance) {
+		List<Node> nodes = context.getNodeService().selectOptimalNode(sector, priviousRelayDistance, nearSuccessNodeDistance);
 		
 		if (nodes != null && !nodes.isEmpty()) {
 			int x = 0;

@@ -283,7 +283,7 @@ public class NodeServiceImpl implements NodeService {
 		PreparedStatement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commaddr, grade, path, route from PRM_NODE where sector=? and relay=2 and distance<? ");
+			ddl.append("select id, commaddr, grade, path, route, districtX, distance from PRM_NODE where sector=? and relay=2 and distance<? ");
 			ddl.append("ORDER BY distance desc LIMIT 1");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
@@ -299,6 +299,8 @@ public class NodeServiceImpl implements NodeService {
 				relay.setGrade(rs.getInt("grade"));
 				relay.setPath(rs.getString("path"));
 				relay.setRoute(rs.getString("route"));
+				relay.setDistrictX(rs.getInt("districtX"));
+				relay.setDistance(rs.getDouble("distance"));
 			}
 			
 			return relay;
@@ -373,7 +375,7 @@ public class NodeServiceImpl implements NodeService {
 		PreparedStatement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commaddr, grade, path, route from PRM_NODE where sector=? and relay=1 ");
+			ddl.append("select id, commaddr, grade, path, route, districtX, distance from PRM_NODE where sector=? and relay=1 ");
 			ddl.append("and distance<? and id NOT IN(select DISTINCT IFNULL(relayID, -1) rId from LOG_NETWORK where nodeid=?) ");
 			ddl.append("ORDER BY distance desc LIMIT 1");
 			conn = mp.getConnection();
@@ -391,6 +393,8 @@ public class NodeServiceImpl implements NodeService {
 				relay.setGrade(rs.getInt("grade"));
 				relay.setPath(rs.getString("path"));
 				relay.setRoute(rs.getString("route"));
+				relay.setDistrictX(rs.getInt("districtX"));
+				relay.setDistance(rs.getDouble("distance"));
 			}
 			
 			return relay;
@@ -466,18 +470,19 @@ public class NodeServiceImpl implements NodeService {
 		PreparedStatement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commAddr, grade, path, route, relay from PRM_NODE ");
+			ddl.append("select id, commAddr, grade, path, route, relay, districtX, distance from PRM_NODE ");
 			ddl.append("where deviceclass=0 and status=1 and (sector BETWEEN ? AND ?) and (districtX BETWEEN ? AND ?) ");
 			ddl.append("and id NOT IN(select DISTINCT IFNULL(relayID, -1) rId from log_network where nodeid=?) ");
-			ddl.append("order by ABS(districtX-?) limit 1");
+			ddl.append("order by grade, ABS(sector-?), ABS(districtX-?) limit 1");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
-			stmt.setInt(1, ((sector-sRange) <= 0) ? 12 : (sector-sRange));
-			stmt.setInt(2, ((sector+sRange) > 12) ? 1 : (sector+sRange));
+			stmt.setInt(1, (12 + (sector-sRange)) % 12);
+			stmt.setInt(2, (sector+sRange) % 12);
 			stmt.setInt(3, ((districtX-xRange) < 0) ? 0 : (districtX-xRange));
 			stmt.setInt(4, districtX+xRange);
 			stmt.setInt(5, nodeId);
-			stmt.setInt(6, districtX);
+			stmt.setInt(6, sector);
+			stmt.setInt(7, districtX);
 			ResultSet rs = stmt.executeQuery();
 			Node relay = null;
 			
@@ -489,6 +494,8 @@ public class NodeServiceImpl implements NodeService {
 				relay.setPath(rs.getString("path"));
 				relay.setRoute(rs.getString("route"));
 				relay.setRelay(rs.getInt("relay"));
+				relay.setDistrictX(rs.getInt("districtX"));
+				relay.setDistance(rs.getDouble("distance"));
 			}
 			
 			return relay;
@@ -521,19 +528,20 @@ public class NodeServiceImpl implements NodeService {
 		PreparedStatement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select id, commAddr, grade, path, route, relay from PRM_NODE ");
+			ddl.append("select id, commAddr, grade, path, route, relay, districtX, distance from PRM_NODE ");
 			ddl.append("where status=1 and (sector BETWEEN ? AND ?) and (districtX BETWEEN ? AND ?) ");
 			ddl.append("and id NOT IN(select DISTINCT IFNULL(relayID, -1) rId from log_network where nodeid=?) ");
-			ddl.append("order by ABS(districtX-?), ABS(Angle-?) limit 1");
+			ddl.append("order by grade, ABS(sector-?), ABS(districtX-?), ABS(Angle-?) limit 1");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
-			stmt.setInt(1, ((sector-sRange) <= 0) ? 12 : (sector-sRange));
-			stmt.setInt(2, ((sector+sRange) > 12) ? 1 : (sector+sRange));
+			stmt.setInt(1, (12 + (sector-sRange)) % 12);
+			stmt.setInt(2, (sector+sRange) % 12);
 			stmt.setInt(3, ((districtX-xRange) < 0) ? 0 : (districtX-xRange));
 			stmt.setInt(4, districtX+xRange);
 			stmt.setInt(5, nodeId);
-			stmt.setInt(6, districtX);
-			stmt.setFloat(7, angle);
+			stmt.setInt(6, sector);
+			stmt.setInt(7, districtX);
+			stmt.setFloat(8, angle);
 			ResultSet rs = stmt.executeQuery();
 			Node relay = null;
 			
@@ -545,6 +553,8 @@ public class NodeServiceImpl implements NodeService {
 				relay.setPath(rs.getString("path"));
 				relay.setRoute(rs.getString("route"));
 				relay.setRelay(rs.getInt("relay"));
+				relay.setDistrictX(rs.getInt("districtX"));
+				relay.setDistance(rs.getDouble("distance"));
 			}
 			
 			return relay;
@@ -846,28 +856,34 @@ public class NodeServiceImpl implements NodeService {
 	}
 	
 	@Override
-	public int selectSuccessNodeBeforeNode(int sector, double distance) {
+	public Node selectSuccessNodeBeforeNode(int sector, double distance) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		PreparedStatement stmt = null;
-		int count = 0;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append("select COUNT(1) num from PRM_NODE ");
-			ddl.append("where sector=? and status=1 and distance<? and districtX>(select MAX(districtX) from PRM_NODE where sector=? and relay>0 and distance<?)");
+			ddl.append("select id, commaddr, grade, path, route, districtX, distance from PRM_NODE ");
+			ddl.append("where sector=? and status=1 and relay=0 and distance<? ");
+			ddl.append("ORDER BY distance desc LIMIT 1");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());	
 			stmt.setInt(1, sector);
-			stmt.setInt(2, sector);
-			stmt.setDouble(3, distance);
-			stmt.setDouble(4, distance);
+			stmt.setDouble(2, distance);
 			ResultSet rs = stmt.executeQuery();
+			Node node = null;
 
 			while (rs.next()) {
-				count = rs.getInt("num");
+				node = new Node();
+				node.setId(rs.getInt("id"));
+				node.setCommaddr(rs.getString("commaddr"));
+				node.setGrade(rs.getInt("grade"));
+				node.setPath(rs.getString("path"));
+				node.setRoute(rs.getString("route"));
+				node.setDistrictX(rs.getInt("districtX"));
+				node.setDistance(rs.getDouble("distance"));
 			}
 			
-			return count;
+			return node;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -887,11 +903,11 @@ public class NodeServiceImpl implements NodeService {
 			}
 		}
 		
-		return count;
+		return null;
 	}
 	
 	@Override
-	public List<Node> selectOptimalNode(int sector, int districtX) {
+	public List<Node> selectOptimalNode(int sector, double previousRelayDistance, double nearSuccessNodeDistance) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		PreparedStatement stmt = null;
@@ -899,24 +915,27 @@ public class NodeServiceImpl implements NodeService {
 			List<Node> list = new ArrayList<Node>();
 			StringBuffer ddl = new StringBuffer();
 			ddl.append("select * from (");
-			ddl.append("select n.id, n.districtX, n.districtY, w.signalstrength from prm_node n LEFT JOIN log_network w on n.id = w.nodeid and w.result = 1 ");						
-			ddl.append("where n.sector = ? and n.districtY = 0 and status=1 and n.relay = 0 and n.districtX < ? order by n.districtX desc, n.grade, w.signalstrength desc LIMIT 1) a ");
+			ddl.append("select n.id, n.districtX, n.districtY, w.signalstrength from prm_node n LEFT JOIN log_network w on n.id=w.nodeid and w.result=1 ");						
+			ddl.append("where n.sector=? and n.districtY=0 and status=1 and n.distance>? and n.distance<=? order by n.districtX desc, n.grade, w.signalstrength desc LIMIT 1) a ");
 			ddl.append("UNION ");
 			ddl.append("select * from (");
-			ddl.append("select n.id, n.districtX, n.districtY, w.signalstrength from prm_node n LEFT JOIN log_network w on n.id = w.nodeid and w.result = 1 ");						
-			ddl.append("where n.sector = ? and n.districtY = 1 and status=1 and n.relay = 0 and n.districtX < ? order by n.districtX desc, n.grade, w.signalstrength desc LIMIT 1) b ");
+			ddl.append("select n.id, n.districtX, n.districtY, w.signalstrength from prm_node n LEFT JOIN log_network w on n.id=w.nodeid and w.result=1 ");						
+			ddl.append("where n.sector=? and n.districtY=1 and status=1 and n.distance>? and n.distance<=? order by n.districtX desc, n.grade, w.signalstrength desc LIMIT 1) b ");
 			ddl.append("UNION ");
 			ddl.append("select * from (");
-			ddl.append("select n.id, n.districtX, n.districtY, w.signalstrength from prm_node n LEFT JOIN log_network w on n.id = w.nodeid and w.result = 1 ");						
-			ddl.append("where n.sector = ? and n.districtY = 2 and status=1 and n.relay = 0 and n.districtX < ? order by n.districtX desc, n.grade, w.signalstrength desc LIMIT 1) c ");
+			ddl.append("select n.id, n.districtX, n.districtY, w.signalstrength from prm_node n LEFT JOIN log_network w on n.id=w.nodeid and w.result=1 ");						
+			ddl.append("where n.sector=? and n.districtY=2 and status=1 and n.distance>? and n.distance<=? order by n.districtX desc, n.grade, w.signalstrength desc LIMIT 1) c ");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			stmt.setInt(1, sector);
-			stmt.setInt(2, districtX);
-			stmt.setInt(3, sector);
-			stmt.setInt(4, districtX);
-			stmt.setInt(5, sector);
-			stmt.setInt(6, districtX);
+			stmt.setDouble(2, previousRelayDistance);
+			stmt.setDouble(3, nearSuccessNodeDistance);
+			stmt.setInt(4, sector);
+			stmt.setDouble(5, previousRelayDistance);
+			stmt.setDouble(6, nearSuccessNodeDistance);
+			stmt.setInt(7, sector);
+			stmt.setDouble(8, previousRelayDistance);
+			stmt.setDouble(9, nearSuccessNodeDistance);
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {

@@ -48,9 +48,9 @@ public interface NodeService extends IService<Node> {
 
 	Map<String, Integer> selectTotalAndFailNode(int sector, int districtX);
 
-	int selectSuccessNodeBeforeNode(int sector, double distance);
+	Node selectSuccessNodeBeforeNode(int sector, double distance);
 
-	List<Node> selectOptimalNode(int sector, int districtX);
+	List<Node> selectOptimalNode(int sector, double previousRelayDistance, double nearSuccessNodeDistance);
 
 	int optimalRelay(List<Node> nodes);
 	
