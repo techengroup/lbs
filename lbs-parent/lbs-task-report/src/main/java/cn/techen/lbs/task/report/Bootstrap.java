@@ -27,7 +27,9 @@ public class Bootstrap {
 			@Override
 			public void run() {
 				try {					
-					report.operate(context);
+					if (Global.ChannelReady && Global.LoraReady) {
+						report.operate(context);
+					}
 				} catch (Exception e) {
 					logger.error(Global.getStackTrace(e));
 				}

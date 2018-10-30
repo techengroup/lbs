@@ -59,7 +59,7 @@ public class Bootstrap {
 				try {
 					Thread.sleep(Local.INTERVALMILLIS);
 					
-					if (Global.LoraReady) {
+					if (Global.ChannelReady && Global.LoraReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}

@@ -58,7 +58,7 @@ public class Bootstrap {
 			@Override
 			public void run() {
 				try {					
-					if (Global.LoraReady) {
+					if (Global.ChannelReady && Global.LoraReady) {
 						obtain.operate(context);
 						read.operate(context);
 					}

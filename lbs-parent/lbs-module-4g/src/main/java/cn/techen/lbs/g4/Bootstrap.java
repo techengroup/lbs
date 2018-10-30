@@ -14,11 +14,10 @@ public class Bootstrap {
 	
 	private G4Context context;
 	private Client client;
-	private WriteHandler writeHandler;
+	private WriteHandler writeHandler = new WriteHandler();
 	
 	public void start() {
 		client = new Client(context);
-		writeHandler = new WriteHandler();
 		
 		logger.info("LBS 4G client Module is starting......");	
 		Thread clientThread = new Thread(new ClientThread());

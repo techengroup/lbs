@@ -29,11 +29,12 @@ public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private LoraContext context;		
-	private AbstractHandler storeHandler;	
-	private AbstractHandler obtainHandler;
+	private AbstractHandler storeHandler = new StoreHandler();	
+	private AbstractHandler obtainHandler = new ObtainHandler();
+	private AbstractHandler writeHandler = new WriteHandler();
 	
 	public void start() {
-		initHandler();
+		obtainHandler.setHandler(writeHandler);
 		
 		logger.info("Lora module init is starting......");
 		Thread init = new Thread(new InitThread());
@@ -46,14 +47,6 @@ public class Bootstrap {
 		logger.info("Lora module timeout is starting......");
 		Thread timeout = new Thread(new TimeoutThread());
 		timeout.start();
-	}
-	
-	private void initHandler() {		
-		storeHandler = new StoreHandler();
-		
-		obtainHandler = new ObtainHandler();		
-		AbstractHandler writeHandler = new WriteHandler();
-		obtainHandler.setHandler(writeHandler);
 	}
 
 	public void setContext(LoraContext context) {
