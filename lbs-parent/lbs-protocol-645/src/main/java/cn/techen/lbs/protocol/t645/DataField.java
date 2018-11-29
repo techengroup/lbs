@@ -10,6 +10,7 @@ import cn.techen.lbs.protocol.AbstractFrame;
 import cn.techen.lbs.protocol.common.Elements;
 import cn.techen.lbs.protocol.common.FnNames;
 import cn.techen.lbs.protocol.common.ProtocolUtil;
+import cn.techen.lbs.protocol.t645.T645Config.Answer;
 import cn.techen.lbs.protocol.t645.common.Local;
 
 public class DataField extends AbstractElement {
@@ -50,34 +51,41 @@ public class DataField extends AbstractElement {
 	public void decodeN(AbstractFrame frame) throws Exception {
 		if (frame.process().queue.size() > 2) {			
 			String func = "";
-			for (int i = 0; i < 4; i++) {
-				int f = Byte.toUnsignedInt(frame.process().queue.poll());
-				if (f > 0) {
-					func += ProtocolUtil.int2HexString(f);
-				}
-				byteList.add((byte)f);
-			}			
-
 			T645Config config = ((T645Config) frame.config());
-			String key = Local.CODE  + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()).toUpperCase() + ":" + func.toUpperCase();
-			fnKeyMap.put(func, key);
 			
-			config.funcs().add(func);
-			
-			AbstractData ad = null;
-			dataTypes = Elements.getInstace().get(key);
-			if (dataTypes != null && !dataTypes.equals("")) {
-				String dataClass = extract(dataTypes);
+			if (config.getAnswer() == Answer.EXCEPTION) {
+				while(frame.process().queue.size() > 2) {					
+					byteList.add(frame.process().queue.poll());
+				}
+			} else {			
+				for (int i = 0; i < 4; i++) {
+					int f = Byte.toUnsignedInt(frame.process().queue.poll());
+					if (f > 0) {
+						func += ProtocolUtil.int2HexString(f);
+					}
+					byteList.add((byte)f);
+				}
 				
-				ad = ProtocolUtil.newData(dataClass, dataTypes);
-				ad.decode(frame);
-				byteList.addAll(ad.getByteList());
+				String key = Local.CODE  + ":" + config.getDir().value() + ":" + ProtocolUtil.int2HexString(config.getControl().value()).toUpperCase() + ":" + func.toUpperCase();
+				fnKeyMap.put(func, key);
+				
+				config.funcs().add(func);
+				
+				AbstractData ad = null;
+				dataTypes = Elements.getInstace().get(key);
+				if (dataTypes != null && !dataTypes.equals("")) {
+					String dataClass = extract(dataTypes);
+					
+					ad = ProtocolUtil.newData(dataClass, dataTypes);
+					ad.decode(frame);
+					byteList.addAll(ad.getByteList());
+				}
+				
+				config.funcKeys().put(func, key);
+				
+				adMap.put(String.valueOf(func), ad);
+				decodeN(frame);
 			}
-			
-			config.funcKeys().put(func, key);
-			
-			adMap.put(String.valueOf(func), ad);
-			decodeN(frame);
 		}
 	}
 

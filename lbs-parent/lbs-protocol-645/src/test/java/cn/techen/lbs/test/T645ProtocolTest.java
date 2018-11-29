@@ -13,6 +13,7 @@ import cn.techen.lbs.protocol.ProtocolConfig;
 import cn.techen.lbs.protocol.ProtocolConfig.DIR;
 import cn.techen.lbs.protocol.ProtocolConfig.OPERATION;
 import cn.techen.lbs.protocol.common.Elements;
+import cn.techen.lbs.protocol.common.ProtocolUtil;
 import cn.techen.lbs.protocol.impl.T645Proxy;
 import junit.framework.TestCase;
 
@@ -57,6 +58,24 @@ public class T645ProtocolTest extends TestCase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void test10() {
+		
+		String r = "68 51 00 60 99 07 98 68 d1 01 35 c0 16";
+
+		r = r.replace(" ", "");
+		
+		T645Proxy proxy = new T645Proxy();
+		try {
+			proxy.decode(ProtocolUtil.hexString2Byte(r));
+			log.info("");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }

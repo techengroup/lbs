@@ -24,7 +24,7 @@ public class ControlField extends AbstractElement {
 		dir = (value >> 7) & 0x01;
 		answer = (value >> 6) & 0x01;
 		follow = (value >> 5) & 0x01;		
-		func = value & 0x01F;
+		func = value & 0x1F;
 		
 		T645Config config = ((T645Config) frame.config());
 		config.setDir(DIR.valueOf(dir));

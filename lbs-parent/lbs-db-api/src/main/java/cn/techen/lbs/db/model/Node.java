@@ -31,6 +31,7 @@ public class Node extends MyModel {
 	//Extend Properties
 	private Node relayNode;
 	private Integer rssi;
+	private Integer channel;
 	private boolean optimalRelay = false;
 	/**
 	 *  0: relay is not prime or second node in identical sector or other node in other sector; 
@@ -200,6 +201,14 @@ public class Node extends MyModel {
 
 	public void setRssi(Integer rssi) {
 		this.rssi = rssi;
+	}
+
+	public Integer getChannel() {
+		return channel;
+	}
+
+	public void setChannel(Integer channel) {
+		this.channel = channel;
 	}
 
 	public boolean isOptimalRelay() {

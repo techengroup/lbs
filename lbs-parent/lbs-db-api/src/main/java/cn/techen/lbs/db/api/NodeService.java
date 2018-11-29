@@ -36,13 +36,13 @@ public interface NodeService extends IService<Node> {
 	int clearRoute(int nodeId);
 
 	int saveSuccess(int nodeId, String commAddr, int grade, int parent, String path, String route, int relay,
-			Date startTime, Date endTime, int RSSI);
+			Date startTime, Date endTime, int RSSI, int channel);
 
 	int saveFailSingle(int nodeId, String commAddr, int parent, String path, String route, Date startTime, Date endTime,
-			Integer RSSI);
+			Integer RSSI, Integer channel);
 
 	int saveFailCompletely(int nodeId, String commAddr, int parent, String path, String route, Date startTime,
-			Date endTime, Integer RSSI, int status);
+			Date endTime, Integer RSSI, Integer channel, int status);
 	
 	int selectSuccessNodeAfterNode(int sector, double distance);
 

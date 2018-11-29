@@ -68,6 +68,7 @@ public class T645Proxy {
 		default:
 			break;
 		}
+		config.runs().put("ANSWER", t645Config.getAnswer().value());//应答帧类型
 		return op;
 	}
 

@@ -14,9 +14,11 @@ public final class Local {
 	
 	public final static int SEEKRELAYDISTRICTXRANGE = 5;//each district x is 100m. so seeking district x range is between -0.5km and 0.5km.
 	
-	public final static int WRITETIMES = 8;
+	public final static int WRITETIMES = 16;
 	
 	public final static long TIMEOUT = 10000;
 	
-	public final static int WRITETIMES_RELAY = 1;
+	public final static int WRITETIMESBYRELAY = 1;
+	
+	public final static long TIMEOUTBYRELAY = 40000;
 }

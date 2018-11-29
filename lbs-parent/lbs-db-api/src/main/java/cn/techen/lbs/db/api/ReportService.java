@@ -9,6 +9,6 @@ import cn.techen.lbs.db.model.Report;
  */
 public interface ReportService extends IService<Report> {
 
-	int updateFail(int meterId);
+	int updateFail(int meterId, int status);
 	
 }

@@ -22,10 +22,10 @@ public class Fn10000E1 extends AbstractSQL {
 		sb.append("{LEN}");
 		sb.append("select * from (select * from (");
 		sb.append("select * from (select e.eventid, m.commaddr, e.occurtime, IFNULL(e.content, 'EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE') content "
-				+ "from data_event e LEFT JOIN prm_meter m ON e.meterid=m.id ORDER BY e.savetime LIMIT 65536, 65536) a");	
+				+ "from data_event e LEFT JOIN prm_node m ON e.meterid=m.id ORDER BY e.savetime LIMIT 65536, 65536) a");	
 		sb.append(" UNION ");	
 		sb.append(String.format("select * from (select e.eventid, m.commaddr, e.occurtime, IFNULL(e.content, 'EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE') content "
-				+ "from data_event e LEFT JOIN prm_meter m ON e.meterid=m.id ORDER BY e.savetime LIMIT %d, 65536) b", Global.EventRecoderOverAmount));	
+				+ "from data_event e LEFT JOIN prm_node m ON e.meterid=m.id ORDER BY e.savetime LIMIT %d, 65536) b", Global.EventRecoderOverAmount));	
 		sb.append(String.format(") c LIMIT %d, %d) m", start, count));
 		
 		if (diff > 0) {
@@ -33,10 +33,10 @@ public class Fn10000E1 extends AbstractSQL {
 			
 			sb.append("select * from (select * from (");
 			sb.append("select * from (select e.eventid, m.commaddr, e.occurtime, IFNULL(e.content, 'EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE') content "
-					+ "from data_event e LEFT JOIN prm_meter m ON e.meterid=m.id ORDER BY e.savetime LIMIT 65536, 65536) a");	
+					+ "from data_event e LEFT JOIN prm_node m ON e.meterid=m.id ORDER BY e.savetime LIMIT 65536, 65536) a");	
 			sb.append(" UNION ");	
 			sb.append(String.format("select * from (select e.eventid, m.commaddr, e.occurtime, IFNULL(e.content, 'EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE') content "
-					+ "from data_event e LEFT JOIN prm_meter m ON e.meterid=m.id ORDER BY e.savetime LIMIT %d, 65536) b", Global.EventRecoderOverAmount));	
+					+ "from data_event e LEFT JOIN prm_node m ON e.meterid=m.id ORDER BY e.savetime LIMIT %d, 65536) b", Global.EventRecoderOverAmount));	
 			sb.append(String.format(") c LIMIT 0, %d) n", diff));
 		}		
 		

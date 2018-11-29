@@ -85,20 +85,31 @@ public class ProcessHandler {
 			int nodeId = context.getmNodeService().get(commAddr).getId();
 			//==网路状况不好时，可能有串包,处理如下==
 			
-			for (String fn : config.funcs()) {
-				String fnKey = config.funcKeys().get(fn);
-				if (fnKey != null && !fnKey.isEmpty()) {						
-					String className = String.format("Fn%s", fnKey.replace(":", ""));
-					AbstractSQL as = Global.newSql(className);						
-					context.getGeneralService().save(as.handle(nodeId, config.units()));
-				}
-			}
+			int answer = Integer.parseInt(config.runs().get("ANSWER").toString());
 			
-			//==网路状况不好时，可能有串包,处理如下==
-			if (!node.getCommaddr().equals(commAddr)) {
-				context.getReportService().updateFail(node.getId());
+			if (answer == 0) {//应答成功
+				for (String fn : config.funcs()) {
+					String fnKey = config.funcKeys().get(fn);
+					if (fnKey != null && !fnKey.isEmpty()) {						
+						String className = String.format("Fn%s", fnKey.replace(":", ""));
+						AbstractSQL as = Global.newSql(className);						
+						context.getGeneralService().save(as.handle(nodeId, config.units()));
+					}
+				}	
+				
+				//==网路状况不好时，可能有串包,处理如下==
+				if (!node.getCommaddr().equals(commAddr)) {
+					context.getReportService().updateFail(node.getId(), 0);
+				}
+				//==网路状况不好时，可能有串包,处理如下==
+			} else {//应答异常
+				context.getReportService().updateFail(nodeId, 2);
+				//==网路状况不好时，可能有串包,处理如下==
+				if (!node.getCommaddr().equals(commAddr)) {
+					context.getReportService().updateFail(node.getId(), 2);
+				}
+				//==网路状况不好时，可能有串包,处理如下==
 			}
-			//==网路状况不好时，可能有串包,处理如下==
 
 			context.reset();
 		} else {
@@ -107,7 +118,7 @@ public class ProcessHandler {
 			if (mod != 0) {
 				write(context, frame);
 			} else {
-				context.getReportService().updateFail(node.getId());
+				context.getReportService().updateFail(node.getId(), 0);
 				context.reset();
 			}
 		}

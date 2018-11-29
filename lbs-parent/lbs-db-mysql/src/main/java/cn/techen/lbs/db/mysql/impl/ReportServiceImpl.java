@@ -122,13 +122,13 @@ public class ReportServiceImpl implements ReportService {
 	}
 	
 	@Override
-	public int updateFail(int meterId) {
+	public int updateFail(int meterId, int status) {
 		MysqlPool mp = MysqlPool.getInstance();
 		DruidPooledConnection conn = null;
 		Statement stmt = null;
 		try {
 			StringBuffer ddl = new StringBuffer();
-			ddl.append(String.format("update LOG_REPORT set status=0, mdfon=NOW() where meterid=%d", meterId));			
+			ddl.append(String.format("update LOG_REPORT set status=%d, mdfon=NOW() where meterid=%d", status, meterId));			
 			conn = mp.getConnection();
 			stmt = conn.createStatement();
 			return stmt.executeUpdate(ddl.toString());

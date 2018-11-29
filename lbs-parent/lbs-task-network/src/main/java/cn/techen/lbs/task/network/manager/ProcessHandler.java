@@ -42,6 +42,7 @@ public class ProcessHandler {
 			ProtocolConfig config = protocolService.decode(readBytes);
 			String readAddr = ProtocolUtil.getCommAddr(config.getCommAddr());
 			node.setRssi(Integer.parseInt(config.runs().get("RSSI").toString()));
+			node.setChannel(Integer.parseInt(config.units().poll().toString()));
 			
 			if (node.getCommaddr().equals(readAddr)) {				
 				if (Integer.parseInt(Global.RunParams.get("LoraSignalThreshold").toString()) <= node.getRssi()) {
@@ -139,11 +140,12 @@ public class ProcessHandler {
 		ProtocolFrame pFrame = new ProtocolFrame();
 		pFrame.setWriteBytes(frame);
 		if (node.getRelayNode().getGrade() > 0) {
-			pFrame.setWriteTimes(Local.WRITETIMES_RELAY);
+			pFrame.setWriteTimes(Local.WRITETIMESBYRELAY);
+			pFrame.setTimeout(Local.TIMEOUTBYRELAY);
 		} else {
-			pFrame.setWriteTimes(Local.WRITETIMES);				
-		}
-		pFrame.setTimeout(Local.TIMEOUT);
+			pFrame.setWriteTimes(Local.WRITETIMES);		
+			pFrame.setTimeout(Local.TIMEOUT);
+		}		
 		
 		return pFrame;
 	}
@@ -166,7 +168,7 @@ public class ProcessHandler {
 				, node.getRelayNode().getGrade() + 1, node.getRelayNode().getId()
 				, node.getRelayNode().getPath() + "/" + node.getId()
 				, node.getRelayNode().getRoute() + "," + node.getCommaddr()
-				, node.getRelay() , frame.getwInTime(), frame.getrOutTime(), node.getRssi());
+				, node.getRelay() , frame.getwInTime(), frame.getrOutTime(), node.getRssi(), node.getChannel());
 		
 		context.reset();
 	}
@@ -179,7 +181,7 @@ public class ProcessHandler {
 					, node.getRelayNode().getId()
 					, node.getRelayNode().getPath() + "/" + node.getId()
 					, node.getRelayNode().getRoute() + "," + node.getCommaddr()
-					, frame.getwInTime(), frame.getrOutTime(), node.getRssi());
+					, frame.getwInTime(), frame.getrOutTime(), node.getRssi(), node.getChannel());
 			
 			write(context, frame);						
 		} else {
@@ -187,7 +189,7 @@ public class ProcessHandler {
 					, node.getRelayNode().getId()
 					, node.getRelayNode().getPath() + "/" + node.getId()
 					, node.getRelayNode().getRoute() + "," + node.getCommaddr()
-					, frame.getwInTime(), frame.getrOutTime(), node.getRssi(), 0);
+					, frame.getwInTime(), frame.getrOutTime(), node.getRssi(), node.getChannel(), 0);
 					
 			if (node.isOptimalRelay()) {
 				confirmRelayOrNot(context, node);
