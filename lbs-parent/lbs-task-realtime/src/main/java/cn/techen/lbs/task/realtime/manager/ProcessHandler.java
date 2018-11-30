@@ -2,6 +2,9 @@ package cn.techen.lbs.task.realtime.manager;
 
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cn.techen.lbs.db.common.Global;
 import cn.techen.lbs.db.model.Node;
 import cn.techen.lbs.mm.api.MTaskService;
@@ -17,6 +20,7 @@ import cn.techen.lbs.task.realtime.common.Local;
 import cn.techen.lbs.task.realtime.common.RealTimeContext;
 
 public class ProcessHandler {
+	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	public void encode(RealTimeContext context, byte[] bFrame)  throws Exception {	
 		String commAddr = "";
@@ -25,7 +29,7 @@ public class ProcessHandler {
 		}		
 		Node node = context.getmNodeService().get(commAddr);
 		
-		if (node != null && !node.getRoute().isEmpty()) {
+		if (node != null) {
 			String route = node.getRoute();
 			
 			if (route != null && !route.isEmpty()) {
@@ -46,8 +50,12 @@ public class ProcessHandler {
 				frame.setTimeout(Local.TIMEOUT);
 				
 				write(context, frame);
+			} else {
+				logger.warn("The route of {} is null.", commAddr);
+				context.reset();
 			}
 		} else {
+			logger.error("{} is not existed in the LBS.", commAddr);
 			context.reset();
 		}
 	}

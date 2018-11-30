@@ -105,7 +105,7 @@ public class NodeServiceImpl implements NodeService {
 			List<Node> list = new ArrayList<Node>();
 			StringBuffer ddl = new StringBuffer();
 			ddl.append("select id, status, pointno, commaddr, protocol, moduleprotocol, latitude, longitude, route from PRM_NODE ");
-			ddl.append("where crton>? or mdfon>?");
+			ddl.append("where crton>date_add(?, INTERVAL -5 SECOND) or mdfon>date_add(?, INTERVAL -5 SECOND)");
 			conn = mp.getConnection();
 			stmt = conn.prepareStatement(ddl.toString());
 			stmt.setTimestamp(1, new java.sql.Timestamp(time.getTime()));
