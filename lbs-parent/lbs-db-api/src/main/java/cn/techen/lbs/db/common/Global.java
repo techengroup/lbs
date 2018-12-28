@@ -31,6 +31,9 @@ public class Global {
 //	
 //	public static volatile boolean MBReady = false;//内存数据库满足
 
+	/**
+	 * 基站连接主站IP和端口信息
+	 */
 	public static volatile boolean IPReady = false;//连接主站信息满足
 	
 	/**

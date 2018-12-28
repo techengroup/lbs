@@ -18,11 +18,16 @@ public class ObtainHandler extends AbstractHandler {
 				if (d <= Local.TIMEOUTMILLIS) { 			
 					Object obj = config.units().poll();
 					if (obj != null) {
-						byte[] frame = (byte[])obj;
-						if (frame.length > 12) {
-							context.fireEncode(frame);
+						if (obj instanceof String) {
+							String devAddr = obj.toString();
+							context.fireEncode(devAddr);
 						} else {
-							context.reset();
+							byte[] frame = (byte[])obj;
+							if (frame.length > 12) {
+								context.fireEncode(frame);
+							} else {
+								context.reset();
+							}
 						}
 					} else {
 						context.reset();

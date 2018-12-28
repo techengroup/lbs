@@ -31,6 +31,8 @@ public class RealTimeContext {
 	
 	private String commAddr = "";
 	
+	private int FN = 0;
+	
 	public ProtocolConfig getConfig() {
 		if (config == null) {
 			config = mConfigService.rpop(MTaskService.QUEUE_4G_TANS_LORA);
@@ -42,6 +44,7 @@ public class RealTimeContext {
 	public void reset() {
 		config = null;
 		commAddr = "";
+		FN = 0;
 		setState(State.FINISHED);
 	}
 
@@ -60,10 +63,26 @@ public class RealTimeContext {
 	public void setCommAddr(String commAddr) {
 		this.commAddr = commAddr;
 	}
+
+	public int getFN() {
+		return FN;
+	}
+
+	public void setFN(int fN) {
+		FN = fN;
+	}
 	
 	public void fireEncode(byte[] bFrame) {
 		try {
 			processHandler.encode(this, bFrame);
+		} catch (Exception e) {
+			processHandler.exceptionCaught(this, e.getCause());
+		}
+	}
+	
+	public void fireEncode(String devAddr) {
+		try {
+			processHandler.encode(this, devAddr);
 		} catch (Exception e) {
 			processHandler.exceptionCaught(this, e.getCause());
 		}

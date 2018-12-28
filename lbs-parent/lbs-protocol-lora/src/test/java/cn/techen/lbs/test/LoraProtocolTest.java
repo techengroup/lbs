@@ -18,6 +18,7 @@ public class LoraProtocolTest extends TestCase {
 	
 	static {
 		Elements.getInstace().put("0:0:1:2", "BCD_STRING,2,xxxx,1,Short address");
+		Elements.getInstace().put("0:1:1:3", "OCT_STRING,1,xx,1");
 
 		Elements.getInstace().put("2:5:1", "BIT_STRING,4,XXXXXXXX,1,EventCode");
 		
@@ -83,6 +84,21 @@ public class LoraProtocolTest extends TestCase {
 		
 		int f = (int) Math.floor(16.1 / 15);
 		log.info("var:{}", f);
+	}
+	
+	public void testD() {
+		String r = "68 13 91 00 06 01 5a 00 00 00 00 00 06 00 00 00 00 00 14 03 01 8b 16";
+		
+		r = r.replace(" ", "");
+		
+		LoraProxy proxy = new LoraProxy();
+		try {
+			proxy.decode(ProtocolUtil.hexString2Byte(r));
+			log.info("Login................");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

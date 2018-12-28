@@ -61,12 +61,16 @@ public class RxtxChannel {
 					throw new Exception("Don't support to set parameters for serialport.", e.getCause());
 				}
 			} else {
+				disconnect();
 				throw new Exception("The rxtx port is not a serialport.");
 			}
 		} catch (NoSuchPortException e) {
 			throw new Exception("The rxtx port is not existed.", e.getCause());
 		} catch (PortInUseException e) {
 			throw new Exception("The rxtx port is occupied.", e.getCause());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
 	}
 

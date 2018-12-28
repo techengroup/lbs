@@ -8,9 +8,9 @@ public final class Local {
 	
 	public final static long DETECTMILLIS = 60000;
 	
-	public final static long WORKMILLIS = 90000;
+	public final static long WORKMILLIS = 100000;
 	
-	public final static long RESTMILLIS = 10000;
+	public final static long RESTMILLIS = 20000;
 	
 	public final static long INTERVALMILLIS = 200;
 	
