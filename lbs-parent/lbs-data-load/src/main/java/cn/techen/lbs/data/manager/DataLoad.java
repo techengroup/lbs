@@ -22,7 +22,7 @@ import cn.techen.lbs.protocol.common.Elements;
 import cn.techen.lbs.protocol.common.FnNames;
 import cn.techen.lbs.protocol.common.Titles;
 
-public class RunData implements Runnable {
+public class DataLoad implements Runnable {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
 	private LbsService lbsService;
@@ -31,20 +31,14 @@ public class RunData implements Runnable {
 	private NodeService nodeService;	
 	private MBaseService mBaseService;
 	private MNodeService mNodeService;
-
-	private int count = 0;
 	
 	@Override
 	public void run() {
 		while (true) {
-			try {
-				if (count > 0) 
-					Thread.sleep(Local.INTERVALMILLIS);
+			try {				
+				if (Global.DBReady && Global.MBReady) start();
 				
-				start();
-				
-				count++;
-				if (count > 100000) count = 1;
+				Thread.sleep(Local.INTERVALMILLIS);
 			} catch (Exception e) {	
 				logger.error(Global.getStackTrace(e));
 			}
@@ -57,7 +51,7 @@ public class RunData implements Runnable {
 		List<Param> params = null;
 		List<Node> nodes = null;
 		
-		if (count == 0) {
+		if (Local.LASTTIME == null) {
 			mBaseService.flushDB();
 			
 			Local.LASTTIME = new Date();

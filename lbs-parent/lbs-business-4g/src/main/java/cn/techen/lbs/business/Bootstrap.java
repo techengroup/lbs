@@ -25,7 +25,7 @@ public class Bootstrap {
 			
 			@Override
 			public void run() {
-				try {					
+				try {
 					businessProcesser.operate(context);
 				} catch (Exception e) {
 					logger.error(Global.getStackTrace(e));

@@ -27,9 +27,15 @@ public class Global {
 	 */
 	public static volatile boolean LoraReady = false;//基站Lora模块满足
 
-//	public static volatile boolean DBReady = false;//关系数据库满足
-//	
-//	public static volatile boolean MBReady = false;//内存数据库满足
+	/**
+	 * 数据库mysql
+	 */
+	public static volatile boolean DBReady = false;//关系数据库满足
+	
+	/**
+	 * 内存数据库Redis
+	 */
+	public static volatile boolean MBReady = false;//内存数据库满足
 
 	/**
 	 * 基站连接主站IP和端口信息

@@ -5,29 +5,39 @@ import org.slf4j.LoggerFactory;
 
 import cn.techen.lbs.data.common.Local;
 import cn.techen.lbs.data.manager.GISCalc;
-import cn.techen.lbs.data.manager.RunData;
+import cn.techen.lbs.data.manager.DBMBDetect;
+import cn.techen.lbs.data.manager.DataLoad;
 
 public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Local.PROJECT);
 	
-	private RunData runData;
+	private DBMBDetect dbmbDetect;
+	private DataLoad dataLoad;
 	private GISCalc gisCalc;
 
 	/**
 	 * Data load service start
 	 */
 	public void start() {
-		logger.info("System run data loading is starting......");			
-		Thread myThread = new Thread(runData);
-		myThread.start();
+		logger.info("Detecting DB and MB is starting......");
+		Thread detectThread = new Thread(dbmbDetect);
+		detectThread.start();
 		
-		logger.info("Meter GIS caculating is starting......");			
+		logger.info("Loading data is starting......");
+		Thread loadThread = new Thread(dataLoad);
+		loadThread.start();
+		
+		logger.info("Caculating meter information of gis is starting......");			
 		Thread gisThread = new Thread(gisCalc);
 		gisThread.start();
 	}
 
-	public void setRunData(RunData runData) {
-		this.runData = runData;
+	public void setDbmbDetect(DBMBDetect dbmbDetect) {
+		this.dbmbDetect = dbmbDetect;
+	}
+
+	public void setDataLoad(DataLoad dataLoad) {
+		this.dataLoad = dataLoad;
 	}
 
 	public void setGisCalc(GISCalc gisCalc) {

@@ -11,9 +11,11 @@ public final class Local {
 	 */
 	private final static double EARTH_RADIUS = 6378137.0;
 	
+	public final static int DETECTMILLIS = 300000;
+	
 	public final static int INTERVALMILLIS = 60000;
 	
-	public volatile static Date LASTTIME = new Date();
+	public volatile static Date LASTTIME = null;
 	
 	/**
 	 * 获取两点之间的距离（单位：m）

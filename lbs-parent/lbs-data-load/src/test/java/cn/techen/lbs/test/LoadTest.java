@@ -28,10 +28,10 @@ public class LoadTest extends TestCase {
 	}
 	
 	public void testGIS() {		
-		double angle = Local.angle(30.313249, 120.06611, 30.336866, 120.116157);
+		double angle = Local.angle(30.3191467472, 120.0722038548, 30.3215495010, 120.0748256297);
 		log.info("Angle:{}", angle);
 		
-		double angle1 = Local.angle(30.313249, 120.06611, 30.32517, 120.115528);
-		log.info("Angle:{}", angle1);
+		double angle1 = Local.distance(30.3191467472, 120.0722038548, 30.3215495010, 120.0748256297);
+		log.info("Distance:{}", angle1);
 	}
 }
