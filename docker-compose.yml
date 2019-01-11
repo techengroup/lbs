@@ -1,0 +1,60 @@
+version: '3'
+services:
+  db:
+    image: mysql
+    container_name: db
+    hostname: db
+    ports:
+      - "3306:3306"
+    volumes: 
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    restart: always
+    networks:
+      - lbs-network
+  redis:
+    image: redis
+    container_name: redis
+    hostname: redis
+    ports:
+      - "6379:6379"
+    volumes: 
+      - ./redis/data:/data
+      - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    networks:
+      - lbs-network
+  lbs:
+    build: ./lbs/install
+    image: lbs
+    container_name: lbs
+    hostname: lbs
+    ports: 
+      - "8101:8101"
+      - "5005:5005"
+    volumes:
+      - ./lbs/app/deploy:/opt/apache-karaf-4.1.6/deploy
+      - ./lbs/app/conf:/home/lbs
+      - /etc/localtime:/etc/localtime:ro
+    tty: true
+    privileged: true
+    restart: always
+    command:
+      - /bin/bash
+      - -c
+      - |
+         rm -f /var/lock/LCK*
+         karaf debug
+    depends_on:
+      - db
+      - redis
+    networks:
+      - lbs-network
+networks:
+  lbs-network:
+    driver: bridge
